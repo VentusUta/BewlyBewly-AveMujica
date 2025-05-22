@@ -61,7 +61,7 @@ const displayedAvatars = computed(() => {
         pos="absolute top-21px left-22px"
         w-14px h-14px
         bg="$bew-theme-color"
-        border="2 outset solid white"
+        border="2 solid white"
         rounded="1/2"
         grid place-items-center
       >
