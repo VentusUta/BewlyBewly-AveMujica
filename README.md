@@ -13,6 +13,19 @@ English | [官话 - 简体中文](README-cmn_CN.md) | [官話 - 繁體中文](RE
 
 ## 👋 Introduction
 
+> [!NOTE]
+> I'm very sorry that my mental state has been particularly poor this month (June 2025), so I haven't submitted any commits.
+>
+> I'm sorry for failing to meet everyone's expectations.
+>
+> If you need aggressive feature updates, I recommend using [BewlyCat](https://github.com/keleus/BewlyCat). This author's skills are stronger than mine, and they've made many optimizations to the extension. In fact, many commits in BewlyBewly! Ave Mujica were cherry-picked from the BewlyCat project.
+>
+> If you enjoy BewlyBewly! Ave Mujica and wish to continue using it, I'd be very happy. I'll do my best to maintain this extension and fix bugs. Of course, the experience of BewlyCat maybe better.
+>
+> Again, I'm sorry. Just treat this as me talking nonsense. I have always been an incompetent person who only knows how to complain.
+
+<!-- > I really want to suicide Everything is so painful. -->
+
 > [!IMPORTANT]
 > BewlyBewly! Ave Mujica mainly focuses on page adjustments and optimization rather than improving functionally and efficiency.
 >

@@ -13,6 +13,19 @@
 
 ## 👋 介绍
 
+ [!NOTE]
+> 非常抱歉这个月（2025 年 6 月）整个人精神状态特别差所以没有提交任何 commit。
+>
+> 对不起我没有满足大家的期望。
+>
+> 如果您需要激进的功能更新，我推荐使用 [BewlyCat](https://github.com/keleus/BewlyCat)。这位作者的实力比我强，也对扩展做了许多优化，可以说 BewlyBewly! Ave Mujica 的不少 commit 都是 cherry-pick 自 BewlyCat 项目。
+>
+> 如果您喜欢 BewlyBewly! Ave Mujica，愿意继续使用，我也很开心。我会尽力维护本扩展，尽量修复 bug。当然，BewlyCat 的体验会更好。
+>
+> 再次对不起，就当我说了废话吧。我一直是无能、只会抱怨的人啊。
+
+<!-- > 我好想自杀。一切都好痛苦。 -->
+
 > [!IMPORTANT]
 > BewlyBewly! Ave Mujica 主要专注页面的调整和优化，而不是完善功能和提升效率。
 >

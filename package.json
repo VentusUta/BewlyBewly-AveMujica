@@ -2,7 +2,7 @@
   "name": "bewlybewly-avemujica",
   "displayName": "BewlyBewly! Ave Mujica",
   "type": "module",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "private": true,
   "packageManager": "pnpm@9.5.0",
   "description": "Just make a few small changes to your bilibili homepage.",

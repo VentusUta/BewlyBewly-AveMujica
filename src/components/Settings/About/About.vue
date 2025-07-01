@@ -205,6 +205,14 @@ async function checkGitHubRelease() {
           </div>
         </section>
       </section>
+      <section text-2xl text-center mt-2>
+        <p
+          text-center
+          un-text="sm color-$bew-text-2"
+        >
+          BewlyBewly&excl; Ave Mujica based on BewlyBewly v0.40.6
+        </p>
+      </section>
     </div>
   </div>
 </template>
