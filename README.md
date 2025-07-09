@@ -24,7 +24,7 @@ English | [官话 - 简体中文](README-cmn_CN.md) | [官話 - 繁體中文](RE
 >
 > Again, I'm sorry. Just treat this as me talking nonsense. I have always been an incompetent person who only knows how to complain.
 
-<!-- > I really want to suicide Everything is so painful. -->
+<!-- > I really want to suicide. Everything is so painful. -->
 
 > [!IMPORTANT]
 > BewlyBewly! Ave Mujica mainly focuses on page adjustments and optimization rather than improving functionally and efficiency.
