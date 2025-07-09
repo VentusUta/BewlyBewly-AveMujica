@@ -210,7 +210,7 @@ async function checkGitHubRelease() {
           text-center
           un-text="sm color-$bew-text-2"
         >
-          BewlyBewly&excl; Ave Mujica based on BewlyBewly v0.40.6
+          <a href="https://github.com/VentusUta/BewlyBewly-AveMujica" un-text="sm color-$bew-text-2 hover:color-$bew-text-3">BewlyBewly&excl; Ave Mujica</a> based on <a href="https://github.com/BewlyBewly/BewlyBewly" un-text="sm color-$bew-text-2 hover:color-$bew-text-3">BewlyBewly</a> <a href="https://github.com/BewlyBewly/BewlyBewly/releases/tag/v0.40.6" un-text="sm color-$bew-text-2 hover:color-$bew-text-3">v0.40.6</a>
         </p>
       </section>
     </div>
