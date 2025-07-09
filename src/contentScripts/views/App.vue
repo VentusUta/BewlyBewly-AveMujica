@@ -342,26 +342,26 @@ const fontStyles = document.createElement('style')
 fontStyles.textContent = `
 @font-face {
     font-family: "Cantarell-BewlyInternalResource"; /* 西文 */
-    font-display: swap;
+    font-display: block;
     src: url(${browser.runtime.getURL('/assets/fonts/Cantarell-VF.otf')}) format("opentype-variations");
 }
 
 @font-face {
     font-family: "DroidSansMono-BewlyInternalResource"; /* 西文等宽 */
-    font-display: swap;
+    font-display: block;
     src: url(${browser.runtime.getURL('/assets/fonts/DroidSansMono.ttf')});
 }
 
 @font-face {
     font-family: "ShangguSansSCVF-BewlyInternalResource"; /* CJK 旧字形 */
-    font-display: swap;
-    src: url(${browser.runtime.getURL('/assets/fonts/ShangguSansSC-VF.ttf')}) format("truetype-variations");
+    font-display: block;
+    src: url(${browser.runtime.getURL('/assets/fonts/ShangguSansSC-VF.woff2')}) format("woff2-variations");
 }
 
 @font-face {
-    font-family: "NotoSansCJKSCVF-BewlyInternalResource"; /* CJK 新字形 */
-    font-display: swap;
-    src: url(${browser.runtime.getURL('/assets/fonts/NotoSansCJKsc-VF.ttf')}) format("truetype-variations");
+    font-family: "FlexSansGBVF-BewlyInternalResource"; /* CJK 新字形 */
+    font-display: block;
+    src: url(${browser.runtime.getURL('/assets/fonts/FlexSansGBVF.ttf')}) format("truetype-variations");
 }
 `
 
