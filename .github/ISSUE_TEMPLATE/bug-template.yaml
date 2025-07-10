@@ -33,7 +33,7 @@ body:
     validations:
       required: true
 
-  - type: textarea
+  - type: input
     attributes:
       label: 问题页面 URL
       description: 在哪个页面中出现了问题（若非页面问题则不用填写）
