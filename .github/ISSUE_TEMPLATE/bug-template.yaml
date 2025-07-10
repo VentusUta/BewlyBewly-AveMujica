@@ -12,28 +12,33 @@ body:
 
         功能请求不是在问题报告里面写的，请[开启空 issue](https://github.com/VentusUta/BewlyBewly-AveMujica/issues/new)。
 
-        若遇到页面相关问题（比如某页面下出现了不该出现的元素），我们建议一并附上发生问题的页面链接。
-
   - type: textarea
     attributes:
       label: 环境信息
       description: 【请勿修改 issue 模版。】扩展版本、浏览器版本、以及你做出的自定义设置。
       placeholder: |
-        - 浏览器（如 Google Chrome）：
-        - 浏览器版本（如 126.0.6478.126）：
-        - BewlyBewly 版本（如 0.20.1）：
+        - 浏览器（如 Mozilla Firefox）：
+        - 浏览器版本（如 140.0.4）：
+        - BewlyBewly! Ave Mujica 版本（如 v1.7.1）：
 
         如果你修改了 BewlyBewly! Ave Mujica 的设置，请写在下面以方便我們排查問題（可粗略写成类似“设置了××后出现这个问题”〔将“××”替换为你的设置项〕）：
 
       value: |
-        - 浏览器（如 Google Chrome）：
-        - 浏览器版本（如 126.0.6478.126）：
-        - BewlyBewly 版本（如 0.20.1）：
+        - 浏览器（如 Mozilla Firefox）：
+        - 浏览器版本（如 140.0.4）：
+        - BewlyBewly! Ave Mujica 版本（如 v1.7.1）：
 
         如果你修改了 BewlyBewly! Ave Mujica 的设置，请写在下面以方便我們排查問題（可粗略写成类似“设置了××后出现这个问题”〔将“××”替换为你的设置项〕）：
 
     validations:
       required: true
+
+  - type: textarea
+    attributes:
+      label: 问题页面 URL
+      description: 在哪个页面中出现了问题（若非页面问题则不用填写）
+    validations:
+      required: false
 
   - type: textarea
     attributes:
