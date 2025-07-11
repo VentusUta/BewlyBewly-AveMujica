@@ -77,6 +77,8 @@ function isSupportedPages(): boolean {
     || /^https?:\/\/passport\.bilibili\.com\/login.*$/.test(currentUrl)
     // music center page 新歌熱榜 https://music.bilibili.com/pc/music-center/
     || /https?:\/\/music\.bilibili\.com\/pc\/music-center.*$/.test(currentUrl)
+    // bilibili audio
+    || /https?:\/\/(?:www\.)?bilibili\.com\/audio\/.*/.test(currentUrl)
   ) {
     return true
   }
