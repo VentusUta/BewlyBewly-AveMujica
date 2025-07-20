@@ -15,7 +15,7 @@ function toData(data: Promise<any>): Promise<any> {
 
 // if need sendResponse, use this
 // return a FetchAfterHandler function
-function sendResponseHandler(sendResponse: Function) {
+function sendResponseHandler(sendResponse: Function) { // eslint-disable-line ts/no-unsafe-function-type
   return (data: any) => sendResponse(data)
 }
 
@@ -52,14 +52,14 @@ interface API {
   afterHandle: ((response: Response) => Response | Promise<Response>)[]
 }
 // 重载API 可以为函数
-type APIFunction = (message: Message, sender?: any, sendResponse?: Function) => any
+type APIFunction = (message: Message, sender?: any, sendResponse?: Function) => any // eslint-disable-line ts/no-unsafe-function-type
 export type APIType = API | APIFunction
 interface APIMAP {
   [key: string]: APIType
 }
 // 工厂函数API_LISTENER_FACTORY
 function apiListenerFactory(API_MAP: APIMAP) {
-  return async (message: Message, sender?: Browser.Runtime.MessageSender, sendResponse?: Function) => {
+  return async (message: Message, sender?: Browser.Runtime.MessageSender, sendResponse?: Function) => { // eslint-disable-line ts/no-unsafe-function-type
     const contentScriptQuery = message.contentScriptQuery
     // 检测是否有contentScriptQuery
     if (!contentScriptQuery || !API_MAP[contentScriptQuery])
@@ -79,7 +79,7 @@ function apiListenerFactory(API_MAP: APIMAP) {
   }
 }
 
-function doRequest(message: Message, api: API, sendResponse?: Function, cookies?: Browser.Cookies.Cookie[]) {
+function doRequest(message: Message, api: API, sendResponse?: Function, cookies?: Browser.Cookies.Cookie[]) { // eslint-disable-line ts/no-unsafe-function-type
   try {
     let { contentScriptQuery, ...rest } = message
     // rest above two part body or params
@@ -102,7 +102,7 @@ function doRequest(message: Message, api: API, sendResponse?: Function, cookies?
     if (Object.keys(targetParams).length) {
       const urlParams = new URLSearchParams()
       for (const key in targetParams)
-        targetParams[key] && urlParams.append(key, targetParams[key])
+        targetParams[key] && urlParams.append(key, targetParams[key]) // eslint-disable-line ts/no-unused-expressions
       url += `?${urlParams.toString()}`
     }
     // generate body
@@ -118,7 +118,7 @@ function doRequest(message: Message, api: API, sendResponse?: Function, cookies?
     }
     // get cant take body
     const fetchOpt = { method, headers }
-    !isGET && Object.assign(fetchOpt, { body: targetBody })
+    !isGET && Object.assign(fetchOpt, { body: targetBody }) // eslint-disable-line ts/no-unused-expressions
     // fetch and after handle
     let baseFunc = fetch(url, {
       ...fetchOpt,

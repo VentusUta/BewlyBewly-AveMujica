@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/* eslint-disable vue/custom-event-name-casing */
 import { Icon } from '@iconify/vue'
 
 import { useDark } from '~/composables/useDark'

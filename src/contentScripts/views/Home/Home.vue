@@ -51,10 +51,12 @@ function computeTabs(): HomeTab[] {
   const targetTabs: HomeTab[] = []
 
   for (const tab of settings.value.homePageTabVisibilityList) {
+    /* eslint-disable ts/no-unused-expressions */
     tab.visible && targetTabs.push({
       i18nKey: (mainStore.homeTabs.find(defaultTab => defaultTab.page === tab.page) || {})?.i18nKey || tab.page,
       page: tab.page,
     })
+    /* eslint-enable ts/no-unused-expressions */
   }
 
   return targetTabs
@@ -111,7 +113,7 @@ function handleChangeTab(tab: HomeTab) {
     else {
       if (tabContentLoading.value)
         return
-      tabPageRef.value && tabPageRef.value.initData()
+      tabPageRef.value && tabPageRef.value.initData() // eslint-disable-line ts/no-unused-expressions
     }
     return
   }

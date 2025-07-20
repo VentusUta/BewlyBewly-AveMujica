@@ -123,6 +123,7 @@ function computeDockItem(): DockItem[] {
     if (!foundItem?.hasBewlyPage)
       item.useOriginalBiliPage = true
 
+    /* eslint-disable ts/no-unused-expressions */
     item.visible && targetDockItems.push({
       i18nKey: foundItem?.i18nKey || '',
       icon: foundItem?.icon || '',
@@ -133,6 +134,7 @@ function computeDockItem(): DockItem[] {
       url: foundItem?.url || '',
       hasBewlyPage: foundItem?.hasBewlyPage || false,
     })
+    /* eslint-enable ts/no-unused-expressions */
   })
   return targetDockItems
 }

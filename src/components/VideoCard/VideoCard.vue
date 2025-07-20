@@ -139,7 +139,7 @@ function toggleWatchLater() {
 }
 
 function handleMouseEnter() {
-  props.video && setActivatedCover(`${removeHttpFromUrl(props.video.cover)}@672w_378h_1c_!web-home-common-cover`)
+  props.video && setActivatedCover(`${removeHttpFromUrl(props.video.cover)}@672w_378h_1c_!web-home-common-cover`) // eslint-disable-line ts/no-unused-expressions
 
   // fix #789
   contentVisibility.value = 'visible'

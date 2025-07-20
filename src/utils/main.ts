@@ -319,7 +319,7 @@ export function isInIframe(): boolean {
   try {
     return window.self !== window.top
   }
-  catch (e) {
+  catch (e) { // eslint-disable-line unused-imports/no-unused-vars
     // If we can't access window.top due to security restrictions,
     // we're definitely in an iframe
     return true

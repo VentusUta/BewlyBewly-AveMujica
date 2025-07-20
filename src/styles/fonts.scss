@@ -2,27 +2,32 @@
 
 :root,
 :host {
-  --bew-fonts-basic: bilifont, -apple-system, BlinkMacSystemFont, InterVariable, Inter, "Segoe UI", Cantarell,
-    "Noto Sans", "Roboto Flex", Roboto;
-  --bew-fonts-fallback: sans-serif, ui-sans-serif, system-ui, "Apple Color Emoji", "Twemoji Mozilla", "Noto Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", emoji;
+  --bew-fonts-basic:
+    bilifont, -apple-system, BlinkMacSystemFont, InterVariable, Inter, "Segoe UI", Cantarell, "Noto Sans",
+    "Roboto Flex", Roboto;
+  --bew-fonts-fallback:
+    sans-serif, ui-sans-serif, system-ui, "Apple Color Emoji", "Twemoji Mozilla", "Noto Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", emoji;
 
   --bew-fonts-english: var(--bew-fonts-basic), var(--bew-fonts-fallback);
-  --bew-fonts-mandarin-cn: var(--bew-fonts-basic), "PingFang SC", "Source Han Sans SC VF", "Noto Sans CJK SC",
-    "Source Han Sans SC", "Microsoft YaHei", var(--bew-fonts-fallback);
+  --bew-fonts-mandarin-cn:
+    var(--bew-fonts-basic), "PingFang SC", "Source Han Sans SC VF", "Noto Sans CJK SC", "Source Han Sans SC",
+    "Microsoft YaHei", var(--bew-fonts-fallback);
   // TODO: 使用 CDN 載入思源黑體 to prevent 弱撚智 Microsoft JhengHei 視覺干擾
   /* Microsoft JhengHei 是我見過最腦殘弱智的字型，預設下文字太細，但是 windows 正體中文又預設用這個黑體渲染，能用 cdn 換字型就換 */
-  --bew-fonts-mandarin-tw: var(--bew-fonts-basic), "PingFang TC", "Source Han Sans TC VF", "Noto Sans CJK TC",
-    "Source Han Sans TC", "Microsoft JhengHei", var(--bew-fonts-fallback);
+  --bew-fonts-mandarin-tw:
+    var(--bew-fonts-basic), "PingFang TC", "Source Han Sans TC VF", "Noto Sans CJK TC", "Source Han Sans TC",
+    "Microsoft JhengHei", var(--bew-fonts-fallback);
   /* Microsoft JhengHei 是我見過最腦殘弱智的字型，預設下文字太細，但是 windows 正體中文又預設用這個黑體渲染，能用 cdn 換字型就換 */
-  --bew-fonts-cantonese: var(--bew-fonts-basic), "PingFang HK", "Source Han Sans HC VF", "Noto Sans CJK HK",
-    "Source Han Sans HC", "Microsoft JhengHei", var(--bew-fonts-fallback);
+  --bew-fonts-cantonese:
+    var(--bew-fonts-basic), "PingFang HK", "Source Han Sans HC VF", "Noto Sans CJK HK", "Source Han Sans HC",
+    "Microsoft JhengHei", var(--bew-fonts-fallback);
 
-  --bew-fonts-recommend: bilifont, Cantarell-BewlyInternalResource, ShangguSansSCVF-BewlyInternalResource,
-    var(--bew-fonts-fallback);
+  --bew-fonts-recommend:
+    bilifont, Cantarell-BewlyInternalResource, ShangguSansSCVF-BewlyInternalResource, var(--bew-fonts-fallback);
 
-  --bew-fonts-recommend-new: bilifont, Cantarell-BewlyInternalResource, FlexSansGBVF-BewlyInternalResource,
-    var(--bew-fonts-fallback);
+  --bew-fonts-recommend-new:
+    bilifont, Cantarell-BewlyInternalResource, FlexSansGBVF-BewlyInternalResource, var(--bew-fonts-fallback);
 }
 
 .bewly-wrapper,
