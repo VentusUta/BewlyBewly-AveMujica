@@ -139,7 +139,6 @@ export function useDark() {
 
       bewlyWrapper.appendChild(shadowDomStyle)
 
-      // @ts-expect-error: Transition API
       const transition = document.startViewTransition(async () => {
         updateThemeSettings()
         await nextTick()
