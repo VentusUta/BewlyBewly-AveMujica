@@ -181,7 +181,7 @@ const moments = useDelayedHover({
   beforeEnter: () => closeAllTopBarPopup('moments'),
   enter: () => {
     popupVisible.moments = true
-    momentsPopRef.value && momentsPopRef.value.checkIfHasNewMomentsThenUpdateMoments()
+    momentsPopRef.value && momentsPopRef.value.checkIfHasNewMomentsThenUpdateMoments() // eslint-disable-line ts/no-unused-expressions
   },
   leave: () => {
     popupVisible.moments = false

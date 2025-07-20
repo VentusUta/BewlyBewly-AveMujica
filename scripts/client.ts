@@ -210,7 +210,7 @@ async function waitForSuccessfulPing(ms = 1000) {
       await fetch(`${location.protocol}//${socketHost}`)
       break
     }
-    catch (e) {
+    catch (e) { // eslint-disable-line unused-imports/no-unused-vars
       // wait ms before attempting to ping again
       await new Promise(resolve => setTimeout(resolve, ms))
     }

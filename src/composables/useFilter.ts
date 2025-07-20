@@ -14,7 +14,7 @@ export enum FilterType {
 }
 
 type FuncMap = { [key in FilterType]: {
-  func: Function
+  func: Function // eslint-disable-line ts/no-unsafe-function-type
   enabledKey: string
   valueKey: string
 } }
@@ -168,7 +168,7 @@ export function useFilter(isFollowedKeyPath: string[], filterOpt: FilterType[], 
     },
   }
 
-  const filter = ref<Function | null>(null)
+  const filter = ref<Function | null>(null) // eslint-disable-line ts/no-unsafe-function-type
 
   watch(() => [
     settings.value.filterOutVerticalVideos,
@@ -189,10 +189,10 @@ export function useFilter(isFollowedKeyPath: string[], filterOpt: FilterType[], 
     filter.value = factoryFilter(funcMap, filterOpt, keyList)
   }, { immediate: true })
 
-  function factoryFilter(funcMap: FuncMap, filterOpt: FilterType[], keyList: KeyPath): Function {
+  function factoryFilter(funcMap: FuncMap, filterOpt: FilterType[], keyList: KeyPath): Function { // eslint-disable-line ts/no-unsafe-function-type
     interface FuncParams {
       keyPath: string[]
-      func: Function
+      func: Function // eslint-disable-line ts/no-unsafe-function-type
       value?: number | string
     }
 
