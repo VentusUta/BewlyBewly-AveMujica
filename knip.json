@@ -13,9 +13,12 @@
   "ignoreDependencies": [
     "@iconify/json",
     "uno.css",
-    "lint-staged"
+    "lint-staged",
+    "@vue/compiler-sfc",
+    "@vue/language-core",
+    "simple-git-hooks"
   ],
-  "ignoreBinaries": ["gh", "xcrun"],
+  "ignoreBinaries": ["xcrun"],
   "rules": {
     "types": "off",
     "enumMembers": "off",
