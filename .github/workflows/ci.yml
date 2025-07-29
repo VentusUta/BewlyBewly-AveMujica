@@ -41,34 +41,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set node ${{ matrix.node }}
-        uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: ${{ matrix.node }}
+          bun-version: 1.2.9
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          run_install: |
-            - args: [--frozen-lockfile]
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
 
       - name: Lint
         if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: pnpm run lint
+        run: bun run lint
 
       - name: Type check
         if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: pnpm run typecheck
+        run: bun run typecheck
 
       - name: Test
-        run: pnpm run test
+        run: bun run test
 
       - name: Knip
         if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: pnpm run knip
+        run: bun run knip
 
       - name: Build Extension
-        run: pnpm build
+        run: bun build
 
       - name: Upload Zip
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.node == 'lts/*' && github.ref_name == 'main' }}
@@ -78,7 +74,7 @@ jobs:
           path: extension
 
       - name: Build Extension-Firefox
-        run: pnpm build-firefox
+        run: bun build-firefox
 
       - name: Upload Zip
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.node == 'lts/*' && github.ref_name == 'main' }}
