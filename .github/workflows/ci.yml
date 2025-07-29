@@ -64,7 +64,7 @@ jobs:
         run: bun run knip
 
       - name: Build Extension
-        run: bun build
+        run: bun run build
 
       - name: Upload Zip
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.node == 'lts/*' && github.ref_name == 'main' }}
@@ -74,7 +74,7 @@ jobs:
           path: extension
 
       - name: Build Extension-Firefox
-        run: bun build-firefox
+        run: bun run build-firefox
 
       - name: Upload Zip
         if: ${{ matrix.os == 'ubuntu-latest' && matrix.node == 'lts/*' && github.ref_name == 'main' }}
