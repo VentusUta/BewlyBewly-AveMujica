@@ -4,132 +4,24 @@ English | [官话 - 简体中文](CONTRIBUTING-cmn_CN.md) | [官話 - 正體中�
 
 ## 💻 Setting up the Development Environment
 
-This project is built using [Vite](https://vitejs.dev/), please make sure you have [Node.js](https://nodejs.org/) and [pnpm](https://pnpm.io/) installed locally, and it is recommended to use [Visual Studio Code](https://code.visualstudio.com/) for development.
-
-## 🔧 Developing and Building the Project
-
-### Development (Chrome or Edge)
-
-#### The First Method for Chrome or Edge
-
-<details>
- <summary>Show more</summary>
-
-1. Run the pnpm command
-
-```bash
-# Install dependencies
-pnpm install
-
-# Create a profile folder for the extension to store the login status
-mkdir web-ext-profile
-
-# Run the project
-pnpm dev
-
-# After typing this commend, it will automatically open a new Chrome window that opens BiliBili website
-pnpm start:chromium
-```
-
-2. Every time you change the extension, it will reload, and you can see the changes by refreshing the webpage
-
-</details>
-
-#### The Alternative Method for Chrome or Edge
-
-<details>
- <summary>Show more</summary>
-
-1. Run the pnpm command
-
-```bash
-# Install dependencies
-pnpm install
-
-# Run the project
-pnpm dev
-```
-
-2. Enter `chrome://extensions/` (Chrome), `edge://extensions/` (Edge) in the address bar and press Enter
-
-3. Enable `Developer Mode` and click `Load unpacked`
-
-<img width="655" alt="Snipaste_2022-03-27_18-17-04" src="https://user-images.githubusercontent.com/33394391/160276882-13da0484-92c1-47dd-add8-7655c5c2bf1c.png">
-<br/>
-<img width="655" alt="image" src="https://user-images.githubusercontent.com/33394391/232246901-e3544c16-bde2-480d-b770-ca5242793963.png">
-
-4. Load the generated `extension/` folder in the browser
-
-After each modification, you need to click the [Reload Extensions](https://chromewebstore.google.com/detail/extensions-reloader/fimgfedafeadlieiabdeeaodndnlbhid) button and refresh the page to apply the changes.
-
-</details>
+This project is built using [Vite](https://vitejs.dev/), please make sure you have [bun](https://bun.com/) installed, and it is recommended to use [Visual Studio Code](https://code.visualstudio.com/) for development.
 
 #### Building (Chrome or Edge)
 
 To build the extension, run
 
 ```bash
-pnpm build
+bun run build
 ```
 
 Then package it to the `extension` folder
-
-### Development (Firefox)
-
-#### The First Method for Firefox
-
-<details>
- <summary>Show more</summary>
-
-1. Run the pnpm command
-
-```bash
-# Install dependencies
-pnpm install
-
-# Create a profile folder for the extension to store the login status
-mkdir web-ext-profile
-
-# Run the project
-pnpm dev
-
-# After typing this commend, it will automatically open a new Firefox window that opens BiliBili website
-pnpm start:firefox
-```
-
-2. Every time you change the extension, it will reload, and you can see the changes by refreshing the webpage
-
-</details>
-
-#### The Alternative Method for Firefox
-
-<details>
- <summary>Show more</summary>
-
-1. Run the pnpm command
-
-```bash
-# Install dependencies
-pnpm install
-
-# Run the project
-pnpm dev-firefox
-```
-
-2. In the browser, enter `about:addons`, click on `Extensions` and then `Debug Add-ons`
-
-<img width="655" alt="image" src="https://github.com/hakadao/BewlyBewly/assets/33394391/7c49e4ca-2a87-4c56-bc00-3259d6eba128">
-
-3. Load the generated `extension-firefox/` folder in the browser
-
-</details>
 
 #### Building (Firefox)
 
 To build the extension, run
 
 ```bash
-pnpm build-firefox
+bun run build-firefox
 ```
 
 Then package it to the `extension-firefox` folder

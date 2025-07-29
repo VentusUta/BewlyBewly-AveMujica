@@ -174,7 +174,7 @@ function handleToggleDockItem(dockItem: any) {
                 <div flex="~ gap-2 items-center">
                   <div :class="pageOptions.find((page:any) => (page.value === element.page))?.icon as string" />
                   <div w-80px text-ellipsis>
-                    {{ pageOptions.find(option => option.value === element.page)?.label }}
+                    {{ pageOptions.find((option: any) => option.value === element.page)?.label }}
                   </div>
                 </div>
                 <div flex="~ gap-4 items-center justify-between wrap">

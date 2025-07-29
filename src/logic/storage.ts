@@ -222,7 +222,7 @@ export const originalSettings: Settings = {
 
   blockAds: true,
   blockTopSearchPageAds: true,
-  blockVIPDanmukuStyle: false,
+  blockVIPDanmukuStyle: true,
   cleanUrlArgument: true,
   bvToAv: false,
 }
