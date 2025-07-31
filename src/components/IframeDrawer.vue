@@ -35,16 +35,14 @@ function setupIframeListeners() {
     useEventListener(iframeRef.value?.contentWindow, 'pushstate', updateCurrentUrl)
     useEventListener(iframeRef.value?.contentWindow, 'popstate', updateCurrentUrl)
 
-    useEventListener(iframeRef.value?.contentWindow, 'DOMContentLoaded', () => {
-      if (headerShow.value) {
-        iframeRef.value?.contentWindow?.document.documentElement.classList.add('remove-top-bar-without-placeholder')
-        removeTopBarClassInjected.value = true
-      }
-      else {
-        iframeRef.value?.contentWindow?.document.documentElement.classList.remove('remove-top-bar-without-placeholder')
-        removeTopBarClassInjected.value = false
-      }
-    })
+    if (headerShow.value) {
+      iframeRef.value?.contentWindow?.document.documentElement.classList.add('remove-top-bar-without-placeholder')
+      removeTopBarClassInjected.value = true
+    }
+    else {
+      iframeRef.value?.contentWindow?.document.documentElement.classList.remove('remove-top-bar-without-placeholder')
+      removeTopBarClassInjected.value = false
+    }
   })
 }
 
