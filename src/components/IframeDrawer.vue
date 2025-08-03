@@ -43,6 +43,8 @@ function setupIframeListeners() {
       iframeRef.value?.contentWindow?.document.documentElement.classList.remove('remove-top-bar-without-placeholder')
       removeTopBarClassInjected.value = false
     }
+
+    iframeRef.value?.focus()
   })
 }
 
@@ -53,7 +55,6 @@ onMounted(() => {
   nextTick(() => {
     if (iframeRef.value) {
       setupIframeListeners()
-      iframeRef.value?.focus()
     }
   })
 })
