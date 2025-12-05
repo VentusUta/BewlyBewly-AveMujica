@@ -341,9 +341,17 @@ provide<BewlyAppProvider>('BEWLY_APP', {
 const fontStyles = document.createElement('style')
 fontStyles.textContent = `
 @font-face {
-    font-family: "Cantarell-BewlyInternalResource"; /* 西文 */
+    font-family: "AtkinsonHyperlegibleNext-BewlyInternalResource"; /* 西文 */
+    font-style: normal;
     font-display: block;
-    src: url(${browser.runtime.getURL('/assets/fonts/Cantarell-VF.otf')}) format("opentype-variations");
+    src: url(${browser.runtime.getURL('/assets/fonts/AtkinsonHyperlegibleNext.woff2')}) format("woff2-variations");
+}
+
+@font-face {
+    font-family: "AtkinsonHyperlegibleNext-BewlyInternalResource"; /* 西文 */
+    font-style: italic;
+    font-display: block;
+    src: url(${browser.runtime.getURL('/assets/fonts/AtkinsonHyperlegibleNext-Italic.woff2')}) format("woff2-variations");
 }
 
 @font-face {
@@ -355,13 +363,13 @@ fontStyles.textContent = `
 @font-face {
     font-family: "ShangguSansSCVF-BewlyInternalResource"; /* CJK 旧字形 */
     font-display: block;
-    src: url(${browser.runtime.getURL('/assets/fonts/ShangguSansSC-VF.woff2')}) format("woff2-variations");
+    src: url(${browser.runtime.getURL('/assets/fonts/ShangguSansSC-VF.otf')}) format("opentype-variations");
 }
 
 @font-face {
-    font-family: "FlexSansGBVF-BewlyInternalResource"; /* CJK 新字形 */
+    font-family: "FrexSansGBVF-BewlyInternalResource"; /* CJK 新字形 */
     font-display: block;
-    src: url(${browser.runtime.getURL('/assets/fonts/FlexSansGBVF.ttf')}) format("truetype-variations");
+    src: url(${browser.runtime.getURL('/assets/fonts/FrexSansGBVF.ttf')}) format("truetype-variations");
 }
 `
 

@@ -3,8 +3,10 @@
   font-feature-settings: "tnum";
   line-break: auto !important; /* make the original `line-break: anywhere` not work, it breaks 2 * em dash connection */
   word-break: break-word !important; /* make the original `word-break: break-all` not work */
-  // outline-width: 2px;
-  // outline-offset: 2px;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  text-autospace: normal !important;
+  text-rendering: geometricPrecision !important;
 }
 
 /* danmuku poll wrap fix */
@@ -86,10 +88,6 @@ img {
 
 .bewly-wrapper {
   line-height: 1.4;
-
-  * {
-    text-rendering: geometricPrecision;
-  }
 
   .keep-two-lines {
     overflow: hidden;

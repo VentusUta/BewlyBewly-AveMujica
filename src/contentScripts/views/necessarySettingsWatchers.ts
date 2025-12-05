@@ -57,7 +57,7 @@ export function setupNecessarySettingsWatchers() {
         || settings.value.customizeFont === 'recommend'
         || settings.value.customizeFont === 'recommend-new')
       && !settings.value.fontFamily) {
-        settings.value.fontFamily = `bilifont, -apple-system, BlinkMacSystemFont, InterVariable, Inter, "Segoe UI", Cantarell, "Noto Sans", "Roboto Flex", Roboto, sans-serif, ui-sans-serif, system-ui, "Apple Color Emoji", "Twemoji Mozilla", "Noto Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", emoji`
+        settings.value.fontFamily = `-apple-system, BlinkMacSystemFont, InterVariable, Inter, "Segoe UI", "Adwaita Sans", "Noto Sans", "Roboto Flex", Roboto, Cantarell, sans-serif, ui-sans-serif, system-ui, "Apple Color Emoji", "Twemoji Mozilla", "Noto Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", emoji`
       }
 
       if (settings.value.customizeFont === 'recommend') {
