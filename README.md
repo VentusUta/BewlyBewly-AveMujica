@@ -13,8 +13,6 @@ English | [官话 - 简体中文](README-cmn_CN.md) | [官話 - 繁體中文](RE
 
 ## 👋 Introduction
 
-<big>Due to developers losing interest, this project is dying.</big>
-
 > [!NOTE]
 > I'm very sorry that my mental state has been particularly poor recently, so I haven't submitted any commits.
 >
