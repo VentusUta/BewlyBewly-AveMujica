@@ -412,6 +412,7 @@ if (settings.value.cleanUrlArgument) {
     'csource',
     'vd_source',
     'tab',
+    'trackid',
     'is_story_h5',
     'share_from',
     'plat_id',
