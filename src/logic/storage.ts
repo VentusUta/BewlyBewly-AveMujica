@@ -115,6 +115,7 @@ export interface Settings {
   blockVIPDanmukuStyle: boolean
   cleanUrlArgument: boolean
   bvToAv: boolean
+  oneClickBlock: boolean
 }
 
 export const originalSettings: Settings = {
@@ -220,11 +221,13 @@ export const originalSettings: Settings = {
   useOriginalBilibiliTopBar: false,
   useOriginalBilibiliHomepage: false,
 
+  // bilibili settings
   blockAds: true,
   blockTopSearchPageAds: true,
   blockVIPDanmukuStyle: true,
   cleanUrlArgument: true,
   bvToAv: false,
+  oneClickBlock: false,
 }
 
 export const settings = useStorageLocal('settings', ref<Settings>(originalSettings), { mergeDefaults: true })

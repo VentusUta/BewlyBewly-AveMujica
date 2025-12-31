@@ -31,5 +31,13 @@ import SettingsItemGroup from '../components/SettingsItemGroup.vue'
         </SettingsItem>
       </SettingsItemGroup>
     </SettingsItemGroup>
+
+    <SettingsItemGroup :title="$t('settings.ux_enhancement_features')">
+      <SettingsItemGroup>
+        <SettingsItem :title="$t('settings.one_click_block')">
+          <Radio v-model="settings.oneClickBlock" />
+        </SettingsItem>
+      </SettingsItemGroup>
+    </SettingsItemGroup>
   </div>
 </template>

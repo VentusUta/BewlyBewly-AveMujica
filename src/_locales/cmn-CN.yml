@@ -281,6 +281,8 @@ settings:
   url_trim_settings: 页面 URL 优化
   clean_url_argument: 清理 URL 无用参数
   bv_to_av: 将 BV 号转为 AV 号
+  ux_enhancement_features: 用户体验增强功能
+  one_click_block: 一键拉黑
 
   # About
   links: 链接
