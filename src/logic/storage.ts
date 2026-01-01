@@ -40,6 +40,7 @@ export interface Settings {
   showBewlyOrBiliPageSwitcher: boolean
   topBarIconBadges: 'number' | 'dot' | 'none'
   openNotificationsPageAsDrawer: boolean
+  turnOnSearchHistory: boolean
 
   alwaysUseDock: boolean
   autoHideDock: boolean
@@ -228,6 +229,7 @@ export const originalSettings: Settings = {
   cleanUrlArgument: true,
   bvToAv: false,
   oneClickBlock: false,
+  turnOnSearchHistory: false,
 }
 
 export const settings = useStorageLocal('settings', ref<Settings>(originalSettings), { mergeDefaults: true })

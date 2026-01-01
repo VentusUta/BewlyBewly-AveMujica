@@ -157,6 +157,7 @@ settings:
     dot: 圓點
     none: 不顯示
   open_notifications_page_as_drawer: 將通知頁面作爲抽屜開啓
+  turn_on_search_history: 開啓搜尋歷史記錄
 
   always_use_dock: 總是使用 Dock
   always_use_dock_desc: 啓用後，Dock 將始終顯示，側邊欄將隱藏。我們推薦你同時啓用自動隱藏 Dock。
