@@ -152,6 +152,7 @@ export const originalSettings: Settings = {
   showBewlyOrBiliPageSwitcher: false,
   topBarIconBadges: 'number',
   openNotificationsPageAsDrawer: true,
+  turnOnSearchHistory: false,
 
   alwaysUseDock: false,
   autoHideDock: false,
@@ -229,7 +230,6 @@ export const originalSettings: Settings = {
   cleanUrlArgument: true,
   bvToAv: false,
   oneClickBlock: false,
-  turnOnSearchHistory: false,
 }
 
 export const settings = useStorageLocal('settings', ref<Settings>(originalSettings), { mergeDefaults: true })

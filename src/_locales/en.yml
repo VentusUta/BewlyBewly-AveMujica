@@ -159,7 +159,7 @@ settings:
     dot: Dot
     none: Do not show
   open_notifications_page_as_drawer: Open the notifications page as a drawer
-  turn_on_search_history: Turn on search history
+  turn_on_search_history: Show search history
 
   always_use_dock: Always use the dock
   always_use_dock_desc: The dock will always be visible and the sidebar will be hidden. We also recommend enabling auto-hide for the dock.
