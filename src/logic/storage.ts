@@ -152,7 +152,7 @@ export const originalSettings: Settings = {
   showBewlyOrBiliPageSwitcher: false,
   topBarIconBadges: 'number',
   openNotificationsPageAsDrawer: true,
-  turnOnSearchHistory: false,
+  turnOnSearchHistory: true,
 
   alwaysUseDock: false,
   autoHideDock: false,
