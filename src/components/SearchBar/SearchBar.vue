@@ -273,6 +273,7 @@ async function handleClearSearchHistory() {
           isFocus
             && searchHistory.length !== 0
             && keyword.length === 0
+            && settings.turnOnSearchHistory
         "
         id="search-history"
       >

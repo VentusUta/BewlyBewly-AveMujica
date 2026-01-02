@@ -11,6 +11,7 @@ import { type DockItem, useMainStore } from '~/stores/mainStore'
 import { useSettingsStore } from '~/stores/settingsStore'
 import { isHomePage, isInIframe, isNotificationPage, isVideoOrBangumiPage, openLinkToNewTab, queryDomUntilFound, scrollToTop } from '~/utils/main'
 import emitter from '~/utils/mitt'
+import { initUrlCleaner } from '~/utils/urlCleaner'
 
 import { setupNecessarySettingsWatchers } from './necessarySettingsWatchers'
 
@@ -173,6 +174,12 @@ onMounted(() => {
       reachTop.value = false
     else
       reachTop.value = true
+  })
+
+  // 同步 cleanUrlArgument 设置到 document 属性，供 inject 脚本使用
+  document.documentElement.setAttribute('data-bewly-clean-url', settings.value.cleanUrlArgument.toString())
+  watch(() => settings.value.cleanUrlArgument, (newValue) => {
+    document.documentElement.setAttribute('data-bewly-clean-url', newValue.toString())
   })
 })
 
@@ -392,80 +399,7 @@ if (settings.value.blockVIPDanmukuStyle) {
 }
 
 if (settings.value.cleanUrlArgument) {
-  const PARAMS_TO_REMOVE = [
-    'spm_id_from',
-    'from_source',
-    'msource',
-    'bsource',
-    'seid',
-    'source',
-    'session_id',
-    'visit_id',
-    'sourceFrom',
-    'from_spmid',
-    'share_source',
-    'share_medium',
-    'share_plat',
-    'share_session_id',
-    'share_tag',
-    'unique_k',
-    'csource',
-    'vd_source',
-    'tab',
-    'trackid',
-    'is_story_h5',
-    'share_from',
-    'plat_id',
-    '-Arouter',
-    'launch_id',
-    'live_from',
-    'hotRank',
-    'broadcast_type',
-  ]
-
-  function cleanUrlParams() {
-    const currentUrl = new URL(window.location.href)
-    let hasChanged = false
-
-    PARAMS_TO_REMOVE.forEach((param) => {
-      if (currentUrl.searchParams.has(param)) {
-        currentUrl.searchParams.delete(param)
-        hasChanged = true
-      }
-    })
-
-    if (hasChanged) {
-      const newUrl = currentUrl.toString()
-        .replace(/([^:])\/\//g, '$1/')
-        .replace(/%3D/gi, '=')
-        .replace(/%26/g, '&')
-      history.replaceState(null, '', newUrl)
-    }
-  }
-
-  const cleanupStrategies = [
-    () => window.addEventListener('load', cleanUrlParams),
-    () => document.addEventListener('DOMContentLoaded', cleanUrlParams),
-    () => setTimeout(cleanUrlParams, 1500),
-    () => window.requestIdleCallback?.(cleanUrlParams),
-  ]
-
-  if (document.readyState === 'complete') {
-    setTimeout(cleanUrlParams, 300)
-  }
-  else {
-    cleanupStrategies.forEach(strategy => strategy())
-  }
-
-  if (typeof window !== 'undefined') {
-    let lastUrl = window.location.href
-    setInterval(() => {
-      if (window.location.href !== lastUrl) {
-        lastUrl = window.location.href
-        setTimeout(cleanUrlParams, 300)
-      }
-    }, 500)
-  }
+  initUrlCleaner()
 }
 
 if (settings.value.bvToAv) {

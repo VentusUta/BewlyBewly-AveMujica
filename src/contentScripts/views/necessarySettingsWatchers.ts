@@ -299,4 +299,17 @@ export function setupNecessarySettingsWatchers() {
     },
     { immediate: true },
   )
+
+  // Hide search history on bilibili search page
+  const hideSearchHistoryStyleEl = injectCSS(`
+    .history {
+      display: none !important;
+    }
+  `)
+  watch(() => settings.value.turnOnSearchHistory, () => {
+    if (!settings.value.turnOnSearchHistory)
+      document.documentElement.appendChild(hideSearchHistoryStyleEl)
+    else
+      hideSearchHistoryStyleEl.remove()
+  }, { immediate: true })
 }

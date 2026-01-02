@@ -123,6 +123,9 @@ function handleToggleDockItem(dockItem: any) {
       <SettingsItem :title="$t('settings.open_notifications_page_as_drawer')">
         <Radio v-model="settings.openNotificationsPageAsDrawer" />
       </SettingsItem>
+      <SettingsItem :title="$t('settings.turn_on_search_history')">
+        <Radio v-model="settings.turnOnSearchHistory" />
+      </SettingsItem>
     </SettingsItemGroup>
 
     <SettingsItemGroup :title="$t('settings.group_dock')">
