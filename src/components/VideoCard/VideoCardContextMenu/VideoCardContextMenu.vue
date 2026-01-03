@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import type { CSSProperties } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useToast } from 'vue-toastification'
 
 import { useBewlyApp } from '~/composables/useAppProvider'
 import { Type as ThreePointV2Type } from '~/models/video/appForYou'
-import { openLinkToNewTab } from '~/utils/main'
+import { getCSRF, openLinkToNewTab } from '~/utils/main'
 
 import type { Video } from '../types'
+import { blockUploader } from '../utils'
 import DislikeDialog from './components/DislikeDialog.vue'
 
 const props = defineProps<{
@@ -58,6 +60,7 @@ const getVideoType = inject<() => string>('getVideoType')!
 const videoOptions = reactive<{ id: number, name: string }[]>([
   { id: 1, name: '不感兴趣' },
   { id: 2, name: '不想看此UP主' },
+  { id: 3, name: '一键拉黑' },
 ])
 
 const { t } = useI18n()
@@ -126,8 +129,23 @@ onMounted(() => {
   })
 })
 
-function handleMoreCommand(_command: number) {
-  handleRemoved()
+async function handleMoreCommand(command: number) {
+  if (command === 3) {
+    const toast = useToast()
+    const authorMid = Array.isArray(props.video.author)
+      ? props.video.author[0]?.mid
+      : props.video.author?.mid
+    const csrf = getCSRF()
+    if (await blockUploader(authorMid, csrf)) {
+      handleRemoved()
+    }
+    else {
+      toast.error(t('拉黑UP主失败'))
+    }
+  }
+  else {
+    handleRemoved()
+  }
 }
 
 function handleAppMoreCommand(command: ThreePointV2Type) {

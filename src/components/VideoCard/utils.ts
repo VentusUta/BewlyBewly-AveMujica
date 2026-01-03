@@ -19,3 +19,25 @@ export function getCurrentVideoUrl(video: Video, videoCurrentTime: Ref<number | 
   const currentTime = videoCurrentTime.value
   return currentTime && currentTime > 5 ? `${baseUrl}/?t=${currentTime}` : baseUrl
 }
+
+export function blockUploader(author: number | undefined, csrf: string) {
+  const baseUrl = `https://api.bilibili.com/x/relation/modify`
+  const Params = new URLSearchParams()
+  Params.append('fid', author?.toString() || '')
+  Params.append('act', '5')
+  Params.append('re_src', '11')
+  Params.append('csrf', csrf || '')
+  return fetch(baseUrl, {
+    method: 'POST',
+    body: Params,
+    credentials: 'include',
+  }).then((res) => {
+    if (!res.ok)
+      throw new Error(`HTTP error! Status: ${res.status}`)
+    return res.json()
+  }).then((data) => {
+    return data.code === 0
+  }).catch(() => {
+    return false
+  })
+}
