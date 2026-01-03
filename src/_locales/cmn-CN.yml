@@ -282,8 +282,6 @@ settings:
   url_trim_settings: 页面 URL 优化
   clean_url_argument: 清理 URL 无用参数
   bv_to_av: 将 BV 号转为 AV 号
-  ux_enhancement_features: 用户体验增强功能
-  one_click_block: 一键拉黑
 
   # About
   links: 链接
@@ -427,7 +425,7 @@ video_card:
     view_the_original_cover: 查看封面
 
   group_contribution: '{firstAuthor} 等 {num} 人联合创作'
-  video_removed: 视频已移除
+  video_removed: 视频已移除（若你执行的是拉黑，撤销需要手动在黑名单中操作）
 
 home:
   tell_us_why: 为什么这么做……

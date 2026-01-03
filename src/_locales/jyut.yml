@@ -413,7 +413,7 @@ video_card:
     view_the_original_cover: 睇吓封面
 
   group_contribution: '{firstAuthor} 等 {num} 人一齊創作'
-  video_removed: 經已鏟咗條片
+  video_removed: 經已鏟咗條片（如果你頭先係執行封鎖操作，要撤銷就必須手動喺黑名單度改返）
 
 home:
   tell_us_why: 點解噉做……

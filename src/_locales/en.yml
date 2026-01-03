@@ -286,8 +286,6 @@ settings:
   url_trim_settings: URL Trim
   clean_url_argument: Remove unnecessary URL argument
   bv_to_av: Convert BV number to AV number
-  ux_enhancement_features: User experience enhancement features
-  one_click_block: One-click block
 
   # About
   links: Links
@@ -435,7 +433,7 @@ video_card:
     view_the_original_cover: View the Original Cover
 
   group_contribution: '{firstAuthor} and {num} others contributed'
-  video_removed: Video removed
+  video_removed: Video removed (If you're blocking, you'll need to manually undo it)
 
 home:
   tell_us_why: Choose a reason why

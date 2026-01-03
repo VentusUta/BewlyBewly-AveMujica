@@ -116,7 +116,6 @@ export interface Settings {
   blockVIPDanmukuStyle: boolean
   cleanUrlArgument: boolean
   bvToAv: boolean
-  oneClickBlock: boolean
 }
 
 export const originalSettings: Settings = {
@@ -140,7 +139,7 @@ export const originalSettings: Settings = {
   searchBarLinkOpenMode: 'newTab',
   closeDrawerWithoutPressingEscAgain: false,
 
-  enableVideoPreview: true,
+  enableVideoPreview: false,
   enableVideoCtrlBarOnVideoCard: false,
   hoverVideoCardDelayed: false,
 
@@ -229,7 +228,6 @@ export const originalSettings: Settings = {
   blockVIPDanmukuStyle: true,
   cleanUrlArgument: true,
   bvToAv: false,
-  oneClickBlock: false,
 }
 
 export const settings = useStorageLocal('settings', ref<Settings>(originalSettings), { mergeDefaults: true })

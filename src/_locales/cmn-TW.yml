@@ -282,8 +282,6 @@ settings:
   url_trim_settings: 頁面 URL 優化
   clean_url_argument: 清理 URL 無用參數
   bv_to_av: 將 BV 號轉爲 AV 號
-  ux_enhancement_features: 用户體驗增强功能
-  one_click_block: 一鍵封鎖
 
   # About
   links: 連結
@@ -429,7 +427,7 @@ video_card:
     view_the_original_cover: 檢視封面
 
   group_contribution: '{firstAuthor} 等 {num} 人共同創作'
-  video_removed: 影片已移除
+  video_removed: 影片已移除（若你執行的是封鎖，撤銷需要手動在黑名單中操作）
 
 home:
   tell_us_why: 爲什麼這樣做……

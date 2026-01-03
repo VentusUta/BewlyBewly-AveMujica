@@ -138,9 +138,10 @@ async function handleMoreCommand(command: number) {
     const csrf = getCSRF()
     if (await blockUploader(authorMid, csrf)) {
       handleRemoved()
+      toast.success('已拉黑')
     }
     else {
-      toast.error(t('拉黑UP主失败'))
+      toast.error('拉黑UP主失败')
     }
   }
   else {
