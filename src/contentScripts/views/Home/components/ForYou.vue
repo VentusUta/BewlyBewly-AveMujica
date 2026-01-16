@@ -221,9 +221,14 @@ async function getData() {
       catch (error) {
         console.error('App recommendation failed:', error)
         // 切换到 web 模式并提示用户
-        settings.value.recommendationMode = 'web'
-        toast.warning('App 推荐数据加载失败，已自动切换至 Web 模式')
-        await getRecommendVideos()
+        if (settings.value.recommendationNoAutoSwitch === true) {
+          toast.warning('App推荐数据加载失败。你已开启禁用自动切换功能，因此并未自动切换到Web模式。')
+        }
+        else {
+          settings.value.recommendationMode = 'web'
+          toast.warning('App 推荐数据加载失败，已自动切换至 Web 模式')
+          await getRecommendVideos()
+        }
       }
     }
   }

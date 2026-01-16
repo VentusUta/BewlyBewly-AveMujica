@@ -210,6 +210,10 @@ function handleToggleHomeTab(tab: any) {
         </div>
       </SettingsItem>
 
+      <SettingsItem v-if="settings.recommendationMode === 'app'" :title="$t('settings.recommendation_no_auto_switch')" :desc="$t('settings.recommendation_no_auto_switch_desc')">
+        <Radio v-model="settings.recommendationNoAutoSwitch" />
+      </SettingsItem>
+
       <SettingsItem v-if="settings.recommendationMode === 'app'" :title="$t('settings.authorize_app')">
         <template #desc>
           {{ $t('settings.authorize_app_desc') }}

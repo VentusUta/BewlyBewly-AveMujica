@@ -220,6 +220,8 @@ settings:
     授权使用后能在首页推送 bilibili App 端算法的推荐视频，授权 key 有效期约为一个月，过后记得重新授权获取 access key。
   authorize_app_more_info_access_key: 关于 access key
   scan_qrcode_desc: 使用 bilibili 移动应用程序扫描此二维码，以授权获取 access key。
+  recommendation_no_auto_switch: 禁用在App推荐数据加载失败时自动切换到Web模式
+  recommendation_no_auto_switch_desc: 若选中此选项，将不会在App推荐数据加载失败时自动切换到Web推荐模式。
 
   disable_filters_for_followed_users: 关注的用户不受过滤条件限制
   disable_filters_for_followed_users_desc: >

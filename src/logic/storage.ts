@@ -84,6 +84,7 @@ export interface Settings {
   searchPageWallpaperBlurIntensity: number
 
   recommendationMode: 'web' | 'app'
+  recommendationNoAutoSwitch: boolean
 
   // filter setting
   disableFilterForFollowedUser: boolean
@@ -195,6 +196,7 @@ export const originalSettings: Settings = {
   searchPageWallpaperBlurIntensity: 0,
 
   recommendationMode: 'web',
+  recommendationNoAutoSwitch: false,
 
   // filter setting
   disableFilterForFollowedUser: false,
