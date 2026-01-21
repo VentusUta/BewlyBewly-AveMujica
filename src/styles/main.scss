@@ -11,8 +11,9 @@
 
 /* danmuku poll wrap fix */
 .bili-danmaku-x-vote-an-num,
-.vui_sidebar-item-right {
-  white-space: nowrap;
+.vui_sidebar-item-right,
+.fans-medal {
+  white-space: nowrap !important;
 }
 
 .dark {

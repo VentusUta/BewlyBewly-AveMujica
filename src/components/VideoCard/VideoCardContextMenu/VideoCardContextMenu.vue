@@ -58,8 +58,8 @@ function scrollToBottom() {
 const getVideoType = inject<() => string>('getVideoType')!
 
 const videoOptions = reactive<{ id: number, name: string }[]>([
-  { id: 1, name: '不感兴趣' },
-  { id: 2, name: '不想看此UP主' },
+  { id: 1, name: '不感兴趣（仅在app推荐模式下有效）' },
+  { id: 2, name: '不想看此UP主（仅在app推荐模式下有效）' },
   { id: 3, name: '一键拉黑' },
 ])
 
