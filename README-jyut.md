@@ -13,17 +13,6 @@
 
 ## 👋 介紹
 
-> [!NOTE]
-> 真係好對唔住最近我成個人嘅精神狀態特別差所以冇提交任何 commit。
->
-> 對唔住我冇滿足到大家嘅期望。
->
-> 如果您需要激進嘅功能更新，我推薦用 [BewlyCat](https://github.com/keleus/BewlyCat)。呢位作者嘅實力勁過我，仲幫個擴展做咗好多優化，可以話 BewlyBewly! Ave Mujica 嘅唔少 commit 都係 cherry-pick 自 BewlyCat 項目。
->
-> 如果您鍾意 BewlyBewly! Ave Mujica，願意繼續用，我都好開心。我會盡力維護呢個擴展，盡量修復 bug。梗係， BewlyCat 嘅體驗會更加好。
->
-> 再講多次對唔住，當我講咗廢話啦。我一路都係個冇用、淨係識呻嘅人嚟㗎。
-
 <!-- 我真係好想自殺。好痛苦。-->
 <!-- Sorry for my bad Cantonese. -->
 
