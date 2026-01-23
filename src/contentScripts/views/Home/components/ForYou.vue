@@ -334,10 +334,18 @@ async function getRecommendVideos() {
       videoList.value.push(...pendingVideos)
     }
 
+    // 使用当前的 refreshIdx，只在成功时才递增
+    const currentRefreshIdx = refreshIdx.value
     const response: forYouResult = await api.video.getRecommendVideos({
-      fresh_idx: refreshIdx.value++,
+      fresh_idx: currentRefreshIdx,
       ps: PAGE_SIZE,
     })
+
+    if (!response) {
+      console.error('Failed to load web recommendations: Response is undefined')
+      noMoreContent.value = true
+      return
+    }
 
     if (!response.data) {
       noMoreContent.value = true
@@ -345,9 +353,22 @@ async function getRecommendVideos() {
     }
 
     if (response.code === 0) {
+      // 只在成功时递增 refreshIdx
+      refreshIdx.value++
+
       const resData = [] as VideoItem[]
 
       response.data.item.forEach((item: VideoItem) => {
+        // 过滤掉广告卡片
+        if (item.goto === 'ad')
+          return
+
+        // 过滤掉缺少必要字段的数据（owner 或 stat 为 null）
+        if (!item.owner || !item.stat) {
+          console.warn('[ForYou] Filtered out item with null owner or stat:', item.id, item.goto)
+          return
+        }
+
         if (!filterFunc.value || filterFunc.value(item))
           resData.push(item)
       })
@@ -387,12 +408,17 @@ async function getRecommendVideos() {
     else if (response.code === 62011) {
       needToLoginFirst.value = true
     }
+    else {
+      // 其他错误码也应该停止加载，避免无限重试
+      console.error('API returned error code:', response.code, response.message)
+      noMoreContent.value = true
+    }
   }
   finally {
     const filledItems = videoList.value.filter(video => video.item)
     videoList.value = filledItems
 
-    if (!needToLoginFirst.value) {
+    if (!needToLoginFirst.value && !noMoreContent.value) {
       await nextTick()
       if (!haveScrollbar() || filledItems.length < PAGE_SIZE || filledItems.length < 1) {
         // 检查请求次数和频率限制
@@ -537,13 +563,13 @@ defineExpose({
             title: video.item.title,
             cover: video.item.pic,
             author: {
-              name: video.item.owner.name,
-              authorFace: video.item.owner.face,
+              name: video.item.owner?.name || '',
+              authorFace: video.item.owner?.face || '',
               followed: !!video.item.is_followed,
-              mid: video.item.owner.mid,
+              mid: video.item.owner?.mid || 0,
             },
-            view: video.item.stat.view,
-            danmaku: video.item.stat.danmaku,
+            view: video.item.stat?.view || 0,
+            danmaku: video.item.stat?.danmaku || 0,
             publishedTimestamp: video.item.pubdate,
             bvid: video.item.bvid,
             cid: video.item.cid,
