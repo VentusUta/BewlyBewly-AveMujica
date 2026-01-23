@@ -20,7 +20,7 @@ on:
     branches:
       - main
     paths-ignore:
-      - LICENSE
+      - LICENSE.txt
       - README.md
       - README-cmn_CN.md
       - README-cmn_TW.md

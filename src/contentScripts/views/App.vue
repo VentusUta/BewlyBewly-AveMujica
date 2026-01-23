@@ -348,6 +348,13 @@ provide<BewlyAppProvider>('BEWLY_APP', {
 const fontStyles = document.createElement('style')
 fontStyles.textContent = `
 @font-face {
+    font-family: "EmDashFont-BewlyInternalResource"; /* U+2014 */
+    unicode-range: U+2014;
+    font-display: block;
+    src: url(${browser.runtime.getURL('/assets/fonts/FrexSansGBVF.ttf')}) format("truetype-variations");
+}
+
+@font-face {
     font-family: "AtkinsonHyperlegibleNext-BewlyInternalResource"; /* 西文 */
     font-style: normal;
     font-display: block;
@@ -362,12 +369,6 @@ fontStyles.textContent = `
 }
 
 @font-face {
-    font-family: "DroidSansMono-BewlyInternalResource"; /* 西文等宽 */
-    font-display: block;
-    src: url(${browser.runtime.getURL('/assets/fonts/DroidSansMono.ttf')});
-}
-
-@font-face {
     font-family: "ShangguSansSCVF-BewlyInternalResource"; /* CJK 旧字形 */
     font-display: block;
     src: url(${browser.runtime.getURL('/assets/fonts/ShangguSansSC-VF.otf')}) format("opentype-variations");
@@ -377,6 +378,12 @@ fontStyles.textContent = `
     font-family: "FrexSansGBVF-BewlyInternalResource"; /* CJK 新字形 */
     font-display: block;
     src: url(${browser.runtime.getURL('/assets/fonts/FrexSansGBVF.ttf')}) format("truetype-variations");
+}
+
+@font-face {
+    font-family: "TwemojiMozilla-BewlyInternalResource"; /* emoji */
+    font-display: block;
+    src: url(${browser.runtime.getURL('/assets/fonts/TwemojiMozilla.ttf')});
 }
 `
 

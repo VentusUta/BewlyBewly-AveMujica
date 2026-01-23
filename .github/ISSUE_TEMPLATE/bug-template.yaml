@@ -21,14 +21,14 @@ body:
         - 浏览器版本（如 140.0.4）：
         - BewlyBewly! Ave Mujica 版本（如 v1.7.1）：
 
-        如果你修改了 BewlyBewly! Ave Mujica 的设置，请写在下面以方便我們排查問題（可粗略写成类似“设置了××后出现这个问题”〔将“××”替换为你的设置项〕）：
+        如果你修改了 BewlyBewly! Ave Mujica 的设置，请写在下面以方便我們排查問題［可粗略写成类似“设置了××后出现这个问题”（将“××”替换为你的设置项）］：
 
       value: |
         - 浏览器（如 Mozilla Firefox）：
         - 浏览器版本（如 140.0.4）：
         - BewlyBewly! Ave Mujica 版本（如 v1.7.1）：
 
-        如果你修改了 BewlyBewly! Ave Mujica 的设置，请写在下面以方便我們排查問題（可粗略写成类似“设置了××后出现这个问题”〔将“××”替换为你的设置项〕）：
+        如果你修改了 BewlyBewly! Ave Mujica 的设置，请写在下面以方便我們排查問題［可粗略写成类似“设置了××后出现这个问题”（将“××”替换为你的设置项）］：
 
     validations:
       required: true

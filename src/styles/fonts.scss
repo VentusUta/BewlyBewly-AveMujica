@@ -3,8 +3,8 @@
 :root,
 :host {
   --bew-fonts-basic:
-    -apple-system, BlinkMacSystemFont, InterVariable, Inter, "Segoe UI", "Adwaita Sans", "Noto Sans", "Roboto Flex",
-    Roboto, Cantarell;
+    -apple-system, BlinkMacSystemFont, "Pretendard Std Variable", "Inter Variable", Inter, "Adwaita Sans", "Noto Sans",
+    "Roboto Flex", Roboto, "Segoe UI";
   --bew-fonts-fallback:
     sans-serif, ui-sans-serif, system-ui, "Apple Color Emoji", "Twemoji Mozilla", "Noto Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", emoji;
@@ -13,21 +13,20 @@
   --bew-fonts-mandarin-cn:
     var(--bew-fonts-basic), "PingFang SC", "Source Han Sans SC VF", "Noto Sans CJK SC", "Source Han Sans SC",
     "Microsoft YaHei", var(--bew-fonts-fallback);
-  // TODO: 使用 CDN 載入思源黑體 to prevent 弱撚智 Microsoft JhengHei 視覺干擾
-  /* Microsoft JhengHei 是我見過最腦殘弱智的字型，預設下文字太細，但是 windows 正體中文又預設用這個黑體渲染，能用 cdn 換字型就換 */
   --bew-fonts-mandarin-tw:
     var(--bew-fonts-basic), "PingFang TC", "Source Han Sans TC VF", "Noto Sans CJK TC", "Source Han Sans TC",
     "Microsoft JhengHei", var(--bew-fonts-fallback);
-  /* Microsoft JhengHei 是我見過最腦殘弱智的字型，預設下文字太細，但是 windows 正體中文又預設用這個黑體渲染，能用 cdn 換字型就換 */
   --bew-fonts-cantonese:
     var(--bew-fonts-basic), "PingFang HK", "Source Han Sans HC VF", "Noto Sans CJK HK", "Source Han Sans HC",
     "Microsoft JhengHei", var(--bew-fonts-fallback);
 
   --bew-fonts-recommend:
-    AtkinsonHyperlegibleNext-BewlyInternalResource, ShangguSansSCVF-BewlyInternalResource, var(--bew-fonts-fallback);
+    EmDashFont-BewlyInternalResource, AtkinsonHyperlegibleNext-BewlyInternalResource,
+    ShangguSansSCVF-BewlyInternalResource, TwemojiMozilla-BewlyInternalResource, var(--bew-fonts-fallback);
 
   --bew-fonts-recommend-new:
-    AtkinsonHyperlegibleNext-BewlyInternalResource, FrexSansGBVF-BewlyInternalResource, var(--bew-fonts-fallback);
+    EmDashFont-BewlyInternalResource, AtkinsonHyperlegibleNext-BewlyInternalResource,
+    FrexSansGBVF-BewlyInternalResource, TwemojiMozilla-BewlyInternalResource, var(--bew-fonts-fallback);
 }
 
 .bewly-wrapper,
@@ -36,7 +35,9 @@
   kbd,
   samp,
   pre {
-    font-family: "DroidSansMono-BewlyInternalResource", monospace, sans-serif; /* 简体中文 Windows 真够蠢 */
+    /* SimSun, MingLiU, MS Gothic, and Gulim/Dotum will fuck the UI up, so we must explicitly specify Consolas */
+    /* FUCK YOU MICROSOFT EAT SHIT AND DIE */
+    font-family: Consolas, monospace, sans-serif;
   }
 }
 
@@ -99,10 +100,3 @@
 :lang(zh-HK).bewly-design .bili-video-card .bili-video-card__info--tit {
   font-family: var(--bew-font-family, var(--bew-fonts-cantonese));
 }
-
-// // 不知道爲何 firefox 用下面這一段樣式優先級別會高過的樣式，先註釋先了
-// .bewly-wrapper,
-// .bewly-design,
-// .bewly-design *:not(.bili-danmaku-x-dm) {
-//   font-family: var(--bew-font-family, var(--bew-fonts-english));
-// }
