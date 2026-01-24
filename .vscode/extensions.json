@@ -7,6 +7,7 @@
     "csstools.postcss",
     "lokalise.i18n-ally",
     "streetsidesoftware.code-spell-checker",
-    "dbaeumer.vscode-eslint"
+    "dbaeumer.vscode-eslint",
+    "editorconfig.editorconfig"
   ]
 }

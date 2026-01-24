@@ -16,6 +16,6 @@ const model = defineModel<string | number>()
 
 <style lang="scss" scoped>
 textarea {
-  font-family: monospace, sans-serif; /* 1 */
+  font-family: Consolas, monospace, sans-serif; /* 1 */
 }
 </style>

@@ -10,7 +10,7 @@ import type { TopBarMomentResult } from '~/models/moment/topBarMoment'
 import api from '~/utils/api'
 import { getCSRF, scrollToTop } from '~/utils/main'
 
-type MomentType = 'video' | 'live' | 'article'
+type MomentType = 'video' | 'live'
 interface MomentTab { type: MomentType, name: any }
 interface MomentCard {
   type: MomentType
@@ -37,10 +37,6 @@ const momentTabs = computed((): MomentTab[] => {
     {
       type: 'live',
       name: t('topbar.moments_dropdown.tabs.live'),
-    },
-    {
-      type: 'article',
-      name: t('topbar.moments_dropdown.tabs.articles'),
     },
   ]
 },
