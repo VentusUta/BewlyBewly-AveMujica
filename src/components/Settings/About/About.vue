@@ -151,14 +151,6 @@ async function checkGitHubRelease() {
               <div i-tabler:brand-github /> GitHub
             </a>
             <a
-              href="https://x.com/VentusUta" target="_blank"
-              class="link-card"
-              bg="black dark:white !opacity-10 !hover:opacity-20"
-              un-text="black dark:white"
-            >
-              <div i-tabler:brand-x /> X
-            </a>
-            <a
               href="https://github.com/VentusUta/BewlyBewly-AveMujica/wiki/%E8%AE%B8%E5%8F%AF%E8%AF%81" target="_blank"
               class="link-card"
               bg="black dark:white !opacity-10 !hover:opacity-20"
