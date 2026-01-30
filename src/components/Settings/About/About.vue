@@ -151,12 +151,12 @@ async function checkGitHubRelease() {
               <div i-tabler:brand-github /> GitHub
             </a>
             <a
-              href="https://github.com/VentusUta/BewlyBewly-AveMujica/wiki/%E8%AE%B8%E5%8F%AF%E8%AF%81" target="_blank"
+              href="https://github.com/VentusUta/BewlyBewly-AveMujica/wiki/Third-Party-Software-Licenses" target="_blank"
               class="link-card"
               bg="black dark:white !opacity-10 !hover:opacity-20"
               un-text="black dark:white"
             >
-              <div i-tabler:license /> License
+              <div i-tabler:license /> Licenses
             </a>
           </div>
         </section>
