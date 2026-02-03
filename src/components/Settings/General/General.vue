@@ -84,6 +84,23 @@ const fontPreferenceOptions = computed(() => {
   ]
 })
 
+const danmakuFontPreferenceOptions = computed(() => {
+  return [
+    {
+      label: t('settings.danmaku_font_opt.default'),
+      value: 'default',
+    },
+    {
+      label: t('settings.danmaku_font_opt.override'),
+      value: 'override',
+    },
+    {
+      label: t('settings.danmaku_font_opt.custom'),
+      value: 'custom',
+    },
+  ]
+})
+
 watch(() => settings.value.language, (newValue) => {
   locale.value = newValue
 })
@@ -120,11 +137,14 @@ watch(() => settings.value.language, (newValue) => {
           <div text="sm $bew-text-2" mt-1 v-html="t('settings.customize_font_desc')" />
         </template>
       </SettingsItem>
+      <SettingsItem :title="$t('settings.danmaku_font')">
+        <Select v-model="settings.danmakuFont" :options="danmakuFontPreferenceOptions" w="full" />
+        <template v-if="settings.danmakuFont === 'custom'" #bottom>
+          <Input v-model="settings.danmakuFontFamily" @keydown.stop.passive="() => {}" />
+        </template>
+      </SettingsItem>
       <SettingsItem :title="$t('settings.remove_the_indent_from_chinese_punctuation')" :desc="$t('settings.remove_the_indent_from_chinese_punctuation_desc')">
         <Radio v-model="settings.removeTheIndentFromChinesePunctuation" />
-      </SettingsItem>
-      <SettingsItem :title="$t('settings.override_danmaku_font')" :desc="$t('settings.override_danmaku_font_desc')">
-        <Radio v-model="settings.overrideDanmakuFont" />
       </SettingsItem>
     </SettingsItemGroup>
 

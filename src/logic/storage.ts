@@ -14,7 +14,8 @@ export interface Settings {
   language: string
   customizeFont: 'default' | 'recommend' | 'recommend-new' | 'custom'
   fontFamily: string
-  overrideDanmakuFont: boolean
+  danmakuFont: 'default' | 'override' | 'custom'
+  danmakuFontFamily: string
   removeTheIndentFromChinesePunctuation: boolean
 
   disableFrostedGlass: boolean
@@ -127,7 +128,8 @@ export const originalSettings: Settings = {
   language: '',
   customizeFont: 'recommend-new',
   fontFamily: '',
-  overrideDanmakuFont: true,
+  danmakuFont: 'override',
+  danmakuFontFamily: '',
   removeTheIndentFromChinesePunctuation: false,
 
   disableFrostedGlass: false,

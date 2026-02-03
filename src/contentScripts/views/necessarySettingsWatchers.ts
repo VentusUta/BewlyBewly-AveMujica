@@ -83,7 +83,7 @@ export function setupNecessarySettingsWatchers() {
 
   let danmakuFontStyleEl: HTMLStyleElement | null = null
   watch(
-    () => settings.value.overrideDanmakuFont,
+    [() => settings.value.danmakuFont, () => settings.value.danmakuFontFamily],
     () => {
       let fallbackFontFamily = ''
       if (locale.value === LanguageType.Mandarin_CN) {
@@ -99,14 +99,21 @@ export function setupNecessarySettingsWatchers() {
         fallbackFontFamily = 'var(--bew-fonts-english)'
       }
 
-      if (settings.value.overrideDanmakuFont) {
+      if (settings.value.danmakuFont === 'override') {
         danmakuFontStyleEl = injectCSS(`
           .bewly-design .bili-danmaku-x-dm {
-            font-family: var(--bew-font-family, ${fallbackFontFamily}) !important;
+            font-family: var(--bew-font-family), ${fallbackFontFamily} !important;
           }
         `)
       }
-      else {
+      else if (settings.value.danmakuFont === 'custom') {
+        danmakuFontStyleEl = injectCSS(`
+          .bewly-design .bili-danmaku-x-dm {
+            font-family: ${settings.value.danmakuFontFamily}, ${fallbackFontFamily} !important;
+          }
+        `)
+      }
+      else if (settings.value.danmakuFont === 'default') {
         danmakuFontStyleEl?.remove()
       }
     },
