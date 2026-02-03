@@ -108,7 +108,7 @@ export function setupNecessarySettingsWatchers() {
       }
       else if (settings.value.danmakuFont === 'custom') {
         danmakuFontStyleEl = injectCSS(`
-          .bewly-design .bili-danmaku-x-dm {
+          .bewly-design .bili-danmaku-x-dm, .bili-danmaku-x-high-text {
             font-family: ${settings.value.danmakuFontFamily}, ${fallbackFontFamily} !important;
           }
         `)
