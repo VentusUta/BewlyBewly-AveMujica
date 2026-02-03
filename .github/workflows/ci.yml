@@ -69,7 +69,7 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest' && github.ref_name == 'main' }}
         uses: actions/upload-artifact@v4.3.1
         with:
-          name: extension-ci
+          name: extension
           path: extension
 
       - name: Build Firefox extension
@@ -79,5 +79,5 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest' && github.ref_name == 'main' }}
         uses: actions/upload-artifact@v4.3.1
         with:
-          name: extension-firefox-ci
+          name: extension-firefox
           path: extension-firefox
