@@ -101,14 +101,14 @@ export function setupNecessarySettingsWatchers() {
 
       if (settings.value.danmakuFont === 'override') {
         danmakuFontStyleEl = injectCSS(`
-          .bewly-design .bili-danmaku-x-dm, .bili-danmaku-x-high-text, .bpx-player-adv-dm-wrap pre {
+          .bewly-design .bili-danmaku-x-dm, .bili-danmaku-x-dm-vip, .bili-danmaku-x-high-text, .bpx-player-adv-dm-wrap pre  {
             font-family: var(--bew-font-family), ${fallbackFontFamily} !important;
           }
         `)
       }
       else if (settings.value.danmakuFont === 'custom') {
         danmakuFontStyleEl = injectCSS(`
-          .bewly-design .bili-danmaku-x-dm, .bili-danmaku-x-high-text, .bpx-player-adv-dm-wrap pre {
+          .bewly-design .bili-danmaku-x-dm, .bili-danmaku-x-dm-vip, .bili-danmaku-x-high-text, .bpx-player-adv-dm-wrap pre {
             font-family: ${settings.value.danmakuFontFamily}, ${fallbackFontFamily} !important;
           }
         `)
