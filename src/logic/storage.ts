@@ -166,7 +166,7 @@ export const originalSettings: Settings = {
   disableDockGlowingEffect: false,
   disableLightDarkModeSwitcherOnDock: false,
   backToTopAndRefreshButtonsAreSeparated: true,
-  enableUndoRefreshButton: true,
+  enableUndoRefreshButton: false,
 
   sidebarPosition: 'right',
   autoHideSidebar: false,
