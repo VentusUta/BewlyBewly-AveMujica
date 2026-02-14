@@ -351,39 +351,39 @@ fontStyles.textContent = `
     font-family: "EmDashFont-BewlyInternalResource"; /* U+2014 */
     unicode-range: U+2014;
     font-display: block;
-    src: url(${browser.runtime.getURL('/assets/fonts/FrexSansGBVF.ttf')}) format("truetype-variations");
+    src: url(${browser.runtime.getURL('/assets/fonts/FrexSansGBVF.ttf')}) tech(variations);
 }
 
 @font-face {
     font-family: "AtkinsonHyperlegibleNext-BewlyInternalResource"; /* 西文 */
     font-style: normal;
     font-display: block;
-    src: url(${browser.runtime.getURL('/assets/fonts/AtkinsonHyperlegibleNext.woff2')}) format("woff2-variations");
+    src: url(${browser.runtime.getURL('/assets/fonts/AtkinsonHyperlegibleNext.woff2')}) tech(variations);
 }
 
 @font-face {
     font-family: "AtkinsonHyperlegibleNext-BewlyInternalResource"; /* 西文 */
     font-style: italic;
     font-display: block;
-    src: url(${browser.runtime.getURL('/assets/fonts/AtkinsonHyperlegibleNext-Italic.woff2')}) format("woff2-variations");
+    src: url(${browser.runtime.getURL('/assets/fonts/AtkinsonHyperlegibleNext-Italic.woff2')}) tech(variations);
 }
 
 @font-face {
     font-family: "ShangguSansSCVF-BewlyInternalResource"; /* CJK 旧字形 */
     font-display: block;
-    src: url(${browser.runtime.getURL('/assets/fonts/ShangguSansSC-VF.otf')}) format("opentype-variations");
+    src: url(${browser.runtime.getURL('/assets/fonts/ShangguSansSC-VF.otf')}) tech(variations);
 }
 
 @font-face {
     font-family: "FrexSansGBVF-BewlyInternalResource"; /* CJK 新字形 */
     font-display: block;
-    src: url(${browser.runtime.getURL('/assets/fonts/FrexSansGBVF.ttf')}) format("truetype-variations");
+    src: url(${browser.runtime.getURL('/assets/fonts/FrexSansGBVF.ttf')}) tech(variations);
 }
 
 @font-face {
     font-family: "TwemojiMozilla-BewlyInternalResource"; /* emoji */
     font-display: block;
-    src: url(${browser.runtime.getURL('/assets/fonts/TwemojiMozilla.ttf')});
+    src: url(${browser.runtime.getURL('/assets/fonts/TwemojiMozilla.ttf')}) tech(color-COLRv0);
 }
 `
 
