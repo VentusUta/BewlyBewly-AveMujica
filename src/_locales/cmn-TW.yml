@@ -109,12 +109,12 @@ settings:
   select_language: 介面語言
   select_language_opt:
     english: 英文
-    mandarin_cn: 官话 - 简体中文
-    mandarin_tw: 官話 - 繁體中文
-    jyut: 廣東話
+    mandarin_cn: 簡體中文
+    mandarin_tw: 繁體中文
+    jyut: 粵語
   customize_font: 自訂字型
   font_opt:
-    default: 缺省
+    default: 預設
     recommend: 推薦A（使用傳承字形，更美觀）
     recommend-new: 推薦B（使用常用字形，更習慣）
     custom: 自訂
@@ -123,7 +123,7 @@ settings:
     這些字型還具有將簡體中文轉換爲繁體中文的能力。
   danmaku_font: 彈幕字型
   danmaku_font_opt:
-    default: 缺省
+    default: 預設
     override: 覆蓋
     custom: 自訂
   remove_the_indent_from_chinese_punctuation: 移除中文標點符號的縮排

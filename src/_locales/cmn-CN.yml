@@ -109,12 +109,12 @@ settings:
   select_language: 界面语言
   select_language_opt:
     english: 英文
-    mandarin_cn: 官话 - 简体中文
-    mandarin_tw: 官話 - 繁体中文
-    jyut: 廣東話
+    mandarin_cn: 简体中文
+    mandarin_tw: 繁体中文
+    jyut: 粤语
   customize_font: 自定义字体
   font_opt:
-    default: 缺省
+    default: 默认
     recommend: 推荐A（使用旧字形，更美观）
     recommend-new: 推荐B（使用常见字形，更习惯）
     custom: 自定义
@@ -123,7 +123,7 @@ settings:
     这些字形还具有将简体中文转换为繁体中文的能力。
   danmaku_font: 弹幕字体
   danmaku_font_opt:
-    default: 缺省
+    default: 默认
     override: 覆盖
     custom: 自定义
   remove_the_indent_from_chinese_punctuation: 移除中文标点符号的缩进

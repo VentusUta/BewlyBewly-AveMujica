@@ -111,8 +111,8 @@ settings:
   select_language: Language
   select_language_opt:
     english: English
-    mandarin_cn: Mandarin - Simplified Chinese
-    mandarin_tw: Mandarin - Traditional Chinese
+    mandarin_cn: Chinese (Simplified)
+    mandarin_tw: Chinese (Traditional)
     jyut: Cantonese
   customize_font: Customize font
   font_opt:
