@@ -123,7 +123,7 @@ settings:
     这些字形还具有将简体中文转换为繁体中文的能力。
   danmaku_font: 弹幕字体
   danmaku_font_opt:
-    default: 缺省
+    default: 由播放器决定
     override: 覆盖
     custom: 自定义
   remove_the_indent_from_chinese_punctuation: 移除中文标点符号的缩进

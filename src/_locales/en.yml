@@ -125,7 +125,7 @@ settings:
     These fonts also possess the capability to convert simplified Chinese into traditional characters.
   danmaku_font: Danmaku font
   danmaku_font_opt:
-    default: Default
+    default: Follow player settings
     override: Override
     custom: Custom
   remove_the_indent_from_chinese_punctuation: Remove the indent from Chinese punctuation
