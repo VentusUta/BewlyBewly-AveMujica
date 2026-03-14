@@ -379,12 +379,6 @@ fontStyles.textContent = `
     font-display: block;
     src: url(${browser.runtime.getURL('/assets/fonts/FrexSansGBVF.ttf')}) tech(variations);
 }
-
-@font-face {
-    font-family: "TwemojiMozilla-BewlyInternalResource"; /* emoji */
-    font-display: block;
-    src: url(${browser.runtime.getURL('/assets/fonts/TwemojiMozilla.ttf')}) tech(color-COLRv0);
-}
 `
 
 document.head.appendChild(fontStyles)

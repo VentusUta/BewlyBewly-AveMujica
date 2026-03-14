@@ -11,6 +11,10 @@ const { t } = useI18n()
 const importSettingsRef = ref<HTMLElement>()
 const hasNewVersion = ref<boolean>(false)
 
+const dialogVisible = reactive({
+  bilibiliPrivateAPIUsage: false,
+})
+
 const isDev = computed((): boolean => import.meta.env.DEV)
 
 onMounted(() => {
@@ -204,6 +208,53 @@ async function checkGitHubRelease() {
         >
           <a href="https://github.com/VentusUta/BewlyBewly-AveMujica" un-text="sm color-$bew-text-2 hover:color-$bew-text-3">BewlyBewly&excl; Ave Mujica</a> based on <a href="https://github.com/BewlyBewly/BewlyBewly" un-text="sm color-$bew-text-2 hover:color-$bew-text-3">BewlyBewly</a> <a href="https://github.com/BewlyBewly/BewlyBewly/releases/tag/v0.40.6" un-text="sm color-$bew-text-2 hover:color-$bew-text-3">v0.40.6</a>
         </p>
+      </section>
+      <section mt-4>
+        <Button
+          type="tertiary"
+          mx-auto
+          @click="dialogVisible.bilibiliPrivateAPIUsage = true"
+        >
+          哔哩哔哩私有API使用声明
+        </Button>
+
+        <Dialog
+          v-if="dialogVisible.bilibiliPrivateAPIUsage"
+          width="90%"
+          max-width="740px"
+          content-height="70vh"
+          content-max-height="700px"
+          append-to-bewly-body
+          @close="dialogVisible.bilibiliPrivateAPIUsage = false"
+        >
+          <template #title>
+            <div text-xl font-bold>
+              哔哩哔哩私有API使用声明
+            </div>
+          </template>
+
+          <div>
+            <p mb-4>
+              BewlyBewly! Ave Mujica（以下简称“本扩展”）的功能依赖于多个哔哩哔哩私有API。
+            </p>
+            <p mb-4>
+              哔哩哔哩私有API受哔哩哔哩知识产权保护，使用本扩展可能违反《哔哩哔哩弹幕网用户使用协议》。
+            </p>
+            <p mb-4>
+              <strong>
+                继续使用本扩展，即视为阁下已充分知悉、理解，并自愿接受使用本扩展可能引发的全部风险及任何直接或潜在损失。
+              </strong>
+            </p>
+            <p mb-4>
+              <strong>
+                阁下在此明确同意并不可撤销地放弃因使用本扩展所产生或与之相关的任何损失、损害、费用、责任，或索赔的追究权利（包括但不限于直接、间接、附带、特殊或惩罚性损害）。
+              </strong>
+            </p>
+            <p mb-4>
+              若阁下无法理解或不同意上述声明，请从浏览器中移除本扩展。
+            </p>
+          </div>
+        </Dialog>
       </section>
     </div>
   </div>
