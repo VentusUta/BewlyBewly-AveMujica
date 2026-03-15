@@ -282,7 +282,7 @@ settings:
   block_top_search_page_ads_desc: 有時喺搵嘢結果上高嘅廣告，其實係年結報告抑或週年報告嚟㗎。若然你唔想佢哋唔覺意俾人刪咗，就請你閂咗呢個選項啦。
   block_vip_danmuku_style: 封鎖大會員彈幕嘅彩色樣式（將佢改返做正常彈幕使用嘅樣式）
   url_trim_settings: 頁面 URL 修剪
-  clean_url_argument: 移除唔必要嘅 URL 參數
+  clean_url_argument: 移除唔必要嘅 URL 參數（）
   bv_to_av: 將 BV 號轉換爲 AV 號
 
   # About

@@ -284,7 +284,7 @@ settings:
   block_top_search_page_ads_desc: 有时候，搜索结果上方的广告实际上是年末总结或年度报告。如果你不想这些内容被误删除，请禁用此选项。
   block_vip_danmuku_style: 屏蔽大会员弹幕的彩色样式（使其和正常弹幕使用相同样式）
   url_trim_settings: 页面 URL 优化
-  clean_url_argument: 清理 URL 无用参数
+  clean_url_argument: 清理 URL 无用参数（也会自动清理“分享”按钮的无用参数）
   bv_to_av: 将 BV 号转为 AV 号
 
   # About

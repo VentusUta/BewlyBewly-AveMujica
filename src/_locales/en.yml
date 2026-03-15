@@ -286,7 +286,7 @@ settings:
   block_top_search_page_ads_desc: Sometimes, the ads above search results are actually year-end summaries or annual reports. If you don't want these to be accidentally removed, please disable this option.
   block_vip_danmuku_style: Block VIP danmuku style
   url_trim_settings: URL Trim
-  clean_url_argument: Remove unnecessary URL argument
+  clean_url_argument: Remove unnecessary URL argument (will also remove unnecessary URL argument of 'Share' button)
   bv_to_av: Convert BV number to AV number
 
   # About
