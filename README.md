@@ -22,7 +22,7 @@ English | [官话 - 简体中文](README-cmn_CN.md) | [官話 - 繁體中文](RE
 > frequently used pages will not to be adapted.
 
 > [!IMPORTANT]
-> BewlyBewly! Ave Mujica is a fork of [BewlyBewly](https://github.com/BewlyBewly/BewlyBewly), aiming to provide feature updates and bug fixes after the original project was archived.
+> BewlyBewly! Ave Mujica is a fork of [BewlyBewly](https://github.com/BewlyBewly/BewlyBewly) [v0.40.6](https://github.com/BewlyBewly/BewlyBewly/releases/tag/v0.40.6), aiming to provide feature updates and bug fixes after the original project was archived.
 
 BewlyBewly! Ave Mujica is a browser extension for bilibili that aims to enhance the user experience by redesigning the bilibili UI.
 The design is inspired by YouTube, Vision OS, and iOS, resulting in a more visually appealing and user-friendly interface.

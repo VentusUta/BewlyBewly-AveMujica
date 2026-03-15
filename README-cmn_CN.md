@@ -21,7 +21,7 @@
 > 由于效率和维护难度的原因，暗色模式只会适应常用页面，而不会适应不常用的页面。
 
 > [!IMPORTANT]
-> BewlyBewly! Ave Mujica 是 [BewlyBewly](https://github.com/BewlyBewly/BewlyBewly) 的一个 fork（分叉），目的是在原项目存档后提供其他更新和错误修复。
+> BewlyBewly! Ave Mujica 是 [BewlyBewly](https://github.com/BewlyBewly/BewlyBewly) [v0.40.6](https://github.com/BewlyBewly/BewlyBewly/releases/tag/v0.40.6) 的一个 fork（分叉），目的是在原项目存档后提供其他更新和错误修复。
 
 BewlyBewly! Ave Mujica 是一个用于 bilibili 的浏览器扩展，旨在通过重新设计 bilibili 用户界面来提升用户体验。设计灵感来自于 YouTube、Vision OS 和 iOS，从而实现了更具视觉吸引力和用户友好性的界面。
 
