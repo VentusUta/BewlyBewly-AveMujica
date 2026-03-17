@@ -95,7 +95,7 @@ function setAppWallpaperMaskingOpacity() {
           opacity: activatedPage === AppPage.Search ? 1 : 0.4,
           background: themeColorLinearGradientBackground,
         }"
-        pos="absolute top-0 left-0" w-full h-full z-0 pointer-events-none
+        pos="fixed top-0 left-0" w-100vw h-100vh z-0 pointer-events-none
       />
     </Transition>
 
@@ -103,7 +103,7 @@ function setAppWallpaperMaskingOpacity() {
       <div v-if="activatedPage === AppPage.Search">
         <!-- background -->
         <div
-          pos="absolute top-0 left-0" w-full h-full duration-300 bg="cover center $bew-homepage-bg"
+          pos="fixed top-0 left-0" w-100vw h-100vh duration-300 bg="cover center $bew-homepage-bg"
           z--1 transform-gpu
           :style="{ backgroundImage: `url('${settings.individuallySetSearchPageWallpaper ? settings.searchPageWallpaper : settings.wallpaper}')` }"
         />
@@ -111,7 +111,7 @@ function setAppWallpaperMaskingOpacity() {
         <Transition name="fade">
           <div
             v-if="(!settings.individuallySetSearchPageWallpaper && settings.enableWallpaperMasking) || (settings.searchPageEnableWallpaperMasking)"
-            pos="absolute top-0 left-0" w-full h-full pointer-events-none bg="$bew-homepage-bg-mask"
+            pos="fixed top-0 left-0" w-100vw h-100vh pointer-events-none bg="$bew-homepage-bg-mask"
             duration-300 z--1 transform-gpu
             :style="{
               backdropFilter: `blur(${settings.individuallySetSearchPageWallpaper ? settings.searchPageWallpaperBlurIntensity : settings.wallpaperBlurIntensity}px)`,
@@ -123,7 +123,7 @@ function setAppWallpaperMaskingOpacity() {
         <!-- background -->
         <div
           :style="{ backgroundImage: `url('${settings.wallpaper}')` }"
-          pos="absolute top-0 left-0" w-full h-full duration-300 bg="cover center $bew-homepage-bg"
+          pos="fixed top-0 left-0" w-100vw h-100vh duration-300 bg="cover center $bew-homepage-bg"
           z--1 transform-gpu
         />
 
@@ -155,7 +155,7 @@ function setAppWallpaperMaskingOpacity() {
         <Transition name="fade">
           <div
             v-if="settings.enableWallpaperMasking"
-            pos="absolute top-0 left-0" w-full h-full pointer-events-none bg="$bew-homepage-bg-mask"
+            pos="fixed top-0 left-0" w-100vw h-100vh pointer-events-none bg="$bew-homepage-bg-mask"
             duration-300 z--1 transform-gpu
             :style="{
               backdropFilter: `blur(${settings.wallpaperBlurIntensity}px)`,

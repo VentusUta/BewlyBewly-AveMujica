@@ -20,6 +20,12 @@
     --app_graph_bg: var(--bew-fill-1);
   }
 
+  // 使视频页和番剧页的底层元素背景透明，以显示 Bewly 背景
+  &, body, #app, .bili-app, #bili-app, .video-container-v1 {
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+
   // #region theme color adaption part
   // Increase the priority of the style inside by writing a non-existent selector in `:not()`
   :not(foobar) {
@@ -271,6 +277,13 @@
       #check-timestamp:checked {
       overflow: hidden;
     }
+  }
+
+  // 去除评论区 header 的背景色和上边框（通过覆盖 Shadow DOM 依赖的 CSS 变量），以适配 Bewly 的背景
+  bili-comments-header-renderer,
+  bili-comments {
+    --bg1: #ffffff61 !important;
+    --graph_bg_thick: transparent !important;
   }
 
   // #endregion

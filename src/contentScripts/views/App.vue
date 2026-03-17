@@ -459,7 +459,7 @@ document.head.appendChild(removeLeftQuoteIndent)
     text="$bew-text-1 size-$bew-base-font-size"
   >
     <!-- Background -->
-    <template v-if="showBewlyPage">
+    <template v-if="showBewlyPage || isVideoOrBangumiPage()">
       <AppBackground :activated-page="activatedPage" />
     </template>
 
