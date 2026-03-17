@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { settings } from '~/logic'
+
 import SettingsItem from '../../components/SettingsItem.vue'
 import SettingsItemGroup from '../../components/SettingsItemGroup.vue'
 </script>
