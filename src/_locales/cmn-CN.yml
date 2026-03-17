@@ -61,6 +61,7 @@ settings:
   menu_desktop_and_dock: 桌面和 Dock 栏
   menu_appearance: 外观
   menu_bewly_pages: BewlyBewly 页面
+  menu_video_page: 视频页
   menu_search_page: 搜索页
   menu_home: 首页
   menu_compatibility: 兼容性
@@ -88,6 +89,7 @@ settings:
   group_following: 正在关注
   group_search_page_mode: 搜索页模式
   group_home_tabs: 首页标签栏
+  group_video_page: 视频页设置
 
   # Settings buttons
   btn:
@@ -200,6 +202,9 @@ settings:
   wallpaper_blur_intensity: 背景模糊强度调整
   customize_css: 自定义 CSS
   customize_css_desc: 如果你不熟悉 CSS，请不要修改 CSS。否则可能会导致意外的显示问题。如果在你修改 CSS 后遇到任何问题，请重新安装 BewlyBewly。
+
+  # Video page
+  show_video_page_background: 在视频播放页显示背景遮罩
 
   # Search page
   logo_color: Logo 颜色

@@ -63,6 +63,7 @@ settings:
   menu_bewly_pages: BewlyBewly 頁面
   menu_home: 主頁
   menu_search_page: 搵嘢頁
+  menu_video_page: 影片頁
   menu_compatibility: 相容性
   menu_bilibili_settings: bilibili 設定
   menu_about: 關於
@@ -88,6 +89,7 @@ settings:
   group_following: 跟緊啲人
   group_search_page_mode: 搵嘢頁模式
   group_home_tabs: 主頁分頁欄
+  group_video_page: 影片頁設定
 
   # Settings buttons
   btn:
@@ -200,6 +202,9 @@ settings:
   wallpaper_blur_intensity: 背景模糊強度調節
   customize_css: 自訂 CSS
   customize_css_desc: 若然你唔係幾識 CSS，請唔好立亂去改 CSS。唔係嘅話可能會搞到個頁面亂晒。若然你執咗 CSS 之後遇到任何問題，唔該重新單個 BewlyBewly。
+
+  # Video page
+  show_video_page_background: 喺影片播放頁顯示背景遮罩
 
   # Search page
   logo_color: Logo 顏色

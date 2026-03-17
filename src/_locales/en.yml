@@ -63,6 +63,7 @@ settings:
   menu_bewly_pages: BewlyBewly Pages
   menu_search_page: Search Page
   menu_home: Home
+  menu_video_page: Video Page
   menu_compatibility: Compatibility
   menu_bilibili_settings: bilibili Settings
   menu_about: About
@@ -90,6 +91,7 @@ settings:
   group_following: Following
   group_search_page_mode: Search Page Mode
   group_home_tabs: Home Tabs
+  group_video_page: Video Page Settings
 
   # Settings buttons
   btn:
@@ -202,6 +204,9 @@ settings:
   wallpaper_blur_intensity: Wallpaper blur intensity
   customize_css: Customize CSS
   customize_css_desc: If you are unfamiliar with CSS, please DO NOT modify CSS. Doing so may cause unexpected display issues. If you encounter any problems after modifying CSS, please reinstall BewlyBewly.
+
+  # Video page
+  show_video_page_background: Show background mask on video playback page
 
   # Search page
   logo_color: Logo color

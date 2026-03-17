@@ -71,6 +71,8 @@ export interface Settings {
   customizeCSS: boolean
   customizeCSSContent: string
 
+  showVideoPageBackground: boolean
+
   searchPageDarkenOnSearchFocus: boolean
   searchPageBlurredOnSearchFocus: boolean
   searchPageLogoColor: 'white' | 'themeColor'
@@ -183,6 +185,8 @@ export const originalSettings: Settings = {
 
   customizeCSS: false,
   customizeCSSContent: '',
+
+  showVideoPageBackground: true,
 
   searchPageDarkenOnSearchFocus: true,
   searchPageBlurredOnSearchFocus: false,
