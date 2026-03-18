@@ -23,6 +23,13 @@ const pages = [
     iconActivated: 'i-mingcute:search-2-fill',
     component: defineAsyncComponent(() => import('./SearchPage/SearchPage.vue')),
   },
+  {
+    value: BewlyPage.Video,
+    title: t('settings.menu_video_page'),
+    icon: 'i-mingcute:video-line',
+    iconActivated: 'i-mingcute:video-fill',
+    component: defineAsyncComponent(() => import('./VideoPage/VideoPage.vue')),
+  },
 ]
 </script>
 

@@ -99,6 +99,14 @@ const showBewlyPage = computed((): boolean => {
 
   return isHomePage() && !settings.value.useOriginalBilibiliHomepage
 })
+const showBackground = computed((): boolean => {
+  // 如果是视频页或番剧页，根据设置决定是否显示背景
+  if (isVideoOrBangumiPage()) {
+    return settings.value.showVideoPageBackground
+  }
+  // 原本默认的 Bewly 页面显示逻辑
+  return showBewlyPage.value
+})
 const showTopBar = computed((): boolean => {
   // When using the open in drawer feature, the iframe inside the page will hide the top bar
   if (isVideoOrBangumiPage() && isInIframe())
@@ -459,7 +467,7 @@ document.head.appendChild(removeLeftQuoteIndent)
     text="$bew-text-1 size-$bew-base-font-size"
   >
     <!-- Background -->
-    <template v-if="showBewlyPage">
+    <template v-if="showBackground">
       <AppBackground :activated-page="activatedPage" />
     </template>
 
