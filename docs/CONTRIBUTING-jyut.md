@@ -2,7 +2,7 @@
 
 [English](CONTRIBUTING.md) | [官话 - 简体中文](CONTRIBUTING-cmn_CN.md) | [官話 - 正體中文](CONTRIBUTING-cmn_TW.md) | 廣東話
 
-## 💻 設定開發環境
+## 設定開發環境
 
 呢份專案係用咗 [Vite](https://vitejs.dev/) 建立，請確保你已經單咗 [bun](https://bun.com/)，建議用 [Visual Studio Code](https://code.visualstudio.com/) 進行開發。
 
@@ -26,7 +26,7 @@ bun run build-firefox
 
 然之後打包 `extension-firefox` 下嘅檔案
 
-## 🤝 貢獻
+## 貢獻
 
 ### 關於分支
 
