@@ -2,7 +2,7 @@
 
 English | [官话 - 简体中文](CONTRIBUTING-cmn_CN.md) | [官話 - 正體中文](CONTRIBUTING-cmn_TW.md) | [廣東話](CONTRIBUTING-jyut.md)
 
-## 💻 Setting up the Development Environment
+## Setting up the Development Environment
 
 This project is built using [Vite](https://vitejs.dev/), please make sure you have [bun](https://bun.com/) installed, and it is recommended to use [Visual Studio Code](https://code.visualstudio.com/) for development.
 
@@ -26,7 +26,7 @@ bun run build-firefox
 
 Then package it to the `extension-firefox` folder
 
-## 🤝 Contribution
+## Contribution
 
 ### About Branches
 

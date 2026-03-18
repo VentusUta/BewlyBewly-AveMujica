@@ -2,7 +2,7 @@
 
 [English](CONTRIBUTING.md) | 官话 - 简体中文 | [官話 - 正體中文](CONTRIBUTING-cmn_TW.md) | [廣東話](CONTRIBUTING-jyut.md)
 
-## 💻 设置开发环境
+## 设置开发环境
 
 此项目是基于 [Vite](https://vitejs.dev/) 构建的，请确保安装了 [bun](https://bun.com/)，
 同时建议你用 [Visual Studio Code](https://code.visualstudio.com/) 进行开发。
@@ -29,7 +29,7 @@ bun run build-firefox
 
 然后打包到 `extension-firefox` 文件夹
 
-## 🤝 贡献
+## 贡献
 
 ### 关于分支
 

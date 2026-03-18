@@ -186,7 +186,7 @@ export const originalSettings: Settings = {
   customizeCSS: false,
   customizeCSSContent: '',
 
-  showVideoPageBackground: true,
+  showVideoPageBackground: false,
 
   searchPageDarkenOnSearchFocus: true,
   searchPageBlurredOnSearchFocus: false,

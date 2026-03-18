@@ -26,7 +26,7 @@ bun run build-firefox
 
 然後打包 `extension-firefox` 下的檔案
 
-## 🤝 貢獻
+## 貢獻
 
 ### 關於分支
 
