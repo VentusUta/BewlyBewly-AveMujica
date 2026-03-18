@@ -1,5 +1,4 @@
 .DS_Store
-.idea/
 .vite-ssg-dist
 .vite-ssg-temp
 *.crx
