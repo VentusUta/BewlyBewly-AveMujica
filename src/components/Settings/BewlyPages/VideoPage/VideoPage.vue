@@ -1,8 +1,14 @@
 <script lang="ts" setup>
 import { settings } from '~/logic'
+import { isVideoOrBangumiPage } from '~/utils/main'
 
 import SettingsItem from '../../components/SettingsItem.vue'
 import SettingsItemGroup from '../../components/SettingsItemGroup.vue'
+
+watch(() => settings.value.showVideoPageBackground, () => {
+  if (isVideoOrBangumiPage())
+    location.reload()
+})
 </script>
 
 <template>

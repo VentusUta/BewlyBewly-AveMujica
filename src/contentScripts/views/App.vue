@@ -391,6 +391,28 @@ fontStyles.textContent = `
 
 document.head.appendChild(fontStyles)
 
+if (settings.value.showVideoPageBackground) {
+  const transparentBackground = document.createElement('style')
+  transparentBackground.textContent = `
+&,
+body,
+#app,
+.bili-app,
+#bili-app,
+.video-container-v1 {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+bili-comments-header-renderer,
+bili-comments {
+  --bg1: #ffffff61 !important;
+  --graph_bg_thick: transparent !important;
+}
+`
+  document.head.appendChild(transparentBackground)
+}
+
 if (settings.value.blockVIPDanmukuStyle) {
   const playerProfile = localStorage.getItem('bpx_player_profile')
   const parsedProfile = playerProfile ? JSON.parse(playerProfile) : {}
