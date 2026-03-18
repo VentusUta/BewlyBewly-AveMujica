@@ -7,7 +7,7 @@ Violations will be handled sequentially based on frequency:
 
 1. **Warning issued - no penalty** — Must cease the misconduct immediately.
 2. **Last warning - no penalty** — Must cease the misconduct immediately.
-3. **Permanently banned** — Prohibited from further participation in this project.
+3. **Permanently ban** — Prohibited from further participation in this project.
 
 ---
 
