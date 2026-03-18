@@ -403,12 +403,6 @@ body,
   background: transparent !important;
   background-color: transparent !important;
 }
-
-bili-comments-header-renderer,
-bili-comments {
-  --bg1: #ffffff61 !important;
-  --graph_bg_thick: transparent !important;
-}
 `
   document.head.appendChild(transparentBackground)
 }
