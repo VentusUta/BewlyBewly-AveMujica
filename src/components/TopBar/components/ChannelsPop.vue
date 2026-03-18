@@ -54,7 +54,7 @@ const otherLinks = computed(() => [
   { name: t('topbar.logo_dropdown.activities'), icon: '#channel-activity', href: 'https://www.bilibili.com/blackboard/activity-list.html' },
   { name: t('topbar.logo_dropdown.paid_courses'), icon: '#channel-zhishi', href: 'https://www.bilibili.com/cheese' },
   { name: t('topbar.logo_dropdown.community'), icon: '#channel-blackroom', href: 'https://www.bilibili.com/blackboard/activity-5zJxM3spoS.html' },
-  { name: t('topbar.logo_dropdown.music_plus'), icon: '#channel-musicplus', href: 'https://www.bilibili.com/v/musicplus' },
+  { name: t('topbar.logo_dropdown.music_plus'), icon: '#channel-musicplus', href: 'https://music.bilibili.com/pc/music-center' },
   { name: t('topbar.logo_dropdown.game_center'), icon: 'i-mingcute:game-2-fill', color: '#69B1DD', href: 'https://game.bilibili.com/platform' },
   { name: t('topbar.logo_dropdown.comic_con_and_goods'), icon: 'i-mingcute:store-fill', color: '#E4C081', href: 'https://show.bilibili.com/platform/home.html' },
   { name: t('topbar.logo_dropdown.manga'), icon: 'i-mingcute:cat-fill', color: '#FFC1CC', href: 'https://manga.bilibili.com' },
