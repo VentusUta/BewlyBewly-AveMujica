@@ -284,13 +284,6 @@
     }
   }
 
-  // 去除评论区 header 的背景色和上边框（通过覆盖 Shadow DOM 依赖的 CSS 变量），以适配 Bewly 的背景
-  bili-comments-header-renderer,
-  bili-comments {
-    --bg1: #ffffff61 !important;
-    --graph_bg_thick: transparent !important;
-  }
-
   // #endregion
 
   // #region dark mode adaption part
