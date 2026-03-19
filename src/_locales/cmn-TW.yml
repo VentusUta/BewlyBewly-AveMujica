@@ -205,6 +205,7 @@ settings:
 
   # Video page
   show_video_page_background: 在影片播放頁顯示背景遮罩
+  legacy_player_loading_screen: 使用舊版播放器載入畫面（抖動小電視）
 
   # Search page
   logo_color: Logo 顏色

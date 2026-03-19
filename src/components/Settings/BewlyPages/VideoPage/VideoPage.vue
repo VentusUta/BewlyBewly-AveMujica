@@ -9,6 +9,11 @@ watch(() => settings.value.showVideoPageBackground, () => {
   if (isVideoOrBangumiPage())
     location.reload()
 })
+
+watch(() => settings.value.legacyPlayerLoadingScreen, () => {
+  if (isVideoOrBangumiPage())
+    location.reload()
+})
 </script>
 
 <template>
@@ -17,6 +22,9 @@ watch(() => settings.value.showVideoPageBackground, () => {
       <!-- 控制视频页背景的开关 -->
       <SettingsItem :title="$t('settings.show_video_page_background')">
         <Radio v-model="settings.showVideoPageBackground" />
+      </SettingsItem>
+      <SettingsItem :title="$t('settings.legacy_player_loading_screen')">
+        <Radio v-model="settings.legacyPlayerLoadingScreen" />
       </SettingsItem>
     </SettingsItemGroup>
   </div>
