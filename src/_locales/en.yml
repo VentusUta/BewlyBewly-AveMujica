@@ -207,6 +207,7 @@ settings:
 
   # Video page
   show_video_page_background: Show background mask on video playback page
+  legacy_player_loading_screen: Use legacy player loading screen (shaking small TV)
 
   # Search page
   logo_color: Logo color

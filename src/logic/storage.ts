@@ -120,6 +120,7 @@ export interface Settings {
   blockVIPDanmukuStyle: boolean
   cleanUrlArgument: boolean
   bvToAv: boolean
+  legacyPlayerLoadingScreen: boolean
 }
 
 export const originalSettings: Settings = {
@@ -236,6 +237,7 @@ export const originalSettings: Settings = {
   blockVIPDanmukuStyle: true,
   cleanUrlArgument: true,
   bvToAv: false,
+  legacyPlayerLoadingScreen: false,
 }
 
 export const settings = useStorageLocal('settings', ref<Settings>(originalSettings), { mergeDefaults: true })
