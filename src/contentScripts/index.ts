@@ -421,7 +421,4 @@ export function injectBottomCommentStyle() {
     `
     headerRenderer.shadowRoot.appendChild(styleEl)
   }, 1000) // 每秒检查一次，一旦找到并注入就停止
-
-  // 如果 10 秒后还没找到，大概率是没开启新版评论区或者页面结构变了，清理掉定时器
-  setTimeout(() => clearInterval(checkInterval), 10000)
 }
