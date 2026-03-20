@@ -281,6 +281,7 @@ function injectApp() {
   }
 
   // startShadowDOMStyleInjection()
+  injectBottomCommentStyle()
 
   // inject svg icons
   const svgDiv = document.createElement('div')
@@ -389,3 +390,35 @@ function injectApp() {
 //     }
 //   })
 // }
+
+// 注入底部评论区的毛玻璃样式
+export function injectBottomCommentStyle() {
+  const checkInterval = setInterval(() => {
+    const commentsEl = document.querySelector('#commentapp > bili-comments')
+    if (!commentsEl || !commentsEl.shadowRoot)
+      return
+
+    const headerRenderer = commentsEl.shadowRoot.querySelector('#header > bili-comments-header-renderer')
+    if (!headerRenderer || !headerRenderer.shadowRoot)
+      return
+
+    // 找到了目标 shadowRoot，说明评论区已经加载完成
+    clearInterval(checkInterval)
+
+    // 检查是否已经注入过
+    if (headerRenderer.shadowRoot.querySelector('#bewly-bottom-comment-style'))
+      return
+
+    const styleEl = document.createElement('style')
+    styleEl.id = 'bewly-bottom-comment-style'
+    styleEl.textContent = `
+      div.bili-comments-bottom-fixed-wrapper > div {
+        background-color: rgba(255, 255, 255, 0) !important;
+        backdrop-filter: blur(12px) saturate(120%);
+        -webkit-backdrop-filter: blur(12px) saturate(120%);
+        border-top-color: rgba(255, 255, 255, 0.22) !important;
+      }
+    `
+    headerRenderer.shadowRoot.appendChild(styleEl)
+  }, 1000) // 每秒检查一次，一旦找到并注入就停止
+}

@@ -14,6 +14,17 @@
     pointer-events: none;
   }
 
+  // 使视频页和番剧页的底层元素背景透明，以显示 Bewly 背景
+  &,
+  body,
+  #app,
+  .bili-app,
+  #bili-app,
+  .video-container-v1 {
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+
   // #region new anime playback & movie page
   [class*="numberListItem_number_list_item"][class*="numberListItem_select"],
   [class*="follow_btnFollow"],

@@ -20,6 +20,100 @@
     --app_graph_bg: var(--bew-fill-1);
   }
 
+  // 使视频页和番剧页的底层元素背景透明，以显示 Bewly 背景
+  &,
+  body,
+  #app,
+  .bili-app,
+  #bili-app,
+  .video-container-v1 {
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+
+  // 弹幕列表相关元素强制背景透明
+  #danmukuBox.danmaku-box {
+    .danmaku-wrap,
+    .bpx-docker,
+    .bpx-player-auxiliary,
+    .bpx-player-collapse,
+    .bui-area,
+    .bui-collapse-wrap,
+    .bui-collapse-header,
+    .bui-collapse-body,
+    .bpx-player-wraplist,
+    .bpx-player-filter-wrap,
+    .bpx-player-dm-function,
+    .bpx-player-dm-wrap,
+    .bpx-player-dm-container,
+    .bui-area,
+    .bui-long-list-wrap,
+    .bui-long-list-list,
+    .bui-long-list-item,
+    .bpx-player-dm-btn-history {
+      background: transparent !important;
+      background-color: transparent !important;
+    }
+  }
+
+  // 毛玻璃弹幕列表背景
+  .danmaku-wrap .bpx-player-collapse {
+    position: relative;
+    background: transparent !important;
+    overflow: hidden; // 让毛玻璃背景和圆角生效
+    border-radius: 12px;
+  }
+
+  .danmaku-wrap .bpx-player-collapse::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+
+    // 浅色毛玻璃：别太白，否则还是“白块”
+    background-color: rgba(241, 242, 243, 0.22);
+    backdrop-filter: blur(12px) saturate(120%);
+    -webkit-backdrop-filter: blur(12px) saturate(120%);
+
+    // 轻边框增加层次，缓解“矩形角明显”
+    // 图片底实际效果好看，但纯色底实际效果不太好看，先预留着
+    // border: 1px solid rgba(255, 255, 255, 0.22);
+  }
+
+  .danmaku-wrap .bpx-player-collapse > * {
+    position: relative;
+    z-index: 1; // 内容在毛玻璃背景上
+  }
+
+  // 毛玻璃视频合集列表背景
+  .video-pod {
+    position: relative;
+    background: transparent !important;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+  .video-pod::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+
+    background-color: rgba(241, 242, 243, 0.22);
+    backdrop-filter: blur(12px) saturate(120%);
+    -webkit-backdrop-filter: blur(12px) saturate(120%);
+
+    // 图片底实际效果好看，但纯色底实际效果不太好看，先预留着
+    // border: 1px solid rgba(255, 255, 255, 0.22);
+  }
+
+  .video-pod > * {
+    position: relative;
+    z-index: 1;
+  }
+
   // #region theme color adaption part
   // Increase the priority of the style inside by writing a non-existent selector in `:not()`
   :not(foobar) {
@@ -399,6 +493,16 @@
 
     .qrcode .van-qrcode {
       box-shadow: 0 0 0 5px white;
+    }
+
+    // 黑暗模式毛玻璃弹幕列表背景
+    .danmaku-wrap .bpx-player-collapse::before {
+      background-color: rgba(22, 23, 29, 0.22);
+    }
+
+    // 黑暗模式毛玻璃视频合集列表背景
+    .video-pod::before {
+      background-color: rgba(22, 23, 29, 0.22);
     }
   }
   //  #endregion
