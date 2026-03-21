@@ -107,6 +107,24 @@ const showBackground = computed((): boolean => {
   // 原本默认的 Bewly 页面显示逻辑
   return showBewlyPage.value
 })
+
+watch(
+  () => showBackground.value,
+  (newValue) => {
+    if (newValue) {
+      document.documentElement.classList.add('has-custom-background')
+      document.documentElement.classList.add('has-transparent-danmaku-list')
+      document.documentElement.classList.add('has-transparent-video-pod')
+    }
+    else {
+      document.documentElement.classList.remove('has-custom-background')
+      document.documentElement.classList.remove('has-transparent-danmaku-list')
+      document.documentElement.classList.remove('has-transparent-video-pod')
+    }
+  },
+  { immediate: true },
+)
+
 const showTopBar = computed((): boolean => {
   // When using the open in drawer feature, the iframe inside the page will hide the top bar
   if (isVideoOrBangumiPage() && isInIframe())
