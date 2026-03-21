@@ -204,7 +204,15 @@ settings:
   customize_css_desc: 如果你不熟悉 CSS，請不要修改 CSS。否則可能會導致意外的顯示問題。如果你在修改 CSS 後遇到任何問題，請重新安裝 BewlyBewly。
 
   # Video page
-  show_video_page_background: 在影片播放頁顯示背景遮罩
+  show_video_page_background: 在影片播放頁顯示背景圖片
+  show_video_page_background_desc: 使影片頁底層的部分元素背景透明，以展示你設定的全局背景圖片
+  video_page_danmaku_style: 彈幕列表毛玻璃外觀
+  video_page_danmaku_style_desc: 「自動」模式下僅在開啓顯示背景圖片時生效
+  video_page_video_pod_style: 影片合集毛玻璃外觀
+  video_page_video_pod_style_desc: 「自動」模式下僅在開啓顯示背景圖片時生效
+  style_auto_follow_bg: 自動
+  style_force_enable: 開啓
+  style_force_disable: 關閉
   legacy_player_loading_screen: 使用舊版播放器載入畫面（抖動小電視）
 
   # Search page
