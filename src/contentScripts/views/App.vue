@@ -497,7 +497,7 @@ if (settings.value.blockVIPDanmukuStyle) {
     return '1px 0 1px #000,0 1px 1px #000,0 -1px 1px #000,-1px 0 1px #000'
   })()
   const styleElement = document.createElement('style')
-  styleElement.innerHTML = `.bili-dm,.bili-danmaku-x-dm{--textShadow:${textShadow}}.bili-dm-vip,.bili-danmaku-x-dm-vip{background-image:none !important;text-shadow:inherit !important}`
+  styleElement.innerHTML = `.bili-danmaku-x-dm:has(.bili-danmaku-x-dm-vip,.bili-danmaku-x-colorful){--textShadow:${textShadow}}.bili-danmaku-x-dm-vip,.bili-danmaku-x-colorful{background-image:none!important;text-shadow:inherit!important}`
   document.body.appendChild(styleElement)
 }
 
