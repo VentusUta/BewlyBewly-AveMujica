@@ -72,6 +72,8 @@ export interface Settings {
   customizeCSSContent: string
 
   showVideoPageBackground: boolean
+  videoPageDanmakuStyle: 'auto' | 'on' | 'off'
+  videoPageVideoPodStyle: 'auto' | 'on' | 'off'
 
   searchPageDarkenOnSearchFocus: boolean
   searchPageBlurredOnSearchFocus: boolean
@@ -188,6 +190,8 @@ export const originalSettings: Settings = {
   customizeCSSContent: '',
 
   showVideoPageBackground: false,
+  videoPageDanmakuStyle: 'auto',
+  videoPageVideoPodStyle: 'auto',
 
   searchPageDarkenOnSearchFocus: true,
   searchPageBlurredOnSearchFocus: false,

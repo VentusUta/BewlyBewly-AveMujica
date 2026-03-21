@@ -206,7 +206,15 @@ settings:
   customize_css_desc: If you are unfamiliar with CSS, please DO NOT modify CSS. Doing so may cause unexpected display issues. If you encounter any problems after modifying CSS, please reinstall BewlyBewly.
 
   # Video page
-  show_video_page_background: Show background mask on video playback page
+  show_video_page_background: Show background image on video playback page
+  show_video_page_background_desc: Make some elements in the bottom layer of the video page transparent to show your global background image.
+  video_page_danmaku_style: Danmaku list frosted glass effect
+  video_page_danmaku_style_desc: Under 'Auto' mode, it only takes effect when showing the background image is enabled.
+  video_page_video_pod_style: Video pod frosted glass effect
+  video_page_video_pod_style_desc: Under 'Auto' mode, it only takes effect when showing the background image is enabled.
+  style_auto_follow_bg: Auto
+  style_force_enable: On
+  style_force_disable: Off
   legacy_player_loading_screen: Use legacy player loading screen (shaking small TV)
 
   # Search page

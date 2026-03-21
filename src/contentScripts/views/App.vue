@@ -108,17 +108,48 @@ const showBackground = computed((): boolean => {
   return showBewlyPage.value
 })
 
+// 底层透明样式控制
 watch(
   () => showBackground.value,
   (newValue) => {
     if (newValue) {
       document.documentElement.classList.add('has-custom-background')
-      document.documentElement.classList.add('has-transparent-danmaku-list')
-      document.documentElement.classList.add('has-transparent-video-pod')
     }
     else {
       document.documentElement.classList.remove('has-custom-background')
+    }
+  },
+  { immediate: true },
+)
+
+// 弹幕列表毛玻璃样式控制
+watch(
+  () => [showBackground.value, settings.value.videoPageDanmakuStyle],
+  () => {
+    const isAutoOn = showBackground.value && settings.value.videoPageDanmakuStyle === 'auto'
+    const isForceOn = settings.value.videoPageDanmakuStyle === 'on'
+
+    if (isAutoOn || isForceOn) {
+      document.documentElement.classList.add('has-transparent-danmaku-list')
+    }
+    else {
       document.documentElement.classList.remove('has-transparent-danmaku-list')
+    }
+  },
+  { immediate: true },
+)
+
+// 视频合集毛玻璃样式控制
+watch(
+  () => [showBackground.value, settings.value.videoPageVideoPodStyle],
+  () => {
+    const isAutoOn = showBackground.value && settings.value.videoPageVideoPodStyle === 'auto'
+    const isForceOn = settings.value.videoPageVideoPodStyle === 'on'
+
+    if (isAutoOn || isForceOn) {
+      document.documentElement.classList.add('has-transparent-video-pod')
+    }
+    else {
       document.documentElement.classList.remove('has-transparent-video-pod')
     }
   },
