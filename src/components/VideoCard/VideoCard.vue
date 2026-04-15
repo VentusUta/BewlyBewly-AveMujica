@@ -16,7 +16,7 @@ import { getCSRF, removeHttpFromUrl } from '~/utils/main'
 
 import Tooltip from '../Tooltip.vue'
 import type { Video } from './types'
-import { getCurrentTime, getCurrentVideoUrl } from './utils'
+import { getCurrentTime, getCurrentVideoUrl, unblockUploader, VideoMoreCommand } from './utils'
 import VideoCardAuthorAvatar from './VideoCardAuthor/components/VideoCardAuthorAvatar.vue'
 import VideoCardAuthorName from './VideoCardAuthor/components/VideoCardAuthorName.vue'
 import VideoCardContextMenu from './VideoCardContextMenu/VideoCardContextMenu.vue'
@@ -49,9 +49,9 @@ const videoOptionsFloatingStyles = ref<CSSProperties>({})
 const removed = ref<boolean>(false)
 
 const moreBtnRef = ref<HTMLDivElement | null>(null)
-const contextMenuRef = ref<HTMLDivElement | null>(null)
 
 const selectedDislikeOpt = ref<{ dislikeReasonId: number }>()
+const removedAction = ref<VideoMoreCommand>()
 
 const videoCurrentTime = ref<number | null>(null)
 
@@ -204,7 +204,29 @@ function handleMoreBtnClick(event: MouseEvent) {
 }
 
 function handleUndo() {
-  if (props.type === 'appRcmd') {
+  if (removedAction.value === VideoMoreCommand.BlockUploader) {
+    const authorMid = Array.isArray(props.video?.author)
+      ? props.video?.author[0]?.mid
+      : props.video?.author?.mid
+
+    if (authorMid) {
+      unblockUploader(authorMid, getCSRF())
+        .then((res) => {
+          if (res) {
+            removed.value = false
+            removedAction.value = undefined
+            selectedDislikeOpt.value = undefined
+          }
+          else {
+            toast.error('撤销拉黑失败')
+          }
+        })
+    }
+    else {
+      toast.error('撤销拉黑失败')
+    }
+  }
+  else if (props.type === 'appRcmd') {
     const params = {
       access_key: accessKey.value,
       goto: props.video?.goto,
@@ -224,6 +246,8 @@ function handleUndo() {
     }).then((res) => {
       if (res.code === 0) {
         removed.value = false
+        removedAction.value = undefined
+        selectedDislikeOpt.value = undefined
       }
       else {
         toast.error(res.message)
@@ -232,10 +256,19 @@ function handleUndo() {
   }
   else {
     removed.value = false
+    removedAction.value = undefined
+    selectedDislikeOpt.value = undefined
   }
 }
 
 function handleRemoved(selectedOpt?: { dislikeReasonId: number }) {
+  if (props.type === 'rcmd') {
+    removedAction.value = selectedOpt?.dislikeReasonId as VideoMoreCommand | undefined
+  }
+  else {
+    removedAction.value = undefined
+  }
+
   selectedDislikeOpt.value = selectedOpt
   removed.value = true
 }
@@ -535,7 +568,6 @@ provide('getVideoType', () => props.type!)
       :to="mainAppRef"
     >
       <VideoCardContextMenu
-        ref="contextMenuRef"
         :video="{
           ...video,
           url: videoUrl,

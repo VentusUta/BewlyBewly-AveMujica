@@ -449,7 +449,7 @@ video_card:
     view_the_original_cover: View the Original Cover
 
   group_contribution: '{firstAuthor} and {num} others contributed'
-  video_removed: Video removed (If you're blocking, you'll need to manually undo it)
+  video_removed: Video removed
 
 home:
   tell_us_why: Choose a reason why

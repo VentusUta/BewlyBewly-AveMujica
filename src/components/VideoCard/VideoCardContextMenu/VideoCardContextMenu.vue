@@ -8,7 +8,7 @@ import { Type as ThreePointV2Type } from '~/models/video/appForYou'
 import { getCSRF, openLinkToNewTab } from '~/utils/main'
 
 import type { Video } from '../types'
-import { blockUploader } from '../utils'
+import { blockUploader, VideoMoreCommand } from '../utils'
 import DislikeDialog from './components/DislikeDialog.vue'
 
 const props = defineProps<{
@@ -57,10 +57,10 @@ function scrollToBottom() {
 
 const getVideoType = inject<() => string>('getVideoType')!
 
-const videoOptions = reactive<{ id: number, name: string }[]>([
-  { id: 1, name: '不感兴趣（仅在app推荐模式下有效）' },
-  { id: 2, name: '不想看此UP主（仅在app推荐模式下有效）' },
-  { id: 3, name: '一键拉黑' },
+const videoOptions = reactive<{ id: VideoMoreCommand, name: string }[]>([
+  { id: VideoMoreCommand.NotInterestedVideo, name: '不感兴趣（仅在app推荐模式下有效）' },
+  { id: VideoMoreCommand.NotInterestedUploader, name: '不想看此UP主（仅在app推荐模式下有效）' },
+  { id: VideoMoreCommand.BlockUploader, name: '一键拉黑' },
 ])
 
 const { t } = useI18n()
@@ -129,15 +129,15 @@ onMounted(() => {
   })
 })
 
-async function handleMoreCommand(command: number) {
-  if (command === 3) {
+async function handleMoreCommand(command: VideoMoreCommand) {
+  if (command === VideoMoreCommand.BlockUploader) {
     const toast = useToast()
     const authorMid = Array.isArray(props.video.author)
       ? props.video.author[0]?.mid
       : props.video.author?.mid
     const csrf = getCSRF()
     if (await blockUploader(authorMid, csrf)) {
-      handleRemoved()
+      handleRemoved({ dislikeReasonId: command })
       toast.success('已拉黑')
     }
     else {
@@ -145,7 +145,7 @@ async function handleMoreCommand(command: number) {
     }
   }
   else {
-    handleRemoved()
+    handleRemoved({ dislikeReasonId: command })
   }
 }
 

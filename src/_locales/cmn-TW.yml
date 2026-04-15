@@ -443,7 +443,7 @@ video_card:
     view_the_original_cover: 檢視封面
 
   group_contribution: '{firstAuthor} 等 {num} 人共同創作'
-  video_removed: 影片已移除（若你執行的是封鎖，撤銷需要手動在黑名單中操作）
+  video_removed: 影片已移除
 
 home:
   tell_us_why: 爲什麼這樣做……

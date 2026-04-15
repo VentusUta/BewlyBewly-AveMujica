@@ -1,5 +1,11 @@
 import type { Author, Video } from './types'
 
+export enum VideoMoreCommand {
+  NotInterestedVideo = 1,
+  NotInterestedUploader = 2,
+  BlockUploader = 3,
+}
+
 export function getAuthorJumpUrl(author?: Author) {
   if (!author)
     return ''
@@ -25,6 +31,28 @@ export function blockUploader(author: number | undefined, csrf: string) {
   const Params = new URLSearchParams()
   Params.append('fid', author?.toString() || '')
   Params.append('act', '5')
+  Params.append('re_src', '11')
+  Params.append('csrf', csrf || '')
+  return fetch(baseUrl, {
+    method: 'POST',
+    body: Params,
+    credentials: 'include',
+  }).then((res) => {
+    if (!res.ok)
+      throw new Error(`HTTP error! Status: ${res.status}`)
+    return res.json()
+  }).then((data) => {
+    return data.code === 0
+  }).catch(() => {
+    return false
+  })
+}
+
+export function unblockUploader(author: number | undefined, csrf: string) {
+  const baseUrl = `https://api.bilibili.com/x/relation/modify`
+  const Params = new URLSearchParams()
+  Params.append('fid', author?.toString() || '')
+  Params.append('act', '6')
   Params.append('re_src', '11')
   Params.append('csrf', csrf || '')
   return fetch(baseUrl, {

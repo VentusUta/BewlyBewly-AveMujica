@@ -443,7 +443,7 @@ video_card:
     view_the_original_cover: 查看封面
 
   group_contribution: '{firstAuthor} 等 {num} 人联合创作'
-  video_removed: 视频已移除（若你执行的是拉黑，撤销需要手动在黑名单中操作）
+  video_removed: 视频已移除
 
 home:
   tell_us_why: 为什么这么做……
