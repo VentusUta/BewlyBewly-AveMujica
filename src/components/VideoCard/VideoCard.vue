@@ -217,13 +217,7 @@ function handleUndo() {
             removedAction.value = undefined
             selectedDislikeOpt.value = undefined
           }
-          else {
-            toast.error('撤销拉黑失败')
-          }
         })
-    }
-    else {
-      toast.error('撤销拉黑失败')
     }
   }
   else if (props.type === 'appRcmd') {

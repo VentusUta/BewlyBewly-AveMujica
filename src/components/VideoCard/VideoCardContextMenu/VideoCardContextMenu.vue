@@ -138,10 +138,9 @@ async function handleMoreCommand(command: VideoMoreCommand) {
     const csrf = getCSRF()
     if (await blockUploader(authorMid, csrf)) {
       handleRemoved({ dislikeReasonId: command })
-      toast.success('已拉黑')
     }
     else {
-      toast.error('拉黑UP主失败')
+      toast.error('拉黑失败')
     }
   }
   else {
