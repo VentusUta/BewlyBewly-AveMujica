@@ -135,7 +135,7 @@ export const originalSettings: Settings = {
   fontFamily: '',
   danmakuFont: 'override',
   danmakuFontFamily: '',
-  removeTheIndentFromChinesePunctuation: false,
+  removeTheIndentFromChinesePunctuation: true,
 
   disableFrostedGlass: false,
   reduceFrostedGlassBlur: true,
