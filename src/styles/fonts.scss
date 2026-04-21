@@ -21,12 +21,12 @@
     "Microsoft JhengHei", var(--bew-fonts-fallback);
 
   --bew-fonts-recommend:
-    EmDashFont-BewlyInternalResource, AtkinsonHyperlegibleNext-BewlyInternalResource,
-    ShangguSansSCVF-BewlyInternalResource, var(--bew-fonts-fallback);
+    EmDashFont, AtkinsonHyperlegibleNext-BewlyInternalResource, ShangguSansSCVF-BewlyInternalResource,
+    var(--bew-fonts-fallback);
 
   --bew-fonts-recommend-new:
-    EmDashFont-BewlyInternalResource, AtkinsonHyperlegibleNext-BewlyInternalResource,
-    FrexSansGBVF-BewlyInternalResource, var(--bew-fonts-fallback);
+    EmDashFont, AtkinsonHyperlegibleNext-BewlyInternalResource, FrexSansGBVF-BewlyInternalResource,
+    var(--bew-fonts-fallback);
 }
 
 .bewly-wrapper,

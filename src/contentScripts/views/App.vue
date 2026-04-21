@@ -405,10 +405,10 @@ provide<BewlyAppProvider>('BEWLY_APP', {
 const fontStyles = document.createElement('style')
 fontStyles.textContent = `
 @font-face {
-    font-family: "EmDashFont-BewlyInternalResource"; /* U+2014 */
+    font-family: "EmDashFont"; /* U+2014 */
     unicode-range: U+2014;
     font-display: block;
-    src: url(${browser.runtime.getURL('/assets/fonts/FrexSansGBVF.ttf')}) tech(variations);
+    src: local(Tahoma), local(Arial);
 }
 
 @font-face {
