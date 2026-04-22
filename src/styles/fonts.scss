@@ -4,7 +4,7 @@
 :host {
   --bew-fonts-basic:
     -apple-system, BlinkMacSystemFont, "Pretendard Std Variable", "Inter Variable", Inter, "Adwaita Sans", "Noto Sans",
-    "Roboto Flex", Roboto, "Segoe UI";
+    "Roboto Flex", Roboto, "Segoe UI Variable", "Segoe UI";
   --bew-fonts-fallback:
     sans-serif, ui-sans-serif, system-ui, "Apple Color Emoji", "Twemoji Mozilla", "Noto Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", emoji;
@@ -25,8 +25,7 @@
     var(--bew-fonts-fallback);
 
   --bew-fonts-recommend-new:
-    EmDashFont, AtkinsonHyperlegibleNext-BewlyInternalResource, FrexSansGBVF-BewlyInternalResource,
-    var(--bew-fonts-fallback);
+    EmDashFont, MozillaText-BewlyInternalResource, FrexSansGBVF-BewlyInternalResource, var(--bew-fonts-fallback);
 }
 
 .bewly-wrapper,

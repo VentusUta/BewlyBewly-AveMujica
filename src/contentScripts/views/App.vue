@@ -412,17 +412,23 @@ fontStyles.textContent = `
 }
 
 @font-face {
-    font-family: "AtkinsonHyperlegibleNext-BewlyInternalResource"; /* 西文 */
+    font-family: "AtkinsonHyperlegibleNext-BewlyInternalResource"; /* 西文 1 */
     font-style: normal;
     font-display: block;
     src: url(${browser.runtime.getURL('/assets/fonts/AtkinsonHyperlegibleNext.woff2')}) tech(variations);
 }
 
 @font-face {
-    font-family: "AtkinsonHyperlegibleNext-BewlyInternalResource"; /* 西文 */
+    font-family: "AtkinsonHyperlegibleNext-BewlyInternalResource"; /* 西文 1 斜体 */
     font-style: italic;
     font-display: block;
     src: url(${browser.runtime.getURL('/assets/fonts/AtkinsonHyperlegibleNext-Italic.woff2')}) tech(variations);
+}
+
+@font-face {
+    font-family: "MozillaText-BewlyInternalResource"; /* 西文 2 */
+    font-display: block;
+    src: url(${browser.runtime.getURL('/assets/fonts/MozillaText[wght].woff2')}) tech(variations);
 }
 
 @font-face {

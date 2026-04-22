@@ -160,7 +160,7 @@ async function checkGitHubRelease() {
               bg="black dark:white !opacity-10 !hover:opacity-20"
               un-text="black dark:white"
             >
-              <div i-tabler:license /> License
+              <div i-tabler:license /> 許可証
             </a>
           </div>
         </section>
