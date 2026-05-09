@@ -21,8 +21,7 @@
     "Microsoft JhengHei", var(--bew-fonts-fallback);
 
   --bew-fonts-recommend:
-    EmDashFont, AtkinsonHyperlegibleNext-BewlyInternalResource, ShangguSansSCVF-BewlyInternalResource,
-    var(--bew-fonts-fallback);
+    EmDashFont, OldRoboto-BewlyInternalResource, ShangguSansSCVF-BewlyInternalResource, var(--bew-fonts-fallback);
 
   --bew-fonts-recommend-new:
     EmDashFont, MozillaText-BewlyInternalResource, FrexSansGBVF-BewlyInternalResource, var(--bew-fonts-fallback);
@@ -36,7 +35,7 @@
   pre {
     /* SimSun, MingLiU, MS Gothic, and Gulim/Dotum will fuck the UI up, so we must explicitly specify Consolas */
     /* FUCK YOU MICROSOFT EAT SHIT AND DIE */
-    font-family: Consolas, monospace, sans-serif;
+    font-family: "Google Sans Code", Consolas, monospace, sans-serif;
   }
 }
 

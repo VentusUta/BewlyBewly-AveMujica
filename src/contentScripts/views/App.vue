@@ -412,17 +412,51 @@ fontStyles.textContent = `
 }
 
 @font-face {
-    font-family: "AtkinsonHyperlegibleNext-BewlyInternalResource"; /* 西文 1 */
+    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 */
+    font-weight: normal;
     font-style: normal;
     font-display: block;
-    src: url(${browser.runtime.getURL('/assets/fonts/AtkinsonHyperlegibleNext.woff2')}) tech(variations);
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Regular.ttf')});
 }
 
 @font-face {
-    font-family: "AtkinsonHyperlegibleNext-BewlyInternalResource"; /* 西文 1 斜体 */
+    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 */
+    font-weight: 500;
+    font-style: normal;
+    font-display: block;
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Medium.ttf')});
+}
+
+@font-face {
+    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 */
+    font-weight: bold;
+    font-style: normal;
+    font-display: block;
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Bold.ttf')});
+}
+
+@font-face {
+    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 斜体 */
+    font-weight: normal;
     font-style: italic;
     font-display: block;
-    src: url(${browser.runtime.getURL('/assets/fonts/AtkinsonHyperlegibleNext-Italic.woff2')}) tech(variations);
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Italic.ttf')});
+}
+
+@font-face {
+    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 斜体 */
+    font-weight: 500;
+    font-style: italic;
+    font-display: block;
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-MediumItalic.ttf')});
+}
+
+@font-face {
+    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 斜体 */
+    font-weight: bold;
+    font-style: italic;
+    font-display: block;
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-BoldItalic.ttf')});
 }
 
 @font-face {
