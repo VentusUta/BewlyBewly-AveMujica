@@ -190,8 +190,8 @@ export const originalSettings: Settings = {
   customizeCSSContent: '',
 
   showVideoPageBackground: false,
-  videoPageDanmakuStyle: 'auto',
-  videoPageVideoPodStyle: 'auto',
+  videoPageDanmakuStyle: 'off',
+  videoPageVideoPodStyle: 'off',
 
   searchPageDarkenOnSearchFocus: true,
   searchPageBlurredOnSearchFocus: false,
