@@ -416,6 +416,7 @@ fontStyles.textContent = `
     font-weight: normal;
     font-style: normal;
     font-display: block;
+    font-feature-settings: "liga" off, "ss01" on, "ss04" on, "kern" on;
     src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Regular.ttf')});
 }
 
@@ -424,6 +425,7 @@ fontStyles.textContent = `
     font-weight: 500;
     font-style: normal;
     font-display: block;
+    font-feature-settings: "liga" off, "ss01" on, "ss04" on, "kern" on;
     src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Medium.ttf')});
 }
 
@@ -432,6 +434,7 @@ fontStyles.textContent = `
     font-weight: bold;
     font-style: normal;
     font-display: block;
+    font-feature-settings: "liga" off, "ss01" on, "ss04" on, "kern" on;
     src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Bold.ttf')});
 }
 
@@ -440,6 +443,7 @@ fontStyles.textContent = `
     font-weight: normal;
     font-style: italic;
     font-display: block;
+    font-feature-settings: "liga" off, "ss04" on, "kern" on;
     src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Italic.ttf')});
 }
 
@@ -448,6 +452,7 @@ fontStyles.textContent = `
     font-weight: 500;
     font-style: italic;
     font-display: block;
+    font-feature-settings: "liga" off, "ss04" on, "kern" on;
     src: url(${browser.runtime.getURL('/assets/fonts/Roboto-MediumItalic.ttf')});
 }
 
@@ -456,6 +461,7 @@ fontStyles.textContent = `
     font-weight: bold;
     font-style: italic;
     font-display: block;
+    font-feature-settings: "liga" off, "ss04" on, "kern" on;
     src: url(${browser.runtime.getURL('/assets/fonts/Roboto-BoldItalic.ttf')});
 }
 
