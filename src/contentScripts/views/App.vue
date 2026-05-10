@@ -407,7 +407,6 @@ fontStyles.textContent = `
 @font-face {
     font-family: "EmDashFont"; /* U+2014 */
     unicode-range: U+2014;
-    font-display: block;
     src: local(Tahoma), local(Arial);
 }
 
@@ -415,7 +414,6 @@ fontStyles.textContent = `
     font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 */
     font-weight: normal;
     font-style: normal;
-    font-display: block;
     font-feature-settings: "liga" off, "ss01" on, "ss04" on, "kern" on;
     src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Regular.ttf')});
 }
@@ -424,7 +422,6 @@ fontStyles.textContent = `
     font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 */
     font-weight: 500;
     font-style: normal;
-    font-display: block;
     font-feature-settings: "liga" off, "ss01" on, "ss04" on, "kern" on;
     src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Medium.ttf')});
 }
@@ -433,7 +430,6 @@ fontStyles.textContent = `
     font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 */
     font-weight: bold;
     font-style: normal;
-    font-display: block;
     font-feature-settings: "liga" off, "ss01" on, "ss04" on, "kern" on;
     src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Bold.ttf')});
 }
@@ -442,7 +438,6 @@ fontStyles.textContent = `
     font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 斜体 */
     font-weight: normal;
     font-style: italic;
-    font-display: block;
     font-feature-settings: "liga" off, "ss04" on, "kern" on;
     src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Italic.ttf')});
 }
@@ -451,7 +446,6 @@ fontStyles.textContent = `
     font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 斜体 */
     font-weight: 500;
     font-style: italic;
-    font-display: block;
     font-feature-settings: "liga" off, "ss04" on, "kern" on;
     src: url(${browser.runtime.getURL('/assets/fonts/Roboto-MediumItalic.ttf')});
 }
@@ -460,26 +454,22 @@ fontStyles.textContent = `
     font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 斜体 */
     font-weight: bold;
     font-style: italic;
-    font-display: block;
     font-feature-settings: "liga" off, "ss04" on, "kern" on;
     src: url(${browser.runtime.getURL('/assets/fonts/Roboto-BoldItalic.ttf')});
 }
 
 @font-face {
     font-family: "MozillaText-BewlyInternalResource"; /* 西文 2 */
-    font-display: block;
     src: url(${browser.runtime.getURL('/assets/fonts/MozillaText[wght].woff2')}) tech(variations);
 }
 
 @font-face {
     font-family: "ShangguSansSCVF-BewlyInternalResource"; /* CJK 旧字形 */
-    font-display: block;
     src: url(${browser.runtime.getURL('/assets/fonts/ShangguSansSC-VF.otf')}) tech(variations);
 }
 
 @font-face {
     font-family: "FrexSansGBVF-BewlyInternalResource"; /* CJK 新字形 */
-    font-display: block;
     src: url(${browser.runtime.getURL('/assets/fonts/FrexSansGBVF.ttf')}) tech(variations);
 }
 `
