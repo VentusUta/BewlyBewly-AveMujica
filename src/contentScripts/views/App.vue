@@ -411,50 +411,50 @@ fontStyles.textContent = `
 }
 
 @font-face {
-    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 */
+    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 Regular (400) */
     font-weight: normal;
     font-style: normal;
-    font-feature-settings: "liga" off, "ss01" on, "ss04" on, "kern" on;
+    font-feature-settings: "liga" off, "ss01" on, "ss02" on, "ss04" on;
     src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Regular.ttf')});
 }
 
 @font-face {
-    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 */
+    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 Medium (500) */
     font-weight: 500;
     font-style: normal;
-    font-feature-settings: "liga" off, "ss01" on, "ss04" on, "kern" on;
+    font-feature-settings: "liga" off, "ss01" on, "ss02" on, "ss04" on;
     src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Medium.ttf')});
 }
 
 @font-face {
-    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 */
+    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 Bold (700) */
     font-weight: bold;
     font-style: normal;
-    font-feature-settings: "liga" off, "ss01" on, "ss04" on, "kern" on;
+    font-feature-settings: "liga" off, "ss01" on, "ss02" on, "ss04" on;
     src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Bold.ttf')});
 }
 
 @font-face {
-    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 斜体 */
+    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 斜体 Regular (400) */
     font-weight: normal;
     font-style: italic;
-    font-feature-settings: "liga" off, "ss04" on, "kern" on;
+    font-feature-settings: "liga" off, "ss02" on, "ss04" on;
     src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Italic.ttf')});
 }
 
 @font-face {
-    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 斜体 */
+    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 斜体 Medium (500) */
     font-weight: 500;
     font-style: italic;
-    font-feature-settings: "liga" off, "ss04" on, "kern" on;
+    font-feature-settings: "liga" off, "ss02" on, "ss04" on;
     src: url(${browser.runtime.getURL('/assets/fonts/Roboto-MediumItalic.ttf')});
 }
 
 @font-face {
-    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 斜体 */
+    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 1 斜体 Bold (700) */
     font-weight: bold;
     font-style: italic;
-    font-feature-settings: "liga" off, "ss04" on, "kern" on;
+    font-feature-settings: "liga" off, "ss02" on, "ss04" on;
     src: url(${browser.runtime.getURL('/assets/fonts/Roboto-BoldItalic.ttf')});
 }
 
