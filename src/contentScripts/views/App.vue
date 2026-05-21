@@ -427,7 +427,7 @@ fontStyles.textContent = `
 }
 
 @font-face {
-    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 Bold (700) */
+    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 Bold (600/700) */
     font-weight: bold;
     font-style: normal;
     font-feature-settings: "liga" off, "ss01" on, "ss02" on, "ss04" on;
@@ -451,7 +451,7 @@ fontStyles.textContent = `
 }
 
 @font-face {
-    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 斜体 Bold (700) */
+    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 斜体 Bold (600/700) */
     font-weight: bold;
     font-style: italic;
     font-feature-settings: "liga" off, "ss02" on, "ss04" on;
