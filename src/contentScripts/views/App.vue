@@ -411,7 +411,7 @@ fontStyles.textContent = `
 }
 
 @font-face {
-    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 Regular (400) */
+    font-family: "OldRoboto-BewlyInternalResource"; /* Roboto Regular (400) */
     font-weight: normal;
     font-style: normal;
     font-feature-settings: "liga" off, "ss01" on, "ss02" on, "ss04" on;
@@ -419,7 +419,7 @@ fontStyles.textContent = `
 }
 
 @font-face {
-    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 Medium (500) */
+    font-family: "OldRoboto-BewlyInternalResource"; /* Roboto Medium (500) */
     font-weight: 500;
     font-style: normal;
     font-feature-settings: "liga" off, "ss01" on, "ss02" on, "ss04" on;
@@ -427,7 +427,15 @@ fontStyles.textContent = `
 }
 
 @font-face {
-    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 Bold (600/700) */
+    font-family: "OldRoboto-BewlyInternalResource"; /* Roboto Medium, treat as SemiBold (600) */
+    font-weight: 600;
+    font-style: normal;
+    font-feature-settings: "liga" off, "ss01" on, "ss02" on, "ss04" on;
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Medium.ttf')});
+}
+
+@font-face {
+    font-family: "OldRoboto-BewlyInternalResource"; /* Roboto Bold (700) */
     font-weight: bold;
     font-style: normal;
     font-feature-settings: "liga" off, "ss01" on, "ss02" on, "ss04" on;
@@ -435,7 +443,7 @@ fontStyles.textContent = `
 }
 
 @font-face {
-    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 斜体 Regular (400) */
+    font-family: "OldRoboto-BewlyInternalResource"; /* Roboto Italic Regular (400) */
     font-weight: normal;
     font-style: italic;
     font-feature-settings: "liga" off, "ss02" on, "ss04" on;
@@ -443,7 +451,7 @@ fontStyles.textContent = `
 }
 
 @font-face {
-    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 斜体 Medium (500) */
+    font-family: "OldRoboto-BewlyInternalResource"; /* Roboto Italic Medium (500) */
     font-weight: 500;
     font-style: italic;
     font-feature-settings: "liga" off, "ss02" on, "ss04" on;
@@ -451,7 +459,15 @@ fontStyles.textContent = `
 }
 
 @font-face {
-    font-family: "OldRoboto-BewlyInternalResource"; /* 西文 斜体 Bold (600/700) */
+    font-family: "OldRoboto-BewlyInternalResource"; /* Roboto Italic Medium, treat as SemiBold (600) */
+    font-weight: 600;
+    font-style: italic;
+    font-feature-settings: "liga" off, "ss02" on, "ss04" on;
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-MediumItalic.ttf')});
+}
+
+@font-face {
+    font-family: "OldRoboto-BewlyInternalResource"; /* Roboto Italic Bold (700) */
     font-weight: bold;
     font-style: italic;
     font-feature-settings: "liga" off, "ss02" on, "ss04" on;
@@ -459,12 +475,12 @@ fontStyles.textContent = `
 }
 
 @font-face {
-    font-family: "ShangguSansSCVF-BewlyInternalResource"; /* 汉字 旧字形 */
+    font-family: "ShangguSansSCVF-BewlyInternalResource"; /* Chinese characters old form */
     src: url(${browser.runtime.getURL('/assets/fonts/ShangguSansSC-VF.otf')}) tech(variations);
 }
 
 @font-face {
-    font-family: "FrexSansGBVF-BewlyInternalResource"; /* 汉字 新字形 */
+    font-family: "FrexSansGBVF-BewlyInternalResource"; /* Chinese characters modern form */
     src: url(${browser.runtime.getURL('/assets/fonts/FrexSansGBVF.ttf')}) tech(variations);
 }
 `
