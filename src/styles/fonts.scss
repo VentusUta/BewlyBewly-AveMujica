@@ -30,12 +30,15 @@
 .bewly-wrapper,
 .bewly-design {
   code,
-  kbd,
   samp,
   pre {
     /* SimSun, MingLiU, MS Gothic, and Gulim/Dotum will fuck the UI up, so we must explicitly specify Consolas */
     /* FUCK YOU MICROSOFT EAT SHIT AND DIE */
     font-family: "Google Sans Code", Consolas, monospace, sans-serif;
+  }
+
+  kbd {
+    font-family: var(--bew-font-family);
   }
 }
 
