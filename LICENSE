@@ -665,8 +665,13 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 According to Section 7 b), c), d), the following additional terms apply:
 
-1. All copies or modified versions of this work shall retain prominent copyright notices and authorship attributions to the original source.
+1. All copies or modified versions of this work shall retain prominent 
+   copyright notices and authorship attributions to the original source.
 
-2. Redistributions of modified versions must adopt distinguishable modifications to the software's name (e.g. by adding a "-Modified" suffix) to explicitly indicate altered status.
+2. Redistributions of modified versions must adopt distinguishable 
+   modifications to the software's name (e.g. by adding a "-Modified" suffix) 
+   to explicitly indicate altered status.
 
-3. Except with prior written consent from the copyright holder(s), the name(s) of the original author(s), associated material shall not be used to endorse or promote products derived from this software.
+3. Except with prior written consent from the copyright holder(s), the 
+   name(s) of the original author(s), associated material shall not be 
+   used to endorse or promote products derived from this software.
