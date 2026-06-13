@@ -415,7 +415,7 @@ fontStyles.textContent = `
     font-weight: normal;
     font-style: normal;
     font-feature-settings: "liga" off, "ss01" on, "ss02" on, "ss04" on;
-    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Regular.ttf')});
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Regular.woff2')}) format(woff2);
 }
 
 @font-face {
@@ -423,7 +423,7 @@ fontStyles.textContent = `
     font-weight: 500;
     font-style: normal;
     font-feature-settings: "liga" off, "ss01" on, "ss02" on, "ss04" on;
-    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Medium.ttf')});
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Medium.woff2')}) format(woff2);
 }
 
 @font-face {
@@ -431,7 +431,7 @@ fontStyles.textContent = `
     font-weight: 600;
     font-style: normal;
     font-feature-settings: "liga" off, "ss01" on, "ss02" on, "ss04" on;
-    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Medium.ttf')});
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Medium.woff2')}) format(woff2);
 }
 
 @font-face {
@@ -439,7 +439,7 @@ fontStyles.textContent = `
     font-weight: bold;
     font-style: normal;
     font-feature-settings: "liga" off, "ss01" on, "ss02" on, "ss04" on;
-    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Bold.ttf')});
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Bold.woff2')}) format(woff2);
 }
 
 @font-face {
@@ -447,7 +447,7 @@ fontStyles.textContent = `
     font-weight: normal;
     font-style: italic;
     font-feature-settings: "liga" off, "ss02" on, "ss04" on;
-    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Italic.ttf')});
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Italic.woff2')}) format(woff2);
 }
 
 @font-face {
@@ -455,7 +455,7 @@ fontStyles.textContent = `
     font-weight: 500;
     font-style: italic;
     font-feature-settings: "liga" off, "ss02" on, "ss04" on;
-    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-MediumItalic.ttf')});
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-MediumItalic.woff2')}) format(woff2);
 }
 
 @font-face {
@@ -463,7 +463,7 @@ fontStyles.textContent = `
     font-weight: 600;
     font-style: italic;
     font-feature-settings: "liga" off, "ss02" on, "ss04" on;
-    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-MediumItalic.ttf')});
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-MediumItalic.woff2')}) format(woff2);
 }
 
 @font-face {
@@ -471,17 +471,17 @@ fontStyles.textContent = `
     font-weight: bold;
     font-style: italic;
     font-feature-settings: "liga" off, "ss02" on, "ss04" on;
-    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-BoldItalic.ttf')});
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-BoldItalic.woff2')}) format(woff2);
 }
 
 @font-face {
     font-family: "ShangguSansSCVF-BewlyInternalResource"; /* Chinese characters old form */
-    src: url(${browser.runtime.getURL('/assets/fonts/ShangguSansSC-VF.otf')}) tech(variations);
+    src: url(${browser.runtime.getURL('/assets/fonts/ShangguSansSC-VF.woff2')}) format(woff2) tech(variations);
 }
 
 @font-face {
     font-family: "FrexSansGBVF-BewlyInternalResource"; /* Chinese characters modern form */
-    src: url(${browser.runtime.getURL('/assets/fonts/FrexSansGBVF.ttf')}) tech(variations);
+    src: url(${browser.runtime.getURL('/assets/fonts/FrexSansGBVF.woff2')}) format(woff2) tech(variations);
 }
 `
 
