@@ -73,7 +73,7 @@ function handleResetSettings() {
   if (result) {
     // Remember the last selected language when resetting settings
     originalSettings.language = settings.value.language
-    settings.value = originalSettings
+    settings.value = { ...originalSettings }
   }
 }
 
