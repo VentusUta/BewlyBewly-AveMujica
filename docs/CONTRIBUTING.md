@@ -30,7 +30,7 @@ Then package it to the `extension-firefox` folder
 
 ### License conflict warning
 
-**Commit from [BewlyCat](https://github.com/keleus/BewlyCat) [`6b31a0310fa4cf20364353040c43643e9703ee8d`](https://github.com/keleus/BewlyCat/commit/6b31a0310fa4cf20364353040c43643e9703ee8d) and after commits CANNOT be used in this project. BewlyCat after this commit is no longer free software (‘free’ as in ‘free speech’), and is incompatible with our [AGPLv3](../LICENSE) license.**
+Commit from [BewlyCat](https://github.com/keleus/BewlyCat) [`6b31a0310fa4cf20364353040c43643e9703ee8d`](https://github.com/keleus/BewlyCat/commit/6b31a0310fa4cf20364353040c43643e9703ee8d) and after commits **CANNOT be used in this project**. BewlyCat after this commit is no longer free software (‘free’ as in ‘free speech’), and is incompatible with our [AGPLv3](../LICENSE) license.
 
 ### About Branches
 

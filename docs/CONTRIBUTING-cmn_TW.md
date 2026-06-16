@@ -30,7 +30,7 @@ bun run build-firefox
 
 ### 授權衝突警告
 
-**來自[BewlyCat](https://github.com/keleus/BewlyCat)的[`6b31a0310fa4cf20364353040c43643e9703ee8d`](https://github.com/keleus/BewlyCat/commit/6b31a0310fa4cf20364353040c43643e9703ee8d)commit及之後的commit不準在本專案中使用。此commit導致BewlyCat不再是自由軟體，與我們的[AGPLv3](../LICENSE)授權條款不相容。**
+來自[BewlyCat](https://github.com/keleus/BewlyCat)的[`6b31a0310fa4cf20364353040c43643e9703ee8d`](https://github.com/keleus/BewlyCat/commit/6b31a0310fa4cf20364353040c43643e9703ee8d)commit及之後的commit**不准在本專案中使用**。此commit導致BewlyCat不再是自由軟體，與我們的[AGPLv3](../LICENSE)授權條款不相容。
 
 ### 關於分支
 
