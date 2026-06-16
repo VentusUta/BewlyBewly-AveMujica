@@ -9,17 +9,17 @@
 
 #### 构建 (Chrome or Edge)
 
-要构建拓展程序，运行
+要构建拓展程序，运行：
 
 ```bash
 bun run build
 ```
 
-然后打包到 `extension` 文件夹
+然后打包到 `extension` 文件夹。
 
 #### 构建 (Firefox)
 
-要构建拓展程序，运行
+要构建拓展程序，运行：
 
 ```bash
 
@@ -27,7 +27,7 @@ bun run build-firefox
 
 ```
 
-然后打包到 `extension-firefox` 文件夹
+然后打包到 `extension-firefox` 文件夹。
 
 ## 贡献
 

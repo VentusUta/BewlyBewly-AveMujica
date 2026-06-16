@@ -8,27 +8,27 @@ This project is built using [Vite](https://vitejs.dev/), please make sure you ha
 
 #### Building (Chrome or Edge)
 
-To build the extension, run
+To build the extension, run:
 
 ```bash
 bun run build
 ```
 
-Then package it to the `extension` folder
+Then package it to the `extension` folder.
 
 #### Building (Firefox)
 
-To build the extension, run
+To build the extension, run:
 
 ```bash
 bun run build-firefox
 ```
 
-Then package it to the `extension-firefox` folder
+Then package it to the `extension-firefox` folder.
 
 ## Contribution
 
-### License conflict warning
+### License Conflict Warning
 
 Commit from [BewlyCat](https://github.com/keleus/BewlyCat) [`6b31a0310fa4cf20364353040c43643e9703ee8d`](https://github.com/keleus/BewlyCat/commit/6b31a0310fa4cf20364353040c43643e9703ee8d) and after commits **CANNOT be used in this project**. BewlyCat after this commit is no longer free software (‘free’ as in ‘free speech’), and is incompatible with our [AGPLv3](../LICENSE) license.
 

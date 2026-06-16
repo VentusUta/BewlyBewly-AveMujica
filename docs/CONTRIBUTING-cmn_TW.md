@@ -8,23 +8,23 @@
 
 #### 建置（Chrome 或 Edge）
 
-建置此擴充功能，需要執行以下指令
+建置此擴充功能，需要執行以下指令：
 
 ```bash
 bun run build
 ```
 
-然後打包 `extension` 下的檔案
+然後打包 `extension` 下的檔案。
 
 #### 建置（Firefox）
 
-要構建擴展，運行
+建置此擴充功能，需要執行以下指令：
 
 ```bash
 bun run build-firefox
 ```
 
-然後打包 `extension-firefox` 下的檔案
+然後打包 `extension-firefox` 下的檔案。
 
 ## 貢獻
 

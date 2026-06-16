@@ -8,23 +8,23 @@
 
 #### 建置（Chrome 或 Edge）
 
-建置延伸功能，要執行下底嘅指令
+建置延伸功能，要執行下底嘅指令：
 
 ```bash
 bun run build
 ```
 
-然之後打包 `extension` 下嘅檔案
+然之後打包 `extension` 下嘅檔案。
 
 #### 建置（Firefox）
 
-建置延伸功能，要執行下底嘅指令
+建置延伸功能，要執行下底嘅指令：
 
 ```bash
 bun run build-firefox
 ```
 
-然之後打包 `extension-firefox` 下嘅檔案
+然之後打包 `extension-firefox` 下嘅檔案。
 
 ## 貢獻
 
