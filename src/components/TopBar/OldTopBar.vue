@@ -4,11 +4,12 @@ import type { Ref, UnwrapNestedRefs } from 'vue'
 
 import { useBewlyApp } from '~/composables/useAppProvider'
 import { useDelayedHover } from '~/composables/useDelayedHover'
+import { useWebFullscreen } from '~/composables/useWebFullscreen'
 import { OVERLAY_SCROLL_BAR_SCROLL, TOP_BAR_VISIBILITY_CHANGE } from '~/constants/globalEvents'
 import { AppPage } from '~/enums/appEnums'
 import { settings } from '~/logic'
 import api from '~/utils/api'
-import { getUserID, isHomePage, isInIframe, isVideoOrBangumiPage, queryDomUntilFound, removeHttpFromUrl } from '~/utils/main'
+import { getUserID, isHomePage, removeHttpFromUrl } from '~/utils/main'
 import emitter from '~/utils/mitt'
 
 import ChannelsPop from './components/ChannelsPop.vue'
@@ -314,34 +315,9 @@ onUnmounted(() => {
   emitter.off(OVERLAY_SCROLL_BAR_SCROLL)
 })
 
-// #region Hide the top bar when entering web fullscreen (网页全屏)
-// On normal video pages Bilibili's web-fullscreen player layer happens to cover the top bar,
-// but on bangumi pages (`/bangumi/play/`) it doesn't, leaving the top bar floating over the video.
-// So we explicitly detect web fullscreen via the player's web-fullscreen button state and hide the
-// top bar ourselves. (The drawer/iframe case is handled separately in App.vue.)
-let webFullscreenObserver: MutationObserver | null = null
-const webFullscreenAbort = new AbortController()
-
-onMounted(() => {
-  if (isInIframe() || !isVideoOrBangumiPage())
-    return
-
-  queryDomUntilFound('.bpx-player-ctrl-btn.bpx-player-ctrl-web', 500, webFullscreenAbort).then((webFullscreenBtn) => {
-    if (!webFullscreenBtn)
-      return
-
-    webFullscreenObserver = new MutationObserver(() => {
-      toggleTopBarVisible(!webFullscreenBtn.classList.contains('bpx-state-entered'))
-    })
-    webFullscreenObserver.observe(webFullscreenBtn, { attributes: true, attributeFilter: ['class'] })
-  })
-})
-
-onUnmounted(() => {
-  webFullscreenObserver?.disconnect()
-  webFullscreenAbort.abort()
-})
-// #endregion
+// Hide the top bar when entering web fullscreen (网页全屏). See useWebFullscreen for details.
+const { isWebFullscreen } = useWebFullscreen()
+watch(isWebFullscreen, webFullscreen => toggleTopBarVisible(!webFullscreen))
 
 async function initData() {
   await getUserInfo()
