@@ -32,7 +32,13 @@ bun run build-firefox
 
 來自[BewlyCat](https://github.com/keleus/BewlyCat)的[`6b31a0310fa4cf20364353040c43643e9703ee8d`](https://github.com/keleus/BewlyCat/commit/6b31a0310fa4cf20364353040c43643e9703ee8d)commit及之後的commit**不准在本專案中使用**。此commit導致BewlyCat不再是自由軟體，與我們的[AGPLv3](../LICENSE)授權條款不相容。
 
-### 關於分支
+### 受LLM輔助的提交
+
+請勿在受LLM輔助的commit中對模型使用`Co-Authored-By:`標籤，請改用`Assisted-by:`標籤。
+
+**LLM不是人類，它們無法對程式碼負責。**
+
+### 分支
 
 - **main**：用於錯誤修正開發新功能、性能改進或修改國際化（i18n）文件的分支。
 

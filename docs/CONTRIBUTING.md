@@ -32,7 +32,13 @@ Then package it to the `extension-firefox` folder.
 
 Commit from [BewlyCat](https://github.com/keleus/BewlyCat) [`6b31a0310fa4cf20364353040c43643e9703ee8d`](https://github.com/keleus/BewlyCat/commit/6b31a0310fa4cf20364353040c43643e9703ee8d) and after commits **CANNOT be used in this project**. BewlyCat after this commit is no longer free software (‘free’ as in ‘free speech’), and is incompatible with our [AGPLv3](../LICENSE) license.
 
-### About Branches
+### LLM-Assisted Commits
+
+Do not use the `Co-Authored-By:` tag for the model in LLM-assisted commits; use the `Assisted-by:` tag instead.
+
+**LLMs are not human, and they cannot be held responsible for the code.**
+
+### Branches
 
 - **main**: Use this branch for bug fixes, developing new features, performance improvements, or modifications to internationalization (i18n) files.
 
