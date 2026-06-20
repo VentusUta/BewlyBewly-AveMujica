@@ -4,6 +4,7 @@ import type { Ref } from 'vue'
 
 import type { BewlyAppProvider } from '~/composables/useAppProvider'
 import { useDark } from '~/composables/useDark'
+import { useWebFullscreen } from '~/composables/useWebFullscreen'
 import { BEWLY_MOUNTED, DRAWER_VIDEO_ENTER_PAGE_FULL, DRAWER_VIDEO_EXIT_PAGE_FULL, IFRAME_PAGE_SWITCH_BEWLY, IFRAME_PAGE_SWITCH_BILI, OVERLAY_SCROLL_BAR_SCROLL } from '~/constants/globalEvents'
 import { AppPage } from '~/enums/appEnums'
 import { settings } from '~/logic'
@@ -386,6 +387,9 @@ watchEffect(async (onCleanUp) => {
   })
 })
 
+// Hide the floating dock / sidebar when entering web fullscreen (网页全屏), same as the top bar.
+const { isWebFullscreen } = useWebFullscreen()
+
 provide<BewlyAppProvider>('BEWLY_APP', {
   activatedPage,
   mainAppRef,
@@ -619,7 +623,7 @@ document.head.appendChild(removeLeftQuoteIndent)
 
     <!-- Dock & RightSideButtons -->
     <div
-      v-if="!isInIframe()"
+      v-if="!isInIframe() && !isWebFullscreen"
       pos="absolute top-0 left-0" w-full h-full overflow-hidden
       pointer-events-none
     >
