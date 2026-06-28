@@ -4,7 +4,7 @@
 :host {
   --bew-fonts-basic:
     -apple-system, BlinkMacSystemFont, "Pretendard Std Variable", "Inter Variable", Inter, "Adwaita Sans", "Noto Sans",
-    "Roboto Flex", Roboto, "Segoe UI";
+    "Roboto Flex", Roboto, "Segoe UI Variable", "Segoe UI";
   --bew-fonts-fallback:
     sans-serif, ui-sans-serif, system-ui, "Apple Color Emoji", "Twemoji Mozilla", "Noto Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", emoji;
@@ -21,23 +21,24 @@
     "Microsoft JhengHei", var(--bew-fonts-fallback);
 
   --bew-fonts-recommend:
-    EmDashFont-BewlyInternalResource, AtkinsonHyperlegibleNext-BewlyInternalResource,
-    ShangguSansSCVF-BewlyInternalResource, var(--bew-fonts-fallback);
+    EmDashFont, OldRoboto-BewlyInternalResource, ShangguSansSCVF-BewlyInternalResource, var(--bew-fonts-fallback);
 
   --bew-fonts-recommend-new:
-    EmDashFont-BewlyInternalResource, AtkinsonHyperlegibleNext-BewlyInternalResource,
-    FrexSansGBVF-BewlyInternalResource, var(--bew-fonts-fallback);
+    EmDashFont, OldRoboto-BewlyInternalResource, FrexSansGBVF-BewlyInternalResource, var(--bew-fonts-fallback);
 }
 
 .bewly-wrapper,
 .bewly-design {
   code,
-  kbd,
   samp,
   pre {
     /* SimSun, MingLiU, MS Gothic, and Gulim/Dotum will fuck the UI up, so we must explicitly specify Consolas */
     /* FUCK YOU MICROSOFT EAT SHIT AND DIE */
-    font-family: Consolas, monospace, sans-serif;
+    font-family: "Google Sans Code", Consolas, monospace, sans-serif;
+  }
+
+  kbd {
+    font-family: var(--bew-font-family);
   }
 }
 

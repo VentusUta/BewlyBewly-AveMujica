@@ -4,6 +4,7 @@ import type { Ref } from 'vue'
 
 import type { BewlyAppProvider } from '~/composables/useAppProvider'
 import { useDark } from '~/composables/useDark'
+import { useWebFullscreen } from '~/composables/useWebFullscreen'
 import { BEWLY_MOUNTED, DRAWER_VIDEO_ENTER_PAGE_FULL, DRAWER_VIDEO_EXIT_PAGE_FULL, IFRAME_PAGE_SWITCH_BEWLY, IFRAME_PAGE_SWITCH_BILI, OVERLAY_SCROLL_BAR_SCROLL } from '~/constants/globalEvents'
 import { AppPage } from '~/enums/appEnums'
 import { settings } from '~/logic'
@@ -386,6 +387,9 @@ watchEffect(async (onCleanUp) => {
   })
 })
 
+// Hide the floating dock / sidebar when entering web fullscreen (网页全屏), same as the top bar.
+const { isWebFullscreen } = useWebFullscreen()
+
 provide<BewlyAppProvider>('BEWLY_APP', {
   activatedPage,
   mainAppRef,
@@ -405,36 +409,83 @@ provide<BewlyAppProvider>('BEWLY_APP', {
 const fontStyles = document.createElement('style')
 fontStyles.textContent = `
 @font-face {
-    font-family: "EmDashFont-BewlyInternalResource"; /* U+2014 */
+    font-family: "EmDashFont"; /* U+2014 */
     unicode-range: U+2014;
-    font-display: block;
-    src: url(${browser.runtime.getURL('/assets/fonts/FrexSansGBVF.ttf')}) tech(variations);
+    src: local(Tahoma), local(Arial);
 }
 
 @font-face {
-    font-family: "AtkinsonHyperlegibleNext-BewlyInternalResource"; /* 西文 */
+    font-family: "OldRoboto-BewlyInternalResource"; /* Roboto Regular (400) */
+    font-weight: normal;
     font-style: normal;
-    font-display: block;
-    src: url(${browser.runtime.getURL('/assets/fonts/AtkinsonHyperlegibleNext.woff2')}) tech(variations);
+    font-feature-settings: "liga" off, "ss01" on, "ss02" on, "ss04" on;
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Regular.woff2')}) format(woff2);
 }
 
 @font-face {
-    font-family: "AtkinsonHyperlegibleNext-BewlyInternalResource"; /* 西文 */
+    font-family: "OldRoboto-BewlyInternalResource"; /* Roboto Medium (500) */
+    font-weight: 500;
+    font-style: normal;
+    font-feature-settings: "liga" off, "ss01" on, "ss02" on, "ss04" on;
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Medium.woff2')}) format(woff2);
+}
+
+@font-face {
+    font-family: "OldRoboto-BewlyInternalResource"; /* Roboto Medium, treat as SemiBold (600) */
+    font-weight: 600;
+    font-style: normal;
+    font-feature-settings: "liga" off, "ss01" on, "ss02" on, "ss04" on;
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Medium.woff2')}) format(woff2);
+}
+
+@font-face {
+    font-family: "OldRoboto-BewlyInternalResource"; /* Roboto Bold (700) */
+    font-weight: bold;
+    font-style: normal;
+    font-feature-settings: "liga" off, "ss01" on, "ss02" on, "ss04" on;
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Bold.woff2')}) format(woff2);
+}
+
+@font-face {
+    font-family: "OldRoboto-BewlyInternalResource"; /* Roboto Italic Regular (400) */
+    font-weight: normal;
     font-style: italic;
-    font-display: block;
-    src: url(${browser.runtime.getURL('/assets/fonts/AtkinsonHyperlegibleNext-Italic.woff2')}) tech(variations);
+    font-feature-settings: "liga" off, "ss02" on, "ss04" on;
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-Italic.woff2')}) format(woff2);
 }
 
 @font-face {
-    font-family: "ShangguSansSCVF-BewlyInternalResource"; /* CJK 旧字形 */
-    font-display: block;
-    src: url(${browser.runtime.getURL('/assets/fonts/ShangguSansSC-VF.otf')}) tech(variations);
+    font-family: "OldRoboto-BewlyInternalResource"; /* Roboto Italic Medium (500) */
+    font-weight: 500;
+    font-style: italic;
+    font-feature-settings: "liga" off, "ss02" on, "ss04" on;
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-MediumItalic.woff2')}) format(woff2);
 }
 
 @font-face {
-    font-family: "FrexSansGBVF-BewlyInternalResource"; /* CJK 新字形 */
-    font-display: block;
-    src: url(${browser.runtime.getURL('/assets/fonts/FrexSansGBVF.ttf')}) tech(variations);
+    font-family: "OldRoboto-BewlyInternalResource"; /* Roboto Italic Medium, treat as SemiBold (600) */
+    font-weight: 600;
+    font-style: italic;
+    font-feature-settings: "liga" off, "ss02" on, "ss04" on;
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-MediumItalic.woff2')}) format(woff2);
+}
+
+@font-face {
+    font-family: "OldRoboto-BewlyInternalResource"; /* Roboto Italic Bold (700) */
+    font-weight: bold;
+    font-style: italic;
+    font-feature-settings: "liga" off, "ss02" on, "ss04" on;
+    src: url(${browser.runtime.getURL('/assets/fonts/Roboto-BoldItalic.woff2')}) format(woff2);
+}
+
+@font-face {
+    font-family: "ShangguSansSCVF-BewlyInternalResource"; /* Chinese characters old form */
+    src: url(${browser.runtime.getURL('/assets/fonts/ShangguSansSC-VF.woff2')}) format(woff2) tech(variations);
+}
+
+@font-face {
+    font-family: "FrexSansGBVF-BewlyInternalResource"; /* Chinese characters modern form */
+    src: url(${browser.runtime.getURL('/assets/fonts/FrexSansGBVF.woff2')}) format(woff2) tech(variations);
 }
 `
 
@@ -572,7 +623,7 @@ document.head.appendChild(removeLeftQuoteIndent)
 
     <!-- Dock & RightSideButtons -->
     <div
-      v-if="!isInIframe()"
+      v-if="!isInIframe() && !isWebFullscreen"
       pos="absolute top-0 left-0" w-full h-full overflow-hidden
       pointer-events-none
     >

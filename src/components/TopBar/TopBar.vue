@@ -5,6 +5,7 @@ import type { Ref, UnwrapNestedRefs } from 'vue'
 import { useBewlyApp } from '~/composables/useAppProvider'
 import { useDark } from '~/composables/useDark'
 import { useDelayedHover } from '~/composables/useDelayedHover'
+import { useWebFullscreen } from '~/composables/useWebFullscreen'
 import { OVERLAY_SCROLL_BAR_SCROLL, TOP_BAR_VISIBILITY_CHANGE } from '~/constants/globalEvents'
 import { AppPage } from '~/enums/appEnums'
 import { settings } from '~/logic'
@@ -342,6 +343,10 @@ onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
   emitter.off(OVERLAY_SCROLL_BAR_SCROLL)
 })
+
+// Hide the top bar when entering web fullscreen (网页全屏). See useWebFullscreen for details.
+const { isWebFullscreen } = useWebFullscreen()
+watch(isWebFullscreen, webFullscreen => toggleTopBarVisible(!webFullscreen))
 
 async function initData() {
   await getUserInfo()

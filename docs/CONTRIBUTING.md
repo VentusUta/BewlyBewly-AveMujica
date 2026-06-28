@@ -6,29 +6,39 @@ English | [官话 - 简体中文](CONTRIBUTING-cmn_CN.md) | [官話 - 正體中�
 
 This project is built using [Vite](https://vitejs.dev/), please make sure you have [bun](https://bun.com/) installed, and it is recommended to use [Visual Studio Code](https://code.visualstudio.com/) for development.
 
-#### Building (Chrome or Edge)
+### Building (Chrome or Edge)
 
-To build the extension, run
+To build the extension, run:
 
 ```bash
 bun run build
 ```
 
-Then package it to the `extension` folder
+Then package it to the `extension` folder.
 
-#### Building (Firefox)
+### Building (Firefox)
 
-To build the extension, run
+To build the extension, run:
 
 ```bash
 bun run build-firefox
 ```
 
-Then package it to the `extension-firefox` folder
+Then package it to the `extension-firefox` folder.
 
 ## Contribution
 
-### About Branches
+### License Conflict Warning
+
+Commit from [BewlyCat](https://github.com/keleus/BewlyCat) [`6b31a0310fa4cf20364353040c43643e9703ee8d`](https://github.com/keleus/BewlyCat/commit/6b31a0310fa4cf20364353040c43643e9703ee8d) and after commits **CANNOT be used in this project**. BewlyCat after this commit is no longer free software (‘free’ as in ‘free speech’), and is incompatible with our [AGPLv3](../LICENSE) license.
+
+### LLM-Assisted Commits
+
+Do not use the `Co-Authored-By:` tag for the model in LLM-assisted commits; use the `Assisted-by:` tag instead.
+
+**LLMs are not human, and they cannot be held responsible for the code.**
+
+### Branches
 
 - **main**: Use this branch for bug fixes, developing new features, performance improvements, or modifications to internationalization (i18n) files.
 
@@ -36,4 +46,4 @@ Then package it to the `extension-firefox` folder
 
 - When doing translations, if you have a language you are not familiar with, you can use another language that you have translated and point out what language you cannot translate in the pull request.
 
-- **Please MANUALLY MAINTAIN the i18n files!!!** Do not use `i18n Ally` or other extensions to maintain them. I know you might be confused or might not like this, but using `i18n Ally` for the maintenance will make it uncertain where to place the translations afterward or delete the code comments.
+- **Please MANUALLY MAINTAIN the i18n files**! Do not use `i18n Ally` or other extensions to maintain them. I know you might be confused or might not like this, but using `i18n Ally` for the maintenance will make it uncertain where to place the translations afterward or delete the code comments.

@@ -117,7 +117,7 @@ const API_VIDEO = {
   },
   // https://socialsisteryi.github.io/bilibili-API-collect/docs/video/videostream_url.html#%E8%8E%B7%E5%8F%96%E8%A7%86%E9%A2%91%E6%B5%81%E5%9C%B0%E5%9D%80-web%E7%AB%AF
   getVideoPreview: {
-    url: 'https://api.bilibili.com/x/player/wbi/playurl',
+    url: 'https://api.bilibili.com/x/player/playurl',
     _fetch: {
       method: 'get',
     },

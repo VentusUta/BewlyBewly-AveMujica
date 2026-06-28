@@ -1,0 +1,17 @@
+TODO
+====
+
+Cleanup
+-------
+
+* Old top bar is now deprecated, related code should be removed
+
+Improvements
+------------
+
+* Improving the performance of frosted glass
+
+New Features
+------------
+
+* OpenCC for Chinese (Simplified/Traditional) conversion

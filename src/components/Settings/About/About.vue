@@ -73,7 +73,7 @@ function handleResetSettings() {
   if (result) {
     // Remember the last selected language when resetting settings
     originalSettings.language = settings.value.language
-    settings.value = originalSettings
+    settings.value = { ...originalSettings }
   }
 }
 
@@ -197,7 +197,7 @@ async function checkGitHubRelease() {
             为什么这个项目叫“BewlyBewly! Ave Mujica”？
           </h3>
           <div flex="~ gap-2">
-            CRYCHIC 死了，Ave Mujica 并不完美。BewlyBewly! Ave Mujica 也是如此。
+            CRYCHIC 死了，Ave Mujica 并不完美，但仍在努力进步。BewlyBewly! Ave Mujica 也是如此。
           </div>
         </section>
       </section>
@@ -242,12 +242,12 @@ async function checkGitHubRelease() {
             </p>
             <p mb-4>
               <strong>
-                继续使用本扩展，即视为阁下已充分知悉、理解，并自愿接受使用本扩展可能引发的全部风险及任何直接或潜在损失。
+                继续使用本扩展，即视为阁下已充分知悉、理解，并自愿接受使用本扩展可能引发的全部风险，及任何直接或潜在损失。
               </strong>
             </p>
             <p mb-4>
               <strong>
-                阁下在此明确同意并不可撤销地放弃因使用本扩展所产生或与之相关的任何损失、损害、费用、责任，或索赔的追究权利（包括但不限于直接、间接、附带、特殊或惩罚性损害）。
+                阁下在此明确同意并不可撤销地放弃因使用本扩展所产生或与之相关的任何损失、损害、费用、责任，或索赔的追究权利（包括但不限于直接、间接、附带、特殊，或惩罚性损害）。
               </strong>
             </p>
             <p mb-4>
