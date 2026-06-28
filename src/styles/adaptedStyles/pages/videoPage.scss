@@ -22,7 +22,12 @@
 
   // 使视频页和番剧页的底层元素背景透明，以显示 Bewly 背景
   &.has-custom-background {
-    &,
+    // html 保留 var(--bew-bg) 作为底色，避免暗色模式下图片加载前闪白
+    & {
+      background: var(--bew-bg) !important;
+      background-color: var(--bew-bg) !important;
+    }
+
     body,
     #app,
     .bili-app,
