@@ -7,7 +7,7 @@
 此项目是基于 [Vite](https://vitejs.dev/) 构建的，请确保安装了 [bun](https://bun.com/)，
 同时建议你用 [Visual Studio Code](https://code.visualstudio.com/) 进行开发。
 
-#### 构建 (Chrome or Edge)
+### 构建 (Chrome or Edge)
 
 要构建拓展程序，运行：
 
@@ -17,7 +17,7 @@ bun run build
 
 然后打包到 `extension` 文件夹。
 
-#### 构建 (Firefox)
+### 构建 (Firefox)
 
 要构建拓展程序，运行：
 
@@ -33,7 +33,7 @@ bun run build-firefox
 
 ### 许可证冲突警告
 
-来自[BewlyCat](https://github.com/keleus/BewlyCat)的[`6b31a0310fa4cf20364353040c43643e9703ee8d`](https://github.com/keleus/BewlyCat/commit/6b31a0310fa4cf20364353040c43643e9703ee8d)commit及之后的commit**不准在本项目中使用**。此commit导致BewlyCat不再是自由软件，与我们的[AGPLv3](../LICENSE)许可证不兼容。
+来自[BewlyCat](https://github.com/keleus/BewlyCat)的[`6b31a0310fa4cf20364353040c43643e9703ee8d`](https://github.com/keleus/BewlyCat/commit/6b31a0310fa4cf20364353040c43643e9703ee8d) commit及之后的commit**不准在本项目中使用**。此commit导致BewlyCat不再是自由软件，与我们的[AGPLv3](../LICENSE)许可证不兼容。
 
 ### 受LLM辅助的提交
 
@@ -49,4 +49,4 @@ bun run build-firefox
 
 - 在进行翻译时，如果你遇到一种你不熟悉的语言，可以使用另一种你已经翻译过的语言，并在 PR 中指出你无法翻译的语言。
 
-- **请手动维护 i18n 国际化文件！！！** 不要使用 `i18n Ally` 或其他扩展来维护它们。我知道你可能会感到困惑或不喜欢这样做，但使用 `i18n Ally` 进行维护会不确定翻译放在哪里或删除代码注释。
+- **请手动维护 i18n 国际化文件**！不要使用 `i18n Ally` 或其他扩展来维护它们。我知道你可能会感到困惑或不喜欢这样做，但使用 `i18n Ally` 进行维护会不确定翻译放在哪里或删除代码注释。
