@@ -1,16 +1,21 @@
 * {
   outline-color: var(--bew-theme-color-80);
   font-feature-settings: "tnum";
-  line-break: auto !important; /* make the original `line-break: anywhere` not work, it breaks 2 * em dash connection */
-  word-break: break-word !important; /* make the original `word-break: break-all` not work */
+  /* override the original `line-break: anywhere`, it breaks 2 * em dash connection */
+  line-break: auto !important;
+  /* override the original `word-break: break-all` */
+  word-break: break-word !important;
+  /*
+   * Don't send me <https://usabilitypost.com/2012/11/05/stop-fixing-font-smoothing>.
+   * Subpixel AA looks dirty. Disable subpixel aa is a fix.
+   */
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
   text-autospace: normal !important;
-  text-spacing-trim: normal !important;
   text-rendering: optimizeLegibility !important;
 }
 
-/* danmuku poll wrap fix */
+/* danmaku poll wrap fix */
 .bili-danmaku-x-vote-an-num,
 .vui_sidebar-item-right,
 .fans-medal {
