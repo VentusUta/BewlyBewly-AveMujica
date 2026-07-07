@@ -11,6 +11,13 @@
 <!-- ![min1](https://github.com/hakadao/BewlyBewly/assets/33394391/951f9e2a-d0e1-452c-83a9-dc6d85c4d441)
 ![min2](https://github.com/hakadao/BewlyBewly/assets/33394391/3e75dd20-f60b-4645-b434-23a24c72959c) -->
 
+## 安装
+
+- Firefox 系浏览器：https://addons.mozilla.org/en-CA/firefox/addon/bewlybewly-avemujica/
+- Chromium 系浏览器：
+  - Chrome Web Store：https://chromewebstore.google.com/detail/bewlybewly-ave-mujica/lildghglkgcoanblbmenbefhnhifghjj
+  - Edge Add-ons：（正等待审核）
+
 ## 介绍
 
 <!-- 我好想自杀。一切都好痛苦。 -->
@@ -26,11 +33,6 @@
 BewlyBewly! Ave Mujica 是一个用于 bilibili 的浏览器扩展，旨在通过重新设计 bilibili 用户界面来提升用户体验。设计灵感来自于 YouTube、Vision OS 和 iOS，从而实现了更具视觉吸引力和用户友好性的界面。
 
 该项目使用 [vitesse-webext](https://github.com/antfu/vitesse-webext) 模板进行开发。如果没有这个模板，可能无法开发出这个项目。
-
-## 安装
-
-- Firefox 系浏览器：https://addons.mozilla.org/en-CA/firefox/addon/bewlybewly-avemujica/
-- Chromium 系浏览器：https://chromewebstore.google.com/detail/bewlybewly-ave-mujica/lildghglkgcoanblbmenbefhnhifghjj
 
 ## 贡献与构建项目
 

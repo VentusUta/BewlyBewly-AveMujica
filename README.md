@@ -11,6 +11,13 @@ English | [官话 - 简体中文](README-cmn_CN.md) | [官話 - 繁體中文](RE
 <!-- ![min1](https://github.com/hakadao/BewlyBewly/assets/33394391/951f9e2a-d0e1-452c-83a9-dc6d85c4d441)
 ![min2](https://github.com/hakadao/BewlyBewly/assets/33394391/3e75dd20-f60b-4645-b434-23a24c72959c) -->
 
+## Installation
+
+- Firefox-based browsers: https://addons.mozilla.org/en-CA/firefox/addon/bewlybewly-avemujica/
+- Chromium-based browsers:
+  - Chrome Web Store: https://chromewebstore.google.com/detail/bewlybewly-ave-mujica/lildghglkgcoanblbmenbefhnhifghjj
+  - Edge Add-ons: (Waiting for certification)
+
 ## Introduction
 
 <!-- I really want to kill myself. Everything is so painful. -->
@@ -24,15 +31,9 @@ English | [官话 - 简体中文](README-cmn_CN.md) | [官話 - 繁體中文](RE
 > [!IMPORTANT]
 > BewlyBewly! Ave Mujica is a fork of [BewlyBewly](https://github.com/BewlyBewly/BewlyBewly) [v0.40.6](https://github.com/BewlyBewly/BewlyBewly/releases/tag/v0.40.6), aiming to provide feature updates and bug fixes after the original project was archived.
 
-BewlyBewly! Ave Mujica is a browser extension for bilibili that aims to enhance the user experience by redesigning the bilibili UI.
-The design is inspired by YouTube, Vision OS, and iOS, resulting in a more visually appealing and user-friendly interface.
-This project uses the [vitesse-webext](https://github.com/antfu/vitesse-webext) template for development.
-Without this template, it may not be possible to develop this project.
+BewlyBewly! Ave Mujica is a browser extension for bilibili that aims to enhance the user experience by redesigning the bilibili UI. The design is inspired by YouTube, Vision OS, and iOS, resulting in a more visually appealing and user-friendly interface.
 
-## Installation
-
-- (based on) Firefox browsers: https://addons.mozilla.org/en-CA/firefox/addon/bewlybewly-avemujica/
-- (based on) Chromium browsers: https://chromewebstore.google.com/detail/bewlybewly-ave-mujica/lildghglkgcoanblbmenbefhnhifghjj
+This project uses the [vitesse-webext](https://github.com/antfu/vitesse-webext) template for development. Without this template, it may not be possible to develop this project.
 
 ## Contribution & Build
 
