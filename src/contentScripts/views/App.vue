@@ -405,6 +405,12 @@ provide<BewlyAppProvider>('BEWLY_APP', {
   haveScrollbar,
 })
 
+document.querySelectorAll('link[rel="stylesheet"]').forEach((el) => {
+  const link = el as HTMLLinkElement
+  if (link.href.includes('regular.css') || link.href.includes('medium.css'))
+    link.remove()
+})
+
 /* Add 'BewlyInternalResource' suffix to prevent conflict with local fonts. */
 const fontStyles = document.createElement('style')
 fontStyles.textContent = `

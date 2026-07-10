@@ -6,8 +6,7 @@
     -apple-system, BlinkMacSystemFont, "Pretendard Std Variable", "Inter Variable", Inter, "Adwaita Sans", "Noto Sans",
     "Roboto Flex", Roboto, "Segoe UI Variable", "Segoe UI";
   --bew-fonts-fallback:
-    sans-serif, ui-sans-serif, system-ui, "Apple Color Emoji", "Twemoji Mozilla", "Noto Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol", emoji;
+    sans-serif, "Apple Color Emoji", "Twemoji Mozilla", "Noto Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
   --bew-fonts-english: var(--bew-fonts-basic), var(--bew-fonts-fallback);
   --bew-fonts-mandarin-cn:
@@ -31,14 +30,11 @@
 .bewly-design {
   code,
   samp,
-  pre {
+  pre,
+  kbd {
     /* SimSun, MingLiU, MS Gothic, and Gulim/Dotum will fuck the UI up, so we must explicitly specify Consolas */
     /* FUCK YOU MICROSOFT EAT SHIT AND DIE */
     font-family: "Google Sans Code", Consolas, monospace, sans-serif;
-  }
-
-  kbd {
-    font-family: var(--bew-font-family);
   }
 }
 

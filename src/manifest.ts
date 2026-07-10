@@ -87,6 +87,26 @@ export async function getManifest() {
         world: 'MAIN',
       },
     ],
+
+    declarative_net_request: {
+      rule_resources: [
+        {
+          id: 'block-harmonyos-sans',
+          enabled: true,
+          path: 'assets/block-harmonyos-sans.json',
+        },
+        ...isFirefox
+          ? []
+          : [
+              {
+                id: 'ruleset_1',
+                enabled: true,
+                path: 'assets/rules.json',
+              },
+            ],
+      ],
+    },
+
     web_accessible_resources: [
       {
         resources: ['dist/contentScripts/style.css', 'assets/*'],
@@ -103,19 +123,6 @@ export async function getManifest() {
           // this is required on dev for Vite script to load
             ? `script-src 'self' http://localhost:${port}; object-src 'self' http://localhost:${port}`
             : 'script-src \'self\'; object-src \'self\'',
-        },
-    ...isFirefox
-      ? {}
-      : {
-          declarative_net_request: {
-            rule_resources: [
-              {
-                id: 'ruleset_1',
-                enabled: true,
-                path: 'assets/rules.json',
-              },
-            ],
-          },
         },
   }
 

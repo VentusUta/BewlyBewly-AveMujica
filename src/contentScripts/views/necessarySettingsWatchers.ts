@@ -124,7 +124,10 @@ export function setupNecessarySettingsWatchers() {
     .video-info-container .special-text-indent[data-title^='《'],a[title^='《'],p[title^='《'],h3[title^='《'],
     .video-info-container .special-text-indent[data-title^='「'],a[title^='「'],p[title^='「'],h3[title^='「'],
     .video-info-container .special-text-indent[data-title^='『'],a[title^='『'],p[title^='『'],h3[title^='『'],
-    .video-info-container .special-text-indent[data-title^='【'],a[title^='【'],p[title^='【'],h3[title^='【'] {
+    .video-info-container .special-text-indent[data-title^='【'],a[title^='【'],p[title^='【'],h3[title^='【'],
+    .bili-video-card__title[title^="「"],
+    .bili-video-card__title[title^="『"],
+    .bili-video-card__title[title^="【"] {
       text-indent: 0 !important;
     }
   `)

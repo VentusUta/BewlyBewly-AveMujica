@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||s1.hdslb.com/bfs/static/jinkela/long/font/regular.css",
+      "resourceTypes": ["stylesheet"]
+    }
+  },
+  {
+    "id": 2,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||s1.hdslb.com/bfs/static/jinkela/long/font/medium.css",
+      "resourceTypes": ["stylesheet"]
+    }
+  }
+]
