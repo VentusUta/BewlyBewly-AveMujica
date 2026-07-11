@@ -147,6 +147,14 @@ async function checkGitHubRelease() {
           </h3>
           <div grid="~ xl:cols-5 lg:cols-4 md:cols-3 cols-2 gap-2">
             <a
+              href="https://x.com/VentusUta" target="_blank"
+              class="link-card"
+              bg="black dark:white !opacity-10 !hover:opacity-20"
+              un-text="black dark:white"
+            >
+              <div i-tabler:brand-x /> X
+            </a>
+            <a
               href="https://github.com/VentusUta/BewlyBewly-AveMujica" target="_blank"
               class="link-card"
               bg="black dark:white !opacity-10 !hover:opacity-20"
@@ -194,10 +202,10 @@ async function checkGitHubRelease() {
         </section>
         <section w-full>
           <h3 class="title">
-            为什么这个项目叫“BewlyBewly! Ave Mujica”？
+            问题反馈
           </h3>
           <div flex="~ gap-2">
-            CRYCHIC 死了，Ave Mujica 并不完美，但仍在努力进步。BewlyBewly! Ave Mujica 也是如此。
+            请发邮件到ventusuta@gmail.com，或在GitHub上开启新issue。
           </div>
         </section>
       </section>

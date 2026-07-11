@@ -405,6 +405,7 @@ provide<BewlyAppProvider>('BEWLY_APP', {
   haveScrollbar,
 })
 
+/* Block ‘Harmony Sans’ */
 document.querySelectorAll('link[rel="stylesheet"]').forEach((el) => {
   const link = el as HTMLLinkElement
   if (link.href.includes('regular.css') || link.href.includes('medium.css'))
