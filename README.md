@@ -8,7 +8,7 @@ English | [官话 - 简体中文](README-cmn_CN.md) | [官話 - 繁體中文](RE
 
 <p align="center">Just make a few small changes to your bilibili homepage.</p>
 
-<p align="center">![](https://img.shields.io/github/v/release/VentusUta/BewlyBewly-AveMujica) ![](https://img.shields.io/github/languages/code-size/VentusUta/BewlyBewly-AveMujica)</p>
+<p align="center"><img src="https://img.shields.io/github/v/release/VentusUta/BewlyBewly-AveMujica"> <img src="https://img.shields.io/github/languages/code-size/VentusUta/BewlyBewly-AveMujica"></p>
 
 ## Installation
 

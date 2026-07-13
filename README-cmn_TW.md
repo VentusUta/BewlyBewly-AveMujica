@@ -8,7 +8,7 @@
 
 <p align="center">對您的 bilibili 頁面進行一些小改動。</p>
 
-<p align="center">![](https://img.shields.io/github/v/release/VentusUta/BewlyBewly-AveMujica) ![](https://img.shields.io/github/languages/code-size/VentusUta/BewlyBewly-AveMujica)</p>
+<p align="center"><img src="https://img.shields.io/github/v/release/VentusUta/BewlyBewly-AveMujica"> <img src="https://img.shields.io/github/languages/code-size/VentusUta/BewlyBewly-AveMujica"></p>
 
 ## 安裝
 

@@ -8,7 +8,7 @@
 
 <p align="center">係咁以執吓你嘅 bilibili 頁面。</p>
 
-<p align="center">![](https://img.shields.io/github/v/release/VentusUta/BewlyBewly-AveMujica) ![](https://img.shields.io/github/languages/code-size/VentusUta/BewlyBewly-AveMujica)</p>
+<p align="center"><img src="https://img.shields.io/github/v/release/VentusUta/BewlyBewly-AveMujica"> <img src="https://img.shields.io/github/languages/code-size/VentusUta/BewlyBewly-AveMujica"></p>
 
 ## 單撈
 
