@@ -12,10 +12,10 @@
 
 ## 單撈
 
-- Firefox 系瀏覽器：https://addons.mozilla.org/en-CA/firefox/addon/bewlybewly-avemujica/
+- Firefox 系瀏覽器：<https://addons.mozilla.org/en-CA/firefox/addon/bewlybewly-avemujica/>
 - Chromium 系瀏覽器：
-  - Chrome Web Store：https://chromewebstore.google.com/detail/bewlybewly-ave-mujica/lildghglkgcoanblbmenbefhnhifghjj
-  - Edge Add-ons：（正等待审核）
+  - Chrome Web Store：<https://chromewebstore.google.com/detail/bewlybewly-ave-mujica/lildghglkgcoanblbmenbefhnhifghjj>
+  - Edge Add-ons：<https://microsoftedge.microsoft.com/addons/detail/bewlybewly-ave-mujica/niekempinbfaomnaindmibagnaclpgee>
 
 ## 介紹
 

@@ -12,10 +12,10 @@ English | [官话 - 简体中文](README-cmn_CN.md) | [官話 - 繁體中文](RE
 
 ## Installation
 
-- Firefox-based browsers: https://addons.mozilla.org/en-CA/firefox/addon/bewlybewly-avemujica/
+- Firefox-based browsers: <https://addons.mozilla.org/en-CA/firefox/addon/bewlybewly-avemujica/>
 - Chromium-based browsers:
-  - Chrome Web Store: https://chromewebstore.google.com/detail/bewlybewly-ave-mujica/lildghglkgcoanblbmenbefhnhifghjj
-  - Edge Add-ons: (Waiting for certification)
+  - Chrome Web Store: <https://chromewebstore.google.com/detail/bewlybewly-ave-mujica/lildghglkgcoanblbmenbefhnhifghjj>
+  - Edge Add-ons: <https://microsoftedge.microsoft.com/addons/detail/bewlybewly-ave-mujica/niekempinbfaomnaindmibagnaclpgee>
 
 ## Introduction
 
