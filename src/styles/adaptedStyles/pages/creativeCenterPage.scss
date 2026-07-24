@@ -17,8 +17,10 @@
     .bmc-video-card .video-preview__duration,
     .setting .watermark-setting .watermark-wrp .watermark-position-wrp,
     .chief-recommend-module .carousel-box .carousel-module .panel .title,
-    micro-app[name="video-up"] .cover-editor-panel-image,
-    micro-app[name="video-up"] .cover-upload-mask-btn,
+    // Cover editor (封面制作): only un-invert media so dark chrome stays.
+    // Previews are canvas-based; forceDark.scss only corrects img/video/iframe.
+    // https://github.com/VentusUta/BewlyBewly-AveMujica/issues/90
+    .cover-editor canvas,
     micro-app[name="video-up"] .color-picker-color .list,
     micro-app[name="video-up"] .tool-bar-text .btn-color,
     // Bilibili sidebar
