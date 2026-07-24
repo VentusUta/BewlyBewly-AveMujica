@@ -12,8 +12,15 @@ const showIframe = ref<boolean>(false)
 const showLoading = ref<boolean>(false)
 
 watch(() => isDark.value, (newValue) => {
-  iframeRef.value?.contentDocument?.documentElement.classList.toggle('dark', newValue)
-  iframeRef.value?.contentDocument?.body?.classList.toggle('dark', newValue)
+  try {
+    const doc = iframeRef.value?.contentDocument
+    if (!doc)
+      return
+    doc.documentElement.classList.toggle('dark', newValue)
+    doc.body?.classList.toggle('dark', newValue)
+  }
+  catch {
+  }
 })
 
 watch(() => props.url, () => {
