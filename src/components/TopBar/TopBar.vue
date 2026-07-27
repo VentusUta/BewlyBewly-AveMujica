@@ -509,7 +509,7 @@ defineExpose({
           style="
             mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1) 24px, rgba(0, 0, 0, 0.9) 44px, transparent);
           "
-          :style="{ backdropFilter: settings.disableFrostedGlass ? 'none' : 'blur(12px)' }"
+          :style="{ backdropFilter: 'var(--bew-filter-glass-1)' }"
           pos="absolute top-0 left-0" w-full h="[calc(var(--bew-top-bar-height)+16px)]"
           pointer-events-none transform-gpu
         />
