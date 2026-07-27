@@ -164,14 +164,18 @@ function handleBackToTopOrRefresh(action: 'backToTop' | 'refresh' | 'auto' = 'au
     emit('backToTop')
   }
   else if (action === 'refresh') {
+    showForwardButton.value = false
     emit('refresh')
     emit('backToTop')
   }
   else {
-    if (reachTop.value)
+    if (reachTop.value) {
+      showForwardButton.value = false
       emit('refresh')
-    else
+    }
+    else {
       emit('backToTop')
+    }
   }
 }
 

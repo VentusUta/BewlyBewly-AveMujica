@@ -254,22 +254,14 @@ function initPageAction() {
 
     // 根据当前模式保存数据
     if (settings.value.recommendationMode === 'web') {
-      if (hasBackState.value) {
-        // 如果当前已经是后退状态，则保存当前数据到前进状态
-        forwardVideoList.value = JSON.parse(JSON.stringify(videoList.value))
-        forwardRefreshIdx.value = refreshIdx.value
-        hasForwardState.value = true
-      }
-      else {
-        // 保存当前数据到后退缓存
-        cachedVideoList.value = JSON.parse(JSON.stringify(videoList.value))
-        cachedRefreshIdx.value = refreshIdx.value
-        hasBackState.value = true
+      // 保存当前数据到后退缓存
+      cachedVideoList.value = JSON.parse(JSON.stringify(videoList.value))
+      cachedRefreshIdx.value = refreshIdx.value
+      hasBackState.value = true
 
-        // 清空前进状态
-        forwardVideoList.value = []
-        hasForwardState.value = false
-      }
+      // 清空前进状态
+      forwardVideoList.value = []
+      hasForwardState.value = false
       // 显示撤销按钮
       showUndoButton.value = true
     }
