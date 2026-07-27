@@ -52,11 +52,11 @@ export function createTransformer(trigger: Ref<MaybeElement>, transformer: Trans
       const targetRect = el!.getBoundingClientRect()
 
       if (transformer.centerTarget.x) {
-        x = `calc(${transformer.x} - ${targetRect.width / 2}px)`
+        x = `calc(${transformer.x} - ${Math.round(targetRect.width / 2)}px)`
       }
 
       if (transformer.centerTarget.y) {
-        y = `calc(${transformer.y} - ${targetRect.height / 2}px)`
+        y = `calc(${transformer.y} - ${Math.round(targetRect.height / 2)}px)`
       }
     }
 

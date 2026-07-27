@@ -25,6 +25,16 @@ const activatedMenuItem = ref<MenuType>(MenuType.General)
 const title = ref<string>(t('settings.title'))
 const settingsWindow = ref<HTMLDivElement>()
 
+createTransformer(settingsWindow, {
+  x: '50%',
+  y: '50%',
+  notrigger: true,
+  centerTarget: {
+    x: true,
+    y: true,
+  },
+})
+
 useEventListener(window, 'resize', () => {
   createTransformer(settingsWindow, {
     x: '50%',
@@ -188,11 +198,18 @@ function setCurrentTitle() {
         class="settings-content"
         style="
           --un-shadow: var(--bew-shadow-4), var(--bew-shadow-edge-glow-2);
-          backdrop-filter: var(--bew-filter-glass-2);
         "
         relative overflow="x-hidden" w-full h-full bg="$bew-elevated-alt"
         shadow rounded="$bew-radius" border="1 $bew-border-color" transform-gpu
       >
+        <div
+          style="
+            backdrop-filter: var(--bew-filter-glass-2);
+          "
+          pos="absolute top-0 left-0" z--1
+          w-full h-full pointer-events-none
+          rounded-inherit transform-gpu
+        />
         <header
           flex justify-between items-center w-full h-80px
           pos="fixed top-0 left-0" p="x-11"
