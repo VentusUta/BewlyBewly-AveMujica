@@ -30,6 +30,10 @@ if (isFirefox) {
 
 const currentUrl = document.URL
 
+function isFansMedalWallPage(): boolean {
+  return /https?:\/\/live\.bilibili\.com\/p\/html\/live-fansmedal-wall.*/.test(currentUrl)
+}
+
 function isSupportedPages(): boolean {
   if (isInIframe())
     return false
@@ -119,12 +123,17 @@ export function isSupportedIframePages(): boolean {
 
 let beforeLoadedStyleEl: HTMLStyleElement | undefined
 
-if (isSupportedPages() || isSupportedIframePages()) {
+const isStylesOnlyPage = isFansMedalWallPage()
+
+if (isSupportedPages() || isSupportedIframePages() || isStylesOnlyPage) {
   if (settings.value.adaptToOtherPageStyles)
     useDark()
 
   if (settings.value.adaptToOtherPageStyles) {
     document.documentElement.classList.add('bewly-design')
+
+    if (isStylesOnlyPage && settings.value.themeColor)
+      document.documentElement.style.setProperty('--bew-theme-color', settings.value.themeColor)
 
     // Remove the Bilibili Evolved's dark mode style
     runWhenIdle(async () => {

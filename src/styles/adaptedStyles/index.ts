@@ -149,6 +149,11 @@ async function setupStyles() {
     await import('./pages/loginPage.scss')
     document.documentElement.classList.add('loginPage')
   }
+
+  else if (/https?:\/\/live\.bilibili\.com\/p\/html\/live-fansmedal-wall.*/.test(currentUrl)) {
+    await import('./pages/fansMedalWallPage.scss')
+    document.documentElement.classList.add('fansMedalWallPage')
+  }
 }
 
 setupStyles()

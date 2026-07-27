@@ -1,0 +1,127 @@
+.bewly-design.fansMedalWallPage {
+  // #region theme color adaption part
+  :not(foobar) {
+    .content .info .num .progress .blue,
+    .content .btn {
+      background-color: var(--bew-theme-color);
+    }
+
+    .content.border,
+    .border {
+      border-color: var(--bew-theme-color) !important;
+    }
+
+    .header .count span {
+      color: var(--bew-theme-color);
+    }
+
+    [data-v-1615c0aa]::-webkit-scrollbar-thumb:hover {
+      background: var(--bew-theme-color);
+    }
+  }
+  // #endregion
+
+  // #region dark mode adaption part
+  &.dark {
+    & {
+      background: var(--bew-bg) !important;
+      background-color: var(--bew-bg) !important;
+      color: var(--bew-text-1);
+    }
+
+    body,
+    body #app,
+    #app,
+    #main,
+    .container {
+      background: var(--bew-bg) !important;
+      background-color: var(--bew-bg) !important;
+      color: var(--bew-text-1);
+    }
+
+    .header .name,
+    .medalList .emptyDes,
+    .medalList .list p,
+    .medalList .title .name,
+    .curMedal .info .name,
+    .content .info .limit .before,
+    .manage .tip {
+      color: var(--bew-text-1) !important;
+    }
+
+    .content .info .centerCon .name,
+    .content .info .name,
+    .content .info .num,
+    .decoration .content .anchor .nickname {
+      color: var(--bew-text-2) !important;
+    }
+
+    .header .count,
+    .content .info .limit,
+    .medalList .title .mount,
+    .medalList .noList p,
+    .noList p,
+    .empty:after,
+    .notWear:after,
+    .setting .configItem .info-content .info,
+    .configItem .info {
+      color: var(--bew-text-3) !important;
+    }
+
+    .header .face,
+    .curMedal .face {
+      border-color: var(--bew-border-color);
+    }
+
+    .content {
+      border-color: var(--bew-border-color) !important;
+      background-color: var(--bew-content-solid);
+    }
+
+    .content .info {
+      background-image: linear-gradient(
+        90deg,
+        var(--bew-content-solid) 56%,
+        color-mix(in oklab, var(--bew-theme-color), var(--bew-content-solid) 88%) 99%
+      ) !important;
+    }
+
+    .content .info .num .progress {
+      background-color: var(--bew-fill-2);
+    }
+
+    .setting {
+      background: var(--bew-bg) !important;
+    }
+
+    .setting .configItem .manage:after,
+    .decoration .content:after {
+      background: var(--bew-border-color) !important;
+    }
+
+    .medalList .title {
+      border-color: var(--bew-border-color) !important;
+    }
+
+    #medalNew .medal_list .medal_item {
+      background: var(--bew-content-solid) !important;
+    }
+
+    #medalNew .user_avatar {
+      background-color: var(--bew-fill-1) !important;
+    }
+
+    .decoration .benefits-bg:not(.guard-1):not(.guard-2):not(.guard-3) {
+      background-image: linear-gradient(90deg, var(--bew-content-solid) 56%, var(--bew-fill-1) 99%) !important;
+    }
+
+    .ztolayer-dialog .dialog-body {
+      color: var(--bew-text-1);
+    }
+
+    .ztolayer-dialog .dialog-title .title {
+      color: var(--bew-theme-color);
+    }
+  }
+  // #endregion
+}
