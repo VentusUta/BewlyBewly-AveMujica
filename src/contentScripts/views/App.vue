@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { useEventListener, useThrottleFn, useToggle } from '@vueuse/core'
 import type { Ref } from 'vue'
+import { useToast } from 'vue-toastification'
 
 import type { BewlyAppProvider } from '~/composables/useAppProvider'
 import { useDark } from '~/composables/useDark'
 import { useWebFullscreen } from '~/composables/useWebFullscreen'
-import { BEWLY_MOUNTED, DRAWER_VIDEO_ENTER_PAGE_FULL, DRAWER_VIDEO_EXIT_PAGE_FULL, IFRAME_PAGE_SWITCH_BEWLY, IFRAME_PAGE_SWITCH_BILI, OVERLAY_SCROLL_BAR_SCROLL } from '~/constants/globalEvents'
+import { BEWLY_API_TOAST, BEWLY_MOUNTED, DRAWER_VIDEO_ENTER_PAGE_FULL, DRAWER_VIDEO_EXIT_PAGE_FULL, IFRAME_PAGE_SWITCH_BEWLY, IFRAME_PAGE_SWITCH_BILI, OVERLAY_SCROLL_BAR_SCROLL } from '~/constants/globalEvents'
 import { AppPage } from '~/enums/appEnums'
 import { settings } from '~/logic'
 import { type DockItem, useMainStore } from '~/stores/mainStore'
@@ -20,6 +21,23 @@ const mainStore = useMainStore()
 const settingsStore = useSettingsStore()
 const { isDark } = useDark()
 const [showSettings, toggleSettings] = useToggle(false)
+const toast = useToast()
+
+useEventListener(window, BEWLY_API_TOAST, ((event: CustomEvent<{ message?: string, type?: string }>) => {
+  const message = event.detail?.message
+  if (!message)
+    return
+
+  const type = event.detail?.type || 'error'
+  if (type === 'warning')
+    toast.warning(message)
+  else if (type === 'info')
+    toast.info(message)
+  else if (type === 'success')
+    toast.success(message)
+  else
+    toast.error(message)
+}) as EventListener)
 
 // Get the 'page' query parameter from the URL
 function getPageParam(): AppPage | null {

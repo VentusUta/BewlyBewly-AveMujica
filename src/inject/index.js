@@ -120,6 +120,90 @@ function setupClipboardInterceptor() {
 
 setupClipboardInterceptor()
 
+function isReplyActionUrl(url) {
+  if (!url)
+    return false
+  try {
+    const parsed = new URL(url, location.href)
+    const path = parsed.pathname.replace(/\/+$/, '')
+    return parsed.hostname === 'api.bilibili.com'
+      && path === '/x/v2/reply/action'
+  }
+  catch {
+    return /api\.bilibili\.com\/x\/v2\/reply\/action(?:\?|$|\/)/.test(String(url))
+  }
+}
+
+let lastReplyActionToastKey = ''
+let lastReplyActionToastAt = 0
+
+function notifyReplyActionError(data) {
+  if (!data || typeof data !== 'object')
+    return
+  if (data.code === 0 || data.code === '0')
+    return
+
+  const message = data.message || data.msg
+  if (!message || message === '0')
+    return
+
+  const text = String(message)
+  const now = Date.now()
+  if (text === lastReplyActionToastKey && now - lastReplyActionToastAt < 800)
+    return
+  lastReplyActionToastKey = text
+  lastReplyActionToastAt = now
+
+  window.dispatchEvent(new CustomEvent('bewlyApiToast', {
+    detail: { message: text, type: 'error' },
+  }))
+}
+
+function setupReplyActionInterceptor() {
+  if (typeof window.fetch === 'function') {
+    const originalFetch = window.fetch.bind(window)
+    window.fetch = function (...args) {
+      const input = args[0]
+      let url = ''
+      if (typeof input === 'string')
+        url = input
+      else if (input && typeof input.url === 'string')
+        url = input.url
+
+      return originalFetch(...args).then((response) => {
+        if (isReplyActionUrl(url)) {
+          response.clone().json().then(notifyReplyActionError).catch(() => {})
+        }
+        return response
+      })
+    }
+  }
+
+  if (typeof XMLHttpRequest !== 'undefined') {
+    const originalOpen = XMLHttpRequest.prototype.open
+    const originalSend = XMLHttpRequest.prototype.send
+
+    XMLHttpRequest.prototype.open = function (method, url, ...rest) {
+      this.__bewlyReplyActionUrl = typeof url === 'string' ? url : String(url ?? '')
+      return originalOpen.call(this, method, url, ...rest)
+    }
+
+    XMLHttpRequest.prototype.send = function (...args) {
+      this.addEventListener('load', function onLoad() {
+        if (!isReplyActionUrl(this.__bewlyReplyActionUrl))
+          return
+        try {
+          notifyReplyActionError(JSON.parse(this.responseText))
+        }
+        catch {}
+      })
+      return originalSend.apply(this, args)
+    }
+  }
+}
+
+setupReplyActionInterceptor()
+
 window.___inject = true
 
 // History.prototype.pushState = history.pushState
