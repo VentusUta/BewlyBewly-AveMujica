@@ -93,7 +93,7 @@ function handleClick(event: MouseEvent, item: { name: string, url: string, unrea
       rounded="$bew-radius"
       transition="all duration-300"
       m="b-1 last:b-0"
-      :custom-click-event="!settings.useOldTopBar && settings.openNotificationsPageAsDrawer"
+      :custom-click-event="settings.openNotificationsPageAsDrawer"
       @click="(event: MouseEvent) => handleClick(event, item)"
     >
       <div flex="~ items-center gap-2">

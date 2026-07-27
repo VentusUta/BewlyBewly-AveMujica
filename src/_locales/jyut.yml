@@ -150,7 +150,6 @@ settings:
   hover_video_card_delayed: 滑鼠停留喺影片卡片嗰陣遲啲進行影片預覽
 
   # Desktop and Dock
-  use_old_top_bar: 用返舊版頂部欄
   auto_hide_top_bar: 自動收埋頂部欄
   show_top_bar_theme_color_gradient: 喺頂部欄顯示主題色漸變（淨係喺深色模式下有效）
   show_bewly_or_bili_top_bar_switcher: 顯示 BewlyBewly / bilibili 頂部欄切換掣
