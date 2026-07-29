@@ -81,8 +81,8 @@
 
       // 浅色毛玻璃：别太白，否则还是“白块”
       background-color: rgba(241, 242, 243, 0.22);
-      backdrop-filter: var(--bew-filter-glass-1);
-      -webkit-backdrop-filter: var(--bew-filter-glass-1);
+      backdrop-filter: blur(12px) saturate(120%);
+      -webkit-backdrop-filter: blur(12px) saturate(120%);
 
       // 轻边框增加层次，缓解“矩形角明显”
       // 图片底实际效果好看，但纯色底实际效果不太好看，先预留着
@@ -112,8 +112,8 @@
       z-index: 0;
 
       background-color: rgba(241, 242, 243, 0.22);
-      backdrop-filter: var(--bew-filter-glass-1);
-      -webkit-backdrop-filter: var(--bew-filter-glass-1);
+      backdrop-filter: blur(12px) saturate(120%);
+      -webkit-backdrop-filter: blur(12px) saturate(120%);
 
       // 图片底实际效果好看，但纯色底实际效果不太好看，先预留着
       // border: 1px solid rgba(255, 255, 255, 0.22);

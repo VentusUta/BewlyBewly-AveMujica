@@ -423,8 +423,8 @@ export function injectBottomCommentStyle() {
     styleEl.textContent = `
       div.bili-comments-bottom-fixed-wrapper > div {
         background-color: rgba(255, 255, 255, 0) !important;
-        backdrop-filter: var(--bew-filter-glass-1);
-        -webkit-backdrop-filter: var(--bew-filter-glass-1);
+        backdrop-filter: blur(12px) saturate(120%);
+        -webkit-backdrop-filter: blur(12px) saturate(120%);
         border-top-color: rgba(255, 255, 255, 0.22) !important;
       }
     `
