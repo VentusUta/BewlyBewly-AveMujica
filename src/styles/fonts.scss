@@ -20,10 +20,12 @@
     "Microsoft JhengHei", var(--bew-fonts-fallback);
 
   --bew-fonts-recommend:
-    EmDashFont, OldRoboto-BewlyInternalResource, ShangguSansSCVF-BewlyInternalResource, var(--bew-fonts-fallback);
+    MiddleDotFont, EmDashFont, OldRoboto-BewlyInternalResource, ShangguSansSCVF-BewlyInternalResource,
+    var(--bew-fonts-fallback);
 
   --bew-fonts-recommend-new:
-    EmDashFont, OldRoboto-BewlyInternalResource, FrexSansGBVF-BewlyInternalResource, var(--bew-fonts-fallback);
+    MiddleDotFont, EmDashFont, OldRoboto-BewlyInternalResource, FrexSansGBVF-BewlyInternalResource,
+    var(--bew-fonts-fallback);
 }
 
 .bewly-wrapper,

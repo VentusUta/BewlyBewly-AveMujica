@@ -440,6 +440,13 @@ fontStyles.textContent = `
 }
 
 @font-face {
+    font-family: "MiddleDotFont"; /* U+00B7 */
+    unicode-range: U+00B7;
+    font-feature-settings: "hwid" on;
+    src: url(${browser.runtime.getURL('/assets/fonts/FrexSansGBVF.woff2')}) format(woff2) tech(variations);
+}
+
+@font-face {
     font-family: "OldRoboto-BewlyInternalResource"; /* Roboto Regular (400) */
     font-weight: normal;
     font-style: normal;
