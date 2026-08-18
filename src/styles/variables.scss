@@ -1,4 +1,9 @@
-:host,
+// `:host` here must stay scoped to #bewly (our own shadow host, see contentScripts/index.ts).
+// Safari applies extension content styles as user stylesheets, and WebKit injects
+// user stylesheets into every shadow tree on the page — a bare `:host` would then
+// match third-party shadow hosts too (e.g. bilibili's <bili-comments>) and leak
+// light theme variables into them, making comment text unreadable in dark mode.
+:host(#bewly),
 :root {
   --bew-page-max-width: 2280px;
 
@@ -196,7 +201,7 @@
   --bew-border-color: rgb(131 131 145 / 18%);
 }
 
-:host(.dark),
+:host(#bewly.dark),
 :root.dark {
   // dark mode
 
@@ -259,11 +264,11 @@
 }
 
 :root.dark.bewly-design.forceDark,
-:host(.dark.bewly-design.forceDark) {
+:host(#bewly.dark.bewly-design.forceDark) {
   --bew-filter-force-dark: invert(0.98) hue-rotate(180deg) brightness(1.1);
 }
 
-:host(.disable-frosted-glass),
+:host(#bewly.disable-frosted-glass),
 :root.disable-frosted-glass {
   --bew-content-opacity: 1;
   --bew-filter-glass-1: none;
@@ -273,18 +278,18 @@
   --bew-fill-alt: var(--bew-content-solid);
 }
 
-:host(.disable-frosted-glass.dark),
+:host(#bewly.disable-frosted-glass.dark),
 :root.disable-frosted-glass.dark {
   --bew-fill-alt: var(--bew-fill-1);
 }
 
-:host(.reduce-frosted-glass-blur),
+:host(#bewly.reduce-frosted-glass-blur),
 :root.reduce-frosted-glass-blur {
   --bew-filter-glass-1: blur(10px) saturate(180%);
   --bew-filter-glass-2: blur(20px) saturate(180%);
 }
 
-:host(.disable-shadow),
+:host(#bewly.disable-shadow),
 :root.disable-shadow {
   --bew-shadow-1: 0 0 0 transparent;
   --bew-shadow-2: 0 0 0 transparent;
