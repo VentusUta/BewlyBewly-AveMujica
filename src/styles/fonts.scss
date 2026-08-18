@@ -1,7 +1,9 @@
 /** font-family 選用字型設定感謝 胡雨晴 hafterain (https://github.com/hafterain) 提供幫助 ❤️❤️❤️ */
 
+// `:host` is scoped to #bewly to avoid leaking into third-party shadow trees
+// under Safari's user stylesheet handling — see the note in variables.scss
 :root,
-:host {
+:host(#bewly) {
   --bew-fonts-basic:
     -apple-system, BlinkMacSystemFont, "Pretendard Std Variable", "Inter Variable", Inter, "Adwaita Sans", "Noto Sans",
     "Roboto Flex", Roboto, "Segoe UI Variable", "Segoe UI";
