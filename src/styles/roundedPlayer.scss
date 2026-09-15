@@ -1,10 +1,12 @@
 // YouTube-like rounded corners for the bilibili video player
 html.rounded-video-player {
   // 全屏、网页全屏和小窗预览播放器时保持直角，避免四角露底
-  // 右侧相关视频卡片内的悬浮预览播放器（.v-recommend-inline-player）也保持直角
-  .bpx-player-container:not(:fullscreen):not([data-screen="full"]):not([data-screen="web"]):not(
+  // 用 #bilibili-player 白名单圈定主播放器：各页面（首页/空间页/视频页推荐列表）
+  // 悬浮预览的内嵌播放器都不在 #bilibili-player 内，天然排除，无需枚举类名
+  #bilibili-player
+    .bpx-player-container:not(:fullscreen):not([data-screen="full"]):not([data-screen="web"]):not(
       [data-screen="mini"]
-    ):not(.v-recommend-inline-player *) {
+    ) {
     border-radius: 12px;
     overflow: hidden;
     // Chromium 对合成视频图层做祖先圆角裁剪时，圆角处会残留黑色色块，
@@ -16,7 +18,10 @@ html.rounded-video-player {
   // wrap 若恒定带 transform 会成为 fixed 播放器的包含块，导致播放器无法铺满视口。
   // 注意 wrap 不能加 translateZ(0)：合成层会把自己的 box-shadow 连同圆角裁剪一起裁掉，
   // 发光就没了；wrap 内需要裁剪的只有普通元素（占位层等），非合成裁剪自带抗锯齿
-  .player-wrap:not(:has([data-screen="full"], [data-screen="web"], [data-screen="wide"], [data-screen="mini"])) {
+  // 限定为包含 #bilibili-player 的主播放器外层，避免误伤其他页面的同名元素
+  .player-wrap:has(#bilibili-player):not(
+      :has([data-screen="full"], [data-screen="web"], [data-screen="wide"], [data-screen="mini"])
+    ) {
     border-radius: 12px;
     overflow: hidden;
   }
@@ -29,7 +34,9 @@ html.rounded-video-player {
   // 原生发光：容器自带 0 0 8px var(--bpx-box-shadow) 的均匀阴影，但会被 wrap 的
   // overflow:hidden 连同子元素一起裁掉，故在 wrap 上原样补回；再叠加下坠式阴影，
   // 因为圆角裁剪后原生均匀阴影衬托不出圆角轮廓
-  .player-wrap:not(:has([data-screen="full"], [data-screen="web"], [data-screen="wide"], [data-screen="mini"])) {
+  .player-wrap:has(#bilibili-player):not(
+      :has([data-screen="full"], [data-screen="web"], [data-screen="wide"], [data-screen="mini"])
+    ) {
     box-shadow:
       0 0 8px var(--bpx-box-shadow, #e5e9ef),
       0 4px 20px rgb(0 0 0 / 14%);
@@ -38,9 +45,14 @@ html.rounded-video-player {
   // 深色模式下原生光晕（--bpx-box-shadow: #0a0b0c/rgba(0,0,0,.15)）与页面背景几乎同色，
   // 黑色阴影失去对比，且圆角会把方角处集中的光晕能量摊薄。
   // 用多层白柔光勾出边缘（近边缘一层较实、向外逐层衰减），既可见又不会像 1px 描边那样生硬
-  &.dark .player-wrap:not(:has([data-screen="full"], [data-screen="web"], [data-screen="wide"], [data-screen="mini"])),
+  &.dark
+    .player-wrap:has(#bilibili-player):not(
+      :has([data-screen="full"], [data-screen="web"], [data-screen="wide"], [data-screen="mini"])
+    ),
   &.bili_dark
-    .player-wrap:not(:has([data-screen="full"], [data-screen="web"], [data-screen="wide"], [data-screen="mini"])) {
+    .player-wrap:has(#bilibili-player):not(
+      :has([data-screen="full"], [data-screen="web"], [data-screen="wide"], [data-screen="mini"])
+    ) {
     box-shadow:
       0 0 8px rgb(0 0 0 / 50%),
       0 4px 20px rgb(0 0 0 / 45%),
