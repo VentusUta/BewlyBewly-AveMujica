@@ -282,12 +282,27 @@ function injectApp() {
   shadowDOM.appendChild(root)
   container.style.opacity = '0'
   container.style.transition = 'opacity 0.5s'
+  let revealTimer: ReturnType<typeof setTimeout> | undefined
+  const revealContainer = (delayMs: number, onReveal?: () => void) => {
+    clearTimeout(revealTimer)
+    revealTimer = setTimeout(() => {
+      onReveal?.()
+      container.style.opacity = '1'
+    }, delayMs)
+  }
   styleEl.onload = () => {
     // To prevent abrupt style transitions caused by sudden style changes
-    setTimeout(() => {
-      container.style.opacity = '1'
-    }, 500)
+    revealContainer(500)
   }
+  // 保证容器在 <link> 的 load 事件未能正常触发时也会显示，避免主页等异常空屏的情况
+  styleEl.onerror = () => {
+    console.warn('[BewlyBewly] Failed to load the shadow DOM stylesheet, revealing the UI anyway')
+    revealContainer(500)
+  }
+  // load 和 error 都没触发时的兜底
+  revealContainer(5000, () => {
+    console.warn('[BewlyBewly] The shadow DOM stylesheet neither loaded nor failed within 5s, revealing the UI anyway')
+  })
 
   // startShadowDOMStyleInjection()
   injectBottomCommentStyle()
