@@ -1,11 +1,15 @@
-.large-header {
+// `.bili-header--large` is the new name of `.large-header` in Bilibili's reworked homepage header
+.large-header,
+.bili-header.bili-header--large {
   background-color: transparent !important;
 }
 
 .bewly-design {
   // Implement specific modifications to the page, like tweaking the layout, and place those styles here
   .bili-header .slide-down,
-  .bili-header .mini-header {
+  .bili-header .mini-header,
+  // `.mini-header` of the reworked header, used by the video page, search page, etc.
+  .bili-header.bili-header--mini .bili-header__bar {
     background-color: var(--bew-elevated) !important;
     backdrop-filter: var(--bew-filter-glass-1);
   }
