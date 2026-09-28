@@ -12,6 +12,7 @@
   .bili-header.bili-header--mini .bili-header__bar {
     background-color: var(--bew-elevated) !important;
     backdrop-filter: var(--bew-filter-glass-1);
+    box-shadow: var(--bew-shadow-1);
   }
 
   // The reworked homepage header only switches its white text to dark via the Vue-bound `.white-bg-bar`
