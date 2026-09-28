@@ -9,7 +9,9 @@
   .bili-header .slide-down,
   .bili-header .mini-header,
   // `.mini-header` of the reworked header, used by the video page, search page, etc.
-  .bili-header.bili-header--mini .bili-header__bar {
+  .bili-header.bili-header--mini .bili-header__bar,
+  // `.slide-down` of the reworked header, i.e. the sticky state after scrolling
+  .bili-header.bili-header--slide-down .bili-header__bar {
     background-color: var(--bew-elevated) !important;
     backdrop-filter: var(--bew-filter-glass-1);
     box-shadow: var(--bew-shadow-1);
