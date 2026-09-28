@@ -312,7 +312,7 @@ provide('getVideoType', () => props.type!)
 
             <div
               v-if="removed"
-              pos="absolute top-0 left-0" w-full h-fit aspect-video flex="~ col gap-2 items-center justify-center"
+              pos="absolute inset-0" flex="~ col gap-2 items-center justify-center"
               bg="$bew-fill-4" backdrop-blur-20px mix-blend-luminosity rounded="$bew-radius" z-2
             >
               <p mb-2 color-white text-lg>
