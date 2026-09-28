@@ -14,6 +14,25 @@
     backdrop-filter: var(--bew-filter-glass-1);
   }
 
+  // The reworked homepage header only switches its white text to dark via the Vue-bound `.white-bg-bar`
+  // while the window is scrolled, which never happens on BewlyBewly's homepage, so mirror it here
+  :not(foobar) {
+    .bili-header .slide-down {
+      .left-entry,
+      .right-entry .right-entry__item-trigger .trigger-icon {
+        color: var(--bew-text-1);
+      }
+
+      .right-entry {
+        color: var(--bew-text-2);
+      }
+
+      .left-entry .home-page-entry .trigger-icon {
+        color: var(--bew-theme-color);
+      }
+    }
+  }
+
   // #region theme color adaption part
   // Increase the priority of the style inside by writing a non-existent selector in `:not()`
   :not(foobar) {
