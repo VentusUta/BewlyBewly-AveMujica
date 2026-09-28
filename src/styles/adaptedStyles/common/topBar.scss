@@ -1,13 +1,39 @@
-.large-header {
+// `.bili-header--large` is the new name of `.large-header` in Bilibili's reworked homepage header
+.large-header,
+.bili-header.bili-header--large {
   background-color: transparent !important;
 }
 
 .bewly-design {
   // Implement specific modifications to the page, like tweaking the layout, and place those styles here
   .bili-header .slide-down,
-  .bili-header .mini-header {
+  .bili-header .mini-header,
+  // `.mini-header` of the reworked header, used by the video page, search page, etc.
+  .bili-header.bili-header--mini .bili-header__bar,
+  // `.slide-down` of the reworked header, i.e. the sticky state after scrolling
+  .bili-header.bili-header--slide-down .bili-header__bar {
     background-color: var(--bew-elevated) !important;
     backdrop-filter: var(--bew-filter-glass-1);
+    box-shadow: var(--bew-shadow-1);
+  }
+
+  // The reworked homepage header only switches its white text to dark via the Vue-bound `.white-bg-bar`
+  // while the window is scrolled, which never happens on BewlyBewly's homepage, so mirror it here
+  :not(foobar) {
+    .bili-header .slide-down {
+      .left-entry,
+      .right-entry .right-entry__item-trigger .trigger-icon {
+        color: var(--bew-text-1);
+      }
+
+      .right-entry {
+        color: var(--bew-text-2);
+      }
+
+      .left-entry .home-page-entry .trigger-icon {
+        color: var(--bew-theme-color);
+      }
+    }
   }
 
   // #region theme color adaption part
