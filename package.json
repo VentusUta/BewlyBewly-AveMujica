@@ -2,9 +2,9 @@
   "name": "bewlybewly-avemujica",
   "displayName": "BewlyBewly! Ave Mujica",
   "type": "module",
-  "version": "1.8.32",
+  "version": "1.8.33",
   "private": true,
-  "packageManager": "bun@1.4",
+  "packageManager": "bun@1.4.2",
   "description": "Just make a few small changes to your bilibili homepage.",
   "homepage": "https://github.com/VentusUta/BewlyBewly-AveMujica",
   "scripts": {
