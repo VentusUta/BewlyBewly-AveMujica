@@ -331,20 +331,23 @@ provide('getVideoType', () => props.type!)
 
             <!-- Video preview -->
             <Transition v-if="!removed && showPreview && settings.enableVideoPreview" name="fade">
-              <video
+              <div
                 v-if="previewVideoUrl && isHover"
-                ref="videoElement"
-                autoplay muted
-                :controls="settings.enableVideoCtrlBarOnVideoCard"
-                pos="absolute top-0 left-0" w-full aspect-video rounded="$bew-radius" bg-black
-                :style="{
-                  pointerEvents: settings.enableVideoCtrlBarOnVideoCard ? 'auto' : 'none',
-                  clipPath: 'inset(0 round var(--bew-radius))',
-                }"
-                @mouseenter="handleMouseEnter"
+                class="video-preview"
+                pos="absolute inset-0" overflow-hidden rounded="$bew-radius"
+                transform="~ translate-z-0" pointer-events-none
               >
-                <source :src="previewVideoUrl" type="video/mp4">
-              </video>
+                <video
+                  ref="videoElement"
+                  autoplay muted
+                  :controls="settings.enableVideoCtrlBarOnVideoCard"
+                  pos="absolute inset-[-3px]" w="[calc(100%+6px)]" h="[calc(100%+6px)]" max-w-none bg-black
+                  :style="{ pointerEvents: settings.enableVideoCtrlBarOnVideoCard ? 'auto' : 'none' }"
+                  @mouseenter="handleMouseEnter"
+                >
+                  <source :src="previewVideoUrl" type="video/mp4">
+                </video>
+              </div>
             </Transition>
 
             <!-- Ranking Number -->
@@ -581,6 +584,17 @@ provide('getVideoType', () => props.type!)
 
 .vertical-card-cover {
   --uno: "w-full";
+}
+
+.horizontal-card-cover,
+.vertical-card-cover {
+  &:has(> .video-preview:not(.fade-enter-active, .fade-leave-active)) {
+    background-color: transparent;
+
+    > picture {
+      opacity: 0;
+    }
+  }
 }
 
 .more-active {
