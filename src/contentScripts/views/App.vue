@@ -512,11 +512,13 @@ fontStyles.textContent = `
 
 @font-face {
     font-family: "ShangguSansSCVF-BewlyInternalResource"; /* Chinese characters old form */
+    font-weight: 250 900;
     src: url(${browser.runtime.getURL('/assets/fonts/ShangguSansSC-VF.woff2')}) format(woff2) tech(variations);
 }
 
 @font-face {
     font-family: "FrexSansGBVF-BewlyInternalResource"; /* Chinese characters modern form */
+    font-weight: 100 700;
     src: url(${browser.runtime.getURL('/assets/fonts/FrexSansGBVF.woff2')}) format(woff2) tech(variations);
 }
 `
