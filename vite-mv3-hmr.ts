@@ -10,7 +10,7 @@ const targetDir = r(isFirefox ? 'extension-firefox' : isSafari ? 'extension-safa
 export function MV3Hmr(): PluginOption {
   return {
     name: 'vite-mv3-hmr',
-    apply: 'serve',
+    apply: (_config, { command, mode }) => command === 'serve' && mode !== 'test',
     enforce: 'post',
     async configureServer(server) {
       const originWsSend: (payload: HMRPayload) => void = server.ws.send
@@ -59,7 +59,7 @@ export function MV3Hmr(): PluginOption {
 
         if (urlModule?.url) {
           code = code
-            .replace(/\/@vite\/client/g, '/dist/mv3client.mjs')
+            .replace(/\/@vite\/client/g, '/dist/mv3client.js')
             .replace(/\/@id\//g, '/')
             .replace(/__uno.css/g, '~~uno.css')
             .replace(/__x00__plugin-vue:export-helper/g, '~~x00__plugin-vue:export-helper.js')

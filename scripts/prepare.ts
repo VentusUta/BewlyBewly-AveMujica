@@ -44,7 +44,7 @@ writeManifest()
 
 if (isDev) {
   stubIndexHtml()
-  chokidar.watch(r('src/**/*.html'))
+  chokidar.watch([r('src/options/index.html'), r('src/popup/index.html')])
     .on('change', () => {
       stubIndexHtml()
     })
