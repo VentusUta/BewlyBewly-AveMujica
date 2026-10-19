@@ -1,4 +1,4 @@
-import { cssIdRE, presetAttributify, presetIcons, presetTypography, presetUno, transformerDirectives } from 'unocss'
+import { cssIdRE, presetAttributify, presetIcons, presetTypography, presetWind3, transformerDirectives } from 'unocss'
 import { defineConfig } from 'unocss/vite'
 
 const remRE = /(-?[.\d]+)rem/g
@@ -21,7 +21,7 @@ export default defineConfig({
     'container',
   ],
   presets: [
-    presetUno(),
+    presetWind3(),
     presetAttributify(),
     presetIcons({
       extraProperties: {
