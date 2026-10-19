@@ -1,8 +1,8 @@
 import { defineConfig, mergeConfig } from 'vite'
 
-import packageJson from './package.json'
-import { isDev, isFirefox, isSafari, r } from './scripts/utils'
-import { sharedConfig } from './vite.config'
+import packageJson from './package.json' with { type: 'json' }
+import { isDev, isFirefox, isSafari, r } from './scripts/utils.ts'
+import { sharedConfig } from './vite.config.ts'
 
 // bundling the content script using Vite
 export default defineConfig(mergeConfig(sharedConfig, {
@@ -24,8 +24,9 @@ export default defineConfig(mergeConfig(sharedConfig, {
       entry: r('src/contentScripts/index.ts'),
       name: packageJson.name,
       formats: ['iife'],
+      cssFileName: 'style',
     },
-    rollupOptions: {
+    rolldownOptions: {
       output: {
         entryFileNames: 'index.global.js',
         extend: true,

@@ -1,4 +1,4 @@
-/// <reference types="vitest" />
+/// <reference types="vitest/config" />
 
 import { dirname, relative } from 'node:path'
 
@@ -10,7 +10,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import type { UserConfig } from 'vite'
 import { defineConfig } from 'vite'
 
-import { isDev, isFirefox, isSafari, r } from './scripts/utils'
+import { isDev, isFirefox, isSafari, r } from './scripts/utils.ts'
 
 export const sharedConfig: UserConfig = {
   root: r('src'),
@@ -85,7 +85,7 @@ export default defineConfig({
     terserOptions: {
       mangle: false,
     },
-    rollupOptions: {
+    rolldownOptions: {
       input: {
         options: r('src/options/index.html'),
         popup: r('src/popup/index.html'),
