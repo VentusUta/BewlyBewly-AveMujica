@@ -170,9 +170,7 @@ img {
   transition: none !important;
 }
 ::view-transition-old(*),
-::view-transition-new(*),
-::view-transition-old(*::after),
-::view-transition-new(*::before) {
+::view-transition-new(*) {
   transition: none !important;
 }
 ::view-transition-old(root) {
