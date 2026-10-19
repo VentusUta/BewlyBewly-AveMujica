@@ -1,12 +1,17 @@
-import { defineConfig } from 'vite'
+import { defineConfig, mergeConfig } from 'vite'
 
 import packageJson from './package.json'
 import { isDev, isFirefox, isSafari, r } from './scripts/utils'
 import { sharedConfig } from './vite.config'
 
 // bundling the content script using Vite
-export default defineConfig({
-  ...sharedConfig,
+export default defineConfig(mergeConfig(sharedConfig, {
+  resolve: {
+    alias: [
+      // vuedraggable 的 UMD 产物用 require('vue')，Vite 8 会按 require 条件解析到带模板编译器的 vue.cjs.prod.js
+      { find: /^vue$/, replacement: 'vue/dist/vue.runtime.esm-bundler.js' },
+    ],
+  },
   build: {
     watch: isDev
       ? { include: ['./**/*'] }
@@ -24,7 +29,9 @@ export default defineConfig({
       output: {
         entryFileNames: 'index.global.js',
         extend: true,
+        // Rolldown 默认（'auto'）不给 iife 加 "use strict"，显式开启以保持严格模式
+        strict: true,
       },
     },
   },
-})
+}))

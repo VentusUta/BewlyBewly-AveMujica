@@ -3,7 +3,7 @@ import { StorageSerializers } from '@vueuse/core'
 import type { MaybeRef, Ref } from 'vue'
 import { nextTick, ref, toValue, watch } from 'vue'
 import type { Storage } from 'webextension-polyfill'
-import { storage } from 'webextension-polyfill'
+import browser from 'webextension-polyfill'
 
 import { isExtensionContextValid } from '~/utils/extensionContext'
 
@@ -73,14 +73,14 @@ export function useStorageLocal<T>(
 
   async function read() {
     try {
-      const rawValue = (await storage.local.get(key))[key] as string | undefined
+      const rawValue = (await browser.storage.local.get(key))[key] as string | undefined
 
       if (rawValue == null) {
         applyValue(rawInit, undefined)
         if (writeDefaults && rawInit != null) {
           const written = serializer.write(rawInit)
           lastRawValue = written
-          await storage.local.set({ [key]: written })
+          await browser.storage.local.set({ [key]: written })
         }
       }
       else {
@@ -119,7 +119,7 @@ export function useStorageLocal<T>(
     }).catch(console.error)
   }
 
-  storage.onChanged.addListener(onStorageChanged)
+  browser.storage.onChanged.addListener(onStorageChanged)
 
   read().finally(() => {
     const stopWatcher = watch(
@@ -138,12 +138,12 @@ export function useStorageLocal<T>(
         try {
           if (value == null) {
             lastRawValue = undefined
-            await storage.local.remove(key)
+            await browser.storage.local.remove(key)
           }
           else {
             const written = serializer.write(value)
             lastRawValue = written
-            await storage.local.set({ [key]: written })
+            await browser.storage.local.set({ [key]: written })
           }
         }
         catch (e) {
