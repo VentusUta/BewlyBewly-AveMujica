@@ -8,10 +8,10 @@
   "description": "Just make a few small changes to your bilibili homepage.",
   "homepage": "https://github.com/VentusUta/BewlyBewly-AveMujica",
   "scripts": {
-    "dev": "bun run clear && concurrently \"bun run dev:prepare\" \"bun run dev:web\" \"bun run dev:js\" \"bun run dev:bg\"",
+    "dev": "bun run clear && cross-env NODE_ENV=development concurrently \"bun run dev:prepare\" \"bun run dev:web\" \"bun run dev:js\" \"bun run dev:bg\"",
     "dev-firefox": "bun run clear-firefox && cross-env NODE_ENV=development FIREFOX=true concurrently \"bun run dev:prepare\" \"bun run dev:web\" \"bun run dev:js\" \"bun run dev:bg\"",
     "dev:prepare": "bun scripts/prepare.ts",
-    "dev:web": "vite",
+    "dev:web": "vite build --mode development",
     "dev:js": "bun run build:js -- --mode development",
     "dev:bg": "tsup --watch ./src",
     "build": "cross-env NODE_ENV=production bun run clear && cross-env NODE_ENV=production bun run build:web && cross-env NODE_ENV=production bun run build:prepare && cross-env NODE_ENV=production bun run build:js && cross-env NODE_ENV=production bun run build:bg",

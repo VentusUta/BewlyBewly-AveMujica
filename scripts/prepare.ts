@@ -1,38 +1,9 @@
-// generate stub index.html files for dev entry
 import { execSync } from 'node:child_process'
 
 import chokidar from 'chokidar'
 import fs from 'fs-extra'
 
-import { isDev, isFirefox, isSafari, log, r } from './utils'
-
-/**
- * Stub index.html to use Vite in development
- */
-async function stubIndexHtml() {
-  const views = [
-    'options',
-    'popup',
-  ]
-
-  for (const view of views) {
-    await fs.ensureDir(r(
-      isFirefox
-        ? `extension-firefox/dist/${view}`
-        : isSafari ? `extension-safari/dist/${view}` : `extension/dist/${view}`,
-    ))
-    let data = await fs.readFile(r(`src/${view}/index.html`), 'utf-8')
-    data = data
-      .replace('"./main.ts"', `"/${view}/main.ts.js"`)
-      .replace('<div id="app"></div>', '<div id="app">Vite server did not start</div>')
-    await fs.writeFile(r(
-      isFirefox
-        ? `extension-firefox/dist/${view}/index.html`
-        : isSafari ? `extension-safari/dist/${view}/index.html` : `extension/dist/${view}/index.html`,
-    ), data, 'utf-8')
-    log('PRE', `stub ${view}`)
-  }
-}
+import { isDev, isFirefox, isSafari, r } from './utils'
 
 function writeManifest() {
   execSync('bun ./scripts/manifest.ts', { stdio: 'inherit' })
@@ -43,11 +14,6 @@ fs.copySync(r('assets'), r(isFirefox ? 'extension-firefox/assets' : isSafari ? '
 writeManifest()
 
 if (isDev) {
-  stubIndexHtml()
-  chokidar.watch([r('src/options/index.html'), r('src/popup/index.html')])
-    .on('change', () => {
-      stubIndexHtml()
-    })
   chokidar.watch([r('src/manifest.ts'), r('package.json')])
     .on('change', () => {
       writeManifest()
