@@ -1,24 +1,20 @@
-import path from 'node:path'
+import { defineConfig } from 'tsdown'
 
-import fs from 'fs-extra'
-import { defineConfig } from 'tsup'
-
-import { isDev, isFirefox, isSafari } from './scripts/utils'
+import { isDev, isFirefox, isSafari } from './scripts/utils.ts'
 
 const outDir = isFirefox ? 'extension-firefox/dist' : isSafari ? 'extension-safari/dist' : 'extension/dist'
 
-export default defineConfig(() => ({
+export default defineConfig({
   entry: {
     'background/index': './src/background/index.ts',
   },
-  async onSuccess() {
-    fs.copySync(path.resolve(__dirname, './src/inject/index.js'), path.resolve(__dirname, `./${outDir}/inject/index.js`))
-  },
+  copy: { from: 'src/inject/index.js', to: `${outDir}/inject` },
   outDir,
+  clean: false,
   format: ['esm'],
   target: 'esnext',
   ignoreWatch: ['**/extension/**', '**/extension-firefox/**', '**/extension-safari/**'],
-  splitting: false,
+  outputOptions: { codeSplitting: false },
   sourcemap: false, // https://github.com/vitejs/vite-plugin-vue/issues/35
   define: {
     '__DEV__': JSON.stringify(isDev),
@@ -26,6 +22,6 @@ export default defineConfig(() => ({
     'process.env.FIREFOX': isFirefox ? 'true' : 'false',
   },
   platform: 'browser',
-  minifyWhitespace: !isDev,
-  minifySyntax: !isDev,
-}))
+  minify: isDev ? false : { compress: true, mangle: false, codegen: { removeWhitespace: true } },
+  deps: { onlyBundle: ['webextension-polyfill'] },
+})
