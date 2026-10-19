@@ -86,7 +86,7 @@
     "simple-git-hooks": "2.11.1",
     "terser": "5.31.1",
     "tsup": "8.1.0",
-    "typescript": "5.8.3",
+    "typescript": "6.0.3",
     "unocss": "0.59.4",
     "unplugin-auto-import": "0.17.6",
     "vite": "5.3.6",
