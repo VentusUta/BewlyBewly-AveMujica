@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { MaybeElement } from '@vueuse/core'
 import { onClickOutside, onKeyStroke, useMouseInElement } from '@vueuse/core'
 import type { Ref, UnwrapNestedRefs } from 'vue'
 
@@ -202,7 +203,7 @@ const upload = setupTopBarItemHoverEvent('upload')
 // More
 const more = setupTopBarItemHoverEvent('more')
 
-const topBarItemElements: Record<keyof typeof popupVisible, Ref<HTMLElement | undefined>> = {
+const topBarItemElements: Record<keyof typeof popupVisible, Ref<HTMLElement | null | undefined>> = {
   channels,
   userPanel: avatar,
   notifications,
@@ -214,25 +215,25 @@ const topBarItemElements: Record<keyof typeof popupVisible, Ref<HTMLElement | un
   more,
 }
 
-const avatarTransformer = setupTopBarItemTransformer('userPanel')
-const notificationsTransformer = setupTopBarItemTransformer('notifications')
-const momentsTransformer = setupTopBarItemTransformer('moments')
-const favoritesTransformer = setupTopBarItemTransformer('favorites')
-const historyTransformer = setupTopBarItemTransformer('history')
-const watchLaterTransformer = setupTopBarItemTransformer('watchLater')
-const uploadTransformer = setupTopBarItemTransformer('upload')
-const moreTransformer = setupTopBarItemTransformer('more')
+const favoritesPop = useTemplateRef('favoritesTransformer')
 
-function setupTopBarItemTransformer(key: keyof typeof popupVisible) {
-  const transformer = createTransformer(topBarItemElements[key], {
+setupTopBarItemTransformer('userPanel', useTemplateRef('avatarTransformer'))
+setupTopBarItemTransformer('notifications', useTemplateRef('notificationsTransformer'))
+setupTopBarItemTransformer('moments', useTemplateRef('momentsTransformer'))
+setupTopBarItemTransformer('favorites', favoritesPop)
+setupTopBarItemTransformer('history', useTemplateRef('historyTransformer'))
+setupTopBarItemTransformer('watchLater', useTemplateRef('watchLaterTransformer'))
+setupTopBarItemTransformer('upload', useTemplateRef('uploadTransformer'))
+setupTopBarItemTransformer('more', useTemplateRef('moreTransformer'))
+
+function setupTopBarItemTransformer(key: keyof typeof popupVisible, target: Ref<MaybeElement>) {
+  createTransformer(topBarItemElements[key], {
     x: '0px',
     y: '50px',
     centerTarget: {
       x: true,
     },
-  })
-
-  return transformer
+  }, target)
 }
 
 function setupTopBarItemHoverEvent(key: keyof typeof popupVisible) {
@@ -308,9 +309,7 @@ watch(() => popupVisible.favorites, (newVal, oldVal) => {
     return
   if (newVal) {
     nextTick(() => {
-      if (favoritesTransformer.value)
-      // @ts-expect-error allow
-        favoritesTransformer.value.refreshFavoriteResources()
+      favoritesPop.value?.refreshFavoriteResources()
     })
   }
 })

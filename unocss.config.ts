@@ -1,4 +1,4 @@
-import { presetAttributify, presetIcons, presetTypography, presetUno, transformerDirectives } from 'unocss'
+import { cssIdRE, presetAttributify, presetIcons, presetTypography, presetUno, transformerDirectives } from 'unocss'
 import { defineConfig } from 'unocss/vite'
 
 const remRE = /(-?[.\d]+)rem/g
@@ -9,6 +9,10 @@ export default defineConfig({
       include: [
         '**/*.{js,ts}',
         /\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html)($|\?)/,
+      ],
+      exclude: [
+        cssIdRE,
+        /[\\/]node_modules[\\/](?:@vueuse|pinia|@vue[\\/]devtools-(?:api|kit|shared))[\\/]/,
       ],
     },
   },
