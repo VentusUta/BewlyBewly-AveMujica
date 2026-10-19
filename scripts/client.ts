@@ -327,7 +327,7 @@ async function fetchUpdate({ path, acceptedPath, timestamp }: Update) {
       try {
         const newMod = await import(
           /* @vite-ignore */
-          normalizeScriptUrl(`${base + path.slice(1)}.js${query ? `_${query}` : ''}`, timestamp)
+          normalizeScriptUrl(`${base + path.slice(1)}.js${query ? `_${query}` : ''}`, timestamp),
         )
         moduleMap.set(dep, newMod)
       }

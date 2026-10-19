@@ -25,22 +25,23 @@ export default antfu(
       'no-alert': 'off',
       'style/quote-props': 'off',
     },
-    eslint: {
-      ignorePatterns: [
-        'dist',
-        'node_modules',
-        'public',
-        'extension',
-        'extension-firefox',
-      ],
-    },
+    ignores: [
+      'dist',
+      'node_modules',
+      'public',
+      'extension',
+      'extension-firefox',
+    ],
   },
   {
     plugins: {
       'simple-import-sort': simpleImportSort,
     },
     rules: {
-      'import/order': 'off',
+      'perfectionist/sort-imports': 'off',
+      'perfectionist/sort-named-imports': 'off',
+      'perfectionist/sort-exports': 'off',
+      'perfectionist/sort-named-exports': 'off',
       'sort-imports': 'off',
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
