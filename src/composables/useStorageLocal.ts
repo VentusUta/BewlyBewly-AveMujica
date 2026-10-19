@@ -1,6 +1,6 @@
-import type { MaybeRef, RemovableRef } from '@vueuse/core'
+import type { RemovableRef } from '@vueuse/core'
 import { StorageSerializers } from '@vueuse/core'
-import type { Ref } from 'vue'
+import type { MaybeRef, Ref } from 'vue'
 import { nextTick, ref, toValue, watch } from 'vue'
 import type { Storage } from 'webextension-polyfill'
 import { storage } from 'webextension-polyfill'

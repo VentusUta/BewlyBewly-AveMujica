@@ -13,7 +13,7 @@ import { HomeSubPage } from './types'
 
 const mainStore = useMainStore()
 const { handleBackToTop, scrollbarRef } = useBewlyApp()
-const handleThrottledBackToTop = useThrottleFn((targetScrollTop: number = 0) => handleBackToTop(targetScrollTop), 1000)
+const handleThrottledBackToTop = useThrottleFn((targetScrollTop: number = 0) => handleBackToTop(targetScrollTop), 1000, false)
 
 const activatedPage = ref<HomeSubPage>(HomeSubPage.ForYou)
 const pages = {
