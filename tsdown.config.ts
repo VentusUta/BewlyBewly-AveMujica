@@ -11,10 +11,10 @@ export default defineConfig({
   copy: { from: 'src/inject/index.js', to: `${outDir}/inject` },
   outDir,
   clean: false,
-  format: ['esm'],
+  format: ['iife'],
   target: 'esnext',
   ignoreWatch: ['**/extension/**', '**/extension-firefox/**', '**/extension-safari/**'],
-  outputOptions: { codeSplitting: false },
+  outputOptions: { codeSplitting: false, strict: true, entryFileNames: '[name].js' },
   sourcemap: false, // https://github.com/vitejs/vite-plugin-vue/issues/35
   define: {
     '__DEV__': JSON.stringify(isDev),
