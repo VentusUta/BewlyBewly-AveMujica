@@ -36,6 +36,11 @@ interface Message {
   [key: string]: any
 }
 
+function isMessage(message: unknown): message is Message {
+  return typeof message === 'object' && message !== null
+    && 'contentScriptQuery' in message && typeof message.contentScriptQuery === 'string'
+}
+
 interface _FETCH {
   method: string
   headers?: {
@@ -60,7 +65,9 @@ interface APIMAP {
 }
 // 工厂函数API_LISTENER_FACTORY
 function apiListenerFactory(API_MAP: APIMAP) {
-  return async (message: Message, sender?: Browser.Runtime.MessageSender, sendResponse?: SendResponse) => {
+  return async (message: unknown, sender?: Browser.Runtime.MessageSender, sendResponse?: SendResponse) => {
+    if (!isMessage(message))
+      return console.error('Invalid message:', message)
     const contentScriptQuery = message.contentScriptQuery
     // 检测是否有contentScriptQuery
     if (!contentScriptQuery || !API_MAP[contentScriptQuery])

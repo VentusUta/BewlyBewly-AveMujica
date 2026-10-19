@@ -84,8 +84,6 @@ export async function getManifest() {
         js: ['./dist/inject/index.js'],
         run_at: 'document_start',
         all_frames: true,
-        // eslint-disable-next-line ts/ban-ts-comment
-        // @ts-expect-error
         world: 'MAIN',
       },
     ],
@@ -128,7 +126,6 @@ export async function getManifest() {
     manifest.browser_specific_settings = {
       gecko: {
         id: 'bewlybewlyavemujica@ventusuta.com',
-        // @ts-expect-error: Mozilla requires this property, but the linter is unhappy, ignore it for now.
         'data_collection_permissions': {
           'required': ['none'],
         },
