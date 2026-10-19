@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Ref } from 'vue'
-
 import { useBewlyApp } from '~/composables/useAppProvider'
 import type { GridLayoutType } from '~/logic'
 import type { DataItem as MomentItem, MomentResult } from '~/models/moment/moment'
@@ -32,7 +30,6 @@ const gridClass = computed((): string => {
 const videoList = ref<VideoElement[]>([])
 const isLoading = ref<boolean>(false)
 const needToLoginFirst = ref<boolean>(false)
-const containerRef = ref<HTMLElement>() as Ref<HTMLElement>
 const offset = ref<string>('')
 const updateBaseline = ref<string>('')
 const noMoreContent = ref<boolean>(false)
@@ -178,7 +175,6 @@ defineExpose({ initData })
     </Empty>
     <div
       v-else
-      ref="containerRef"
       m="b-0 t-0" relative w-full h-full
       :class="gridClass"
     >

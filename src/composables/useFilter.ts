@@ -13,8 +13,11 @@ export enum FilterType {
   likeViewRatio, // 添加新的过滤类型
 }
 
+type FilterFunc = (item: any, keyPath: string[], filterValue: any) => boolean
+type ItemFilter = (item: object) => boolean
+
 type FuncMap = { [key in FilterType]: {
-  func: Function
+  func: FilterFunc
   enabledKey: string
   valueKey: string
 } }
@@ -168,7 +171,7 @@ export function useFilter(isFollowedKeyPath: string[], filterOpt: FilterType[], 
     },
   }
 
-  const filter = ref<Function | null>(null)
+  const filter = ref<ItemFilter | null>(null)
 
   watch(() => [
     settings.value.filterOutVerticalVideos,
@@ -189,10 +192,10 @@ export function useFilter(isFollowedKeyPath: string[], filterOpt: FilterType[], 
     filter.value = factoryFilter(funcMap, filterOpt, keyList)
   }, { immediate: true })
 
-  function factoryFilter(funcMap: FuncMap, filterOpt: FilterType[], keyList: KeyPath): Function {
+  function factoryFilter(funcMap: FuncMap, filterOpt: FilterType[], keyList: KeyPath): ItemFilter {
     interface FuncParams {
       keyPath: string[]
-      func: Function
+      func: FilterFunc
       value?: number | string
     }
 

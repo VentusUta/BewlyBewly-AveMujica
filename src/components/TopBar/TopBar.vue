@@ -52,10 +52,6 @@ const { isOutside: isOutsideTopBar } = useMouseInElement(headerTarget)
 // button even after login. if the user is not logged in, the login button will show up later
 const isLogin = ref<boolean>(true)
 
-const logo = ref<HTMLElement>() as Ref<HTMLElement>
-const avatarImg = ref<HTMLImageElement>() as Ref<HTMLImageElement>
-const avatarShadow = ref<HTMLImageElement>() as Ref<HTMLImageElement>
-
 const scrollTop = ref<number>(0)
 const oldScrollTop = ref<number>(0)
 
@@ -543,7 +539,7 @@ defineExpose({
             z-1 relative w-fit
           >
             <a
-              ref="logo" href="//www.bilibili.com"
+              href="//www.bilibili.com"
               target="_top"
               class="group logo"
               :class="{
@@ -885,7 +881,6 @@ defineExpose({
               @click="event => handleClickTopBarItem(event, 'userPanel')"
             >
               <ALink
-                ref="avatarImg"
                 :href="`https://space.bilibili.com/${mid}`"
                 type="topBar"
                 class="avatar-img"
@@ -895,7 +890,6 @@ defineExpose({
                 }"
               />
               <div
-                ref="avatarShadow"
                 class="avatar-shadow"
                 :class="{ hover: popupVisible.userPanel }"
                 :style="{

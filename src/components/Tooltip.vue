@@ -6,7 +6,6 @@ defineProps<{
 }>()
 
 const tooltipPos = ref({ left: 0, top: 0 })
-const tooltipRef = ref(null)
 </script>
 
 <template>
@@ -18,7 +17,6 @@ const tooltipRef = ref(null)
     }"
   >
     <div
-      ref="tooltipRef"
       class="b-tooltip"
       :class="[`b-tooltip--placement-${placement ?? 'top'}`, `b-tooltip--type-${type ?? 'default'}`]"
     >

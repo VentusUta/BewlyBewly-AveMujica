@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { onKeyStroke } from '@vueuse/core'
-import type { Ref } from 'vue'
 import { useToast } from 'vue-toastification'
 
 import { useBewlyApp } from '~/composables/useAppProvider'
@@ -91,12 +90,10 @@ const videoList = ref<VideoElement[]>([])
 const appVideoList = ref<AppVideoElement[]>([])
 const isLoading = ref<boolean>(false)
 const needToLoginFirst = ref<boolean>(false)
-const containerRef = ref<HTMLElement>() as Ref<HTMLElement>
 const refreshIdx = ref<number>(1)
 const noMoreContent = ref<boolean>(false)
 const { handleReachBottom, handlePageRefresh, haveScrollbar, showUndoButton, handleUndoRefresh, handleForwardRefresh } = useBewlyApp()
 const activatedAppVideo = ref<AppVideoItem | null>()
-const videoCardRef = ref(null)
 const showDislikeDialog = ref<boolean>(false)
 const selectedDislikeReason = ref<number>(1)
 
@@ -316,7 +313,7 @@ function initPageAction() {
 async function getRecommendVideos() {
   try {
     let i = 0
-    if (!filterFunc.value || (videoList.value.length < PAGE_SIZE && filterFunc.value)) {
+    if (!filterFunc.value || videoList.value.length < PAGE_SIZE) {
       const pendingVideos: VideoElement[] = Array.from({
         length: videoList.value.length < PAGE_SIZE ? PAGE_SIZE - videoList.value.length : PAGE_SIZE,
       }, () => ({
@@ -432,7 +429,7 @@ async function getRecommendVideos() {
 async function getAppRecommendVideos() {
   try {
     let i = 0
-    if (!appFilterFunc.value || (appVideoList.value.length < PAGE_SIZE && appFilterFunc.value)) {
+    if (!appFilterFunc.value || appVideoList.value.length < PAGE_SIZE) {
       const pendingVideos: AppVideoElement[] = Array.from({
         length: appVideoList.value.length < PAGE_SIZE ? PAGE_SIZE - appVideoList.value.length : PAGE_SIZE,
       }, () => ({
@@ -543,7 +540,6 @@ defineExpose({
 
     <div
       v-else
-      ref="containerRef"
       m="b-0 t-0" relative w-full h-full
       :class="gridClass"
     >
@@ -579,7 +575,6 @@ defineExpose({
         <VideoCard
           v-for="video in appVideoList"
           :key="video.uniqueId"
-          ref="videoCardRef"
           :skeleton="!video.item"
           type="appRcmd"
           :video="video.item ? {
