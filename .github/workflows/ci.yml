@@ -40,6 +40,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      # bun runs the tools' `#!/usr/bin/env node` bins with the system Node, so pin its version
+      # bun 会用系统的 Node 运行各工具的 bin（vite、vitest、eslint 等），因此固定 Node 版本
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.4.2
