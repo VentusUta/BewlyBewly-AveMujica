@@ -14,12 +14,3 @@ export enum AppPage {
   WatchLater = 'WatchLater',
   Moments = 'Moments',
 }
-
-export enum TopBarPopup {
-  FavoritesPop = 'FavoritesPop',
-  HistoryPop = 'HistoryPop',
-  MomentsPop = 'MomentsPop',
-  NotificationsPop = 'NotificationsPop',
-  UploadPop = 'UploadPop',
-  WatchLaterPop = 'WatchLaterPop',
-}

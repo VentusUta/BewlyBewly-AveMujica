@@ -29,16 +29,6 @@ import WatchLaterPop from './components/WatchLaterPop.vue'
 import { updateInterval } from './notify'
 import type { UnReadDm, UnReadMessage, UserInfo } from './types'
 
-// import { useTopBarStore } from '~/stores/topBarStore'
-
-// const popups = { NotificationsPop, MomentsPop, FavoritesPop, HistoryPop }
-
-// const topBarStore = useTopBarStore()
-
-// const topBarItems = computed(() => {
-//   return topBarStore.topBarItems
-// })
-
 const { activatedPage, scrollbarRef, reachTop } = useBewlyApp()
 const { isDark } = useDark()
 
@@ -617,22 +607,6 @@ defineExpose({
               </a>
             </div>
             <template v-if="isLogin">
-              <!-- TODO: need to refactor to this -->
-              <!-- <div display="lg:flex none">
-              <div v-for="item in topBarItems" :key="item.i18nKey" class="right-side-item">
-                <a :href="item.url" target="_blank" :title="$t(item.i18nKey)">
-                  <Icon :icon="item.icon" />
-                </a>
-
-                <Component
-                  :is="popups[item.popup] ?? 'div'"
-                  v-if="item.popup"
-                  class="bew-popover"
-                />
-              </div>
-            </div> -->
-
-              <!-- TODO: need to refactor to above code -->
               <div class="hidden lg:flex" gap-1>
                 <!-- Moments -->
                 <div
