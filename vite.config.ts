@@ -1,4 +1,4 @@
-/// <reference types="vitest" />
+/// <reference types="vitest/config" />
 
 import { dirname, relative } from 'node:path'
 
@@ -10,8 +10,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import type { UserConfig } from 'vite'
 import { defineConfig } from 'vite'
 
-import { isDev, isFirefox, isSafari, port, r } from './scripts/utils'
-import { MV3Hmr } from './vite-mv3-hmr'
+import { isDev, isFirefox, isSafari, r } from './scripts/utils.ts'
 
 export const sharedConfig: UserConfig = {
   root: r('src'),
@@ -28,7 +27,7 @@ export const sharedConfig: UserConfig = {
         'vue',
         {
           'webextension-polyfill': [
-            ['*', 'browser'],
+            ['default', 'browser'],
           ],
         },
       ],
@@ -69,22 +68,16 @@ export const sharedConfig: UserConfig = {
       '@vueuse/core',
       'webextension-polyfill',
     ],
-    exclude: [
-      'vue-demi',
-    ],
   },
 }
 
-export default defineConfig(({ command }) => ({
+export default defineConfig({
   ...sharedConfig,
-  base: command === 'serve' ? `http://localhost:${port}/` : '/dist/',
-  server: {
-    port,
-    hmr: {
-      host: 'localhost',
-    },
-  },
+  base: '/dist/',
   build: {
+    watch: isDev
+      ? { include: ['./**/*'] }
+      : undefined,
     outDir: r(isFirefox ? 'extension-firefox/dist' : isSafari ? 'extension-safari/dist' : 'extension/dist'),
     emptyOutDir: false,
     sourcemap: false, // https://github.com/vitejs/vite-plugin-vue/issues/35
@@ -92,7 +85,7 @@ export default defineConfig(({ command }) => ({
     terserOptions: {
       mangle: false,
     },
-    rollupOptions: {
+    rolldownOptions: {
       input: {
         options: r('src/options/index.html'),
         popup: r('src/popup/index.html'),
@@ -100,13 +93,8 @@ export default defineConfig(({ command }) => ({
     },
     minify: 'terser',
   },
-  plugins: [
-    ...sharedConfig.plugins!,
-
-    MV3Hmr(),
-  ],
   test: {
     globals: true,
     environment: 'jsdom',
   },
-}))
+})

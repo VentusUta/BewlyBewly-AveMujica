@@ -29,7 +29,8 @@ async function setupStyles() {
     // moments
     /https?:\/\/t\.bilibili\.com\.*/.test(currentUrl)
     // moment detail, new articles page
-    || /https?:\/\/www\.bilibili\.com\/opus\/.*/.test(currentUrl)) {
+    || /https?:\/\/www\.bilibili\.com\/opus\/.*/.test(currentUrl)
+  ) {
     await import('./pages/momentsPage.scss')
     document.documentElement.classList.add('momentsPage')
   }
@@ -94,14 +95,16 @@ async function setupStyles() {
 
   // anime page & chinese anime page 番剧页 与 国创动漫
   else if (
-    /https?:\/\/(?:www\.)?bilibili\.com\/(?:anime|guochuang).*/.test(currentUrl)) {
+    /https?:\/\/(?:www\.)?bilibili\.com\/(?:anime|guochuang).*/.test(currentUrl)
+  ) {
     await import('./pages/animePage.scss')
     document.documentElement.classList.add('animePage')
   }
 
   // channel page e.g. tv shows, movie, variety shows & mooc pages 分区页
   else if (
-    /https?:\/\/(?:www\.)?bilibili\.com\/(?:tv|movie|variety|mooc|documentary).*/.test(currentUrl)) {
+    /https?:\/\/(?:www\.)?bilibili\.com\/(?:tv|movie|variety|mooc|documentary).*/.test(currentUrl)
+  ) {
     await import('./pages/channelPage.scss')
     document.documentElement.classList.add('channelPage')
   }

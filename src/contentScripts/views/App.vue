@@ -9,7 +9,8 @@ import { useWebFullscreen } from '~/composables/useWebFullscreen'
 import { BEWLY_API_TOAST, BEWLY_MOUNTED, DRAWER_VIDEO_ENTER_PAGE_FULL, DRAWER_VIDEO_EXIT_PAGE_FULL, IFRAME_PAGE_SWITCH_BEWLY, IFRAME_PAGE_SWITCH_BILI, OVERLAY_SCROLL_BAR_SCROLL } from '~/constants/globalEvents'
 import { AppPage } from '~/enums/appEnums'
 import { settings } from '~/logic'
-import { type DockItem, useMainStore } from '~/stores/mainStore'
+import type { DockItem } from '~/stores/mainStore'
+import { useMainStore } from '~/stores/mainStore'
 import { useSettingsStore } from '~/stores/settingsStore'
 import { isHomePage, isInIframe, isNotificationPage, isVideoOrBangumiPage, openLinkToNewTab, queryDomUntilFound, scrollToTop } from '~/utils/main'
 import emitter from '~/utils/mitt'
@@ -65,11 +66,11 @@ const handleReachBottom = ref<() => void>()
 const handleUndoRefresh = ref<() => void>()
 const handleForwardRefresh = ref<() => void>()
 const showUndoButton = ref<boolean>(false)
-const handleThrottledPageRefresh = useThrottleFn(() => handlePageRefresh.value?.(), 500)
-const handleThrottledReachBottom = useThrottleFn(() => handleReachBottom.value?.(), 500)
-const handleThrottledBackToTop = useThrottleFn(() => handleBackToTop(), 1000)
-const handleThrottledPageUnRefresh = useThrottleFn(() => handleUndoRefresh.value?.(), 500)
-const handleThrottledPageForwardRefresh = useThrottleFn(() => handleForwardRefresh.value?.(), 500)
+const handleThrottledPageRefresh = useThrottleFn(() => handlePageRefresh.value?.(), 500, false)
+const handleThrottledReachBottom = useThrottleFn(() => handleReachBottom.value?.(), 500, false)
+const handleThrottledBackToTop = useThrottleFn(() => handleBackToTop(), 1000, false)
+const handleThrottledPageUnRefresh = useThrottleFn(() => handleUndoRefresh.value?.(), 500, false)
+const handleThrottledPageForwardRefresh = useThrottleFn(() => handleForwardRefresh.value?.(), 500, false)
 const topBarRef = ref()
 const reachTop = ref<boolean>(true)
 

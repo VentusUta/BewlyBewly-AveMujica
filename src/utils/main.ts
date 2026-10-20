@@ -176,7 +176,8 @@ export function isVideoOrBangumiPage(url: string = location.href): boolean {
     || /https?:\/\/(?:www\.)?bilibili\.com\/list\/watchlater\?bvid.*/.test(url)
     || /https?:\/\/(?:www\.)?bilibili\.com\/watchlater\/list.*/.test(url)
     // favorite playlist
-    || /https?:\/\/(?:www\.)?bilibili\.com\/list\/ml.*/.test(url)) {
+    || /https?:\/\/(?:www\.)?bilibili\.com\/list\/ml.*/.test(url)
+  ) {
     return true
   }
   return false
@@ -319,7 +320,7 @@ export function isInIframe(): boolean {
   try {
     return window.self !== window.top
   }
-  catch (e) {
+  catch {
     // If we can't access window.top due to security restrictions,
     // we're definitely in an iframe
     return true

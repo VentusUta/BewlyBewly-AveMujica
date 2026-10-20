@@ -19,8 +19,7 @@ export interface Transformer {
  * @param trigger
  * @param transformer
  */
-export function createTransformer(trigger: Ref<MaybeElement>, transformer: Transformer) {
-  const target = ref<MaybeElement>()
+export function createTransformer(trigger: Ref<MaybeElement>, transformer: Transformer, target: Ref<MaybeElement> = ref<MaybeElement>()) {
   const style = ref<CSSProperties>({})
 
   watch(trigger, () => {

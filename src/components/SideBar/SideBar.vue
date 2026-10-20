@@ -13,7 +13,8 @@ const { isDark, toggleDark } = useDark()
 
 const hideSidebar = ref<boolean>(false)
 const sideBarContentHover = ref<boolean>(false)
-const sideBarContentRef = useDelayedHover({
+useDelayedHover({
+  el: useTemplateRef('sideBarContentRef'),
   enterDelay: 100,
   leaveDelay: 600,
   enter: () => {

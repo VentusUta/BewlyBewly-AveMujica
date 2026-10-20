@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { MaybeElement } from '@vueuse/core'
 import { onClickOutside, onKeyStroke, useMouseInElement } from '@vueuse/core'
 import type { Ref, UnwrapNestedRefs } from 'vue'
 
@@ -28,16 +29,6 @@ import WatchLaterPop from './components/WatchLaterPop.vue'
 import { updateInterval } from './notify'
 import type { UnReadDm, UnReadMessage, UserInfo } from './types'
 
-// import { useTopBarStore } from '~/stores/topBarStore'
-
-// const popups = { NotificationsPop, MomentsPop, FavoritesPop, HistoryPop }
-
-// const topBarStore = useTopBarStore()
-
-// const topBarItems = computed(() => {
-//   return topBarStore.topBarItems
-// })
-
 const { activatedPage, scrollbarRef, reachTop } = useBewlyApp()
 const { isDark } = useDark()
 
@@ -51,10 +42,6 @@ const { isOutside: isOutsideTopBar } = useMouseInElement(headerTarget)
 // initially, assume the user is logged in cuz data retrieval is slow, which may show the login
 // button even after login. if the user is not logged in, the login button will show up later
 const isLogin = ref<boolean>(true)
-
-const logo = ref<HTMLElement>() as Ref<HTMLElement>
-const avatarImg = ref<HTMLImageElement>() as Ref<HTMLImageElement>
-const avatarShadow = ref<HTMLImageElement>() as Ref<HTMLImageElement>
 
 const scrollTop = ref<number>(0)
 const oldScrollTop = ref<number>(0)
@@ -206,7 +193,7 @@ const upload = setupTopBarItemHoverEvent('upload')
 // More
 const more = setupTopBarItemHoverEvent('more')
 
-const topBarItemElements: Record<keyof typeof popupVisible, Ref<HTMLElement | undefined>> = {
+const topBarItemElements: Record<keyof typeof popupVisible, Ref<HTMLElement | null | undefined>> = {
   channels,
   userPanel: avatar,
   notifications,
@@ -218,25 +205,25 @@ const topBarItemElements: Record<keyof typeof popupVisible, Ref<HTMLElement | un
   more,
 }
 
-const avatarTransformer = setupTopBarItemTransformer('userPanel')
-const notificationsTransformer = setupTopBarItemTransformer('notifications')
-const momentsTransformer = setupTopBarItemTransformer('moments')
-const favoritesTransformer = setupTopBarItemTransformer('favorites')
-const historyTransformer = setupTopBarItemTransformer('history')
-const watchLaterTransformer = setupTopBarItemTransformer('watchLater')
-const uploadTransformer = setupTopBarItemTransformer('upload')
-const moreTransformer = setupTopBarItemTransformer('more')
+const favoritesPop = useTemplateRef('favoritesTransformer')
 
-function setupTopBarItemTransformer(key: keyof typeof popupVisible) {
-  const transformer = createTransformer(topBarItemElements[key], {
+setupTopBarItemTransformer('userPanel', useTemplateRef('avatarTransformer'))
+setupTopBarItemTransformer('notifications', useTemplateRef('notificationsTransformer'))
+setupTopBarItemTransformer('moments', useTemplateRef('momentsTransformer'))
+setupTopBarItemTransformer('favorites', favoritesPop)
+setupTopBarItemTransformer('history', useTemplateRef('historyTransformer'))
+setupTopBarItemTransformer('watchLater', useTemplateRef('watchLaterTransformer'))
+setupTopBarItemTransformer('upload', useTemplateRef('uploadTransformer'))
+setupTopBarItemTransformer('more', useTemplateRef('moreTransformer'))
+
+function setupTopBarItemTransformer(key: keyof typeof popupVisible, target: Ref<MaybeElement>) {
+  createTransformer(topBarItemElements[key], {
     x: '0px',
     y: '50px',
     centerTarget: {
       x: true,
     },
-  })
-
-  return transformer
+  }, target)
 }
 
 function setupTopBarItemHoverEvent(key: keyof typeof popupVisible) {
@@ -312,9 +299,7 @@ watch(() => popupVisible.favorites, (newVal, oldVal) => {
     return
   if (newVal) {
     nextTick(() => {
-      if (favoritesTransformer.value)
-      // @ts-expect-error allow
-        favoritesTransformer.value.refreshFavoriteResources()
+      favoritesPop.value?.refreshFavoriteResources()
     })
   }
 })
@@ -543,7 +528,7 @@ defineExpose({
             z-1 relative w-fit
           >
             <a
-              ref="logo" href="//www.bilibili.com"
+              href="//www.bilibili.com"
               target="_top"
               class="group logo"
               :class="{
@@ -622,22 +607,6 @@ defineExpose({
               </a>
             </div>
             <template v-if="isLogin">
-              <!-- TODO: need to refactor to this -->
-              <!-- <div display="lg:flex none">
-              <div v-for="item in topBarItems" :key="item.i18nKey" class="right-side-item">
-                <a :href="item.url" target="_blank" :title="$t(item.i18nKey)">
-                  <Icon :icon="item.icon" />
-                </a>
-
-                <Component
-                  :is="popups[item.popup] ?? 'div'"
-                  v-if="item.popup"
-                  class="bew-popover"
-                />
-              </div>
-            </div> -->
-
-              <!-- TODO: need to refactor to above code -->
               <div class="hidden lg:flex" gap-1>
                 <!-- Moments -->
                 <div
@@ -885,7 +854,6 @@ defineExpose({
               @click="event => handleClickTopBarItem(event, 'userPanel')"
             >
               <ALink
-                ref="avatarImg"
                 :href="`https://space.bilibili.com/${mid}`"
                 type="topBar"
                 class="avatar-img"
@@ -895,7 +863,6 @@ defineExpose({
                 }"
               />
               <div
-                ref="avatarShadow"
                 class="avatar-shadow"
                 :class="{ hover: popupVisible.userPanel }"
                 :style="{
