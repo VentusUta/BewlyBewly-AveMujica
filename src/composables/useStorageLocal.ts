@@ -16,6 +16,11 @@ interface UseStorageLocalOptions {
   deep?: boolean
 }
 
+export type StorageLocalRef<T> = RemovableRef<T> & {
+  /** Resolves once the stored value has been read and applied (or the read has failed). */
+  ready: Promise<void>
+}
+
 type SerializerType = keyof typeof StorageSerializers
 
 function guessSerializerType<T>(rawInit: T): SerializerType {
@@ -45,7 +50,7 @@ export function useStorageLocal<T>(
   key: string,
   initialValue: MaybeRef<T>,
   options: UseStorageLocalOptions = {},
-): RemovableRef<T> {
+): StorageLocalRef<T> {
   const { mergeDefaults = false, writeDefaults = true, deep = true } = options
 
   const rawInit = toValue(initialValue) as T
@@ -121,7 +126,7 @@ export function useStorageLocal<T>(
 
   browser.storage.onChanged.addListener(onStorageChanged)
 
-  read().finally(() => {
+  const ready = read().finally(() => {
     const stopWatcher = watch(
       data,
       async (value) => {
@@ -155,5 +160,5 @@ export function useStorageLocal<T>(
     )
   })
 
-  return data as RemovableRef<T>
+  return Object.assign(data, { ready }) as StorageLocalRef<T>
 }
