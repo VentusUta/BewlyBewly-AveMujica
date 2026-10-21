@@ -122,6 +122,7 @@ export interface Settings {
   blockVIPDanmukuStyle: boolean
   cleanUrlArgument: boolean
   bvToAv: boolean
+  showCommentIpLocation: boolean
   legacyPlayerLoadingScreen: boolean
 }
 
@@ -241,6 +242,7 @@ export const originalSettings: Settings = {
   blockVIPDanmukuStyle: true,
   cleanUrlArgument: true,
   bvToAv: false,
+  showCommentIpLocation: true,
   legacyPlayerLoadingScreen: false,
 }
 

@@ -303,6 +303,9 @@ settings:
   url_trim_settings: URL Trim
   clean_url_argument: Remove unnecessary URL argument (will also remove unnecessary URL argument of 'Share' button)
   bv_to_av: Convert BV number to AV number
+  comment_settings: Comments
+  show_comment_ip_location: Show IP location of comments
+  show_comment_ip_location_desc: Only shown for comments that bilibili returns an IP location for, which may not happen when you're not logged in.
 
   # About
   links: Links

@@ -299,6 +299,9 @@ settings:
   url_trim_settings: 頁面 URL 修剪
   clean_url_argument: 移除唔必要嘅 URL 參數（仲會自動清埋『分享』掣帶住嗰）
   bv_to_av: 將 BV 號轉換爲 AV 號
+  comment_settings: 評論區
+  show_comment_ip_location: 顯示評論嘅 IP 屬地
+  show_comment_ip_location_desc: 淨係會顯示 bilibili 有返回 IP 屬地嘅評論，未登入嘅話可能唔會返回。
 
   # About
   links: 拎
