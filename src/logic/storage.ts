@@ -106,6 +106,7 @@ export interface Settings {
   filterByUser: { keyword: string, remark: string }[]
 
   followingTabShowLivestreamingVideos: boolean
+  followingTabFilterByDuration: boolean
 
   homePageTabVisibilityList: { page: HomeSubPage, visible: boolean }[]
   alwaysShowTabsOnHomePage: boolean
@@ -224,6 +225,7 @@ export const originalSettings: Settings = {
   filterByUser: [],
 
   followingTabShowLivestreamingVideos: true,
+  followingTabFilterByDuration: false,
 
   homePageTabVisibilityList: [],
   alwaysShowTabsOnHomePage: false,

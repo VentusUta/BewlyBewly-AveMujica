@@ -268,6 +268,8 @@ settings:
     username_or_mid: 用戶名 / MID
 
   following_tab_show_livestreaming_videos: 喺「跟緊啲人」入邊顯示實況直播
+  following_tab_filter_by_duration: 喺「跟緊啲人」入邊根據條片長度篩選
+  following_tab_filter_by_duration_desc: 跟返「估你心水」過濾入邊「根據條片長度篩選」嘅設定，要先開咗嗰項先得。
 
   use_search_page_mode: 主頁使用搵嘢頁模式
   settings_shared_with_the_search_page: 同搵嘢頁共用嘅設定

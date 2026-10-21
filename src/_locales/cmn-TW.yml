@@ -268,6 +268,8 @@ settings:
     username_or_mid: 使用者名稱 / MID
 
   following_tab_show_livestreaming_videos: 在「正在跟隨」中顯示實況直播
+  following_tab_filter_by_duration: 在「正在跟隨」中按影片長度篩選
+  following_tab_filter_by_duration_desc: 沿用「爲你推薦」過濾中「按影片長度篩選」的設定，需先開啓該項。
 
   use_search_page_mode: 首頁使用搜尋頁模式
   settings_shared_with_the_search_page: 與搜尋頁共用的設定

@@ -272,6 +272,8 @@ settings:
     username_or_mid: Username / MID
 
   following_tab_show_livestreaming_videos: Show Live-streaming videos in the "Following" tab
+  following_tab_filter_by_duration: Filter by duration in the "Following" tab
+  following_tab_filter_by_duration_desc: Uses the "Filter by duration" setting from "For you" Recommendation Filters, which must be enabled first.
 
   use_search_page_mode: Use search page mode on homepage
   settings_shared_with_the_search_page: Settings shared with the search page
