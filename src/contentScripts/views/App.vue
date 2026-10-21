@@ -61,6 +61,7 @@ const pages = {
 }
 const mainAppRef = ref<HTMLElement>() as Ref<HTMLElement>
 const scrollbarRef = ref()
+const scrollPinnedLayerRef = useTemplateRef('scrollPinnedLayer')
 const handlePageRefresh = ref<() => void>()
 const handleReachBottom = ref<() => void>()
 const handleUndoRefresh = ref<() => void>()
@@ -119,6 +120,8 @@ const showBewlyPage = computed((): boolean => {
 
   return isHomePage() && !settings.value.useOriginalBilibiliHomepage
 })
+// 显示 Bewly 页面时，顶栏和程序坞会被传送进滚动容器内的粘性层，在它们上方滚动滚轮才能滚动页面
+const scrollPinnedLayerTarget = computed(() => showBewlyPage.value ? scrollPinnedLayerRef.value : null)
 const showBackground = computed((): boolean => {
   // 如果是视频页或番剧页，根据设置决定是否显示背景
   if (isVideoOrBangumiPage()) {
@@ -657,40 +660,45 @@ document.head.appendChild(removeLeftQuoteIndent)
     </KeepAlive>
 
     <!-- Dock & RightSideButtons -->
-    <div
-      v-if="!isInIframe() && !isWebFullscreen"
-      pos="absolute top-0 left-0" w-full h-full overflow-hidden
-      pointer-events-none
-    >
-      <Dock
-        v-if="!settings.useOriginalBilibiliHomepage && (settings.alwaysUseDock || (showBewlyPage || iframePageURL))"
-        pointer-events-auto
-        :activated-page="activatedPage"
-        @settings-visibility-change="toggleSettings"
-        @refresh="handleThrottledPageRefresh"
-        @undo-refresh="handleThrottledPageUnRefresh"
-        @forward-refresh="handleThrottledPageForwardRefresh"
-        @back-to-top="handleThrottledBackToTop"
-        @dock-item-click="handleDockItemClick"
-      />
-      <SideBar
-        v-else
-        pointer-events-auto
-        @settings-visibility-change="toggleSettings"
-      />
-    </div>
+    <Teleport :to="scrollPinnedLayerTarget" :disabled="!scrollPinnedLayerTarget">
+      <div
+        v-if="!isInIframe() && !isWebFullscreen"
+        pos="absolute top-0 left-0" w-full h-full overflow-hidden
+        pointer-events-none
+      >
+        <Dock
+          v-if="!settings.useOriginalBilibiliHomepage && (settings.alwaysUseDock || (showBewlyPage || iframePageURL))"
+          pointer-events-auto
+          :activated-page="activatedPage"
+          @settings-visibility-change="toggleSettings"
+          @refresh="handleThrottledPageRefresh"
+          @undo-refresh="handleThrottledPageUnRefresh"
+          @forward-refresh="handleThrottledPageForwardRefresh"
+          @back-to-top="handleThrottledBackToTop"
+          @dock-item-click="handleDockItemClick"
+        />
+        <SideBar
+          v-else
+          pointer-events-auto
+          @settings-visibility-change="toggleSettings"
+        />
+      </div>
+    </Teleport>
 
     <!-- TopBar -->
-    <div
-      v-if="showTopBar"
-      m-auto max-w="$bew-page-max-width"
-    >
-      <BewlyOrBiliTopBarSwitcher v-if="settings.showBewlyOrBiliTopBarSwitcher" />
+    <Teleport :to="scrollPinnedLayerTarget" :disabled="!scrollPinnedLayerTarget">
+      <div
+        v-if="showTopBar"
+        m-auto max-w="$bew-page-max-width"
+        pointer-events-auto
+      >
+        <BewlyOrBiliTopBarSwitcher v-if="settings.showBewlyOrBiliTopBarSwitcher" />
 
-      <TopBar
-        pos="top-0 left-0" z="99 hover:1001" w-full
-      />
-    </div>
+        <TopBar
+          pos="top-0 left-0" z="99 hover:1001" w-full
+        />
+      </div>
+    </Teleport>
 
     <div
       v-if="!settings.useOriginalBilibiliHomepage"
@@ -702,6 +710,7 @@ document.head.appendChild(removeLeftQuoteIndent)
       <Transition name="fade">
         <template v-if="showBewlyPage">
           <OverlayScrollbarsComponent ref="scrollbarRef" element="div" h-inherit defer @os-scroll="handleOsScroll">
+            <div ref="scrollPinnedLayer" class="scroll-pinned-layer" />
             <main m-auto max-w="$bew-page-max-width">
               <div
                 p="t-[calc(var(--bew-top-bar-height)+10px)]" m-auto
@@ -734,6 +743,24 @@ document.head.appendChild(removeLeftQuoteIndent)
   // To fix the filter used in `.bewly-wrapper` that cause the positions of elements become discorded.
   > * > * {
     filter: var(--bew-filter-force-dark);
+  }
+}
+
+// 粘在滚动容器可视区域上的一层，不占排版空间。滚轮的滚动链沿包含块向上找，
+// 顶栏和程序坞放在这里才会经过滚动容器；放在容器外，或在容器内却用 fixed 相对视口定位，都会跳过它
+.scroll-pinned-layer {
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  height: 100dvh;
+  margin-bottom: -100dvh;
+  // 让其中 position: fixed 的元素以本层为定位基准，顶栏和程序坞因此不用改定位方式
+  transform: translateZ(0);
+  pointer-events: none;
+
+  // 顶栏弹窗等自带滚动的列表滚到头时，不要接着滚动后面的页面
+  :deep(*) {
+    overscroll-behavior: contain;
   }
 }
 </style>
