@@ -75,8 +75,11 @@ function onClickTab(tab: MomentTab) {
 }
 
 // Load on open rather than on mount: requesting feed/nav marks moments as read and clears the badge
-function refreshMomentsIfNeeded() {
-  if (moments.length === 0 && !isLoading.value)
+function refreshMomentsIfNeeded(hasNewMoments: boolean) {
+  if (isLoading.value)
+    return
+
+  if (moments.length === 0 || (hasNewMoments && selectedMomentTab.value.type === 'video'))
     initData()
 }
 

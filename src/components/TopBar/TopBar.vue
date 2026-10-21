@@ -290,7 +290,7 @@ watch(
       return
 
     if (newVal)
-      momentsPop.value?.refreshMomentsIfNeeded()
+      refreshMomentsPopIfNeeded()
     else
       await getTopBarNewMomentsCount()
   },
@@ -440,6 +440,10 @@ function handleNotificationsItemClick(item: { name: string, url: string, unreadC
 
 // #region Moments
 const newMomentsCount = ref<number>(0)
+
+function refreshMomentsPopIfNeeded() {
+  momentsPop.value?.refreshMomentsIfNeeded(newMomentsCount.value > 0)
+}
 
 async function getTopBarNewMomentsCount() {
   if (!isLogin.value)
