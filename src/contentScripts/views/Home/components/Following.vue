@@ -103,7 +103,9 @@ async function getData() {
   isLoading.value = true
 
   try {
-    for (let i = 0; i < 3; i++)
+    const lastVideoListLength = videoList.value.length
+    // 按时长筛选后剩下的视频可能撑不出滚动条，导致无法触底加载，所以最多再多拉几页
+    for (let i = 0; i < 3 || (durationFilter.value && i < 10 && !noMoreContent.value && videoList.value.length - lastVideoListLength < 30); i++)
       await getFollowedUsersVideos()
   }
   finally {
