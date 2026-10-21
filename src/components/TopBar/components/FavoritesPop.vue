@@ -241,7 +241,7 @@ defineExpose({
             class="group"
             transition="~ duration-300"
           >
-            <section flex="~ gap-4" item-start>
+            <section flex="~ gap-4" items-start>
               <div
                 bg="$bew-skeleton"
                 w="120px"

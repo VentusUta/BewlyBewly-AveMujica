@@ -260,7 +260,7 @@ function deleteHistoryItem(index: number, historyItem: HistoryItem) {
           hover:bg="$bew-fill-2"
           duration-300
         >
-          <section flex="~ gap-4 item-start">
+          <section flex="~ gap-4 items-start">
             <!-- Video cover, live cover, ariticle cover -->
             <div
               bg="$bew-skeleton"
