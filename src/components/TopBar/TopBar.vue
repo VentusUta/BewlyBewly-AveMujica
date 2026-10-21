@@ -450,8 +450,8 @@ async function getTopBarNewMomentsCount() {
   try {
     const res = await api.moment.getTopBarNewMomentsCount()
     if (res.code === 0) {
-      if (typeof res.data.update_info.item.count === 'number')
-        result = res.data.update_info.item.count
+      if (typeof res.data.update_num === 'number')
+        result = res.data.update_num
     }
   }
   finally {
