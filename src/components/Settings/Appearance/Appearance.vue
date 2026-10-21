@@ -51,24 +51,10 @@ const themeOptions = computed<Array<{ value: string, label: string }>>(() => {
   ]
 })
 
-watch(() => settings.value.wallpaper, (newValue) => {
-  changeWallpaper(newValue)
-})
-
 function changeThemeColor(color: string) {
   settings.value.themeColor = color
 }
 const changeThemeColorThrottle = useThrottleFn((color: string) => changeThemeColor(color), 100)
-
-function changeWallpaper(url: string) {
-  // If you had already set the wallpaper, it enables the wallpaper masking to prevent text hard to see
-  if (url)
-    settings.value.enableWallpaperMasking = true
-  else
-    settings.value.enableWallpaperMasking = false
-
-  settings.value.wallpaper = url
-}
 </script>
 
 <template>

@@ -144,7 +144,13 @@ onKeyStroke((e: KeyboardEvent) => {
   }
 })
 
+// 首次加载开始前不响应推荐模式的变化，设置读入时的变化由首次加载处理
+let hasStartedLoading = false
+
 watch(() => settings.value.recommendationMode, () => {
+  if (!hasStartedLoading)
+    return
+
   noMoreContent.value = false
   refreshIdx.value = 1
 
@@ -159,15 +165,13 @@ watch(() => settings.value.recommendationMode, () => {
   initData()
 })
 
-onMounted(() => {
-  // Delay by 0.2 seconds to obtain the `settings.value.recommendationMode` value
-  // otherwise the `settings.value.recommendationMode` value will be undefined
-  // i have no idea to fix that...
-  setTimeout(() => {
-    initData()
-  }, 200)
-
+onMounted(async () => {
   initPageAction()
+
+  // 等设置读入后再加载，否则会按默认的推荐模式请求
+  await settings.ready
+  hasStartedLoading = true
+  initData()
 })
 
 onActivated(() => {

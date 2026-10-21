@@ -17,6 +17,10 @@ const isGlobal = computed(() => props.type === 'global')
 const isBuildInWallpaper = computed(() => {
   return isGlobal.value ? settings.value.wallpaperMode === 'buildIn' : settings.value.searchPageWallpaperMode === 'buildIn'
 })
+const wallpaperUrl = computed({
+  get: () => isGlobal.value ? settings.value.wallpaper : settings.value.searchPageWallpaper,
+  set: changeWallpaper,
+})
 
 function changeWallpaperType(type: 'buildIn' | 'byUrl') {
   if (isGlobal.value) {
@@ -27,12 +31,8 @@ function changeWallpaperType(type: 'buildIn' | 'byUrl') {
   }
 
   // Set the wallpaper to empty if it's a locally uploaded wallpaper to prevent the `QUOTA_BYTES quota exceeded` error
-  if (type === 'byUrl') {
-    if (settings.value.wallpaper.startsWith('data:image/'))
-      settings.value.wallpaper = ''
-    else if (settings.value.searchPageWallpaper.startsWith('data:image/'))
-      settings.value.searchPageWallpaper = ''
-  }
+  if (type === 'byUrl' && wallpaperUrl.value.startsWith('data:image/'))
+    changeWallpaper('')
 }
 
 function changeWallpaper(url: string) {
@@ -228,8 +228,7 @@ function handleRemoveCustomWallpaper() {
               >
             </picture>
             <div>
-              <Input v-if="isGlobal" v-model="settings.wallpaper" w-full />
-              <Input v-else v-model="settings.searchPageWallpaper" w-full />
+              <Input v-model="wallpaperUrl" w-full />
               <p color="sm $bew-text-3" mt-2>
                 {{ $t('settings.image_url_hint') }}
               </p>
