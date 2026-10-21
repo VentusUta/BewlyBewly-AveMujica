@@ -27,12 +27,9 @@ function changeWallpaperType(type: 'buildIn' | 'byUrl') {
   }
 
   // Set the wallpaper to empty if it's a locally uploaded wallpaper to prevent the `QUOTA_BYTES quota exceeded` error
-  if (type === 'byUrl') {
-    if (settings.value.wallpaper.startsWith('data:image/'))
-      settings.value.wallpaper = ''
-    else if (settings.value.searchPageWallpaper.startsWith('data:image/'))
-      settings.value.searchPageWallpaper = ''
-  }
+  const wallpaper = isGlobal.value ? settings.value.wallpaper : settings.value.searchPageWallpaper
+  if (type === 'byUrl' && wallpaper.startsWith('data:image/'))
+    changeWallpaper('')
 }
 
 function changeWallpaper(url: string) {
