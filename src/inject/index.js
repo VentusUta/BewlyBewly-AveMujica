@@ -204,6 +204,54 @@ function setupReplyActionInterceptor() {
 
 setupReplyActionInterceptor()
 
+// 评论区 IP 属地：接口会返回 reply_control.location，但B站网页端不渲染，这里补到发布时间后面
+// 显隐由 content script 设置的 CSS 变量控制，自定义属性能穿透 shadow DOM
+const COMMENT_ACTION_BUTTONS_TAG = 'bili-comment-action-buttons-renderer'
+
+function renderCommentIpLocation(el) {
+  const pubdateEl = el.shadowRoot?.querySelector('#pubdate')
+  if (!pubdateEl)
+    return
+
+  let ipLocationEl = el.shadowRoot.querySelector('#bewly-ip-location')
+  const ipLocation = el.data?.reply_control?.location
+  if (!ipLocation) {
+    ipLocationEl?.remove()
+    return
+  }
+
+  if (!ipLocationEl) {
+    ipLocationEl = document.createElement('div')
+    ipLocationEl.id = 'bewly-ip-location'
+    ipLocationEl.style.display = 'var(--bew-comment-ip-location-display, none)'
+    pubdateEl.after(ipLocationEl)
+  }
+  ipLocationEl.textContent = ipLocation
+}
+
+function patchCommentActionButtons(ctor) {
+  const originalUpdate = ctor.prototype.update
+  ctor.prototype.update = function (...args) {
+    const result = originalUpdate.apply(this, args)
+    try {
+      renderCommentIpLocation(this)
+    }
+    catch {}
+    return result
+  }
+}
+
+function setupCommentIpLocation() {
+  const originalDefine = customElements.define.bind(customElements)
+  customElements.define = function (name, ctor, ...rest) {
+    if (name === COMMENT_ACTION_BUTTONS_TAG && typeof ctor === 'function')
+      patchCommentActionButtons(ctor)
+    return originalDefine(name, ctor, ...rest)
+  }
+}
+
+setupCommentIpLocation()
+
 window.___inject = true
 
 // History.prototype.pushState = history.pushState
