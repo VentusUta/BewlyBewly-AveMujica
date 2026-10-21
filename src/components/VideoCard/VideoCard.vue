@@ -330,11 +330,12 @@ provide('getVideoType', () => props.type!)
             </div>
 
             <!-- Video preview -->
+            <!-- 容器刻意外扩1px以盖住封面的抗锯齿边；请勿直接换成看似更加合适的clip-path圆角，其在至少macOS上的WebKit和Chromium中都会微量透出封面 -->
             <Transition v-if="!removed && showPreview && settings.enableVideoPreview" name="fade">
               <div
                 v-if="previewVideoUrl && isHover"
                 class="video-preview"
-                pos="absolute inset-0" overflow-hidden rounded="$bew-radius"
+                pos="absolute inset-[-1px]" overflow-hidden rounded="[calc(var(--bew-radius)+1px)]"
                 transform="~ translate-z-0" pointer-events-none
               >
                 <video
