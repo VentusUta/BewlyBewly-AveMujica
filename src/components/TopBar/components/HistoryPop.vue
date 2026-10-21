@@ -380,7 +380,7 @@ function deleteHistoryItem(index: number, historyItem: HistoryItem) {
             </div>
 
             <!-- Description -->
-            <div>
+            <div min-w-0>
               <h3
                 class="keep-two-lines"
                 overflow="hidden"
@@ -392,7 +392,9 @@ function deleteHistoryItem(index: number, historyItem: HistoryItem) {
               <div text="$bew-text-2 sm" m="t-4" flex="~" align="items-center">
                 <ALink
                   :href="`https://space.bilibili.com/${historyItem.author_mid}`"
+                  :title="historyItem.author_name"
                   type="topBar"
+                  truncate
                 >
                   {{ historyItem.author_name }}
                 </ALink>

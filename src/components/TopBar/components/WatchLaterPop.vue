@@ -204,7 +204,7 @@ function deleteWatchLaterItem(index: number, aid: number) {
             </div>
 
             <!-- Description -->
-            <div>
+            <div min-w-0>
               <h3
                 class="keep-two-lines"
                 overflow="hidden"
@@ -213,7 +213,7 @@ function deleteWatchLaterItem(index: number, aid: number) {
               >
                 {{ item.title }}
               </h3>
-              <div text="$bew-text-2 sm" m="t-4" flex="~" align="items-center">
+              <div text="$bew-text-2 sm" m="t-4" truncate :title="item.owner.name">
                 {{ item.owner.name }}
               </div>
             </div>

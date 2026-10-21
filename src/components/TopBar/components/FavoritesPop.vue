@@ -271,7 +271,7 @@ defineExpose({
               </div>
 
               <!-- Description -->
-              <div>
+              <div min-w-0>
                 <h3
                   class="keep-two-lines"
                 >
@@ -280,8 +280,8 @@ defineExpose({
                 <div
                   text="$bew-text-2 sm"
                   m="t-2"
-                  flex="~"
-                  items-center
+                  truncate
+                  :title="item.upper.name"
                 >
                   {{ item.upper.name }}
                 </div>
