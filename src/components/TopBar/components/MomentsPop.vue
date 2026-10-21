@@ -50,16 +50,6 @@ const momentUpdateBaseline = ref<string>('')
 const momentOffset = ref<string>('')
 const newMomentsCount = ref<number>(0)
 
-watch(() => selectedMomentTab.value.type, (newVal, oldVal) => {
-  if (newVal === oldVal)
-    return
-
-  if (momentsWrap.value)
-    scrollToTop(momentsWrap.value)
-
-  initData()
-}, { immediate: true })
-
 onMounted(() => {
   if (momentsWrap.value) {
     momentsWrap.value.addEventListener('scroll', () => {
@@ -84,7 +74,16 @@ function onClickTab(tab: MomentTab) {
   initData()
 }
 
+// Load on open rather than on mount: requesting feed/nav marks moments as read and clears the badge
+function refreshMomentsIfNeeded() {
+  if (moments.length === 0 && !isLoading.value)
+    initData()
+}
+
 async function initData() {
+  if (momentsWrap.value)
+    scrollToTop(momentsWrap.value)
+
   moments.length = 0
   momentUpdateBaseline.value = ''
   momentOffset.value = ''
@@ -267,6 +266,7 @@ function toggleWatchLater(aid: number) {
 
 defineExpose({
   checkIfHasNewMomentsThenUpdateMoments,
+  refreshMomentsIfNeeded,
 })
 </script>
 

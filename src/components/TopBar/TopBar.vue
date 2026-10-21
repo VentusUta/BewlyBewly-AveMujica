@@ -205,11 +205,12 @@ const topBarItemElements: Record<keyof typeof popupVisible, Ref<HTMLElement | nu
   more,
 }
 
+const momentsPop = useTemplateRef('momentsTransformer')
 const favoritesPop = useTemplateRef('favoritesTransformer')
 
 setupTopBarItemTransformer('userPanel', useTemplateRef('avatarTransformer'))
 setupTopBarItemTransformer('notifications', useTemplateRef('notificationsTransformer'))
-setupTopBarItemTransformer('moments', useTemplateRef('momentsTransformer'))
+setupTopBarItemTransformer('moments', momentsPop)
 setupTopBarItemTransformer('favorites', favoritesPop)
 setupTopBarItemTransformer('history', useTemplateRef('historyTransformer'))
 setupTopBarItemTransformer('watchLater', useTemplateRef('watchLaterTransformer'))
@@ -288,7 +289,9 @@ watch(
     if (newVal === oldVal)
       return
 
-    if (!newVal)
+    if (newVal)
+      momentsPop.value?.refreshMomentsIfNeeded()
+    else
       await getTopBarNewMomentsCount()
   },
   { immediate: true },
