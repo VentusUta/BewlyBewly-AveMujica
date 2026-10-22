@@ -299,6 +299,9 @@ settings:
   url_trim_settings: 頁面 URL 優化
   clean_url_argument: 清理 URL 無用參數（也會自動清理“分享”按鈕的無用參數）
   bv_to_av: 將 BV 號轉爲 AV 號
+  comment_settings: 留言區
+  show_comment_ip_location: 顯示留言的 IP 屬地
+  show_comment_ip_location_desc: 只有 bilibili 回傳了 IP 屬地的留言才會顯示，未登入時可能不會回傳。
 
   # About
   links: 連結

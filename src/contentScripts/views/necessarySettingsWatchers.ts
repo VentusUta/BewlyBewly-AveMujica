@@ -226,6 +226,13 @@ export function setupNecessarySettingsWatchers() {
       document.documentElement.removeChild(blockTopSearchPageAdsStyleEl)
   }, { immediate: true })
 
+  watch(() => settings.value.showCommentIpLocation, () => {
+    if (settings.value.showCommentIpLocation)
+      document.documentElement.style.setProperty('--bew-comment-ip-location-display', 'block')
+    else
+      document.documentElement.style.removeProperty('--bew-comment-ip-location-display')
+  }, { immediate: true })
+
   watch(
     () => settings.value.themeColor,
     () => {
