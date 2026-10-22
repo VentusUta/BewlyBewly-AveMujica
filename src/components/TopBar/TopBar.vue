@@ -7,7 +7,7 @@ import { useBewlyApp } from '~/composables/useAppProvider'
 import { useDark } from '~/composables/useDark'
 import { useDelayedHover } from '~/composables/useDelayedHover'
 import { useWebFullscreen } from '~/composables/useWebFullscreen'
-import { OVERLAY_SCROLL_BAR_SCROLL, TOP_BAR_VISIBILITY_CHANGE } from '~/constants/globalEvents'
+import { TOP_BAR_VISIBILITY_CHANGE } from '~/constants/globalEvents'
 import { AppPage } from '~/enums/appEnums'
 import { settings } from '~/logic'
 import api from '~/utils/api'
@@ -29,7 +29,7 @@ import WatchLaterPop from './components/WatchLaterPop.vue'
 import { updateInterval } from './notify'
 import type { UnReadDm, UnReadMessage, UserInfo } from './types'
 
-const { activatedPage, scrollbarRef, reachTop } = useBewlyApp()
+const { activatedPage, reachTop } = useBewlyApp()
 const { isDark } = useDark()
 
 const mid = getUserID() || ''
@@ -315,21 +315,12 @@ onMounted(() => {
   initData()
   nextTick(() => {
     toggleTopBarVisible(true)
-    emitter.off(OVERLAY_SCROLL_BAR_SCROLL)
-    if (isHomePage() && !settings.value.useOriginalBilibiliHomepage) {
-      emitter.on(OVERLAY_SCROLL_BAR_SCROLL, () => {
-        handleScroll()
-      })
-    }
-    else {
-      window.addEventListener('scroll', handleScroll)
-    }
+    window.addEventListener('scroll', handleScroll)
   })
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
-  emitter.off(OVERLAY_SCROLL_BAR_SCROLL)
 })
 
 // Hide the top bar when entering web fullscreen (网页全屏). See useWebFullscreen for details.
@@ -347,13 +338,7 @@ async function initData() {
 }
 
 function handleScroll() {
-  if (isHomePage() && !settings.value.useOriginalBilibiliHomepage) {
-    const osInstance = scrollbarRef.value?.osInstance()
-    scrollTop.value = osInstance.elements().viewport.scrollTop as number
-  }
-  else {
-    scrollTop.value = document.documentElement.scrollTop
-  }
+  scrollTop.value = document.documentElement.scrollTop
 
   if (scrollTop.value === 0)
     toggleTopBarVisible(true)
@@ -971,6 +956,9 @@ defineExpose({
   --uno: "after:opacity-100 after:w-full after:h-100px";
   --uno: "after:absolute after:top--30px after:left-1/2 after:-z-1";
   --uno: "after:transform after:-translate-x-1/2";
+
+  // 只设在弹窗根上：设在后代上会拦住缩略图等 overflow: hidden 元素上的滚轮，列表本身就滚不动了
+  overscroll-behavior: contain;
 }
 
 .logo.activated {

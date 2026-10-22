@@ -191,6 +191,18 @@ async function onDOMLoaded() {
     if (originalTopBar) {
       // always show the background on the original bilibili top bar
       originalTopBar.querySelector('.bili-header__bar')?.classList.add('slide-down')
+      // B站顶栏移出文档流，不把首页内容往下推。
+      // 它要滚过首页横幅才固定，横幅已被移除，所以让它始终固定在视口顶部，也不播放滑入动画
+      injectCSS(`
+        .bili-header {
+          position: fixed !important;
+          inset: 0 0 auto;
+        }
+        .bili-header .bili-header__bar {
+          position: fixed !important;
+          animation: none !important;
+        }
+      `)
     }
 
     // Remove the original Bilibili homepage if in Bilibili homepage & useOriginalBilibiliHomepage is enabled
@@ -207,6 +219,10 @@ async function onDOMLoaded() {
       originalTopBarInnerUselessContents.forEach(item => (item as HTMLElement).style.display = 'none')
     if (originalTopBar)
       document.body.appendChild(originalTopBar)
+
+    // 由 OverlayScrollbars 在 body 上画悬浮的滚动条，壁纸铺满全宽，文档仍原生滚动。
+    // 首页加载期间 body 是 display: none，要等 Bewly 挂载后再初始化
+    window.addEventListener(BEWLY_MOUNTED, initBodyOverlayScrollbars, { once: true })
   }
 
   if (isSupportedPages() || isSupportedIframePages()) {
@@ -222,6 +238,11 @@ async function onDOMLoaded() {
   // Reset the original Bilibili top bar display style
   if (removeOriginalTopBar)
     document.documentElement.removeChild(removeOriginalTopBar)
+}
+
+async function initBodyOverlayScrollbars() {
+  const { OverlayScrollbars } = await import('overlayscrollbars')
+  OverlayScrollbars(document.body, {})
 }
 
 if (document.readyState !== 'loading')

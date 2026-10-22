@@ -191,7 +191,7 @@ function handleMoreBtnClick(event: MouseEvent) {
 
   showVideoOptions.value = false
   videoOptionsFloatingStyles.value = {
-    position: 'absolute',
+    position: 'fixed',
     top: 0,
     left: 0,
     transform: `translate(${event.x}px, ${event.y + finalOffsetTop}px)`,
