@@ -64,12 +64,16 @@ function initPageAction() {
       return
     if (noMoreContent.value)
       return
+    if (!selectedCategory.value)
+      return
 
-    await getFavoriteResources(selectedCategory.value!.id, ++currentPageNum.value, keyword.value)
+    await getFavoriteResources(selectedCategory.value.id, ++currentPageNum.value, keyword.value)
   }
 
   handlePageRefresh.value = () => {
     if (isLoading.value)
+      return
+    if (!selectedCategory.value)
       return
     favoriteResources.length = 0
     currentPageNum.value = 1
@@ -150,11 +154,13 @@ async function changeCategory(categoryItem: FavoriteCategory) {
 }
 
 function handleSearch() {
+  if (!selectedCategory.value)
+    return
   currentPageNum.value = 1
   favoriteResources.length = 0
   noMoreContent.value = false
 
-  getFavoriteResources(selectedCategory.value!.id, currentPageNum.value, keyword.value)
+  getFavoriteResources(selectedCategory.value.id, currentPageNum.value, keyword.value)
 }
 
 function handlePlayAll() {

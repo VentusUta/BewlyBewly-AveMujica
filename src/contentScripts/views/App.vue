@@ -278,10 +278,8 @@ function handleDockItemClick(dockItem: DockItem) {
     }
     else {
       if (isHomePage()) {
-        // Replace NextTick with setTimeout(200), otherwise osInstance in function 'changeActivatePage' will be undefined
-        setTimeout(() => {
-          changeActivatePage(dockItem.page)
-        }, 200)
+        if (activatedPage.value === dockItem.page)
+          handleActivatedPageClick()
       }
       else {
         location.href = `https://www.bilibili.com/?page=${dockItem.page}`
@@ -293,20 +291,19 @@ function handleDockItemClick(dockItem: DockItem) {
   }
 }
 
-function changeActivatePage(pageName: AppPage) {
+function handleActivatedPageClick() {
+  if (activatedPage.value === AppPage.Search)
+    return
+
   const osInstance = scrollbarRef.value?.osInstance()
+  if (!osInstance)
+    return
   const scrollTop: number = osInstance.elements().viewport.scrollTop
 
-  if (activatedPage.value === pageName) {
-    if (activatedPage.value !== AppPage.Search) {
-      if (scrollTop === 0)
-        handleThrottledPageRefresh()
-      else
-        handleThrottledBackToTop()
-    }
-    return
-  }
-  activatedPage.value = pageName
+  if (scrollTop === 0)
+    handleThrottledPageRefresh()
+  else
+    handleThrottledBackToTop()
 }
 
 function handleBackToTop(targetScrollTop = 0 as number) {
