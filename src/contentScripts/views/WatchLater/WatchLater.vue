@@ -3,6 +3,8 @@ import { useDateFormat } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 
 import { useBewlyApp } from '~/composables/useAppProvider'
+import type { InfiniteLoadResult } from '~/composables/useInfiniteList'
+import { useInfiniteList } from '~/composables/useInfiniteList'
 import { settings } from '~/logic'
 import type { List as VideoItem, WatchLaterResult } from '~/models/video/watchLater'
 import { useMainStore } from '~/stores/mainStore'
@@ -19,8 +21,17 @@ const noMoreContent = ref<boolean>()
 const allWatchLaterList = ref<VideoItem[]>([])
 const currentWatchLaterList = ref<VideoItem[]>([])
 const watchLaterCount = ref<number>(0)
-const { handlePageRefresh, handleReachBottom, haveScrollbar } = useBewlyApp()
+const { handlePageRefresh } = useBewlyApp()
 const pageNum = ref<number>(1)
+// 稍后再看一次取回全部，取回后才逐批显示
+const isListFetched = ref<boolean>(false)
+
+const sentinel = useTemplateRef<HTMLElement>('sentinel')
+const { restart } = useInfiniteList({
+  sentinel,
+  canLoadMore: () => isListFetched.value,
+  load: getCurrentWatchLaterList,
+})
 
 onMounted(() => {
   initPageAction()
@@ -29,16 +40,14 @@ onMounted(() => {
 
 async function initData() {
   isLoading.value = false
+  isListFetched.value = false
   noMoreContent.value = false
   allWatchLaterList.value.length = 0
   currentWatchLaterList.value.length = 0
   pageNum.value = 1
   await getAllWatchLaterList()
-  getData()
-}
-
-function getData() {
-  getCurrentWatchLaterList()
+  isListFetched.value = true
+  restart()
 }
 
 function initPageAction() {
@@ -47,10 +56,6 @@ function initPageAction() {
       return
 
     initData()
-  }
-
-  handleReachBottom.value = async () => {
-    getData()
   }
 }
 
@@ -72,20 +77,17 @@ async function getAllWatchLaterList() {
   }
 }
 
-function getCurrentWatchLaterList() {
+async function getCurrentWatchLaterList(): Promise<InfiniteLoadResult> {
   const allWatchLaterListCopy = JSON.parse(JSON.stringify(allWatchLaterList.value))
   const currentList = allWatchLaterListCopy.slice((pageNum.value - 1) * 10, pageNum.value * 10)
 
   if (currentList.length === 0) {
     noMoreContent.value = true
-    return
+    return 'done'
   }
   pageNum.value++
   currentWatchLaterList.value.push(...currentList)
-
-  if (!haveScrollbar() && !noMoreContent.value) {
-    getCurrentWatchLaterList()
-  }
+  return 'more'
 }
 
 function deleteWatchLaterItem(index: number, aid: number) {
@@ -314,6 +316,7 @@ function handleMouseEnter(item: VideoItem) {
           />
         </Transition>
       </template>
+      <div ref="sentinel" aria-hidden="true" h-1px />
     </main>
 
     <aside relative w="full md:40% lg:30% xl:25%" order="1 md:2 lg:2">

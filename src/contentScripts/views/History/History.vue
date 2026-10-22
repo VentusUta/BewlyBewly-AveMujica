@@ -3,6 +3,8 @@ import { useDateFormat } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 
 import { useBewlyApp } from '~/composables/useAppProvider'
+import type { InfiniteLoadResult } from '~/composables/useInfiniteList'
+import { useInfiniteList } from '~/composables/useInfiniteList'
 import type { HistoryResult, List as HistoryItem } from '~/models/history/history'
 import { Business } from '~/models/history/history'
 import type { HistorySearchResult, List as HistorySearchItem } from '~/models/video/historySearch'
@@ -14,114 +16,92 @@ import { getCSRF, removeHttpFromUrl } from '~/utils/main'
 const { t } = useI18n()
 const { setActivatedCover } = useMainStore()
 
-const isLoading = ref<boolean>()
 const noMoreContent = ref<boolean>(false)
 const historyList = reactive<Array<HistoryItem>>([])
 const currentPageNum = ref<number>(1)
 const keyword = ref<string>()
 const historyStatus = ref<boolean>()
-const { handlePageRefresh, handleReachBottom, haveScrollbar } = useBewlyApp()
+const { handlePageRefresh } = useBewlyApp()
+
+const sentinel = useTemplateRef<HTMLElement>('sentinel')
+const { loading: isLoading, restart } = useInfiniteList({
+  sentinel,
+  load: signal => keyword.value ? searchHistoryList(signal) : getHistoryList(signal),
+})
 
 const HistoryBusiness = computed(() => {
   return Business
 })
 
 onMounted(() => {
-  getHistoryList()
   getHistoryPauseStatus()
 
   initPageAction()
 })
 
 function initPageAction() {
-  handleReachBottom.value = () => {
-    if (isLoading.value)
-      return
-    if (noMoreContent.value)
-      return
-
-    if (keyword.value)
-      searchHistoryList()
-    else
-      getHistoryList()
-  }
-
   handlePageRefresh.value = () => {
-    historyList.length = 0
-    currentPageNum.value = 1
-    noMoreContent.value = false
-    getHistoryList()
+    handleSearch()
   }
 }
+
+// 每页 20 条，不足 20 条（包括一条也没有）即为最后一页
+const PAGE_SIZE = 20
 
 /**
  * Get history list
  */
-function getHistoryList() {
-  isLoading.value = true
-  api.history.getHistoryList({
+async function getHistoryList(signal: AbortSignal): Promise<InfiniteLoadResult> {
+  const res: HistoryResult = await api.history.getHistoryList({
     type: 'all',
     view_at:
         historyList.length > 0
           ? historyList[historyList.length - 1].view_at
           : 0,
   })
-    .then((res: HistoryResult) => {
-      if (res.code === 0) {
-        if (Array.isArray(res.data.list) && res.data.list.length > 0)
-          historyList.push(...res.data.list)
+  if (signal.aborted)
+    return 'more'
+  if (res.code !== 0)
+    throw new Error(`getHistoryList failed with code ${res.code}`)
 
-        if (historyList.length !== 0 && res.data.list.length < 20) {
-          isLoading.value = false
-          noMoreContent.value = true
-          return
-        }
+  const list = Array.isArray(res.data.list) ? res.data.list : []
+  historyList.push(...list)
 
-        noMoreContent.value = false
-
-        if (!haveScrollbar() && !noMoreContent.value) {
-          getHistoryList()
-        }
-      }
-    })
-    .finally(() => {
-      isLoading.value = false
-    })
+  if (list.length < PAGE_SIZE) {
+    noMoreContent.value = true
+    return 'done'
+  }
+  return 'more'
 }
 
-function searchHistoryList() {
-  isLoading.value = true
-  api.history.searchHistoryList({
-    pn: currentPageNum.value++,
+async function searchHistoryList(signal: AbortSignal): Promise<InfiniteLoadResult> {
+  const res: HistorySearchResult = await api.history.searchHistoryList({
+    pn: currentPageNum.value,
     keyword: keyword.value,
   })
-    .then((res: HistorySearchResult) => {
-      if (res.code === 0) {
-        if (historyList.length !== 0 && res.data.list.length < 20) {
-          isLoading.value = false
-          noMoreContent.value = true
-          return
-        }
+  if (signal.aborted)
+    return 'more'
+  if (res.code !== 0)
+    throw new Error(`searchHistoryList failed with code ${res.code}`)
 
-        res.data.list.forEach((item: HistorySearchItem) => {
-          historyList.push(item as unknown as HistoryItem)
-        })
+  currentPageNum.value++
+  const list = Array.isArray(res.data.list) ? res.data.list : []
+  list.forEach((item: HistorySearchItem) => {
+    historyList.push(item as unknown as HistoryItem)
+  })
 
-        noMoreContent.value = false
-      }
-    })
-    .finally(() => {
-      isLoading.value = false
-    })
+  if (list.length < PAGE_SIZE) {
+    noMoreContent.value = true
+    return 'done'
+  }
+  return 'more'
 }
 
 function handleSearch() {
   historyList.length = 0
   currentPageNum.value = 1
   noMoreContent.value = false
-  if (keyword.value)
-    searchHistoryList()
-  else getHistoryList()
+  restart()
 }
 
 function deleteHistoryItem(index: number, historyItem: HistoryItem) {
@@ -473,6 +453,7 @@ function handleMouseEnter(item: HistoryItem) {
           </section>
         </ALink>
       </TransitionGroup>
+      <div ref="sentinel" aria-hidden="true" h-1px />
 
       <!-- no more content -->
       <Empty v-if="noMoreContent" class="py-4" :description="$t('common.no_more_content')" />
