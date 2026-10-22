@@ -205,11 +205,12 @@ const topBarItemElements: Record<keyof typeof popupVisible, Ref<HTMLElement | nu
   more,
 }
 
+const momentsPop = useTemplateRef('momentsTransformer')
 const favoritesPop = useTemplateRef('favoritesTransformer')
 
 setupTopBarItemTransformer('userPanel', useTemplateRef('avatarTransformer'))
 setupTopBarItemTransformer('notifications', useTemplateRef('notificationsTransformer'))
-setupTopBarItemTransformer('moments', useTemplateRef('momentsTransformer'))
+setupTopBarItemTransformer('moments', momentsPop)
 setupTopBarItemTransformer('favorites', favoritesPop)
 setupTopBarItemTransformer('history', useTemplateRef('historyTransformer'))
 setupTopBarItemTransformer('watchLater', useTemplateRef('watchLaterTransformer'))
@@ -288,7 +289,9 @@ watch(
     if (newVal === oldVal)
       return
 
-    if (!newVal)
+    if (newVal)
+      refreshMomentsPopIfNeeded()
+    else
       await getTopBarNewMomentsCount()
   },
   { immediate: true },
@@ -438,6 +441,10 @@ function handleNotificationsItemClick(item: { name: string, url: string, unreadC
 // #region Moments
 const newMomentsCount = ref<number>(0)
 
+function refreshMomentsPopIfNeeded() {
+  momentsPop.value?.refreshMomentsIfNeeded(newMomentsCount.value > 0)
+}
+
 async function getTopBarNewMomentsCount() {
   if (!isLogin.value)
     return
@@ -447,8 +454,8 @@ async function getTopBarNewMomentsCount() {
   try {
     const res = await api.moment.getTopBarNewMomentsCount()
     if (res.code === 0) {
-      if (typeof res.data.update_info.item.count === 'number')
-        result = res.data.update_info.item.count
+      if (typeof res.data.update_num === 'number')
+        result = res.data.update_num
     }
   }
   finally {

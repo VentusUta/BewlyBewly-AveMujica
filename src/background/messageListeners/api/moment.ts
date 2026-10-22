@@ -3,11 +3,14 @@ import { AHS } from '../../utils'
 
 const API_MOMENT = {
   getTopBarNewMomentsCount: {
-    url: 'https://api.bilibili.com/x/web-interface/dynamic/entrance',
+    url: 'https://api.bilibili.com/x/polymer/web-dynamic/v1/feed/all/update',
     _fetch: {
       method: 'get',
     },
-    params: {},
+    params: {
+      type: 'video',
+      update_baseline: '0',
+    },
     afterHandle: AHS.J_D,
   },
   getTopBarMoments: {
