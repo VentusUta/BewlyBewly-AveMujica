@@ -1,0 +1,12 @@
+/*
+只放 #bewly 宿主本身的规则。它在主样式表加载前同步注入 shadow root，首次渲染前就生效。
+它只会被注入 #bewly 自己的 shadow root，所以 :host 就是 #bewly，不必像主样式表那样写成 :host(#bewly)。
+*/
+
+/*
+宿主不生成盒子，不会成为层叠上下文或包含块，里面的各层直接与B站页面比较叠放。
+shadow 内的 !important 优先于页面对宿主写的任何作者样式。
+*/
+:host {
+  display: contents !important;
+}
