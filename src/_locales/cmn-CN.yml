@@ -270,6 +270,8 @@ settings:
   filter_like_view_ratio: 按点赞播放比例筛选（仅在Web推荐模式下有效）
   filter_like_view_ratio_desc: 筛选视频的点赞数与播放数比例（默认为5%，最高为10%）
   following_tab_show_livestreaming_videos: 在“正在关注”中显示直播视频
+  following_tab_filter_by_duration: 在“正在关注”中按时长筛选
+  following_tab_filter_by_duration_desc: 沿用“个性推荐”过滤中“按时长筛选”的设置，需先开启该项。
 
   use_search_page_mode: 首页使用搜索页模式
   settings_shared_with_the_search_page: 与搜索页共用的配置

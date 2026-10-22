@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Author } from '~/components/VideoCard/types'
 import { useBewlyApp } from '~/composables/useAppProvider'
+import { FilterType, useFilter } from '~/composables/useFilter'
 import type { GridLayoutType } from '~/logic'
 import { settings } from '~/logic'
 import type { FollowingLiveResult, List as FollowingLiveItem } from '~/models/live/getFollowingLiveList'
@@ -36,6 +37,14 @@ const gridClass = computed((): string => {
     return 'grid-two-columns'
   return 'grid-one-column'
 })
+
+// 这里全是关注的 UP 主，所以不按关注状态放行
+const filterFunc = useFilter(
+  null,
+  [FilterType.durationStr],
+  [['modules', 'module_dynamic', 'major', 'archive', 'duration_text']],
+)
+const durationFilter = computed(() => settings.value.followingTabFilterByDuration ? filterFunc.value : null)
 
 const videoList = ref<VideoElement[]>([])
 /**
@@ -94,7 +103,9 @@ async function getData() {
   isLoading.value = true
 
   try {
-    for (let i = 0; i < 3; i++)
+    const lastVideoListLength = videoList.value.length
+    // 按时长筛选后剩下的视频可能撑不出滚动条，导致无法触底加载，所以最多再多拉几页
+    for (let i = 0; i < 3 || (durationFilter.value && i < 10 && !noMoreContent.value && videoList.value.length - lastVideoListLength < 30); i++)
       await getFollowedUsersVideos()
   }
   finally {
@@ -195,7 +206,8 @@ async function getFollowedUsersVideos() {
       const resData = [] as MomentItem[]
 
       response.data.items.forEach((item: MomentItem) => {
-        resData.push(item)
+        if (!durationFilter.value || durationFilter.value(item))
+          resData.push(item)
       })
 
       // when videoList has length property, it means it is the first time to load

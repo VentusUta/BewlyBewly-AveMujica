@@ -392,6 +392,9 @@ function handleToggleHomeTab(tab: any) {
       <SettingsItem :title="$t('settings.following_tab_show_livestreaming_videos')">
         <Radio v-model="settings.followingTabShowLivestreamingVideos" />
       </SettingsItem>
+      <SettingsItem :title="$t('settings.following_tab_filter_by_duration')" :desc="$t('settings.following_tab_filter_by_duration_desc')">
+        <Radio v-model="settings.followingTabFilterByDuration" />
+      </SettingsItem>
     </SettingsItemGroup>
 
     <SettingsItemGroup

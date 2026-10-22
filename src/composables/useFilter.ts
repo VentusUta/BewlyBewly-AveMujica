@@ -8,6 +8,7 @@ export enum FilterType {
   viewCount,
   viewCountStr,
   duration,
+  durationStr,
   title,
   user,
   likeViewRatio, // 添加新的过滤类型
@@ -24,7 +25,7 @@ type FuncMap = { [key in FilterType]: {
 
 type KeyPath = Array<string>[]
 
-export function useFilter(isFollowedKeyPath: string[], filterOpt: FilterType[], keyList: KeyPath) {
+export function useFilter(isFollowedKeyPath: string[] | null, filterOpt: FilterType[], keyList: KeyPath) {
   function filterOutVerticalVideos(item: any, keyPath: string[], _filterValue: number) {
     const value = get(item, keyPath)
     return !isVerticalVideo(value)
@@ -61,6 +62,24 @@ export function useFilter(isFollowedKeyPath: string[], filterOpt: FilterType[], 
 
     const numericValue = Number(value)
     return !Number.isNaN(numericValue) && numericValue > filterValue
+  }
+
+  /**
+   * Compares a duration string with a filter value in seconds.
+   * @param item - The object to compare.
+   * @param keyPath - The path to the property in the object.
+   * @param filterValue - The value in seconds to compare against.
+   * @returns `true` if the duration is greater than the filter value or cannot be parsed, `false` otherwise.
+   */
+  function compareDurationString(item: any, keyPath: string[], filterValue: number) {
+    const value = get(item, keyPath)
+
+    // for example: `04:32`, `1:02:03`
+    if (typeof value !== 'string' || !/^\d+(?::\d+){1,2}$/.test(value))
+      return true
+
+    const seconds = value.split(':').reduce((acc, part) => acc * 60 + Number(part), 0)
+    return seconds > filterValue
   }
 
   // #region filter by title
@@ -149,6 +168,11 @@ export function useFilter(isFollowedKeyPath: string[], filterOpt: FilterType[], 
       enabledKey: 'enableFilterByDuration',
       valueKey: 'filterByDuration',
     },
+    [FilterType.durationStr]: {
+      func: compareDurationString,
+      enabledKey: 'enableFilterByDuration',
+      valueKey: 'filterByDuration',
+    },
     [FilterType.viewCountStr]: {
       func: compareNumberString,
       enabledKey: 'enableFilterByViewCount',
@@ -232,6 +256,8 @@ export function useFilter(isFollowedKeyPath: string[], filterOpt: FilterType[], 
   }
 
   function isAllowedContent(item: any): boolean {
+    if (!isFollowedKeyPath)
+      return false
     if (settings.value.recommendationMode === 'web') {
       const isFollowed = get(item, isFollowedKeyPath)
       return isFollowed && settings.value.disableFilterForFollowedUser
