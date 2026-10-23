@@ -4,6 +4,8 @@ import { useToast } from 'vue-toastification'
 
 import { useBewlyApp } from '~/composables/useAppProvider'
 import { FilterType, useFilter } from '~/composables/useFilter'
+import type { InfiniteLoadResult } from '~/composables/useInfiniteList'
+import { useInfiniteList } from '~/composables/useInfiniteList'
 import { LanguageType } from '~/enums/appEnums'
 import type { GridLayoutType } from '~/logic'
 import { accessKey, settings } from '~/logic'
@@ -88,11 +90,26 @@ const gridClass = computed((): string => {
 
 const videoList = ref<VideoElement[]>([])
 const appVideoList = ref<AppVideoElement[]>([])
-const isLoading = ref<boolean>(false)
 const needToLoginFirst = ref<boolean>(false)
 const refreshIdx = ref<number>(1)
 const noMoreContent = ref<boolean>(false)
-const { handleReachBottom, handlePageRefresh, haveScrollbar, showUndoButton, handleUndoRefresh, handleForwardRefresh } = useBewlyApp()
+const { handlePageRefresh, showUndoButton, handleUndoRefresh, handleForwardRefresh } = useBewlyApp()
+
+// 首次加载开始前不响应推荐模式的变化，设置读入时的变化由首次加载处理
+let hasStartedLoading = false
+
+const sentinel = useTemplateRef<HTMLElement>('sentinel')
+const { loading: isLoading, restart } = useInfiniteList({
+  sentinel,
+  canLoadMore: () => hasStartedLoading && !needToLoginFirst.value,
+  load: getData,
+})
+watch(isLoading, (loading) => {
+  if (loading)
+    emit('beforeLoading')
+  else
+    emit('afterLoading')
+})
 const activatedAppVideo = ref<AppVideoItem | null>()
 const showDislikeDialog = ref<boolean>(false)
 const selectedDislikeReason = ref<number>(1)
@@ -114,8 +131,6 @@ const hasForwardState = ref<boolean>(false)
 // 添加请求限制相关的变量
 const requestCount = ref<number>(0)
 const maxRequestsPerSession = 20 // 每个会话最多请求次数
-const requestThrottleTime = 300 // 请求间隔时间(毫秒)
-const lastRequestTime = ref<number>(0)
 const PAGE_SIZE = 30
 
 onKeyStroke((e: KeyboardEvent) => {
@@ -143,9 +158,6 @@ onKeyStroke((e: KeyboardEvent) => {
     }
   }
 })
-
-// 首次加载开始前不响应推荐模式的变化，设置读入时的变化由首次加载处理
-let hasStartedLoading = false
 
 watch(() => settings.value.recommendationMode, () => {
   if (!hasStartedLoading)
@@ -178,77 +190,50 @@ onActivated(() => {
   initPageAction()
 })
 
-async function initData() {
+function initData() {
   videoList.value.length = 0
   appVideoList.value.length = 0
   resetRequestLimit() // 添加重置请求限制
-  await getData()
+  restart()
 }
 
 // 添加重置请求限制的方法
 function resetRequestLimit() {
   requestCount.value = 0
-  lastRequestTime.value = 0
 }
 
-async function getData() {
+async function getData(signal: AbortSignal): Promise<InfiniteLoadResult> {
   // 检查请求次数限制
   if (requestCount.value >= maxRequestsPerSession) {
     toast.info('已达到本次会话的请求上限，请刷新页面重试')
-    return
+    return 'done'
   }
 
-  // 检查请求频率限制
-  const now = Date.now()
-  if (now - lastRequestTime.value < requestThrottleTime) {
-    toast.info('请求过于频繁，请稍后再试')
-    return
-  }
-
-  emit('beforeLoading')
-  isLoading.value = true
-  lastRequestTime.value = now
   requestCount.value++
 
+  if (settings.value.recommendationMode === 'web')
+    return getRecommendVideos(signal)
+
   try {
-    if (settings.value.recommendationMode === 'web') {
-      await getRecommendVideos()
-    }
-    else {
-      try {
-        // 限制一次最多请求次数
-        await getAppRecommendVideos()
-      }
-      catch (error) {
-        console.error('App recommendation failed:', error)
-        // 切换到 web 模式并提示用户
-        if (settings.value.recommendationNoAutoSwitch === true) {
-          toast.warning('App推荐数据加载失败。你已开启禁用自动切换功能，因此并未自动切换到Web模式。')
-        }
-        else {
-          settings.value.recommendationMode = 'web'
-          toast.warning('App 推荐数据加载失败，已自动切换至 Web 模式')
-          await getRecommendVideos()
-        }
-      }
-    }
+    return await getAppRecommendVideos(signal)
   }
-  finally {
-    isLoading.value = false
-    emit('afterLoading')
+  catch (error) {
+    if (signal.aborted)
+      return 'more'
+    console.error('App recommendation failed:', error)
+    // 切换到 web 模式并提示用户
+    if (settings.value.recommendationNoAutoSwitch === true) {
+      toast.warning('App推荐数据加载失败。你已开启禁用自动切换功能，因此并未自动切换到Web模式。')
+      throw error
+    }
+    // 推荐模式的 watch 会清空列表并从头加载
+    settings.value.recommendationMode = 'web'
+    toast.warning('App 推荐数据加载失败，已自动切换至 Web 模式')
+    return 'more'
   }
 }
 
 function initPageAction() {
-  handleReachBottom.value = async () => {
-    if (isLoading.value)
-      return
-    if (noMoreContent.value)
-      return
-
-    getData()
-  }
-
   handlePageRefresh.value = async () => {
     if (isLoading.value)
       return
@@ -314,11 +299,23 @@ function initPageAction() {
   }
 }
 
-async function getRecommendVideos() {
+// 停用时被中止的加载只清掉自己塞进去的骨架占位，以免切回来时一直显示；其余情况清掉所有未填上的占位
+function removePendingVideos<T extends { item?: unknown }>(list: Ref<T[]>, pendingVideos: T[], signal: AbortSignal) {
+  if (signal.aborted) {
+    const pendingSet = new Set(pendingVideos)
+    list.value = list.value.filter(video => !pendingSet.has(toRaw(video) as T))
+  }
+  else {
+    list.value = list.value.filter(video => video.item)
+  }
+}
+
+async function getRecommendVideos(signal: AbortSignal): Promise<InfiniteLoadResult> {
+  let pendingVideos: VideoElement[] = []
   try {
     let i = 0
     if (!filterFunc.value || videoList.value.length < PAGE_SIZE) {
-      const pendingVideos: VideoElement[] = Array.from({
+      pendingVideos = Array.from({
         length: videoList.value.length < PAGE_SIZE ? PAGE_SIZE - videoList.value.length : PAGE_SIZE,
       }, () => ({
         uniqueId: `unique-id-${(videoList.value.length || 0) + i++})}`,
@@ -333,16 +330,18 @@ async function getRecommendVideos() {
       fresh_idx: currentRefreshIdx,
       ps: PAGE_SIZE,
     })
+    if (signal.aborted)
+      return 'more'
 
     if (!response) {
       console.error('Failed to load web recommendations: Response is undefined')
       noMoreContent.value = true
-      return
+      return 'done'
     }
 
     if (!response.data) {
       noMoreContent.value = true
-      return
+      return 'done'
     }
 
     if (response.code === 0) {
@@ -401,40 +400,30 @@ async function getRecommendVideos() {
           }
         })
       }
+      return resData.length > 0 ? 'more' : 'empty'
     }
-    else if (response.code === 62011) {
+
+    if (response.code === 62011) {
       needToLoginFirst.value = true
+      return 'done'
     }
-    else {
-      // 其他错误码也应该停止加载，避免无限重试
-      console.error('API returned error code:', response.code, response.message)
-      noMoreContent.value = true
-    }
+
+    // 其他错误码也应该停止加载，避免无限重试
+    console.error('API returned error code:', response.code, response.message)
+    noMoreContent.value = true
+    return 'done'
   }
   finally {
-    const filledItems = videoList.value.filter(video => video.item)
-    videoList.value = filledItems
-
-    if (!needToLoginFirst.value && !noMoreContent.value) {
-      await nextTick()
-      if (!haveScrollbar() || filledItems.length < PAGE_SIZE || filledItems.length < 1) {
-        // 检查请求次数和频率限制
-        if (requestCount.value < maxRequestsPerSession && (Date.now() - lastRequestTime.value >= requestThrottleTime)) {
-          getRecommendVideos()
-        }
-        else if (requestCount.value >= maxRequestsPerSession) {
-          toast.info('已达到本次会话的请求上限')
-        }
-      }
-    }
+    removePendingVideos(videoList, pendingVideos, signal)
   }
 }
 
-async function getAppRecommendVideos() {
+async function getAppRecommendVideos(signal: AbortSignal): Promise<InfiniteLoadResult> {
+  let pendingVideos: AppVideoElement[] = []
   try {
     let i = 0
     if (!appFilterFunc.value || appVideoList.value.length < PAGE_SIZE) {
-      const pendingVideos: AppVideoElement[] = Array.from({
+      pendingVideos = Array.from({
         length: appVideoList.value.length < PAGE_SIZE ? PAGE_SIZE - appVideoList.value.length : PAGE_SIZE,
       }, () => ({
         uniqueId: `unique-id-${(appVideoList.value.length || 0) + i++})}`,
@@ -450,6 +439,8 @@ async function getAppRecommendVideos() {
       appkey: TVAppKey.appkey,
       idx: appVideoList.value.length > 0 ? appVideoList.value[appVideoList.value.length - 1].item?.idx : 1,
     })
+    if (signal.aborted)
+      return 'more'
 
     if (response.code === 0) {
       const resData = [] as AppVideoItem[]
@@ -491,27 +482,17 @@ async function getAppRecommendVideos() {
           }
         })
       }
+      return resData.length > 0 ? 'more' : 'empty'
     }
-    else if (response.code === 62011) {
+
+    if (response.code === 62011) {
       needToLoginFirst.value = true
+      return 'done'
     }
+    return 'empty'
   }
   finally {
-    const filledItems = appVideoList.value.filter(video => video.item)
-    appVideoList.value = filledItems
-
-    if (!needToLoginFirst.value) {
-      await nextTick()
-      if (!haveScrollbar() || filledItems.length < PAGE_SIZE || filledItems.length < 1) {
-        // 检查请求次数和频率限制
-        if (requestCount.value < maxRequestsPerSession && (Date.now() - lastRequestTime.value >= requestThrottleTime)) {
-          getAppRecommendVideos()
-        }
-        else if (requestCount.value >= maxRequestsPerSession) {
-          toast.info('已达到本次会话的请求上限')
-        }
-      }
-    }
+    removePendingVideos(appVideoList, pendingVideos, signal)
   }
 }
 
@@ -609,6 +590,7 @@ defineExpose({
         <!-- :more-options="video.three_point_v2" -->
       </template>
     </div>
+    <div ref="sentinel" aria-hidden="true" h-1px />
 
     <Loading v-show="isLoading" />
     <!-- no more content -->

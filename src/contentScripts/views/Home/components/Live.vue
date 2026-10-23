@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useBewlyApp } from '~/composables/useAppProvider'
+import type { InfiniteLoadResult } from '~/composables/useInfiniteList'
+import { useInfiniteList } from '~/composables/useInfiniteList'
 import type { GridLayoutType } from '~/logic'
 import type { FollowingLiveResult, List as FollowingLiveItem } from '~/models/live/getFollowingLiveList'
 import api from '~/utils/api'
@@ -28,14 +30,25 @@ const gridClass = computed((): string => {
 })
 
 const videoList = ref<VideoElement[]>([])
-const isLoading = ref<boolean>(false)
 const needToLoginFirst = ref<boolean>(false)
 const page = ref<number>(1)
 const noMoreContent = ref<boolean>(false)
-const { handleReachBottom, handlePageRefresh, haveScrollbar } = useBewlyApp()
+const { handlePageRefresh } = useBewlyApp()
+
+const sentinel = useTemplateRef<HTMLElement>('sentinel')
+const { loading: isLoading, restart } = useInfiniteList({
+  sentinel,
+  canLoadMore: () => !needToLoginFirst.value,
+  load: getFollowedUsersVideos,
+})
+watch(isLoading, (loading) => {
+  if (loading)
+    emit('beforeLoading')
+  else
+    emit('afterLoading')
+})
 
 onMounted(() => {
-  initData()
   initPageAction()
 })
 
@@ -44,108 +57,73 @@ onActivated(() => {
 })
 
 function initPageAction() {
-  handleReachBottom.value = async () => {
-    if (isLoading.value)
-      return
-    if (noMoreContent.value)
-      return
-
-    getData()
-  }
-  handlePageRefresh.value = async () => {
-    if (isLoading.value)
-      return
-
+  handlePageRefresh.value = () => {
     initData()
   }
 }
 
-async function initData() {
+function initData() {
   page.value = 1
   videoList.value.length = 0
   noMoreContent.value = false
-
-  await getData()
+  restart()
 }
 
-async function getData() {
-  emit('beforeLoading')
-  isLoading.value = true
+async function getFollowedUsersVideos(signal: AbortSignal): Promise<InfiniteLoadResult> {
+  let i = 0
+  // https://github.com/starknt/BewlyBewly/blob/fad999c2e482095dc3840bb291af53d15ff44130/src/contentScripts/views/Home/components/ForYou.vue#L208
+  const pendingVideos: VideoElement[] = Array.from({ length: 30 }, () => ({
+    uniqueId: `unique-id-${(videoList.value.length || 0) + i++})}`,
+  } satisfies VideoElement))
+  let lastVideoListLength = videoList.value.length
+  videoList.value.push(...pendingVideos)
 
   try {
-    for (let i = 0; i < 3; i++)
-      await getFollowedUsersVideos()
-  }
-  finally {
-    isLoading.value = false
-    emit('afterLoading')
-  }
-}
-
-async function getFollowedUsersVideos() {
-  if (noMoreContent.value)
-    return
-
-  // if (list.value === '0') {
-  //   noMoreContent.value = true
-  //   return
-  // }
-
-  try {
-    let i = 0
-    // https://github.com/starknt/BewlyBewly/blob/fad999c2e482095dc3840bb291af53d15ff44130/src/contentScripts/views/Home/components/ForYou.vue#L208
-    const pendingVideos: VideoElement[] = Array.from({ length: 30 }, () => ({
-      uniqueId: `unique-id-${(videoList.value.length || 0) + i++})}`,
-    } satisfies VideoElement))
-    let lastVideoListLength = videoList.value.length
-    videoList.value.push(...pendingVideos)
-
     const response: FollowingLiveResult = await api.live.getFollowingLiveList({
       page: page.value,
       page_size: 9,
     })
+    if (signal.aborted)
+      return 'more'
 
     if (response.code === -101) {
-      noMoreContent.value = true
       needToLoginFirst.value = true
-      return
+      return 'done'
     }
+    if (response.code !== 0)
+      throw new Error(`getFollowingLiveList failed with code ${response.code}`)
 
-    if (response.code === 0) {
-      if (response.data.list.length < 9)
-        noMoreContent.value = true
+    page.value++
 
-      page.value++
+    const resData = [] as FollowingLiveItem[]
 
-      const resData = [] as FollowingLiveItem[]
+    response.data.list.forEach((item: FollowingLiveItem) => {
+      resData.push(item)
+    })
 
-      response.data.list.forEach((item: FollowingLiveItem) => {
-        resData.push(item)
+    // when videoList has length property, it means it is the first time to load
+    if (!videoList.value.length) {
+      videoList.value = resData.map(item => ({ uniqueId: `${item.roomid}`, item }))
+    }
+    else {
+      resData.forEach((item) => {
+        videoList.value[lastVideoListLength++] = {
+          uniqueId: `${item.roomid}`,
+          item,
+        }
       })
-
-      // when videoList has length property, it means it is the first time to load
-      if (!videoList.value.length) {
-        videoList.value = resData.map(item => ({ uniqueId: `${item.roomid}`, item }))
-      }
-      else {
-        resData.forEach((item) => {
-          videoList.value[lastVideoListLength++] = {
-            uniqueId: `${item.roomid}`,
-            item,
-          }
-        })
-      }
-
-      if (!haveScrollbar() && !noMoreContent.value) {
-        getFollowedUsersVideos()
-      }
     }
-    else if (response.code === -101) {
-      needToLoginFirst.value = true
+
+    if (resData.length < 9) {
+      noMoreContent.value = true
+      return 'done'
     }
+    return 'more'
   }
   finally {
-    videoList.value = videoList.value.filter(video => video.item)
+    // 被中止时列表已经属于刷新后的加载，不能动
+    if (!signal.aborted)
+      videoList.value = videoList.value.filter(video => video.item)
   }
 }
 
@@ -191,6 +169,7 @@ defineExpose({ initData })
         :horizontal="gridLayout !== 'adaptive'"
       />
     </div>
+    <div ref="sentinel" aria-hidden="true" h-1px />
 
     <!-- no more content -->
     <Empty v-if="noMoreContent && !needToLoginFirst" class="pb-4" :description="$t('common.no_more_content')" />
