@@ -293,6 +293,12 @@ settings:
   follow_bilibili_evolved_color_desc: 每次變更 Bilibili Evolved 主題色後，記得重新選取此選項以更新配置。
 
   # bilibili Settings
+  site_settings: 站點
+  bili_site: 使用的站點
+  bili_site_desc: bilibili 可能會依 IP 和系統語言把頁面導向帶語言前綴的海外站點，選擇中國大陸時會一直使用中國大陸站點。重新整理或開啓新的 bilibili 頁面後生效。
+  bili_site_opt:
+    cn: 中國大陸
+    overseas: 海外（未支援）
   content_block_settings: 內容封鎖
   block_ads: 封鎖廣告
   block_top_search_page_ads: 封鎖 bilibili 搜尋頁上方的廣告

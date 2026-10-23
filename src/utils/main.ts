@@ -144,12 +144,45 @@ export function delay(ms: number) {
   })
 }
 
+// B站海外站的语言前缀，区分大小写
+const BILI_LANG_PREFIXES = ['en', 'th', 'vi', 'id', 'ja', 'zh-Hant', 'zh-Hans', 'ar', 'pt', 'es', 'tr', 'ru', 'ms'] as const
+export type BiliLang = typeof BILI_LANG_PREFIXES[number]
+
+export function isBiliLang(value: string): value is BiliLang {
+  return (BILI_LANG_PREFIXES as readonly string[]).includes(value)
+}
+
+/**
+ * 去掉B站海外站的语言前缀，如 `/en/video/…` → `/video/…`，以便按原有路径匹配页面
+ * @param url the url to normalize
+ * @returns the url without the language prefix, or the original url if it has none
+ */
+export function stripBiliLangPrefix(url: string = location.href): string {
+  let parsed: URL
+  try {
+    parsed = new URL(url)
+  }
+  catch {
+    return url
+  }
+  if (!/(?:^|\.)bilibili\.com$/.test(parsed.hostname))
+    return url
+
+  const [, firstSegment, ...restSegments] = parsed.pathname.split('/')
+  if (!isBiliLang(firstSegment))
+    return url
+
+  parsed.pathname = `/${restSegments.join('/')}`
+  return parsed.href
+}
+
 /**
  * Check if the current page is the home page
  * @param url the url to check
  * @returns true if the current page is the home page
  */
 export function isHomePage(url: string = location.href): boolean {
+  url = stripBiliLangPrefix(url)
   if (
     /https?:\/\/(?:www\.)?bilibili.com\/?(?:#\/?)?$/.test(url)
     || /https?:\/\/(?:www\.)?bilibili.com\/index\.html$/.test(url)
@@ -167,6 +200,7 @@ export function isHomePage(url: string = location.href): boolean {
  * @returns true if the current page is a video or bangumi page
  */
 export function isVideoOrBangumiPage(url: string = location.href): boolean {
+  url = stripBiliLangPrefix(url)
   if (
     // video page
     /https?:\/\/(?:www\.)?bilibili\.com\/(?:video|list)\/.*/.test(url)
@@ -189,6 +223,7 @@ export function isVideoOrBangumiPage(url: string = location.href): boolean {
  * @returns true if the current page is the notifications page
  */
 export function isNotificationPage(url: string = location.href): boolean {
+  url = stripBiliLangPrefix(url)
   if (
     /https?:\/\/message\.bilibili\.com\.*/.test(url)
   ) {
