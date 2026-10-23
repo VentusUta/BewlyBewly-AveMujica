@@ -1,7 +1,7 @@
 import { settings } from '~/logic'
 import api from '~/utils/api'
 import type { BiliTranslationLang } from '~/utils/biliTranslation'
-import { canTranslateUserContent, getBiliLocaleJson, getBiliLocaleParams, getTranslatedTitle, resolveBiliTranslation, rewriteBiliRequestUrl } from '~/utils/biliTranslation'
+import { getBiliLocaleJson, getBiliLocaleParams, getTranslatedTitle, resolveBiliTranslation, rewriteBiliRequestUrl } from '~/utils/biliTranslation'
 import { queryDomUntilFound } from '~/utils/main'
 import { getWbiMixinKey, signWbiQuery } from '~/utils/wbi'
 
@@ -97,7 +97,7 @@ function translateVideoInfo(lang: BiliTranslationLang) {
 }
 
 /**
- * 让B站页面自己发出的评论、弹幕请求改为请求官方译文，并替换视频页的标题和简介
+ * 让B站页面自己发出的评论、弹幕等请求改为请求官方译文，并替换视频页的标题和简介
  */
 export function setupBiliTranslation() {
   const lang = getBiliTranslationLang()
@@ -105,15 +105,12 @@ export function setupBiliTranslation() {
     return
   loadWbiMixinKey()
 
-  if (canTranslateUserContent(lang)) {
-    const localeJson = getBiliLocaleJson(lang)
-    // 页面环境的注入脚本同步派发请求，这里同步回应改写后的 URL，空字符串表示照常请求
-    window.addEventListener('bewly:rewrite-bili-request', (event) => {
-      const url = (event as CustomEvent).detail
-      const rewrittenUrl = typeof url === 'string' ? rewriteBiliRequestUrl(url, localeJson, mixinKey) : null
-      window.dispatchEvent(new CustomEvent('bewly:bili-request-rewritten', { detail: rewrittenUrl ?? '' }))
-    })
-  }
+  // 页面环境的注入脚本同步派发请求，这里同步回应改写后的 URL，空字符串表示照常请求
+  window.addEventListener('bewly:rewrite-bili-request', (event) => {
+    const url = (event as CustomEvent).detail
+    const rewrittenUrl = typeof url === 'string' ? rewriteBiliRequestUrl(url, lang, mixinKey) : null
+    window.dispatchEvent(new CustomEvent('bewly:bili-request-rewritten', { detail: rewrittenUrl ?? '' }))
+  })
 
   if (/\/video\/BV/i.test(location.pathname))
     translateVideoInfo(lang)

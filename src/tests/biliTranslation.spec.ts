@@ -7,6 +7,7 @@ import { signWbiQuery } from '~/utils/wbi'
 const MIXIN_KEY = 'ea1db124af3c7062474693fa704f4ff8'
 const EN = '{"c_locale":{"language":"en"},"always_translate":true}'
 const ZH_HANS = '{"c_locale":{"language":"zh","script":"Hans"},"always_translate":false}'
+const ZH_HANT = '{"c_locale":{"language":"zh","script":"Hant"},"always_translate":true}'
 
 describe('resolveBiliTranslation', () => {
   it.each([
@@ -53,14 +54,14 @@ describe('getTranslatedTitle', () => {
 describe('rewriteBiliRequestUrl', () => {
   it('replaces the locale on danmaku requests and signs them again', () => {
     const query = signWbiQuery({ 'oid': '1', 'segment_index': '1', 'x-bili-locale-json': ZH_HANS }, MIXIN_KEY, 1000)
-    const rewritten = new URL(rewriteBiliRequestUrl(`https://api.bilibili.com/x/v2/dm/wbi/web/seg.so?${query}`, EN, MIXIN_KEY)!)
+    const rewritten = new URL(rewriteBiliRequestUrl(`https://api.bilibili.com/x/v2/dm/wbi/web/seg.so?${query}`, 'en', MIXIN_KEY)!)
     expect(rewritten.pathname).toBe('/x/v2/dm/wbi/web/seg.so')
     expect(rewritten.searchParams.get('x-bili-locale-json')).toBe(EN)
     expect(rewritten.searchParams.get('w_rid')).not.toBe(new URLSearchParams(query).get('w_rid'))
   })
 
   it('signs comment requests so the signature covers the new locale', () => {
-    const rewritten = rewriteBiliRequestUrl(`https://api.bilibili.com/x/v2/reply/wbi/main?oid=1&type=1&x-bili-locale-json=${encodeURIComponent(ZH_HANS)}&w_rid=x&wts=1`, EN, MIXIN_KEY)!
+    const rewritten = rewriteBiliRequestUrl(`https://api.bilibili.com/x/v2/reply/wbi/main?oid=1&type=1&x-bili-locale-json=${encodeURIComponent(ZH_HANS)}&w_rid=x&wts=1`, 'en', MIXIN_KEY)!
     const params = new URL(rewritten).searchParams
     const wts = Number(params.get('wts'))
     params.delete('w_rid')
@@ -69,8 +70,21 @@ describe('rewriteBiliRequestUrl', () => {
   })
 
   it('rewrites unsigned reply requests without a key', () => {
-    const rewritten = rewriteBiliRequestUrl('https://api.bilibili.com/x/v2/reply/reply?oid=1&root=2', EN, null)
+    const rewritten = rewriteBiliRequestUrl('https://api.bilibili.com/x/v2/reply/reply?oid=1&root=2', 'en', null)
     expect(new URL(rewritten!).searchParams.get('x-bili-locale-json')).toBe(EN)
+  })
+
+  it.each([
+    ['en', EN],
+    ['zh-Hant', ZH_HANT],
+  ] as const)('rewrites the comment box hints for %s', (lang, locale) => {
+    const rewritten = rewriteBiliRequestUrl(`https://api.bilibili.com/x/v2/reply/subject/description?oid=1&type=1&x-bili-locale-json=${encodeURIComponent(ZH_HANS)}`, lang, null)
+    expect(new URL(rewritten!).searchParams.get('x-bili-locale-json')).toBe(locale)
+  })
+
+  it('leaves comments and danmaku alone for Traditional Chinese', () => {
+    expect(rewriteBiliRequestUrl('https://api.bilibili.com/x/v2/reply/reply?oid=1&root=2', 'zh-Hant', null)).toBeNull()
+    expect(rewriteBiliRequestUrl('https://api.bilibili.com/x/v2/dm/wbi/web/seg.so?oid=1', 'zh-Hant', MIXIN_KEY)).toBeNull()
   })
 
   it.each([
@@ -80,7 +94,7 @@ describe('rewriteBiliRequestUrl', () => {
     ['another host', 'https://example.com/x/v2/reply/reply', MIXIN_KEY],
     ['an invalid url', 'not a url', MIXIN_KEY],
   ])('leaves %s as is', (_, url, key) => {
-    expect(rewriteBiliRequestUrl(url, EN, key)).toBeNull()
+    expect(rewriteBiliRequestUrl(url, 'en', key)).toBeNull()
   })
 })
 

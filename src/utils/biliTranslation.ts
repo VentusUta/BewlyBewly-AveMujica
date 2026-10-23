@@ -54,14 +54,16 @@ export function getTranslatedTitle(item: TranslatableItem): string {
   return item.translate_status === 'translated' && item.translated_title ? item.translated_title : item.title
 }
 
-// B站页面自己发出的、可以换成译文的请求：评论列表、楼中楼和弹幕
-const TRANSLATABLE_REQUEST_PATH = /^\/x\/v2\/(?:reply\/(?:wbi\/main|main|reply)|dm\/(?:wbi\/)?web\/seg\.so)$/
+// B站页面自己发出的、可以换成译文的请求。评论框的提示文字等界面文字，繁体中文也会转换
+const UI_TEXT_REQUEST_PATH = /^\/x\/v2\/reply\/subject\/description$/
+// 评论列表、楼中楼和弹幕
+const USER_CONTENT_REQUEST_PATH = /^\/x\/v2\/(?:reply\/(?:wbi\/main|main|reply)|dm\/(?:wbi\/)?web\/seg\.so)$/
 
 /**
  * 把B站页面自己发出的请求改成请求译文，带 WBI 签名的会重新签名
  * @returns the rewritten url, or `null` to send the request as is
  */
-export function rewriteBiliRequestUrl(url: string, localeJson: string, mixinKey: string | null): string | null {
+export function rewriteBiliRequestUrl(url: string, lang: BiliTranslationLang, mixinKey: string | null): string | null {
   let parsed: URL
   try {
     parsed = new URL(url)
@@ -69,8 +71,12 @@ export function rewriteBiliRequestUrl(url: string, localeJson: string, mixinKey:
   catch {
     return null
   }
-  if (parsed.hostname !== 'api.bilibili.com' || !TRANSLATABLE_REQUEST_PATH.test(parsed.pathname))
+  if (parsed.hostname !== 'api.bilibili.com')
     return null
+  const isUserContent = USER_CONTENT_REQUEST_PATH.test(parsed.pathname)
+  if (isUserContent ? !canTranslateUserContent(lang) : !UI_TEXT_REQUEST_PATH.test(parsed.pathname))
+    return null
+  const localeJson = getBiliLocaleJson(lang)
   if (parsed.searchParams.get('x-bili-locale-json') === localeJson)
     return null
 
