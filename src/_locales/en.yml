@@ -116,6 +116,14 @@ settings:
     mandarin_cn: Mandarin - Simplified Chinese
     mandarin_tw: Mandarin - Traditional Chinese
     jyut: Cantonese
+  bili_translation: bilibili translation
+  bili_translation_desc: Shows bilibili's official AI translations for titles in For you, Trending and Ranking. Titles without a translation stay in the original language. Takes effect after you refresh the page.
+  bili_translation_opt:
+    auto: Auto
+    auto_with_lang: Auto ({lang})
+    original: Original
+    zh_hant: Traditional Chinese
+    en: English
   customize_font: Customize font
   font_opt:
     default: Default
