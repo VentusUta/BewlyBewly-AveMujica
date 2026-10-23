@@ -7,6 +7,7 @@ import { useDark } from '~/composables/useDark'
 import { BEWLY_MOUNTED } from '~/constants/globalEvents'
 import { settings } from '~/logic'
 import { setupApp } from '~/logic/common-setup'
+import BEWLY_CSS from '~/styles/bewly.css?raw'
 import RESET_BEWLY_CSS from '~/styles/reset.css?raw'
 import { runWhenIdle } from '~/utils/lazyLoad'
 import { compareVersions, injectCSS, isHomePage, isInIframe, isNotificationPage, isVideoOrBangumiPage } from '~/utils/main'
@@ -190,6 +191,18 @@ async function onDOMLoaded() {
     if (originalTopBar) {
       // always show the background on the original bilibili top bar
       originalTopBar.querySelector('.bili-header__bar')?.classList.add('slide-down')
+      // B站顶栏移出文档流，不把首页内容往下推。
+      // 它要滚过首页横幅才固定，横幅已被移除，所以让它始终固定在视口顶部，也不播放滑入动画
+      injectCSS(`
+        .bili-header {
+          position: fixed !important;
+          inset: 0 0 auto;
+        }
+        .bili-header .bili-header__bar {
+          position: fixed !important;
+          animation: none !important;
+        }
+      `)
     }
 
     // Remove the original Bilibili homepage if in Bilibili homepage & useOriginalBilibiliHomepage is enabled
@@ -206,6 +219,10 @@ async function onDOMLoaded() {
       originalTopBarInnerUselessContents.forEach(item => (item as HTMLElement).style.display = 'none')
     if (originalTopBar)
       document.body.appendChild(originalTopBar)
+
+    // 由 OverlayScrollbars 在 body 上画悬浮的滚动条，壁纸铺满全宽，文档仍原生滚动。
+    // 首页加载期间 body 是 display: none，要等 Bewly 挂载后再初始化
+    window.addEventListener(BEWLY_MOUNTED, initBodyOverlayScrollbars, { once: true })
   }
 
   if (isSupportedPages() || isSupportedIframePages()) {
@@ -221,6 +238,11 @@ async function onDOMLoaded() {
   // Reset the original Bilibili top bar display style
   if (removeOriginalTopBar)
     document.documentElement.removeChild(removeOriginalTopBar)
+}
+
+async function initBodyOverlayScrollbars() {
+  const { OverlayScrollbars } = await import('overlayscrollbars')
+  OverlayScrollbars(document.body, {})
 }
 
 if (document.readyState !== 'loading')
@@ -275,32 +297,35 @@ function injectApp() {
   const shadowDOM = container.attachShadow?.({ mode: 'open' }) || container
   const resetStyleEl = document.createElement('style')
   resetStyleEl.textContent = `${RESET_BEWLY_CSS}`
+  const bewlyStyleEl = document.createElement('style')
+  bewlyStyleEl.textContent = BEWLY_CSS
   styleEl.setAttribute('rel', 'stylesheet')
   styleEl.setAttribute('href', browser.runtime.getURL('dist/contentScripts/style.css'))
   shadowDOM.appendChild(resetStyleEl)
+  shadowDOM.appendChild(bewlyStyleEl)
   shadowDOM.appendChild(styleEl)
   shadowDOM.appendChild(root)
-  container.style.opacity = '0'
-  container.style.transition = 'opacity 0.5s'
+  // 请勿使用opacity淡入：宿主没有盒子，故不能以此实现视觉效果；root虽有盒子，但会导致所有层被短暂打包成一个整体。
+  root.style.visibility = 'hidden'
   let revealTimer: ReturnType<typeof setTimeout> | undefined
-  const revealContainer = (delayMs: number, onReveal?: () => void) => {
+  const revealApp = (delayMs: number, onReveal?: () => void) => {
     clearTimeout(revealTimer)
     revealTimer = setTimeout(() => {
       onReveal?.()
-      container.style.opacity = '1'
+      root.style.removeProperty('visibility')
     }, delayMs)
   }
   styleEl.onload = () => {
     // To prevent abrupt style transitions caused by sudden style changes
-    revealContainer(500)
+    revealApp(500)
   }
-  // 保证容器在 <link> 的 load 事件未能正常触发时也会显示，避免主页等异常空屏的情况
+  // 保证在 <link> 的 load 事件未能正常触发时也会显示，避免主页等异常空屏的情况
   styleEl.onerror = () => {
     console.warn('[BewlyBewly] Failed to load the shadow DOM stylesheet, revealing the UI anyway')
-    revealContainer(500)
+    revealApp(500)
   }
   // load 和 error 都没触发时的兜底
-  revealContainer(5000, () => {
+  revealApp(5000, () => {
     console.warn('[BewlyBewly] The shadow DOM stylesheet neither loaded nor failed within 5s, revealing the UI anyway')
   })
 

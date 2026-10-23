@@ -144,7 +144,7 @@ function setAppWallpaperMaskingOpacity() {
                 will-change: transform, opacity;
               "
               pointer-events-none
-              pos="absolute top--40px left-0" w="100%" h="50%" of-hidden
+              pos="fixed top--40px left-0" w="100%" h="50%" of-hidden
               transform-gpu
               object-cover @load="isBlurredCoverLoaded = true"
             >

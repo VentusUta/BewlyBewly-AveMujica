@@ -12,7 +12,7 @@ import type { GridLayoutIcon } from './types'
 import { HomeSubPage } from './types'
 
 const mainStore = useMainStore()
-const { handleBackToTop, scrollbarRef } = useBewlyApp()
+const { handleBackToTop } = useBewlyApp()
 const handleThrottledBackToTop = useThrottleFn((targetScrollTop: number = 0) => handleBackToTop(targetScrollTop), 1000, false)
 
 const activatedPage = ref<HomeSubPage>(HomeSubPage.ForYou)
@@ -80,8 +80,7 @@ onMounted(() => {
       }
       else {
         // fix #349
-        const osInstance = scrollbarRef.value?.osInstance()
-        const scrollTop = osInstance.elements().viewport.scrollTop as number
+        const scrollTop = document.documentElement.scrollTop
 
         if (val)
           shouldMoveTabsUp.value = false
@@ -102,8 +101,7 @@ onUnmounted(() => {
 
 function handleChangeTab(tab: HomeTab) {
   if (activatedPage.value === tab.page) {
-    const osInstance = scrollbarRef.value?.osInstance()
-    const scrollTop = osInstance.elements().viewport.scrollTop as number
+    const scrollTop = document.documentElement.scrollTop
 
     if ((!settings.value.useSearchPageModeOnHomePage && scrollTop > 0) || (settings.value.useSearchPageModeOnHomePage && scrollTop > 510)) {
       handleThrottledBackToTop(settings.value.useSearchPageModeOnHomePage ? 510 : 0)
