@@ -11,7 +11,7 @@ import { TOP_BAR_VISIBILITY_CHANGE } from '~/constants/globalEvents'
 import { AppPage } from '~/enums/appEnums'
 import { settings } from '~/logic'
 import api from '~/utils/api'
-import { getUserID, isHomePage, isInIframe, removeHttpFromUrl } from '~/utils/main'
+import { getUserID, isHomePage, isInIframe, removeHttpFromUrl, stripBiliLangPrefix } from '~/utils/main'
 import emitter from '~/utils/mitt'
 import { createTransformer } from '~/utils/transformer'
 
@@ -51,7 +51,7 @@ const drawerVisible = reactive({
 })
 
 const isSearchPage = computed((): boolean => {
-  if (/https?:\/\/search.bilibili.com\/.*$/.test(location.href))
+  if (/https?:\/\/search.bilibili.com\/.*$/.test(stripBiliLangPrefix()))
     return true
   return false
 })
@@ -65,14 +65,14 @@ const forceWhiteIcon = computed((): boolean => {
     // 分區頁面由於上面有背景，所以強制 icon 變白色用於區分背景
     // channel, anime, chinese anime, tv shows, movie, variety shows, mooc but not including video page
     || (
-      /https?:\/\/(?:www.)?bilibili.com\/(?:v|anime|guochuang|tv|movie|variety|mooc).*/.test(location.href)
-      && !/https?:\/\/(?:www.)?bilibili.com\/video.*/.test(location.href)
+      /https?:\/\/(?:www.)?bilibili.com\/(?:v|anime|guochuang|tv|movie|variety|mooc).*/.test(stripBiliLangPrefix())
+      && !/https?:\/\/(?:www.)?bilibili.com\/video.*/.test(stripBiliLangPrefix())
     )
     // user space page 空間頁
-    || /https?:\/\/space.bilibili\.com\.*/.test(location.href)
+    || /https?:\/\/space.bilibili\.com\.*/.test(stripBiliLangPrefix())
     // premium page bilibili 大會員頁
-    || /https?:\/\/account\.bilibili\.com\/big.*$/.test(location.href)
-    || /https?:\/\/(?:www\.)?bilibili\.com\/c\/(?!popular).*/.test(location.href)
+    || /https?:\/\/account\.bilibili\.com\/big.*$/.test(stripBiliLangPrefix())
+    || /https?:\/\/(?:www\.)?bilibili\.com\/c\/(?!popular).*/.test(stripBiliLangPrefix())
   ) {
     return true
   }
@@ -123,17 +123,17 @@ const isTopBarFixed = computed((): boolean => {
   if (
     isHomePage()
     // video page
-    || /https?:\/\/(?:www.)?bilibili.com\/(?:video|list)\/.*/.test(location.href)
+    || /https?:\/\/(?:www.)?bilibili.com\/(?:video|list)\/.*/.test(stripBiliLangPrefix())
     // anime playback & movie page
-    || /https?:\/\/(?:www.)?bilibili.com\/bangumi\/play\/.*/.test(location.href)
+    || /https?:\/\/(?:www.)?bilibili.com\/bangumi\/play\/.*/.test(stripBiliLangPrefix())
     // moment page
-    || /https?:\/\/t.bilibili.com.*/.test(location.href)
+    || /https?:\/\/t.bilibili.com.*/.test(stripBiliLangPrefix())
     // channel, anime, chinese anime, tv shows, movie, variety shows, mooc
-    || /https?:\/\/(?:www.)?bilibili.com\/(?:v|anime|guochuang|tv|movie|variety|mooc).*/.test(location.href)
+    || /https?:\/\/(?:www.)?bilibili.com\/(?:v|anime|guochuang|tv|movie|variety|mooc).*/.test(stripBiliLangPrefix())
     // articles page
-    || /https?:\/\/(?:www.)?bilibili.com\/read\/home.*/.test(location.href)
+    || /https?:\/\/(?:www.)?bilibili.com\/read\/home.*/.test(stripBiliLangPrefix())
     // premium page bilibili 大會員頁
-    || /https?:\/\/account\.bilibili\.com\/big.*$/.test(location.href)
+    || /https?:\/\/account\.bilibili\.com\/big.*$/.test(stripBiliLangPrefix())
   ) {
     return true
   }
@@ -143,9 +143,9 @@ const isTopBarFixed = computed((): boolean => {
 const showTopBar = computed((): boolean => {
   if (
     // Creative center page
-    /https?:\/\/member.bilibili.com\/platform.*/.test(location.href)
+    /https?:\/\/member.bilibili.com\/platform.*/.test(stripBiliLangPrefix())
     // https://github.com/BewlyBewly/BewlyBewly/issues/1276
-    || /https?:\/\/(?:www\.)?bilibili\.com\/read\/(?:preview|pcpreview).*/.test(location.href)
+    || /https?:\/\/(?:www\.)?bilibili\.com\/read\/(?:preview|pcpreview).*/.test(stripBiliLangPrefix())
   ) {
     return false
   }
@@ -271,7 +271,7 @@ watch(
   (newVal, oldVal) => {
     // Stop loading new message counts on the message page, because it resets to 0 when the
     // users reads the messages on this page
-    if (oldVal === undefined && /https?:\/\/message.bilibili.com.*$/.test(location.href))
+    if (oldVal === undefined && /https?:\/\/message.bilibili.com.*$/.test(stripBiliLangPrefix()))
       return
 
     if (newVal === oldVal)

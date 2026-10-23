@@ -3,10 +3,10 @@ import './shadowDom'
 import './thirdParties'
 
 import { settings } from '~/logic/storage'
-import { isHomePage, isInIframe } from '~/utils/main'
+import { isHomePage, isInIframe, stripBiliLangPrefix } from '~/utils/main'
 
 async function setupStyles() {
-  const currentUrl = document.URL
+  const currentUrl = stripBiliLangPrefix(document.URL)
 
   // homepage 首页
   if (isHomePage()) {
