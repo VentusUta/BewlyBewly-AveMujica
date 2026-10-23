@@ -1,5 +1,7 @@
 import { LanguageType } from '~/enums/appEnums'
 
+import { signWbiQuery } from './wbi'
+
 // 设置里可选的翻译语言，暂只支持中文和英文。简体中文是原文，无需翻译
 export const BILI_TRANSLATION_LANGS = ['zh-Hant', 'en'] as const
 export type BiliTranslationLang = typeof BILI_TRANSLATION_LANGS[number]
@@ -33,6 +35,11 @@ export function getBiliLocaleJson(lang: BiliTranslationLang): string {
   return JSON.stringify({ c_locale: cLocale, always_translate: true })
 }
 
+// B站对繁体中文只转换标题和简介，评论和弹幕仍返回原文
+export function canTranslateUserContent(lang: BiliTranslationLang): boolean {
+  return lang !== 'zh-Hant'
+}
+
 export function getBiliLocaleParams(lang: BiliTranslationLang | null): { 'x-bili-locale-json'?: string } {
   return lang ? { 'x-bili-locale-json': getBiliLocaleJson(lang) } : {}
 }
@@ -45,4 +52,34 @@ interface TranslatableItem {
 
 export function getTranslatedTitle(item: TranslatableItem): string {
   return item.translate_status === 'translated' && item.translated_title ? item.translated_title : item.title
+}
+
+// B站页面自己发出的、可以换成译文的请求：评论列表、楼中楼和弹幕
+const TRANSLATABLE_REQUEST_PATH = /^\/x\/v2\/(?:reply\/(?:wbi\/main|main|reply)|dm\/(?:wbi\/)?web\/seg\.so)$/
+
+/**
+ * 把B站页面自己发出的请求改成请求译文，带 WBI 签名的会重新签名
+ * @returns the rewritten url, or `null` to send the request as is
+ */
+export function rewriteBiliRequestUrl(url: string, localeJson: string, mixinKey: string | null): string | null {
+  let parsed: URL
+  try {
+    parsed = new URL(url)
+  }
+  catch {
+    return null
+  }
+  if (parsed.hostname !== 'api.bilibili.com' || !TRANSLATABLE_REQUEST_PATH.test(parsed.pathname))
+    return null
+  if (parsed.searchParams.get('x-bili-locale-json') === localeJson)
+    return null
+
+  parsed.searchParams.set('x-bili-locale-json', localeJson)
+  if (parsed.pathname.includes('/wbi/')) {
+    // 签不了名就不改，以免请求失败
+    if (!mixinKey)
+      return null
+    parsed.search = signWbiQuery(parsed.searchParams, mixinKey)
+  }
+  return parsed.href
 }

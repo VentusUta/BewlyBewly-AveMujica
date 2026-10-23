@@ -1,7 +1,7 @@
 import { settings } from '~/logic'
 import api from '~/utils/api'
 import type { BiliTranslationLang } from '~/utils/biliTranslation'
-import { getBiliLocaleJson, getBiliLocaleParams, getTranslatedTitle, resolveBiliTranslation } from '~/utils/biliTranslation'
+import { canTranslateUserContent, getBiliLocaleJson, getBiliLocaleParams, getTranslatedTitle, resolveBiliTranslation, rewriteBiliRequestUrl } from '~/utils/biliTranslation'
 import { queryDomUntilFound } from '~/utils/main'
 import { getWbiMixinKey, signWbiQuery } from '~/utils/wbi'
 
@@ -16,6 +16,7 @@ export function getBiliTranslationParams() {
   return getBiliLocaleParams(getBiliTranslationLang())
 }
 
+let mixinKey: string | null = null
 let mixinKeyPromise: Promise<string | null> | null = null
 
 // B站页面会把 WBI 密钥缓存在 localStorage，没有时再请求 nav 接口
@@ -25,13 +26,15 @@ function loadWbiMixinKey(): Promise<string | null> {
   const imgUrl = localStorage.getItem('wbi_img_url')
   const subUrl = localStorage.getItem('wbi_sub_url')
   if (imgUrl && subUrl) {
-    mixinKeyPromise = Promise.resolve(getWbiMixinKey(imgUrl, subUrl))
+    mixinKey = getWbiMixinKey(imgUrl, subUrl)
+    mixinKeyPromise = Promise.resolve(mixinKey)
     return mixinKeyPromise
   }
   mixinKeyPromise = api.user.getUserInfo()
     .then((res) => {
       const wbiImg = res?.data?.wbi_img
-      return wbiImg ? getWbiMixinKey(wbiImg.img_url, wbiImg.sub_url) : null
+      mixinKey = wbiImg ? getWbiMixinKey(wbiImg.img_url, wbiImg.sub_url) : null
+      return mixinKey
     })
     .catch(() => null)
   return mixinKeyPromise
@@ -94,10 +97,24 @@ function translateVideoInfo(lang: BiliTranslationLang) {
 }
 
 /**
- * 把视频页的标题和简介替换为官方译文
+ * 让B站页面自己发出的评论、弹幕请求改为请求官方译文，并替换视频页的标题和简介
  */
 export function setupBiliTranslation() {
   const lang = getBiliTranslationLang()
-  if (lang && /\/video\/BV/i.test(location.pathname))
+  if (!lang)
+    return
+  loadWbiMixinKey()
+
+  if (canTranslateUserContent(lang)) {
+    const localeJson = getBiliLocaleJson(lang)
+    // 页面环境的注入脚本同步派发请求，这里同步回应改写后的 URL，空字符串表示照常请求
+    window.addEventListener('bewly:rewrite-bili-request', (event) => {
+      const url = (event as CustomEvent).detail
+      const rewrittenUrl = typeof url === 'string' ? rewriteBiliRequestUrl(url, localeJson, mixinKey) : null
+      window.dispatchEvent(new CustomEvent('bewly:bili-request-rewritten', { detail: rewrittenUrl ?? '' }))
+    })
+  }
+
+  if (/\/video\/BV/i.test(location.pathname))
     translateVideoInfo(lang)
 }
