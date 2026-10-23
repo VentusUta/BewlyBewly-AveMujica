@@ -114,6 +114,14 @@ settings:
     mandarin_cn: 官话 - 简体中文
     mandarin_tw: 官話 - 繁体中文
     jyut: 廣東話
+  bili_translation: bilibili 内容翻译
+  bili_translation_desc: 用 bilibili 官方的 AI 翻译显示首页「个性推荐」「热门视频」「排行」的标题。没有译文的标题显示原文。刷新页面后生效。
+  bili_translation_opt:
+    auto: 自动
+    auto_with_lang: 自动（{lang}）
+    original: 原文
+    zh_hant: 繁体中文
+    en: 英文
   customize_font: 自定义字体
   font_opt:
     default: 缺省

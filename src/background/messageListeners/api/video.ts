@@ -14,6 +14,7 @@ const API_VIDEO = {
       homepage_ver: 1, // 首页版本
       ps: 12, // 单页记录数，默认12，最大30（调用时可覆盖）
       fresh_idx: 1, // 翻页号，从1开始（调用时会动态传入）
+      'x-bili-locale-json': '', // 请求官方译文时传入
     },
     afterHandle: AHS.J_D,
   },
@@ -112,6 +113,7 @@ const API_VIDEO = {
     params: {
       pn: 1,
       ps: 20,
+      'x-bili-locale-json': '',
     },
     afterHandle: AHS.J_D,
   },

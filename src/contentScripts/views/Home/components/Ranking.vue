@@ -2,11 +2,13 @@
 import { useI18n } from 'vue-i18n'
 
 import { useBewlyApp } from '~/composables/useAppProvider'
+import { getBiliTranslationParams } from '~/contentScripts/biliTranslation'
 import type { GridLayoutType } from '~/logic'
 import { settings } from '~/logic'
 import type { List as RankingVideoItem, RankingResult } from '~/models/video/ranking'
 import type { List as RankingPgcItem, RankingPgcResult } from '~/models/video/rankingPgc'
 import api from '~/utils/api'
+import { getTranslatedTitle } from '~/utils/biliTranslation'
 
 import type { RankingType } from '../types'
 
@@ -135,6 +137,7 @@ function getRankingVideos() {
   api.ranking.getRankingVideos({
     rid: activatedRankingType.value.rid,
     type: 'type' in activatedRankingType.value ? activatedRankingType.value.type : 'all',
+    ...getBiliTranslationParams(),
   }).then((response: RankingResult) => {
     if (response.code === 0) {
       const { list } = response.data
@@ -190,7 +193,7 @@ defineExpose({ initData })
           :video="{
             id: Number(video.aid),
             duration: video.duration,
-            title: video.title,
+            title: getTranslatedTitle(video),
             desc: video.desc,
             cover: video.pic,
             author: {

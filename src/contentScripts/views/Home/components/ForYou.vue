@@ -4,6 +4,7 @@ import { useToast } from 'vue-toastification'
 
 import { useBewlyApp } from '~/composables/useAppProvider'
 import { FilterType, useFilter } from '~/composables/useFilter'
+import { getBiliTranslationParams } from '~/contentScripts/biliTranslation'
 import { LanguageType } from '~/enums/appEnums'
 import type { GridLayoutType } from '~/logic'
 import { accessKey, settings } from '~/logic'
@@ -12,6 +13,7 @@ import { Type as ThreePointV2Type } from '~/models/video/appForYou'
 import type { forYouResult, Item as VideoItem } from '~/models/video/forYou'
 import api from '~/utils/api'
 import { TVAppKey } from '~/utils/authProvider'
+import { getTranslatedTitle } from '~/utils/biliTranslation'
 import { isVerticalVideo } from '~/utils/uriParse'
 
 const props = defineProps<{
@@ -332,6 +334,7 @@ async function getRecommendVideos() {
     const response: forYouResult = await api.video.getRecommendVideos({
       fresh_idx: currentRefreshIdx,
       ps: PAGE_SIZE,
+      ...getBiliTranslationParams(),
     })
 
     if (!response) {
@@ -556,7 +559,7 @@ defineExpose({
           :video="video.item ? {
             id: video.item.id,
             duration: video.item.duration,
-            title: video.item.title,
+            title: getTranslatedTitle(video.item),
             cover: video.item.pic,
             author: {
               name: video.item.owner?.name || '',

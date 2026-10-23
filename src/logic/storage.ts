@@ -3,6 +3,7 @@ import type { wallpaperItem } from '~/constants/imgs'
 import type { HomeSubPage } from '~/contentScripts/views/Home/types'
 import type { AppPage } from '~/enums/appEnums'
 import type { BiliSiteSetting } from '~/utils/biliSite'
+import type { BiliTranslationSetting } from '~/utils/biliTranslation'
 
 export const storageDemo = useStorageLocal('webext-demo', 'Storage Demo')
 export const accessKey = useStorageLocal('accessKey', '')
@@ -13,6 +14,7 @@ export interface Settings {
   enableHorizontalScrolling: boolean
 
   language: string
+  biliTranslation: BiliTranslationSetting
   customizeFont: 'default' | 'recommend' | 'recommend-new' | 'custom'
   fontFamily: string
   danmakuFont: 'default' | 'override' | 'custom'
@@ -135,6 +137,7 @@ export const originalSettings: Settings = {
   enableHorizontalScrolling: false,
 
   language: '',
+  biliTranslation: 'auto',
   customizeFont: 'recommend-new',
   fontFamily: '',
   danmakuFont: 'override',

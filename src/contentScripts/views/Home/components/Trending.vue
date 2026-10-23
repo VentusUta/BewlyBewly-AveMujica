@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { useBewlyApp } from '~/composables/useAppProvider'
+import { getBiliTranslationParams } from '~/contentScripts/biliTranslation'
 import type { GridLayoutType } from '~/logic'
 import type { List as VideoItem, TrendingResult } from '~/models/video/trending'
 import api from '~/utils/api'
+import { getTranslatedTitle } from '~/utils/biliTranslation'
 
 // https://github.com/starknt/BewlyBewly/blob/fad999c2e482095dc3840bb291af53d15ff44130/src/contentScripts/views/Home/components/ForYou.vue#L16
 interface VideoElement {
@@ -87,6 +89,7 @@ async function getTrendingVideos() {
     const response: TrendingResult = await api.video.getPopularVideos({
       pn: pn.value++,
       ps: 30,
+      ...getBiliTranslationParams(),
     })
 
     if (response.code === 0) {
@@ -137,7 +140,7 @@ defineExpose({ initData })
         :video="video.item ? {
           id: Number(video.item.aid),
           duration: video.item.duration,
-          title: video.item.title,
+          title: getTranslatedTitle(video.item),
           desc: video.item.desc,
           cover: video.item.pic,
           author: {
