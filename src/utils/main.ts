@@ -145,7 +145,12 @@ export function delay(ms: number) {
 }
 
 // B站海外站的语言前缀，区分大小写
-const BILI_LANG_PREFIXES = ['en', 'th', 'vi', 'id', 'ja', 'zh-Hant', 'zh-Hans', 'ar', 'pt', 'es', 'tr', 'ru', 'ms']
+const BILI_LANG_PREFIXES = ['en', 'th', 'vi', 'id', 'ja', 'zh-Hant', 'zh-Hans', 'ar', 'pt', 'es', 'tr', 'ru', 'ms'] as const
+export type BiliLang = typeof BILI_LANG_PREFIXES[number]
+
+export function isBiliLang(value: string): value is BiliLang {
+  return (BILI_LANG_PREFIXES as readonly string[]).includes(value)
+}
 
 /**
  * 去掉B站海外站的语言前缀，如 `/en/video/…` → `/video/…`，以便按原有路径匹配页面
@@ -164,7 +169,7 @@ export function stripBiliLangPrefix(url: string = location.href): string {
     return url
 
   const [, firstSegment, ...restSegments] = parsed.pathname.split('/')
-  if (!BILI_LANG_PREFIXES.includes(firstSegment))
+  if (!isBiliLang(firstSegment))
     return url
 
   parsed.pathname = `/${restSegments.join('/')}`
