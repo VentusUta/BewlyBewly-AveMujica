@@ -54,6 +54,40 @@ export function getTranslatedTitle(item: TranslatableItem): string {
   return item.translate_status === 'translated' && item.translated_title ? item.translated_title : item.title
 }
 
+export interface DescSegment {
+  raw_text: string
+  type: number
+}
+
+// 译文是纯文本，把其中的 BV 号和网址重新做成链接
+function linkifyText(text: string): (string | Node)[] {
+  const parts: (string | Node)[] = []
+  let lastIndex = 0
+  for (const match of text.matchAll(/https?:\/\/[\w\-.~:/?#[\]@!$&'()*+,;=%]+|BV[\dA-Za-z]{10}/g)) {
+    parts.push(text.slice(lastIndex, match.index))
+    const link = document.createElement('a')
+    link.href = match[0].startsWith('BV') ? `//www.bilibili.com/video/${match[0]}/` : match[0]
+    link.target = '_blank'
+    link.textContent = match[0]
+    parts.push(link)
+    lastIndex = match.index + match[0].length
+  }
+  parts.push(text.slice(lastIndex))
+  return parts
+}
+
+// 简介按段渲染，文字段是 span.desc-info-text，@ 用户段是 a.mention-user，与 desc_v2 一一对应。
+// 文字段换成译文，@ 用户保留原名和链接；对不上时保持原文
+export function applyTranslatedDesc(container: Element, segments: DescSegment[]) {
+  const nodes = [...container.children].filter(el => el.matches('span.desc-info-text, a.mention-user'))
+  if (nodes.length !== segments.length || nodes.some((el, i) => el.matches('a.mention-user') !== (segments[i].type === 2)))
+    return
+  nodes.forEach((el, i) => {
+    if (segments[i].type !== 2 && el.textContent !== segments[i].raw_text)
+      el.replaceChildren(...linkifyText(segments[i].raw_text))
+  })
+}
+
 // B站页面自己发出的、可以换成译文的请求。评论框的提示文字等界面文字，繁体中文也会转换
 const UI_TEXT_REQUEST_PATH = /^\/x\/v2\/reply\/subject\/description$/
 // 评论列表、楼中楼和弹幕
