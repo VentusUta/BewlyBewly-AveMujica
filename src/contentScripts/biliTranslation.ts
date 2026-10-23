@@ -1,7 +1,7 @@
 import { settings } from '~/logic'
 import api from '~/utils/api'
-import type { BiliTranslationLang } from '~/utils/biliTranslation'
-import { getBiliLocaleJson, getBiliLocaleParams, getTranslatedTitle, resolveBiliTranslation, rewriteBiliRequestUrl } from '~/utils/biliTranslation'
+import type { BiliTranslationLang, DescSegment } from '~/utils/biliTranslation'
+import { applyTranslatedDesc, getBiliLocaleJson, getBiliLocaleParams, getTranslatedTitle, resolveBiliTranslation, rewriteBiliRequestUrl } from '~/utils/biliTranslation'
 import { queryDomUntilFound } from '~/utils/main'
 import { getWbiMixinKey, signWbiQuery } from '~/utils/wbi'
 
@@ -43,7 +43,7 @@ function loadWbiMixinKey(): Promise<string | null> {
 // 视频页的标题和简介由服务端渲染，另行请求译文后替换
 function translateVideoInfo(lang: BiliTranslationLang) {
   let currentBvid = ''
-  let translated: { title: string, desc: string } | null = null
+  let translated: { title: string, desc: DescSegment[] } | null = null
   let observer: MutationObserver | null = null
 
   const apply = () => {
@@ -54,9 +54,9 @@ function translateVideoInfo(lang: BiliTranslationLang) {
       titleEl.textContent = translated.title
       titleEl.title = translated.title
     }
-    const descEl = document.querySelector<HTMLElement>('.basic-desc-info .desc-info-text')
-    if (descEl && translated.desc && descEl.textContent !== translated.desc)
-      descEl.textContent = translated.desc
+    const descContainer = document.querySelector('.basic-desc-info')
+    if (descContainer)
+      applyTranslatedDesc(descContainer, translated.desc)
   }
 
   const load = async () => {
@@ -73,7 +73,10 @@ function translateVideoInfo(lang: BiliTranslationLang) {
     const res = await api.video.getVideoInfoWbi(Object.fromEntries(new URLSearchParams(query))).catch(() => null)
     if (bvid !== currentBvid || res?.code !== 0 || res.data?.translate_status !== 'translated')
       return
-    translated = { title: getTranslatedTitle(res.data), desc: res.data.desc }
+    translated = {
+      title: getTranslatedTitle(res.data),
+      desc: res.data.desc_v2?.length ? res.data.desc_v2 : [{ raw_text: res.data.desc, type: 1 }],
+    }
 
     // B站重新渲染时会把原文写回去，盯住标题和简介所在的区域
     const abort = new AbortController()

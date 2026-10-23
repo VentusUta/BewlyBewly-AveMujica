@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { LanguageType } from '~/enums/appEnums'
-import { canTranslateUserContent, getBiliLocaleJson, getBiliLocaleParams, getTranslatedTitle, resolveBiliTranslation, rewriteBiliRequestUrl } from '~/utils/biliTranslation'
+import { applyTranslatedDesc, canTranslateUserContent, getBiliLocaleJson, getBiliLocaleParams, getTranslatedTitle, resolveBiliTranslation, rewriteBiliRequestUrl } from '~/utils/biliTranslation'
 import { signWbiQuery } from '~/utils/wbi'
 
 const MIXIN_KEY = 'ea1db124af3c7062474693fa704f4ff8'
@@ -102,5 +102,49 @@ describe('canTranslateUserContent', () => {
   it('skips comments and danmaku for Traditional Chinese', () => {
     expect(canTranslateUserContent('en')).toBe(true)
     expect(canTranslateUserContent('zh-Hant')).toBe(false)
+  })
+})
+
+describe('applyTranslatedDesc', () => {
+  // 结构取自 BV19enw6JEzo 的简介
+  const render = () => {
+    const container = document.createElement('div')
+    container.className = 'basic-desc-info'
+    container.innerHTML = '<span class="desc-info-text">邪恶的</span><a class="mention-user" href="//space.bilibili.com/22629064">@路过的黑熊 </a><span class="desc-info-text"> 提出的邪恶的建议，但是我的<a href="//www.bilibili.com/video/BV1skp96XESz/">BV1skp96XESz</a>每分钟可以销毁150固体</span>'
+    return container
+  }
+  const segments = [
+    { raw_text: 'Evil', type: 1 },
+    { raw_text: 'A passing black bear', type: 2 },
+    { raw_text: ' suggestion, but my BV1skp96XESz can destroy 150 solids, see https://example.com/a?b=1，好', type: 1 },
+  ]
+
+  it('replaces the text segments and keeps mentions as they are', () => {
+    const container = render()
+    applyTranslatedDesc(container, segments)
+    const [first, mention, last] = [...container.children]
+    expect(first.textContent).toBe('Evil')
+    expect(mention.textContent).toBe('@路过的黑熊 ')
+    expect(mention.getAttribute('href')).toBe('//space.bilibili.com/22629064')
+    expect(last.textContent).toBe(segments[2].raw_text)
+    expect([...last.querySelectorAll('a')].map(a => a.getAttribute('href'))).toEqual(['//www.bilibili.com/video/BV1skp96XESz/', 'https://example.com/a?b=1'])
+  })
+
+  it('does nothing more when applied again', () => {
+    const container = render()
+    applyTranslatedDesc(container, segments)
+    const html = container.innerHTML
+    applyTranslatedDesc(container, segments)
+    expect(container.innerHTML).toBe(html)
+  })
+
+  it.each([
+    ['fewer segments', segments.slice(0, 2)],
+    ['a text segment where a mention is', [segments[0], { raw_text: 'x', type: 1 }, segments[2]]],
+  ])('keeps the original when given %s', (_, mismatched) => {
+    const container = render()
+    const html = container.innerHTML
+    applyTranslatedDesc(container, mismatched)
+    expect(container.innerHTML).toBe(html)
   })
 })
