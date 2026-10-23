@@ -1,6 +1,9 @@
 import { settings } from '~/logic'
+import api from '~/utils/api'
 import type { BiliTranslationLang } from '~/utils/biliTranslation'
-import { getBiliLocaleParams, resolveBiliTranslation } from '~/utils/biliTranslation'
+import { getBiliLocaleJson, getBiliLocaleParams, getTranslatedTitle, resolveBiliTranslation } from '~/utils/biliTranslation'
+import { queryDomUntilFound } from '~/utils/main'
+import { getWbiMixinKey, signWbiQuery } from '~/utils/wbi'
 
 function getBiliTranslationLang(): BiliTranslationLang | null {
   return resolveBiliTranslation(settings.value.biliTranslation, settings.value.language)
@@ -11,4 +14,90 @@ function getBiliTranslationLang(): BiliTranslationLang | null {
  */
 export function getBiliTranslationParams() {
   return getBiliLocaleParams(getBiliTranslationLang())
+}
+
+let mixinKeyPromise: Promise<string | null> | null = null
+
+// B站页面会把 WBI 密钥缓存在 localStorage，没有时再请求 nav 接口
+function loadWbiMixinKey(): Promise<string | null> {
+  if (mixinKeyPromise)
+    return mixinKeyPromise
+  const imgUrl = localStorage.getItem('wbi_img_url')
+  const subUrl = localStorage.getItem('wbi_sub_url')
+  if (imgUrl && subUrl) {
+    mixinKeyPromise = Promise.resolve(getWbiMixinKey(imgUrl, subUrl))
+    return mixinKeyPromise
+  }
+  mixinKeyPromise = api.user.getUserInfo()
+    .then((res) => {
+      const wbiImg = res?.data?.wbi_img
+      return wbiImg ? getWbiMixinKey(wbiImg.img_url, wbiImg.sub_url) : null
+    })
+    .catch(() => null)
+  return mixinKeyPromise
+}
+
+// 视频页的标题和简介由服务端渲染，另行请求译文后替换
+function translateVideoInfo(lang: BiliTranslationLang) {
+  let currentBvid = ''
+  let translated: { title: string, desc: string } | null = null
+  let observer: MutationObserver | null = null
+
+  const apply = () => {
+    if (!translated)
+      return
+    const titleEl = document.querySelector<HTMLElement>('h1.video-title')
+    if (titleEl && titleEl.textContent !== translated.title) {
+      titleEl.textContent = translated.title
+      titleEl.title = translated.title
+    }
+    const descEl = document.querySelector<HTMLElement>('.basic-desc-info .desc-info-text')
+    if (descEl && translated.desc && descEl.textContent !== translated.desc)
+      descEl.textContent = translated.desc
+  }
+
+  const load = async () => {
+    const bvid = location.pathname.match(/\/video\/(BV[\dA-Z]{10})/i)?.[1]
+    if (!bvid || bvid === currentBvid)
+      return
+    currentBvid = bvid
+    translated = null
+
+    const key = await loadWbiMixinKey()
+    if (!key)
+      return
+    const query = signWbiQuery({ 'bvid': bvid, 'x-bili-locale-json': getBiliLocaleJson(lang) }, key)
+    const res = await api.video.getVideoInfoWbi(Object.fromEntries(new URLSearchParams(query))).catch(() => null)
+    if (bvid !== currentBvid || res?.code !== 0 || res.data?.translate_status !== 'translated')
+      return
+    translated = { title: getTranslatedTitle(res.data), desc: res.data.desc }
+
+    // B站重新渲染时会把原文写回去，盯住标题和简介所在的区域
+    const abort = new AbortController()
+    setTimeout(() => abort.abort(), 15_000)
+    const container = await queryDomUntilFound('.video-info-container', 200, abort)
+    abort.abort()
+    const descContainer = document.querySelector('.basic-desc-info')
+    observer?.disconnect()
+    observer = new MutationObserver(apply)
+    for (const el of [container, descContainer]) {
+      if (el)
+        observer.observe(el, { childList: true, subtree: true, characterData: true })
+    }
+    apply()
+  }
+
+  load()
+  // 在视频页内切换视频时不会刷新页面
+  window.addEventListener('pushstate', () => setTimeout(load))
+  window.addEventListener('popstate', load)
+}
+
+/**
+ * 把视频页的标题和简介替换为官方译文
+ */
+export function setupBiliTranslation() {
+  const lang = getBiliTranslationLang()
+  if (lang && /\/video\/BV/i.test(location.pathname))
+    translateVideoInfo(lang)
 }

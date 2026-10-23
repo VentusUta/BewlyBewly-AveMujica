@@ -117,7 +117,7 @@ settings:
     mandarin_tw: Mandarin - Traditional Chinese
     jyut: Cantonese
   bili_translation: bilibili translation
-  bili_translation_desc: Shows bilibili's official AI translations for titles in For you, Trending and Ranking. Titles without a translation stay in the original language. Takes effect after you refresh the page.
+  bili_translation_desc: Shows bilibili's official AI translations for titles in For you, Trending and Ranking, and for the title and description on video pages. Content without a translation stays in the original language. Takes effect after you refresh the page.
   bili_translation_opt:
     auto: Auto
     auto_with_lang: Auto ({lang})

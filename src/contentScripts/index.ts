@@ -15,6 +15,7 @@ import { compareVersions, injectCSS, isHomePage, isInIframe, isNotificationPage,
 import { SVG_ICONS } from '~/utils/svgIcons'
 
 import { version } from '../../package.json'
+import { setupBiliTranslation } from './biliTranslation'
 import App from './views/App.vue'
 
 const isFirefox: boolean = /Firefox/i.test(navigator.userAgent)
@@ -33,6 +34,9 @@ if (isFirefox) {
 // 让B站使用设置的站点，必要时跳到对应站点的页面
 if (!isInIframe())
   settings.ready.then(() => syncBiliSite(resolveBiliSite(settings.value.biliSite)))
+
+// 抽屉里打开的视频页也要翻译，所以每个 frame 都设置
+settings.ready.then(setupBiliTranslation)
 
 const currentUrl = stripBiliLangPrefix(document.URL)
 

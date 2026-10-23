@@ -115,7 +115,7 @@ settings:
     mandarin_tw: 官話 - 繁體中文
     jyut: 廣東話
   bili_translation: bilibili 內容翻譯
-  bili_translation_desc: 用 bilibili 官方嘅 AI 翻譯顯示首頁「估你心水」「時下至 Hit」「排行」嘅標題。冇譯文嘅標題會顯示原文。重新整理頁面之後先生效。
+  bili_translation_desc: 用 bilibili 官方嘅 AI 翻譯顯示首頁「估你心水」「時下至 Hit」「排行」嘅標題，同埋影片頁嘅標題同簡介。冇譯文嘅內容會顯示原文。重新整理頁面之後先生效。
   bili_translation_opt:
     auto: 自動
     auto_with_lang: 自動（{lang}）
