@@ -137,7 +137,7 @@ export const originalSettings: Settings = {
   enableHorizontalScrolling: false,
 
   language: '',
-  biliTranslation: 'auto',
+  biliTranslation: 'original',
   customizeFont: 'recommend-new',
   fontFamily: '',
   danmakuFont: 'override',
