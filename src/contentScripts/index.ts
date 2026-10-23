@@ -9,6 +9,7 @@ import { settings } from '~/logic'
 import { setupApp } from '~/logic/common-setup'
 import BEWLY_CSS from '~/styles/bewly.css?raw'
 import RESET_BEWLY_CSS from '~/styles/reset.css?raw'
+import { resolveBiliSite, syncBiliSite } from '~/utils/biliSite'
 import { runWhenIdle } from '~/utils/lazyLoad'
 import { compareVersions, injectCSS, isHomePage, isInIframe, isNotificationPage, isVideoOrBangumiPage, stripBiliLangPrefix } from '~/utils/main'
 import { SVG_ICONS } from '~/utils/svgIcons'
@@ -28,6 +29,10 @@ if (isFirefox) {
   window.setTimeout = window.setTimeout.bind(window)
   window.clearTimeout = window.clearTimeout.bind(window)
 }
+
+// 让B站使用设置的站点，必要时跳到对应站点的页面
+if (!isInIframe())
+  settings.ready.then(() => syncBiliSite(resolveBiliSite(settings.value.biliSite)))
 
 const currentUrl = stripBiliLangPrefix(document.URL)
 
