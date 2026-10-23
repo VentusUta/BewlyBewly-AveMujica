@@ -11,6 +11,7 @@ const API_RANKING = {
     params: {
       rid: 0,
       type: 'all',
+      'x-bili-locale-json': '',
     },
     afterHandle: AHS.J_D,
   },
