@@ -204,7 +204,6 @@ function setupReplyActionInterceptor() {
 
 setupReplyActionInterceptor()
 
-// 内容翻译：评论和弹幕请求交给 content script 改写成请求官方译文（必要时重新签名），没有回应时照常请求
 let rewrittenBiliRequestUrl = ''
 window.addEventListener('bewly:bili-request-rewritten', (event) => {
   rewrittenBiliRequestUrl = typeof event.detail === 'string' ? event.detail : ''
@@ -213,7 +212,6 @@ window.addEventListener('bewly:bili-request-rewritten', (event) => {
 function rewriteBiliRequestUrl(url) {
   if (!/api\.bilibili\.com\/x\/v2\/(?:reply|dm)\//.test(url))
     return ''
-  // 事件同步派发，content script 的回应在 dispatchEvent 返回前就已到达
   rewrittenBiliRequestUrl = ''
   try {
     window.dispatchEvent(new CustomEvent('bewly:rewrite-bili-request', { detail: new URL(url, location.href).href }))
@@ -242,7 +240,6 @@ function setupBiliTranslationInterceptor() {
 
       const request = input instanceof Request ? new Request(rewrittenUrl, input) : rewrittenUrl
       return originalFetch(request, init).then(async (response) => {
-        // 改写后的请求被拒（如签名失效）时退回原请求
         try {
           const data = await response.clone().json()
           if (data?.code === -403 || data?.code === -352)

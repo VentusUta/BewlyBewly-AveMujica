@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest'
 
 import { getWbiMixinKey, signWbiQuery } from '~/utils/wbi'
 
-// 示例取自 https://socialsisteryi.github.io/bilibili-API-collect/docs/misc/sign/wbi.html
 const IMG_URL = 'https://i0.hdslb.com/bfs/wbi/7cd084941338484aae1ad9425b84077c.png'
 const SUB_URL = 'https://i0.hdslb.com/bfs/wbi/4932caff0ff746eab6f01bf08b70ac45.png'
 const MIXIN_KEY = 'ea1db124af3c7062474693fa704f4ff8'

@@ -9,9 +9,6 @@ function getBiliTranslationLang(): BiliTranslationLang | null {
   return resolveBiliTranslation(settings.value.biliTranslation, settings.value.language)
 }
 
-/**
- * 请求首页列表时附带的参数，让接口一并返回官方译文
- */
 export function getBiliTranslationParams() {
   return getBiliLocaleParams(getBiliTranslationLang())
 }
@@ -19,7 +16,6 @@ export function getBiliTranslationParams() {
 let mixinKey: string | null = null
 let mixinKeyPromise: Promise<string | null> | null = null
 
-// B站页面会把 WBI 密钥缓存在 localStorage，没有时再请求 nav 接口
 function loadWbiMixinKey(): Promise<string | null> {
   if (mixinKeyPromise)
     return mixinKeyPromise
@@ -40,7 +36,6 @@ function loadWbiMixinKey(): Promise<string | null> {
   return mixinKeyPromise
 }
 
-// 视频页的标题和简介由服务端渲染，另行请求译文后替换
 function translateVideoInfo(lang: BiliTranslationLang) {
   let currentBvid = ''
   let translated: { title: string, desc: DescSegment[] } | null = null
@@ -78,7 +73,6 @@ function translateVideoInfo(lang: BiliTranslationLang) {
       desc: res.data.desc_v2?.length ? res.data.desc_v2 : [{ raw_text: res.data.desc, type: 1 }],
     }
 
-    // B站重新渲染时会把原文写回去，盯住标题和简介所在的区域
     const abort = new AbortController()
     setTimeout(() => abort.abort(), 15_000)
     const container = await queryDomUntilFound('.video-info-container', 200, abort)
@@ -94,21 +88,16 @@ function translateVideoInfo(lang: BiliTranslationLang) {
   }
 
   load()
-  // 在视频页内切换视频时不会刷新页面
   window.addEventListener('pushstate', () => setTimeout(load))
   window.addEventListener('popstate', load)
 }
 
-/**
- * 让B站页面自己发出的评论、弹幕等请求改为请求官方译文，并替换视频页的标题和简介
- */
 export function setupBiliTranslation() {
   const lang = getBiliTranslationLang()
   if (!lang)
     return
   loadWbiMixinKey()
 
-  // 页面环境的注入脚本同步派发请求，这里同步回应改写后的 URL，空字符串表示照常请求
   window.addEventListener('bewly:rewrite-bili-request', (event) => {
     const url = (event as CustomEvent).detail
     const rewrittenUrl = typeof url === 'string' ? rewriteBiliRequestUrl(url, lang, mixinKey) : null

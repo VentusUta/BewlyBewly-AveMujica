@@ -106,7 +106,6 @@ describe('canTranslateUserContent', () => {
 })
 
 describe('applyTranslatedDesc', () => {
-  // 结构取自 BV19enw6JEzo 的简介
   const render = () => {
     const container = document.createElement('div')
     container.className = 'basic-desc-info'

@@ -28,7 +28,6 @@ export interface Item {
   pic: string
   pic_4_3: string
   title: string
-  /** 请求时带上 `x-bili-locale-json` 才会返回 */
   translate_status?: string
   translated_title?: string
   duration: number

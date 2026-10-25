@@ -35,7 +35,6 @@ if (isFirefox) {
 if (!isInIframe())
   syncBiliSite()
 
-// 抽屉里打开的视频页也要翻译，所以每个 frame 都设置
 settings.ready.then(setupBiliTranslation)
 
 const currentUrl = stripBiliLangPrefix(document.URL)

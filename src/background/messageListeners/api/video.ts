@@ -87,7 +87,6 @@ const API_VIDEO = {
     },
     afterHandle: AHS.J_D,
   },
-  // 带 WBI 签名，参数需在调用前签好
   getVideoInfoWbi: {
     url: 'https://api.bilibili.com/x/web-interface/wbi/view',
     _fetch: {

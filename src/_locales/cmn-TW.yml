@@ -114,8 +114,8 @@ settings:
     mandarin_cn: 官话 - 简体中文
     mandarin_tw: 官話 - 繁體中文
     jyut: 廣東話
-  bili_translation: bilibili 內容翻譯
-  bili_translation_desc: 以 bilibili 官方的 AI 翻譯顯示首頁「爲你推薦」「發燒影片」「排行」的標題，以及影片頁的標題、簡介、留言和彈幕。繁體中文不會轉換留言和彈幕；沒有譯文的內容顯示原文。重新整理頁面後生效。
+  bili_translation: bilibili內容翻譯（實驗性）
+  bili_translation_desc: 以bilibili官方的AI翻譯顯示首頁“爲你推薦”“發燒影片”“排行”的標題，以及影片頁的標題、簡介、留言和彈幕。繁體中文不會轉換留言和彈幕；沒有譯文的內容顯示原文。重新整理頁面後生效。
   bili_translation_opt:
     auto: 自動
     auto_with_lang: 自動（{lang}）

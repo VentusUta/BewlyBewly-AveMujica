@@ -2,15 +2,10 @@ import { LanguageType } from '~/enums/appEnums'
 
 import { signWbiQuery } from './wbi'
 
-// 设置里可选的翻译语言，暂只支持中文和英文。简体中文是原文，无需翻译
 export const BILI_TRANSLATION_LANGS = ['zh-Hant', 'en'] as const
 export type BiliTranslationLang = typeof BILI_TRANSLATION_LANGS[number]
 export type BiliTranslationSetting = 'auto' | 'original' | BiliTranslationLang
 
-/**
- * 求出设置项实际对应的翻译语言，「自动」按界面语言决定
- * @returns the language to translate into, or `null` to keep the original text
- */
 export function resolveBiliTranslation(setting: string, language: string): BiliTranslationLang | null {
   if ((BILI_TRANSLATION_LANGS as readonly string[]).includes(setting))
     return setting as BiliTranslationLang
@@ -27,15 +22,11 @@ export function resolveBiliTranslation(setting: string, language: string): BiliT
   }
 }
 
-/**
- * B站接口的 `x-bili-locale-json` 参数，开启 `always_translate` 后接口会返回官方的 AI 译文，与站点无关
- */
 export function getBiliLocaleJson(lang: BiliTranslationLang): string {
   const cLocale = lang === 'zh-Hant' ? { language: 'zh', script: 'Hant' } : { language: lang }
   return JSON.stringify({ c_locale: cLocale, always_translate: true })
 }
 
-// B站对繁体中文只转换标题和简介，评论和弹幕仍返回原文
 export function canTranslateUserContent(lang: BiliTranslationLang): boolean {
   return lang !== 'zh-Hant'
 }
@@ -59,7 +50,6 @@ export interface DescSegment {
   type: number
 }
 
-// 译文是纯文本，把其中的 BV 号和网址重新做成链接
 function linkifyText(text: string): (string | Node)[] {
   const parts: (string | Node)[] = []
   let lastIndex = 0
@@ -76,8 +66,6 @@ function linkifyText(text: string): (string | Node)[] {
   return parts
 }
 
-// 简介按段渲染，文字段是 span.desc-info-text，@ 用户段是 a.mention-user，与 desc_v2 一一对应。
-// 文字段换成译文，@ 用户保留原名和链接；对不上时保持原文
 export function applyTranslatedDesc(container: Element, segments: DescSegment[]) {
   const nodes = [...container.children].filter(el => el.matches('span.desc-info-text, a.mention-user'))
   if (nodes.length !== segments.length || nodes.some((el, i) => el.matches('a.mention-user') !== (segments[i].type === 2)))
@@ -88,15 +76,9 @@ export function applyTranslatedDesc(container: Element, segments: DescSegment[])
   })
 }
 
-// B站页面自己发出的、可以换成译文的请求。评论框的提示文字等界面文字，繁体中文也会转换
 const UI_TEXT_REQUEST_PATH = /^\/x\/v2\/reply\/subject\/description$/
-// 评论列表、楼中楼和弹幕
 const USER_CONTENT_REQUEST_PATH = /^\/x\/v2\/(?:reply\/(?:wbi\/main|main|reply)|dm\/(?:wbi\/)?web\/seg\.so)$/
 
-/**
- * 把B站页面自己发出的请求改成请求译文，带 WBI 签名的会重新签名
- * @returns the rewritten url, or `null` to send the request as is
- */
 export function rewriteBiliRequestUrl(url: string, lang: BiliTranslationLang, mixinKey: string | null): string | null {
   let parsed: URL
   try {
@@ -116,7 +98,6 @@ export function rewriteBiliRequestUrl(url: string, lang: BiliTranslationLang, mi
 
   parsed.searchParams.set('x-bili-locale-json', localeJson)
   if (parsed.pathname.includes('/wbi/')) {
-    // 签不了名就不改，以免请求失败
     if (!mixinKey)
       return null
     parsed.search = signWbiQuery(parsed.searchParams, mixinKey)
