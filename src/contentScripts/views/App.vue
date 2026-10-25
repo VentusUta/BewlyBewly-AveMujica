@@ -60,12 +60,10 @@ const pages = {
 }
 const mainAppRef = ref<HTMLElement>() as Ref<HTMLElement>
 const handlePageRefresh = ref<() => void>()
-const handleReachBottom = ref<() => void>()
 const handleUndoRefresh = ref<() => void>()
 const handleForwardRefresh = ref<() => void>()
 const showUndoButton = ref<boolean>(false)
 const handleThrottledPageRefresh = useThrottleFn(() => handlePageRefresh.value?.(), 500, false)
-const handleThrottledReachBottom = useThrottleFn(() => handleReachBottom.value?.(), 500, false)
 const handleThrottledBackToTop = useThrottleFn(() => handleBackToTop(), 1000, false)
 const handleThrottledPageUnRefresh = useThrottleFn(() => handleUndoRefresh.value?.(), 500, false)
 const handleThrottledPageForwardRefresh = useThrottleFn(() => handleForwardRefresh.value?.(), 500, false)
@@ -247,12 +245,6 @@ onMounted(() => {
       reachTop.value = false
     else
       reachTop.value = true
-
-    if (!showBewlyPage.value)
-      return
-    const { scrollTop, scrollHeight, clientHeight } = document.documentElement
-    if (clientHeight + scrollTop >= scrollHeight - 300)
-      handleThrottledReachBottom()
   })
 
   // 同步 cleanUrlArgument 设置到 document 属性，供 inject 脚本使用
@@ -331,15 +323,6 @@ function openIframeDrawer(url: string) {
   showIframeDrawer.value = true
 }
 
-/**
- * Checks if the current viewport has a scrollbar.
- * @returns {boolean} Returns true if the viewport has a scrollbar, false otherwise.
- */
-async function haveScrollbar() {
-  await nextTick()
-  return document.documentElement.scrollHeight > window.innerHeight
-}
-
 // In drawer video, watch btn className changed and post message to parent
 watchEffect(async (onCleanUp) => {
   if (!isInIframe())
@@ -378,12 +361,10 @@ provide<BewlyAppProvider>('BEWLY_APP', {
   reachTop,
   handleBackToTop,
   handlePageRefresh,
-  handleReachBottom,
   handleUndoRefresh,
   handleForwardRefresh,
   showUndoButton,
   openIframeDrawer,
-  haveScrollbar,
 })
 
 /* Block ‘Harmony Sans’ */

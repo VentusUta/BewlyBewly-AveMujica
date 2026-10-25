@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useBewlyApp } from '~/composables/useAppProvider'
+import type { InfiniteLoadResult } from '~/composables/useInfiniteList'
+import { useInfiniteList } from '~/composables/useInfiniteList'
 import type { List as PopularAnimeItem, PopularAnimeResult } from '~/models/anime/popular'
 import type { ItemSubItem as RecommendationItem, RecommendationResult } from '~/models/anime/recommendation'
 import type { List as WatchListItem, WatchListResult } from '~/models/anime/watchList'
@@ -15,11 +17,16 @@ const popularAnimeList = reactive<PopularAnimeItem[]>([])
 const cursor = ref<number>(0)
 const isLoadingAnimeWatchList = ref<boolean>()
 const isLoadingPopularAnime = ref<boolean>()
-const isLoadingRecommendAnime = ref<boolean>()
 const activatedSeasonId = ref<number>()
 const noMoreContent = ref<boolean>()
 const animeTimeTableRef = ref()
-const { handleReachBottom, handlePageRefresh } = useBewlyApp()
+const { handlePageRefresh } = useBewlyApp()
+
+const sentinel = useTemplateRef<HTMLElement>('sentinel')
+const { loading: isLoadingRecommendAnime, restart } = useInfiniteList({
+  sentinel,
+  load: getRecommendAnimeList,
+})
 
 const isLoading = computed(() => {
   return isLoadingAnimeWatchList.value || isLoadingPopularAnime.value || isLoadingRecommendAnime.value
@@ -28,20 +35,11 @@ const isLoading = computed(() => {
 onMounted(() => {
   getAnimeWatchList()
   getPopularAnimeList()
-  getRecommendAnimeList()
 
   initPageAction()
 })
 
 function initPageAction() {
-  handleReachBottom.value = () => {
-    if (isLoadingRecommendAnime.value)
-      return
-    if (noMoreContent.value)
-      return
-
-    getRecommendAnimeList()
-  }
   handlePageRefresh.value = () => {
     if (isLoading.value)
       return
@@ -54,7 +52,7 @@ function initPageAction() {
 
     getAnimeWatchList()
     getPopularAnimeList()
-    getRecommendAnimeList()
+    restart()
     animeTimeTableRef.value?.refreshAnimeTimeTable()
   }
 }
@@ -81,30 +79,25 @@ function getAnimeWatchList() {
     })
 }
 
-function getRecommendAnimeList() {
-  isLoadingRecommendAnime.value = true
-  api.anime.getRecommendAnimeList({
+async function getRecommendAnimeList(signal: AbortSignal): Promise<InfiniteLoadResult> {
+  const response: RecommendationResult = await api.anime.getRecommendAnimeList({
     coursor: cursor.value,
   })
-    .then((response: RecommendationResult) => {
-      const {
-        code,
-        data: { items, coursor, has_next },
-      } = response
-      if (code === 0 && has_next) {
-        if (recommendAnimeList.length === 0)
-          Object.assign(recommendAnimeList, items[0].sub_items as RecommendationItem[])
-        else
-          recommendAnimeList.push(...items[0].sub_items)
+  if (signal.aborted)
+    return 'more'
+  if (response.code !== 0)
+    throw new Error(`getRecommendAnimeList failed with code ${response.code}`)
 
-        cursor.value = coursor
-      }
-      if (code === 0 && !has_next)
-        noMoreContent.value = true
-    })
-    .finally(() => {
-      isLoadingRecommendAnime.value = false
-    })
+  const { items, coursor, has_next } = response.data
+  const subItems: RecommendationItem[] = items[0]?.sub_items ?? []
+  recommendAnimeList.push(...subItems)
+  cursor.value = coursor
+
+  if (!has_next) {
+    noMoreContent.value = true
+    return 'done'
+  }
+  return subItems.length > 0 ? 'more' : 'empty'
 }
 
 function getPopularAnimeList() {
@@ -281,6 +274,7 @@ function getPopularAnimeList() {
             important-mb-0
           />
         </div>
+        <div ref="sentinel" aria-hidden="true" h-1px />
       </section>
     </div>
 

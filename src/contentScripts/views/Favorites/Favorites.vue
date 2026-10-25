@@ -3,6 +3,8 @@ import { useI18n } from 'vue-i18n'
 
 import type { FavoriteCategory, FavoriteResource } from '~/components/TopBar/types'
 import { useBewlyApp } from '~/composables/useAppProvider'
+import type { InfiniteLoadResult } from '~/composables/useInfiniteList'
+import { useInfiniteList } from '~/composables/useInfiniteList'
 import { TOP_BAR_VISIBILITY_CHANGE } from '~/constants/globalEvents'
 import { settings } from '~/logic'
 import type { FavoritesResult, Media as FavoriteItem } from '~/models/video/favorite'
@@ -23,10 +25,16 @@ const activatedCategoryCover = ref<string>('')
 const shouldMoveCtrlBarUp = ref<boolean>(false)
 const currentPageNum = ref<number>(1)
 const keyword = ref<string>('')
-const { handlePageRefresh, handleReachBottom, haveScrollbar } = useBewlyApp()
-const isLoading = ref<boolean>(false)
+const { handlePageRefresh } = useBewlyApp()
 const isFullPageLoading = ref<boolean>(false)
 const noMoreContent = ref<boolean>(false)
+
+const sentinel = useTemplateRef<HTMLElement>('sentinel')
+const { loading: isLoading, error: loadError, restart } = useInfiniteList({
+  sentinel,
+  canLoadMore: () => !!selectedCategory.value,
+  load: getFavoriteResources,
+})
 
 onMounted(() => {
   emitter.off(TOP_BAR_VISIBILITY_CHANGE)
@@ -59,25 +67,7 @@ onUnmounted(() => {
 })
 
 function initPageAction() {
-  handleReachBottom.value = async () => {
-    if (isLoading.value)
-      return
-    if (noMoreContent.value)
-      return
-    if (!selectedCategory.value)
-      return
-
-    await getFavoriteResources(selectedCategory.value.id, ++currentPageNum.value, keyword.value)
-  }
-
   handlePageRefresh.value = () => {
-    if (isLoading.value)
-      return
-    if (!selectedCategory.value)
-      return
-    favoriteResources.length = 0
-    currentPageNum.value = 1
-    noMoreContent.value = false
     handleSearch()
   }
 }
@@ -102,55 +92,41 @@ async function getFavoriteCategories() {
 }
 
 /**
- * Get favorite video resources
- * @param media_id
- * @param pn
- * @param keyword
+ * Get the next page of the selected favorites folder
  */
-async function getFavoriteResources(
-  media_id: number,
-  pn: number,
-  keyword = '' as string,
-) {
-  // if (pn === 1)
-  //   isFullPageLoading.value = true
-  isLoading.value = true
-  try {
-    const res: FavoritesResult = await api.favorite.getFavoriteResources({
-      media_id,
-      pn,
-      keyword,
-    })
+async function getFavoriteResources(signal: AbortSignal): Promise<InfiniteLoadResult> {
+  const res: FavoritesResult = await api.favorite.getFavoriteResources({
+    media_id: selectedCategory.value!.id,
+    pn: currentPageNum.value,
+    keyword: keyword.value,
+  })
+  if (signal.aborted)
+    return 'more'
+  if (res.code !== 0)
+    throw new Error(`getFavoriteResources failed with code ${res.code}`)
 
-    // bilibili returns data: null for an empty favorites folder
-    if (res.code === 0 && res.data) {
-      activatedCategoryCover.value = res.data.info?.cover
-
-      if (Array.isArray(res.data.medias) && res.data.medias.length > 0)
-        favoriteResources.push(...res.data.medias)
-
-      if (!res.data.medias)
-        noMoreContent.value = true
-
-      if (!haveScrollbar() && !noMoreContent.value)
-        await getFavoriteResources(selectedCategory.value!.id, ++currentPageNum.value, keyword)
-    }
+  // bilibili returns data: null for an empty favorites folder
+  if (!res.data) {
+    noMoreContent.value = true
+    return 'done'
   }
-  finally {
-    isLoading.value = false
-    // isFullPageLoading.value = false
+
+  activatedCategoryCover.value = res.data.info?.cover
+  currentPageNum.value++
+
+  const medias = Array.isArray(res.data.medias) ? res.data.medias : []
+  favoriteResources.push(...medias)
+
+  if (!res.data.has_more || medias.length === 0) {
+    noMoreContent.value = true
+    return 'done'
   }
+  return 'more'
 }
 
-async function changeCategory(categoryItem: FavoriteCategory) {
-  if (isLoading.value)
-    return
-  currentPageNum.value = 1
+function changeCategory(categoryItem: FavoriteCategory) {
   selectedCategory.value = categoryItem
-  favoriteResources.length = 0
-  noMoreContent.value = false
-
-  getFavoriteResources(categoryItem.id, 1)
+  handleSearch()
 }
 
 function handleSearch() {
@@ -159,8 +135,7 @@ function handleSearch() {
   currentPageNum.value = 1
   favoriteResources.length = 0
   noMoreContent.value = false
-
-  getFavoriteResources(selectedCategory.value.id, currentPageNum.value, keyword.value)
+  restart()
 }
 
 function handlePlayAll() {
@@ -217,7 +192,7 @@ function isMusic(item: FavoriteResource) {
           {{ selectedCategory?.title }}
         </h3> -->
       </div>
-      <Empty v-if="favoriteResources.length === 0 && !isLoading" m="t-55px b-6" />
+      <Empty v-if="favoriteResources.length === 0 && (noMoreContent || loadError)" m="t-55px b-6" />
       <template v-else>
         <Transition name="fade">
           <Loading v-if="isFullPageLoading" w-full h-full pos="absolute top-0 left-0" mt--50px />
@@ -274,6 +249,7 @@ function isMusic(item: FavoriteResource) {
           />
         </Transition>
       </template>
+      <div ref="sentinel" aria-hidden="true" h-1px />
     </main>
 
     <aside relative w="full md:40% lg:30% xl:25%" class="hidden md:block" order="1 md:2 lg:2">

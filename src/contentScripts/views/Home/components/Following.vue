@@ -2,6 +2,8 @@
 import type { Author } from '~/components/VideoCard/types'
 import { useBewlyApp } from '~/composables/useAppProvider'
 import { FilterType, useFilter } from '~/composables/useFilter'
+import type { InfiniteLoadResult } from '~/composables/useInfiniteList'
+import { useInfiniteList } from '~/composables/useInfiniteList'
 import type { GridLayoutType } from '~/logic'
 import { settings } from '~/logic'
 import type { FollowingLiveResult, List as FollowingLiveItem } from '~/models/live/getFollowingLiveList'
@@ -52,15 +54,30 @@ const videoList = ref<VideoElement[]>([])
  */
 const livePage = ref<number>(1)
 const liveVideoList = ref<LiveVideoElement[]>([])
-const isLoading = ref<boolean>(false)
 const needToLoginFirst = ref<boolean>(false)
 const offset = ref<string>('')
 const updateBaseline = ref<string>('')
 const noMoreContent = ref<boolean>(false)
-const { handleReachBottom, handlePageRefresh, haveScrollbar } = useBewlyApp()
+const { handlePageRefresh } = useBewlyApp()
+
+const sentinel = useTemplateRef<HTMLElement>('sentinel')
+const { loading: isLoading, restart } = useInfiniteList({
+  sentinel,
+  canLoadMore: () => !needToLoginFirst.value,
+  load: getFollowedUsersVideos,
+  // 按时长筛选时，一页可能一个视频也不剩
+  maxEmptyLoads: 10,
+})
+watch(isLoading, (loading) => {
+  if (loading)
+    emit('beforeLoading')
+  else
+    emit('afterLoading')
+})
 
 onMounted(() => {
-  initData()
+  if (settings.value.followingTabShowLivestreamingVideos)
+    getLiveVideoList()
   initPageAction()
 })
 
@@ -69,23 +86,12 @@ onActivated(() => {
 })
 
 function initPageAction() {
-  handleReachBottom.value = async () => {
-    if (isLoading.value)
-      return
-    if (noMoreContent.value)
-      return
-
-    getData()
-  }
-  handlePageRefresh.value = async () => {
-    if (isLoading.value)
-      return
-
+  handlePageRefresh.value = () => {
     initData()
   }
 }
 
-async function initData() {
+function initData() {
   offset.value = ''
   updateBaseline.value = ''
   liveVideoList.value.length = 0
@@ -95,23 +101,7 @@ async function initData() {
 
   if (settings.value.followingTabShowLivestreamingVideos)
     getLiveVideoList()
-  await getData()
-}
-
-async function getData() {
-  emit('beforeLoading')
-  isLoading.value = true
-
-  try {
-    const lastVideoListLength = videoList.value.length
-    // 按时长筛选后剩下的视频可能撑不出滚动条，导致无法触底加载，所以最多再多拉几页
-    for (let i = 0; i < 3 || (durationFilter.value && i < 10 && !noMoreContent.value && videoList.value.length - lastVideoListLength < 30); i++)
-      await getFollowedUsersVideos()
-  }
-  finally {
-    isLoading.value = false
-    emit('afterLoading')
-  }
+  restart()
 }
 
 async function getLiveVideoList() {
@@ -123,15 +113,11 @@ async function getLiveVideoList() {
     })
 
     if (response.code === -101) {
-      noMoreContent.value = true
       needToLoginFirst.value = true
       return
     }
 
     if (response.code === 0) {
-      if (response.data.list.length < 9)
-        noMoreContent.value = true
-
       livePage.value++
 
       const resData = [] as FollowingLiveItem[]
@@ -164,106 +150,106 @@ async function getLiveVideoList() {
   }
 }
 
-async function getFollowedUsersVideos() {
-  if (noMoreContent.value)
-    return
+async function getFollowedUsersVideos(signal: AbortSignal): Promise<InfiniteLoadResult> {
+  // 如果 videoList 不是空的，获取最后一个真实视频的 uniqueId 和 bvid
+  let lastVideo: VideoElement | null = videoList.value.length > 0 ? videoList.value.slice(-1)[0] : null
+  const lastUniqueId = lastVideo ? lastVideo.uniqueId : ''
+  let lastBvid = lastVideo ? lastVideo.bvid : ''
 
-  if (offset.value === '0') {
-    noMoreContent.value = true
-    return
-  }
+  let i = 0
+  // https://github.com/starknt/BewlyBewly/blob/fad999c2e482095dc3840bb291af53d15ff44130/src/contentScripts/views/Home/components/ForYou.vue#L208
+  const pendingVideos: VideoElement[] = Array.from({ length: 30 }, () => ({
+    uniqueId: `unique-id-${(videoList.value.length || 0) + i++})}`,
+  } satisfies VideoElement))
+  let lastVideoListLength = videoList.value.length
+  const firstNewIndex = lastVideoListLength
+  videoList.value.push(...pendingVideos)
 
   try {
-    // 如果 videoList 不是空的，获取最后一个真实视频的 uniqueId 和 bvid
-    let lastVideo: VideoElement | null = videoList.value.length > 0 ? videoList.value.slice(-1)[0] : null
-    const lastUniqueId = lastVideo ? lastVideo.uniqueId : ''
-    let lastBvid = lastVideo ? lastVideo.bvid : ''
-
-    let i = 0
-    // https://github.com/starknt/BewlyBewly/blob/fad999c2e482095dc3840bb291af53d15ff44130/src/contentScripts/views/Home/components/ForYou.vue#L208
-    const pendingVideos: VideoElement[] = Array.from({ length: 30 }, () => ({
-      uniqueId: `unique-id-${(videoList.value.length || 0) + i++})}`,
-    } satisfies VideoElement))
-    let lastVideoListLength = videoList.value.length
-    videoList.value.push(...pendingVideos)
-
     const response: MomentResult = await api.moment.getMoments({
       type: 'video',
       offset: Number(offset.value),
       update_baseline: updateBaseline.value,
     })
+    if (signal.aborted)
+      return 'more'
 
     if (response.code === -101) {
+      needToLoginFirst.value = true
+      return 'done'
+    }
+    // 没有可显示的动态时接口返回 4101132，B站自己的动态页也把它当作“没有内容”
+    if (response.code === 4101132) {
       noMoreContent.value = true
-      needToLoginFirst.value = true
-      return
+      return 'done'
     }
+    if (response.code !== 0)
+      throw new Error(`getMoments failed with code ${response.code}`)
 
-    if (response.code === 0) {
-      offset.value = response.data.offset
-      updateBaseline.value = response.data.update_baseline
+    offset.value = response.data.offset
+    updateBaseline.value = response.data.update_baseline
 
-      const resData = [] as MomentItem[]
+    const resData = [] as MomentItem[]
 
-      response.data.items.forEach((item: MomentItem) => {
-        if (!durationFilter.value || durationFilter.value(item))
-          resData.push(item)
+    response.data.items.forEach((item: MomentItem) => {
+      if (!durationFilter.value || durationFilter.value(item))
+        resData.push(item)
+    })
+
+    // when videoList has length property, it means it is the first time to load
+    if (!videoList.value.length) {
+      videoList.value = resData.map(item => ({ uniqueId: `${item.id_str}`, item }))
+    }
+    else {
+      resData.forEach((item, index) => {
+        const currentUniqueId = `${item.id_str}`
+        const currentBvid = item.modules.module_dynamic.major.archive?.bvid
+        const author: Author = {
+          name: item.modules.module_author.name,
+          authorFace: item.modules.module_author.face,
+          mid: item.modules.module_author.mid,
+        }
+        const currentVideo: VideoElement = {
+          uniqueId: currentUniqueId,
+          bvid: currentBvid,
+          item,
+          authorList: [author],
+        }
+
+        if (index === 0 && currentUniqueId === lastUniqueId) {
+          // 重复视频
+          return
+        }
+        else if (currentBvid === lastBvid) {
+          // UP主联合投稿视频
+
+          // 当联合投稿的数据是分两次获取时，有概率会出现多个重复内容
+          // 遍历authorList里面每个up的mid值，如果不存在再添加up信息
+          if (!lastVideo?.authorList?.some(existingAuthor => existingAuthor.mid === author.mid)) {
+            lastVideo?.authorList?.push(author)
+          }
+          return
+        }
+        else {
+          // UP主个人投稿视频
+          videoList.value[lastVideoListLength++] = currentVideo
+        }
+
+        lastVideo = currentVideo
+        lastBvid = currentBvid
       })
-
-      // when videoList has length property, it means it is the first time to load
-      if (!videoList.value.length) {
-        videoList.value = resData.map(item => ({ uniqueId: `${item.id_str}`, item }))
-      }
-      else {
-        resData.forEach((item, index) => {
-          const currentUniqueId = `${item.id_str}`
-          const currentBvid = item.modules.module_dynamic.major.archive?.bvid
-          const author: Author = {
-            name: item.modules.module_author.name,
-            authorFace: item.modules.module_author.face,
-            mid: item.modules.module_author.mid,
-          }
-          const currentVideo: VideoElement = {
-            uniqueId: currentUniqueId,
-            bvid: currentBvid,
-            item,
-            authorList: [author],
-          }
-
-          if (index === 0 && currentUniqueId === lastUniqueId) {
-            // 重复视频
-            return
-          }
-          else if (currentBvid === lastBvid) {
-            // UP主联合投稿视频
-
-            // 当联合投稿的数据是分两次获取时，有概率会出现多个重复内容
-            // 遍历authorList里面每个up的mid值，如果不存在再添加up信息
-            if (!lastVideo?.authorList?.some(existingAuthor => existingAuthor.mid === author.mid)) {
-              lastVideo?.authorList?.push(author)
-            }
-            return
-          }
-          else {
-            // UP主个人投稿视频
-            videoList.value[lastVideoListLength++] = currentVideo
-          }
-
-          lastVideo = currentVideo
-          lastBvid = currentBvid
-        })
-      }
-
-      if (!haveScrollbar() && !noMoreContent.value) {
-        getFollowedUsersVideos()
-      }
     }
-    else if (response.code === -101) {
-      needToLoginFirst.value = true
+
+    if (!response.data.has_more || offset.value === '0') {
+      noMoreContent.value = true
+      return 'done'
     }
+    return lastVideoListLength > firstNewIndex ? 'more' : 'empty'
   }
   finally {
-    videoList.value = videoList.value.filter(video => video.item)
+    // 被中止时列表已经属于刷新后的加载，不能动
+    if (!signal.aborted)
+      videoList.value = videoList.value.filter(video => video.item)
   }
 }
 
@@ -336,6 +322,7 @@ defineExpose({ initData })
         :horizontal="gridLayout !== 'adaptive'"
       />
     </div>
+    <div ref="sentinel" aria-hidden="true" h-1px />
 
     <!-- no more content -->
     <Empty v-if="noMoreContent && !needToLoginFirst" class="pb-4" :description="$t('common.no_more_content')" />
