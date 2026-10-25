@@ -1,8 +1,8 @@
 export const SEARCH_BAR_CHARACTERS: { name: string, url: string }[] = [
-  { name: '22 娘', url: 'https://cdn.jsdelivr.net/gh/BewlyBewly/Imgs/searchBarCharacters/22chan-1.png' },
-  { name: '33 娘', url: 'https://cdn.jsdelivr.net/gh/BewlyBewly/Imgs/searchBarCharacters/33chan-1.png' },
-  { name: '22 娘', url: 'https://cdn.jsdelivr.net/gh/BewlyBewly/Imgs/searchBarCharacters/22chan-2.png' },
-  { name: '33 娘', url: 'https://cdn.jsdelivr.net/gh/BewlyBewly/Imgs/searchBarCharacters/33chan-2.png' },
+  { name: '22娘', url: 'https://cdn.jsdelivr.net/gh/BewlyBewly/Imgs/searchBarCharacters/22chan-1.png' },
+  { name: '33娘', url: 'https://cdn.jsdelivr.net/gh/BewlyBewly/Imgs/searchBarCharacters/33chan-1.png' },
+  { name: '22娘', url: 'https://cdn.jsdelivr.net/gh/BewlyBewly/Imgs/searchBarCharacters/22chan-2.png' },
+  { name: '33娘', url: 'https://cdn.jsdelivr.net/gh/BewlyBewly/Imgs/searchBarCharacters/33chan-2.png' },
 ]
 
 export interface wallpaperItem { name: string, url: string, thumbnail?: string }
@@ -59,7 +59,7 @@ export const WALLPAPERS: wallpaperItem[] = [
     thumbnail: 'https://cdn.jsdelivr.net/gh/BewlyBewly/Imgs/wallpapers/bml2019-vr-thumbnail.jpg',
   },
   {
-    name: '2020 拜年祭活动',
+    name: '2020拜年祭活动',
     url: 'https://cdn.jsdelivr.net/gh/BewlyBewly/Imgs/wallpapers/2020-拜年祭活动.jpg',
     thumbnail: 'https://cdn.jsdelivr.net/gh/BewlyBewly/Imgs/wallpapers/2020-拜年祭活动-thumbnail.jpg',
   },
