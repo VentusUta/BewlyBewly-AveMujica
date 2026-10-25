@@ -1,3 +1,5 @@
+import { runWhenIdle } from '~/utils/lazyLoad'
+
 const PARAMS_TO_REMOVE = [
   'spm_id_from',
   'from_source',
@@ -77,7 +79,7 @@ export function initUrlCleaner() {
     () => window.addEventListener('load', cleanUrlParams),
     () => document.addEventListener('DOMContentLoaded', cleanUrlParams),
     () => setTimeout(cleanUrlParams, 1500),
-    () => window.requestIdleCallback?.(cleanUrlParams),
+    () => runWhenIdle(cleanUrlParams),
   ]
 
   if (document.readyState === 'complete') {
