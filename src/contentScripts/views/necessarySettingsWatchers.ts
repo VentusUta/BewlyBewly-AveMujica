@@ -2,7 +2,6 @@ import { useI18n } from 'vue-i18n'
 
 import { LanguageType } from '~/enums/appEnums'
 import { accessKey, settings } from '~/logic'
-import { resolveBiliSite, setBiliSiteCookies } from '~/utils/biliSite'
 import { getUserID, injectCSS } from '~/utils/main'
 
 export function setupNecessarySettingsWatchers() {
@@ -49,14 +48,6 @@ export function setupNecessarySettingsWatchers() {
     },
     { immediate: true },
   )
-
-  // 页面加载时已在 content script 入口同步过，这里只处理之后的改动，下次打开B站页面时生效
-  settings.ready.then(() => {
-    watch(
-      () => settings.value.biliSite,
-      () => setBiliSiteCookies(resolveBiliSite(settings.value.biliSite)),
-    )
-  })
 
   watch(
     [() => settings.value.customizeFont, () => settings.value.fontFamily],

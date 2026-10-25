@@ -1,11 +1,10 @@
 import { afterEach, describe, expect, it } from 'vitest'
 
-import { getBiliSiteUrl, resolveBiliSite } from '~/utils/biliSite'
+import { getBiliSiteUrl, getTargetBiliSite } from '~/utils/biliSite'
 
-describe('resolveBiliSite', () => {
-  it('uses the Mainland China site, which overseas falls back to for now', () => {
-    expect(resolveBiliSite('CN')).toBe('CN')
-    expect(resolveBiliSite('OVERSEAS')).toBe('CN')
+describe('getTargetBiliSite', () => {
+  it('uses the Mainland China site', () => {
+    expect(getTargetBiliSite()).toBe('CN')
   })
 
   describe('when bilibili forces the overseas site for the account', () => {
@@ -21,7 +20,7 @@ describe('resolveBiliSite', () => {
     it('uses Simplified Chinese overseas instead of the Mainland China site', () => {
       setCookie('DedeUserID', '1')
       setCookie('default_sites', encodeURIComponent('["OVERSEAS"]'))
-      expect(resolveBiliSite('CN')).toBe('zh-Hans')
+      expect(getTargetBiliSite()).toBe('zh-Hans')
     })
 
     it.each([
@@ -33,7 +32,7 @@ describe('resolveBiliSite', () => {
         setCookie('DedeUserID', userId)
       if (sites)
         setCookie('default_sites', encodeURIComponent(sites))
-      expect(resolveBiliSite('CN')).toBe('CN')
+      expect(getTargetBiliSite()).toBe('CN')
     })
   })
 })

@@ -297,12 +297,6 @@ settings:
   follow_bilibili_evolved_color_desc: After changing the theme color in Bilibili Evolved, you will need to re-select this option in order to update the theme color.
 
   # bilibili Settings
-  site_settings: Site
-  bili_site: Site to use
-  bili_site_desc: bilibili may send you to an overseas site with a language prefix in its paths, based on your IP and system language. With Mainland China selected, bilibili stays on the Mainland China site. Takes effect after you refresh or open a bilibili page.
-  bili_site_opt:
-    cn: Mainland China
-    overseas: Overseas (not supported yet)
   content_block_settings: Content Block
   block_ads: Block ads
   block_top_search_page_ads: Block bilibili top search page ads

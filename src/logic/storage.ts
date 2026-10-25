@@ -2,7 +2,6 @@ import { useStorageLocal } from '~/composables/useStorageLocal'
 import type { wallpaperItem } from '~/constants/imgs'
 import type { HomeSubPage } from '~/contentScripts/views/Home/types'
 import type { AppPage } from '~/enums/appEnums'
-import type { BiliSiteSetting } from '~/utils/biliSite'
 
 export const storageDemo = useStorageLocal('webext-demo', 'Storage Demo')
 export const accessKey = useStorageLocal('accessKey', '')
@@ -119,7 +118,6 @@ export interface Settings {
   useOriginalBilibiliTopBar: boolean
   useOriginalBilibiliHomepage: boolean
 
-  biliSite: BiliSiteSetting
   blockAds: boolean
   blockTopSearchPageAds: boolean
   blockVIPDanmukuStyle: boolean
@@ -241,7 +239,6 @@ export const originalSettings: Settings = {
   useOriginalBilibiliHomepage: false,
 
   // bilibili settings
-  biliSite: 'CN',
   blockAds: true,
   blockTopSearchPageAds: true,
   blockVIPDanmukuStyle: true,

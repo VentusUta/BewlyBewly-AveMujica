@@ -1,37 +1,12 @@
 <script lang="ts" setup>
-import { useI18n } from 'vue-i18n'
-
 import { settings } from '~/logic'
 
 import SettingsItem from '../components/SettingsItem.vue'
 import SettingsItemGroup from '../components/SettingsItemGroup.vue'
-
-const { t } = useI18n()
-
-const biliSiteOptions = computed(() => {
-  return [
-    {
-      label: t('settings.bili_site_opt.cn'),
-      value: 'CN',
-    },
-    {
-      label: t('settings.bili_site_opt.overseas'),
-      value: 'OVERSEAS',
-    },
-  ]
-})
 </script>
 
 <template>
   <div>
-    <SettingsItemGroup :title="$t('settings.site_settings')">
-      <SettingsItemGroup>
-        <SettingsItem :title="$t('settings.bili_site')" :desc="$t('settings.bili_site_desc')">
-          <Select v-model="settings.biliSite" :options="biliSiteOptions" w="full" />
-        </SettingsItem>
-      </SettingsItemGroup>
-    </SettingsItemGroup>
-
     <SettingsItemGroup :title="$t('settings.content_block_settings')">
       <SettingsItemGroup>
         <SettingsItem :title="$t('settings.block_ads')">

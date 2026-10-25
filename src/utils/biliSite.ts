@@ -2,9 +2,7 @@ import type { BiliLang } from './main'
 import { getCookie, isBiliLang, setCookie, stripBiliLangPrefix } from './main'
 
 /** `CN` 为中国大陆站点，其余为对应语言的海外站点 */
-export type BiliSite = 'CN' | BiliLang
-
-export type BiliSiteSetting = 'CN' | 'OVERSEAS'
+type BiliSite = 'CN' | BiliLang
 
 // 登录后B站只按账号下发的 default_sites 决定站点，其中只有海外站点时，B站的服务端和前端都会强制跳到海外站点
 function isOverseasForced(): boolean {
@@ -20,17 +18,17 @@ function isOverseasForced(): boolean {
 }
 
 /**
- * 求出设置项实际对应的站点。海外站点暂未支持，按中国大陆站点处理；
+ * 求出要使用的站点，固定为中国大陆站点；
  * B站强制使用海外站点时，以海外的简体中文代替中国大陆站点，以免与B站来回跳
  */
-export function resolveBiliSite(_setting: BiliSiteSetting): BiliSite {
+export function getTargetBiliSite(): BiliSite {
   return isOverseasForced() ? 'zh-Hans' : 'CN'
 }
 
 /**
  * 写入B站自己用来记住站点和语言的 cookie，与B站「头像 - 语言」写入的相同
  */
-export function setBiliSiteCookies(site: BiliSite) {
+function setBiliSiteCookies(site: BiliSite) {
   const cookies = site === 'CN'
     ? { user_site: 'CN' }
     : { user_site: 'OVERSEAS', lang: site }
@@ -87,9 +85,10 @@ export function getBiliSiteUrl(url: string, site: BiliSite): string | null {
 const REDIRECT_GUARD_KEY = 'bewly-bili-site-redirect'
 
 /**
- * 写入站点 cookie，并在当前页面不在目标站点时跳过去
+ * 写入站点 cookie，并在当前页面不在要使用的站点时跳过去
  */
-export function syncBiliSite(site: BiliSite) {
+export function syncBiliSite() {
+  const site = getTargetBiliSite()
   const targetUrl = getBiliSiteUrl(location.href, site)
   if (!targetUrl) {
     setBiliSiteCookies(site)
