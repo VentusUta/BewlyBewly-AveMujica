@@ -263,7 +263,7 @@ Remove the inner padding in Chrome and Safari on macOS.
 2. Change font properties to `inherit` in Safari.
 */
 
-::-webkit-file-upload-button {
+::file-selector-button {
   appearance: button; /* 1 */
   font: inherit; /* 2 */
 }
