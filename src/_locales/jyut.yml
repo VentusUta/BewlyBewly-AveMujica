@@ -82,8 +82,8 @@ settings:
   group_wallpaper: 背景圖片
   group_logo: LOGO
   group_search_bar: 搜尋欄
-  group_recommendation_mode: 「估你心水」推介模式
-  group_recommendation_filters: 「估你心水」過濾
+  group_recommendation_mode: “估你心水”推介模式
+  group_recommendation_filters: “估你心水”過濾
   group_recommendation_filters_desc: |
     限制嘅數值唔好設太大，唔係嘅話會影響載入時間！
   group_following: 跟緊啲人
@@ -206,9 +206,9 @@ settings:
   show_video_page_background: 喺影片播放頁顯示背景圖片
   show_video_page_background_desc: 將影片頁底層部分元素嘅背景變透明，嚟展現你設定嘅全局背景圖片
   video_page_danmaku_style: 彈幕列表毛玻璃外觀
-  video_page_danmaku_style_desc: 「自動」模式下淨係喺開咗顯示背景圖片時生效
+  video_page_danmaku_style_desc: “自動”模式下淨係喺開咗顯示背景圖片時生效
   video_page_video_pod_style: 影片合集毛玻璃外觀
-  video_page_video_pod_style_desc: 「自動」模式下淨係喺開咗顯示背景圖片時生效
+  video_page_video_pod_style_desc: “自動”模式下淨係喺開咗顯示背景圖片時生效
   style_auto_follow_bg: 自動
   style_force_enable: 開啟
   style_force_disable: 關閉
@@ -267,9 +267,9 @@ settings:
   filter_by_user_table:
     username_or_mid: 用戶名 / MID
 
-  following_tab_show_livestreaming_videos: 喺「跟緊啲人」入邊顯示實況直播
-  following_tab_filter_by_duration: 喺「跟緊啲人」入邊根據條片長度篩選
-  following_tab_filter_by_duration_desc: 跟返「估你心水」過濾入邊「根據條片長度篩選」嘅設定，要先開咗嗰項先得。
+  following_tab_show_livestreaming_videos: 喺“跟緊啲人”入邊顯示實況直播
+  following_tab_filter_by_duration: 喺“跟緊啲人”入邊根據條片長度篩選
+  following_tab_filter_by_duration_desc: 跟返“估你心水”過濾入邊“根據條片長度篩選”嘅設定，要先開咗嗰項先得。
 
   use_search_page_mode: 主頁使用搵嘢頁模式
   settings_shared_with_the_search_page: 同搵嘢頁共用嘅設定
@@ -299,7 +299,7 @@ settings:
   block_top_search_page_ads_desc: 有時喺搵嘢結果上高嘅廣告，其實係年結報告抑或週年報告嚟㗎。若然你唔想佢哋唔覺意俾人刪咗，就請你閂咗呢個選項啦。
   block_vip_danmuku_style: 封鎖大會員彈幕嘅彩色樣式（將佢改返做正常彈幕使用嘅樣式）
   url_trim_settings: 頁面URL修剪
-  clean_url_argument: 移除唔必要嘅URL參數（仲會自動清埋『分享』掣帶住嗰）
+  clean_url_argument: 移除唔必要嘅URL參數（仲會自動清埋“分享”掣帶住嗰）
   bv_to_av: 將BV號轉換爲AV號
   comment_settings: 評論區
   show_comment_ip_location: 顯示評論嘅IP屬地

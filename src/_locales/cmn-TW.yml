@@ -82,8 +82,8 @@ settings:
   group_wallpaper: 背景圖片
   group_logo: LOGO
   group_search_bar: 搜尋欄
-  group_recommendation_mode: 「爲你推薦」推薦模式
-  group_recommendation_filters: 「爲你推薦」過濾
+  group_recommendation_mode: “爲你推薦”推薦模式
+  group_recommendation_filters: “爲你推薦”過濾
   group_recommendation_filters_desc: |
     限制的數值不要設太大，不然載入時間可能會增加！
   group_following: 正在跟隨
@@ -206,9 +206,9 @@ settings:
   show_video_page_background: 在影片播放頁顯示背景圖片
   show_video_page_background_desc: 使影片頁底層的部分元素背景透明，以展示你設定的全局背景圖片
   video_page_danmaku_style: 彈幕列表毛玻璃外觀
-  video_page_danmaku_style_desc: 「自動」模式下僅在開啓顯示背景圖片時生效
+  video_page_danmaku_style_desc: “自動”模式下僅在開啓顯示背景圖片時生效
   video_page_video_pod_style: 影片合集毛玻璃外觀
-  video_page_video_pod_style_desc: 「自動」模式下僅在開啓顯示背景圖片時生效
+  video_page_video_pod_style_desc: “自動”模式下僅在開啓顯示背景圖片時生效
   style_auto_follow_bg: 自動
   style_force_enable: 開啓
   style_force_disable: 關閉
@@ -267,9 +267,9 @@ settings:
   filter_by_user_table:
     username_or_mid: 使用者名稱 / MID
 
-  following_tab_show_livestreaming_videos: 在「正在跟隨」中顯示實況直播
-  following_tab_filter_by_duration: 在「正在跟隨」中按影片長度篩選
-  following_tab_filter_by_duration_desc: 沿用「爲你推薦」過濾中「按影片長度篩選」的設定，需先開啓該項。
+  following_tab_show_livestreaming_videos: 在“正在跟隨”中顯示實況直播
+  following_tab_filter_by_duration: 在“正在跟隨”中按影片長度篩選
+  following_tab_filter_by_duration_desc: 沿用“爲你推薦”過濾中“按影片長度篩選”的設定，需先開啓該項。
 
   use_search_page_mode: 首頁使用搜尋頁模式
   settings_shared_with_the_search_page: 與搜尋頁共用的設定
