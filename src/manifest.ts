@@ -4,12 +4,19 @@ import type { Manifest } from 'webextension-polyfill'
 import type PkgType from '../package.json'
 import { isDev, isFirefox, isSafari, r } from '../scripts/utils'
 
+// `Manifest.BrowserSpecificSettings` lacks the `safari` key
+type WebExtensionManifest = Manifest.WebExtensionManifest & {
+  browser_specific_settings?: {
+    safari?: { strict_min_version?: string, strict_max_version?: string }
+  }
+}
+
 export async function getManifest() {
   const pkg = await fs.readJSON(r('package.json')) as typeof PkgType
 
   // update this file to update this manifest.json
   // can also be conditional based on your need
-  const manifest: Manifest.WebExtensionManifest = {
+  const manifest: WebExtensionManifest = {
     manifest_version: 3,
     name: `${pkg.displayName || pkg.name}${isDev ? ' Dev' : ''}`,
     version: pkg.version,
@@ -126,11 +133,22 @@ export async function getManifest() {
     manifest.browser_specific_settings = {
       gecko: {
         id: 'bewlybewlyavemujica@ventusuta.com',
+        strict_min_version: '145.0',
         'data_collection_permissions': {
           'required': ['none'],
         },
       },
     }
+  }
+  else if (isSafari) {
+    manifest.browser_specific_settings = {
+      safari: {
+        strict_min_version: '18.4',
+      },
+    }
+  }
+  else {
+    manifest.minimum_chrome_version = '140'
   }
 
   return manifest
