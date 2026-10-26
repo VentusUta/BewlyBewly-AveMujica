@@ -9,8 +9,9 @@ import { settings } from '~/logic'
 import { setupApp } from '~/logic/common-setup'
 import BEWLY_CSS from '~/styles/bewly.css?raw'
 import RESET_BEWLY_CSS from '~/styles/reset.css?raw'
+import { syncBiliSite } from '~/utils/biliSite'
 import { runWhenIdle } from '~/utils/lazyLoad'
-import { compareVersions, injectCSS, isHomePage, isInIframe, isNotificationPage, isVideoOrBangumiPage } from '~/utils/main'
+import { compareVersions, injectCSS, isHomePage, isInIframe, isNotificationPage, isVideoOrBangumiPage, stripBiliLangPrefix } from '~/utils/main'
 import { SVG_ICONS } from '~/utils/svgIcons'
 
 import { version } from '../../package.json'
@@ -29,7 +30,11 @@ if (isFirefox) {
   window.clearTimeout = window.clearTimeout.bind(window)
 }
 
-const currentUrl = document.URL
+// 让B站固定使用中国大陆站点，必要时跳回中国大陆站点的页面
+if (!isInIframe())
+  syncBiliSite()
+
+const currentUrl = stripBiliLangPrefix(document.URL)
 
 function isFansMedalWallPage(): boolean {
   return /https?:\/\/live\.bilibili\.com\/p\/html\/live-fansmedal-wall.*/.test(currentUrl)
