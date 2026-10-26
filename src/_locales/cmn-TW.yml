@@ -100,7 +100,7 @@ settings:
   # General
   touch_screen_optimization: 觸控螢幕體驗改進
   touch_screen_optimization_desc: >
-    啓用後，如頂欄，你可能需要點選項目才能看到更多資訊，而不是滑鼠移過去就會顯示。（舊版頂欄不支援此功能）
+    啓用後，如頂欄，你可能需要點選項目才能看到更多資訊，而不是滑鼠移過去就會顯示。
   chk_box:
     show: 顯示
     hidden: 隱藏

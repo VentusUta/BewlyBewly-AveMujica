@@ -100,7 +100,7 @@ settings:
   # General
   touch_screen_optimization: 触屏体验改进
   touch_screen_optimization_desc: >
-    启用后，如顶栏，你可能需要点击项目以查看更多信息，而不是鼠标直接悬停查看。（旧版顶栏不支持此功能）
+    启用后，如顶栏，你可能需要点击项目以查看更多信息，而不是鼠标直接悬停查看。
   chk_box:
     show: 显示
     hidden: 隐藏

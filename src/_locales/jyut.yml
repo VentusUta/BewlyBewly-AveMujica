@@ -100,7 +100,7 @@ settings:
   # General
   touch_screen_optimization: 觸控螢幕體驗改進
   touch_screen_optimization_desc: >
-    呢個設定開咗之後，好似頂部欄噉，撳咗啲嘢先至可以睇到更多嘅資料，而唔係淨係靠游標懸停就睇到。（舊版頂部欄唔支援呢個功能）
+    呢個設定開咗之後，好似頂部欄噉，撳咗啲嘢先至可以睇到更多嘅資料，而唔係淨係靠游標懸停就睇到。
   chk_box:
     show: 擺出嚟
     hidden: 收埋
