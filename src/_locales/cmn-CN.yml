@@ -114,12 +114,6 @@ settings:
     mandarin_cn: 官话 - 简体中文
     mandarin_tw: 官話 - 繁体中文
     jyut: 廣東話
-  bili_translation: bilibili内容翻译（实验性）
-  bili_translation_desc: 用bilibili官方的AI翻译显示首页“个性推荐”“热门视频”“排行”的标题，以及视频页的标题、简介、评论和弹幕。繁体中文不会转换评论和弹幕；没有译文的内容显示原文。刷新页面后生效。
-  bili_translation_opt:
-    original: 原文
-    zh_hant: 繁体中文
-    en: 英文
   customize_font: 自定义字体
   font_opt:
     default: 缺省
@@ -309,9 +303,13 @@ settings:
   url_trim_settings: 页面URL优化
   clean_url_argument: 清理URL无用参数（也会自动清理“分享”按钮的无用参数）
   bv_to_av: 将BV号转为AV号
-  comment_settings: 评论区
-  show_comment_ip_location: 显示评论的IP属地
-  show_comment_ip_location_desc: 只有bilibili返回了IP属地的评论才会显示，未登录时可能不会返回。
+  bilibili_api_based_settings: 基于bilibili API的设置（可能需要登录）
+  show_comment_ip_location: 显示评论IP属地
+  bili_translation: bilibili内容翻译（实验性）
+  bili_translation_opt:
+    original: 原文
+    zh_hant: 繁体中文
+    en: 英文
 
   # About
   links: 链接

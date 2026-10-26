@@ -114,12 +114,6 @@ settings:
     mandarin_cn: 官话 - 简体中文
     mandarin_tw: 官話 - 繁體中文
     jyut: 廣東話
-  bili_translation: bilibili內容翻譯（實驗性）
-  bili_translation_desc: 用bilibili官方嘅AI翻譯顯示首頁“估你心水”“時下至Hit”“排行”嘅標題，同埋影片頁嘅標題、簡介、評論同彈幕。繁體中文唔會轉換評論同彈幕；冇譯文嘅內容會顯示原文。重新整理頁面之後先生效。
-  bili_translation_opt:
-    original: 原文
-    zh_hant: 繁體中文
-    en: 英文
   customize_font: 自訂字型
   font_opt:
     default: 缺省
@@ -307,9 +301,13 @@ settings:
   url_trim_settings: 頁面URL修剪
   clean_url_argument: 移除唔必要嘅URL參數（仲會自動清埋“分享”掣帶住嗰）
   bv_to_av: 將BV號轉換爲AV號
-  comment_settings: 評論區
+  bilibili_api_based_settings: 基於bilibili API的設定（可能需要登入）
   show_comment_ip_location: 顯示評論嘅IP屬地
-  show_comment_ip_location_desc: 淨係會顯示bilibili有返回IP屬地嘅評論，未登入嘅話可能唔會返回。
+  bili_translation: bilibili內容翻譯（實驗性）
+  bili_translation_opt:
+    original: 原文
+    zh_hant: 繁體中文
+    en: 英文
 
   # About
   links: 拎

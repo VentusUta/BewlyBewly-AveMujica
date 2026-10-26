@@ -2,7 +2,6 @@
 import { useI18n } from 'vue-i18n'
 
 import { settings } from '~/logic'
-import { BILI_TRANSLATION_LANGS } from '~/utils/biliTranslation'
 
 import SettingsItem from '../components/SettingsItem.vue'
 import SettingsItemGroup from '../components/SettingsItemGroup.vue'
@@ -27,19 +26,6 @@ const langOptions = computed(() => {
       label: t('settings.select_language_opt.jyut'),
       value: 'jyut',
     },
-  ]
-})
-
-const biliTranslationOptions = computed(() => {
-  return [
-    {
-      label: t('settings.bili_translation_opt.original'),
-      value: 'original',
-    },
-    ...BILI_TRANSLATION_LANGS.map(lang => ({
-      label: t(`settings.bili_translation_opt.${lang.replace('-', '_').toLowerCase()}`),
-      value: lang,
-    })),
   ]
 })
 
@@ -141,13 +127,6 @@ watch(() => settings.value.language, (newValue) => {
         <Select
           v-model="settings.language"
           :options="langOptions"
-          w="full"
-        />
-      </SettingsItem>
-      <SettingsItem :title="$t('settings.bili_translation')" :desc="$t('settings.bili_translation_desc')">
-        <Select
-          v-model="settings.biliTranslation"
-          :options="biliTranslationOptions"
           w="full"
         />
       </SettingsItem>

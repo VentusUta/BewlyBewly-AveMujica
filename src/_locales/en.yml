@@ -116,12 +116,6 @@ settings:
     mandarin_cn: Mandarin - Simplified Chinese
     mandarin_tw: Mandarin - Traditional Chinese
     jyut: Cantonese
-  bili_translation: bilibili translation (experimental)
-  bili_translation_desc: Shows bilibili's official AI translations for titles in For you, Trending and Ranking, and for the title, description, comments and danmaku on video pages. Comments and danmaku aren't converted to Traditional Chinese. Content without a translation stays in the original language. Takes effect after you refresh the page.
-  bili_translation_opt:
-    original: Original
-    zh_hant: Traditional Chinese
-    en: English
   customize_font: Customize font
   font_opt:
     default: Default
@@ -311,9 +305,14 @@ settings:
   url_trim_settings: URL Trim
   clean_url_argument: Remove unnecessary URL argument (will also remove unnecessary URL argument of 'Share' button)
   bv_to_av: Convert BV number to AV number
-  comment_settings: Comments
+  bilibili_api_based_settings: bilibili API-based Settings (may require login)
   show_comment_ip_location: Show IP location of comments
   show_comment_ip_location_desc: Only shown for comments that bilibili returns an IP location for, which may not happen when you're not logged in.
+  bili_translation: bilibili translation (experimental)
+  bili_translation_opt:
+    original: Original
+    zh_hant: Traditional Chinese
+    en: English
 
   # About
   links: Links
