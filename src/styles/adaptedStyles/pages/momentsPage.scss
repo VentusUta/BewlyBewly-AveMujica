@@ -4,7 +4,6 @@
   }
 
   #app .bg {
-    z-index: unset;
     background-size: cover;
     opacity: 0.4;
     height: 100%;
@@ -12,12 +11,15 @@
 
   // #region new moments page
   #app .bgc {
-    background-color: var(--bew-homepage-bg);
+    background-color: var(--bew-homepage-bg) !important;
   }
 
-  .bili-dyn-home--member {
-    z-index: 1;
-    position: relative;
+  #app {
+    background: none;
+  }
+
+  #app::after {
+    content: none;
   }
 
   .reply-box.fixed-box {
