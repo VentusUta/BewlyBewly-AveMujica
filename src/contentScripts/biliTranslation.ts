@@ -6,7 +6,7 @@ import { queryDomUntilFound } from '~/utils/main'
 import { getWbiMixinKey, signWbiQuery } from '~/utils/wbi'
 
 function getBiliTranslationLang(): BiliTranslationLang | null {
-  return resolveBiliTranslation(settings.value.biliTranslation, settings.value.language)
+  return resolveBiliTranslation(settings.value.biliTranslation)
 }
 
 export function getBiliTranslationParams() {

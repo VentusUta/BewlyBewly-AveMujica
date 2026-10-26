@@ -1,25 +1,11 @@
-import { LanguageType } from '~/enums/appEnums'
-
 import { signWbiQuery } from './wbi'
 
 export const BILI_TRANSLATION_LANGS = ['zh-Hant', 'en'] as const
 export type BiliTranslationLang = typeof BILI_TRANSLATION_LANGS[number]
-export type BiliTranslationSetting = 'auto' | 'original' | BiliTranslationLang
+export type BiliTranslationSetting = 'original' | BiliTranslationLang
 
-export function resolveBiliTranslation(setting: string, language: string): BiliTranslationLang | null {
-  if ((BILI_TRANSLATION_LANGS as readonly string[]).includes(setting))
-    return setting as BiliTranslationLang
-  if (setting === 'original')
-    return null
-  switch (language) {
-    case LanguageType.Mandarin_TW:
-    case LanguageType.Cantonese:
-      return 'zh-Hant'
-    case LanguageType.English:
-      return 'en'
-    default:
-      return null
-  }
+export function resolveBiliTranslation(setting: string): BiliTranslationLang | null {
+  return (BILI_TRANSLATION_LANGS as readonly string[]).includes(setting) ? setting as BiliTranslationLang : null
 }
 
 export function getBiliLocaleJson(lang: BiliTranslationLang): string {

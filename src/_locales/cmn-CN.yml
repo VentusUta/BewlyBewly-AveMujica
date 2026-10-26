@@ -117,8 +117,6 @@ settings:
   bili_translation: bilibili内容翻译（实验性）
   bili_translation_desc: 用bilibili官方的AI翻译显示首页“个性推荐”“热门视频”“排行”的标题，以及视频页的标题、简介、评论和弹幕。繁体中文不会转换评论和弹幕；没有译文的内容显示原文。刷新页面后生效。
   bili_translation_opt:
-    auto: 自动
-    auto_with_lang: 自动（{lang}）
     original: 原文
     zh_hant: 繁体中文
     en: 英文

@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
 
-import { LanguageType } from '~/enums/appEnums'
 import { applyTranslatedDesc, canTranslateUserContent, getBiliLocaleJson, getBiliLocaleParams, getTranslatedTitle, resolveBiliTranslation, rewriteBiliRequestUrl } from '~/utils/biliTranslation'
 import { signWbiQuery } from '~/utils/wbi'
 
@@ -10,24 +9,15 @@ const ZH_HANS = '{"c_locale":{"language":"zh","script":"Hans"},"always_translate
 const ZH_HANT = '{"c_locale":{"language":"zh","script":"Hant"},"always_translate":true}'
 
 describe('resolveBiliTranslation', () => {
-  it.each([
-    [LanguageType.Mandarin_CN, null],
-    [LanguageType.Mandarin_TW, 'zh-Hant'],
-    [LanguageType.Cantonese, 'zh-Hant'],
-    [LanguageType.English, 'en'],
-    ['', null],
-  ])('resolves auto with interface language %s to %s', (language, expected) => {
-    expect(resolveBiliTranslation('auto', language)).toBe(expected)
+  it('uses the chosen language', () => {
+    expect(resolveBiliTranslation('original')).toBeNull()
+    expect(resolveBiliTranslation('en')).toBe('en')
+    expect(resolveBiliTranslation('zh-Hant')).toBe('zh-Hant')
   })
 
-  it('uses an explicit choice regardless of the interface language', () => {
-    expect(resolveBiliTranslation('original', LanguageType.English)).toBeNull()
-    expect(resolveBiliTranslation('en', LanguageType.Mandarin_CN)).toBe('en')
-    expect(resolveBiliTranslation('zh-Hant', LanguageType.English)).toBe('zh-Hant')
-  })
-
-  it('treats an unsupported value as auto', () => {
-    expect(resolveBiliTranslation('ja', LanguageType.English)).toBe('en')
+  it('treats an unsupported value as original', () => {
+    expect(resolveBiliTranslation('auto')).toBeNull()
+    expect(resolveBiliTranslation('ja')).toBeNull()
   })
 })
 
