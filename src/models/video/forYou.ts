@@ -28,6 +28,8 @@ export interface Item {
   pic: string
   pic_4_3: string
   title: string
+  translate_status?: string
+  translated_title?: string
   duration: number
   pubdate: number
   owner: Owner | null // 广告卡片时可能为 null

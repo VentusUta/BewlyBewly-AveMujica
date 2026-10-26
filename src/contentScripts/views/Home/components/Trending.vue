@@ -2,9 +2,11 @@
 import { useBewlyApp } from '~/composables/useAppProvider'
 import type { InfiniteLoadResult } from '~/composables/useInfiniteList'
 import { useInfiniteList } from '~/composables/useInfiniteList'
+import { getBiliTranslationParams } from '~/contentScripts/biliTranslation'
 import type { GridLayoutType } from '~/logic'
 import type { List as VideoItem, TrendingResult } from '~/models/video/trending'
 import api from '~/utils/api'
+import { getTranslatedTitle } from '~/utils/biliTranslation'
 
 // https://github.com/starknt/BewlyBewly/blob/fad999c2e482095dc3840bb291af53d15ff44130/src/contentScripts/views/Home/components/ForYou.vue#L16
 interface VideoElement {
@@ -76,6 +78,7 @@ async function getTrendingVideos(signal: AbortSignal): Promise<InfiniteLoadResul
     const response: TrendingResult = await api.video.getPopularVideos({
       pn: pn.value,
       ps: 30,
+      ...getBiliTranslationParams(),
     })
     if (signal.aborted)
       return 'more'
@@ -131,7 +134,7 @@ defineExpose({ initData })
         :video="video.item ? {
           id: Number(video.item.aid),
           duration: video.item.duration,
-          title: video.item.title,
+          title: getTranslatedTitle(video.item),
           desc: video.item.desc,
           cover: video.item.pic,
           author: {

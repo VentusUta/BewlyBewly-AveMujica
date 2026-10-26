@@ -204,6 +204,64 @@ function setupReplyActionInterceptor() {
 
 setupReplyActionInterceptor()
 
+let rewrittenBiliRequestUrl = ''
+window.addEventListener('bewly:bili-request-rewritten', (event) => {
+  rewrittenBiliRequestUrl = typeof event.detail === 'string' ? event.detail : ''
+})
+
+function rewriteBiliRequestUrl(url) {
+  if (!/api\.bilibili\.com\/x\/v2\/(?:reply|dm)\//.test(url))
+    return ''
+  rewrittenBiliRequestUrl = ''
+  try {
+    window.dispatchEvent(new CustomEvent('bewly:rewrite-bili-request', { detail: new URL(url, location.href).href }))
+  }
+  catch {
+    return ''
+  }
+  return rewrittenBiliRequestUrl
+}
+
+function setupBiliTranslationInterceptor() {
+  if (typeof window.fetch === 'function') {
+    const originalFetch = window.fetch.bind(window)
+    window.fetch = function (input, init) {
+      let url = ''
+      if (typeof input === 'string')
+        url = input
+      else if (input && typeof input.url === 'string')
+        url = input.url
+      else if (input instanceof URL)
+        url = input.href
+
+      const rewrittenUrl = rewriteBiliRequestUrl(url)
+      if (!rewrittenUrl)
+        return originalFetch(input, init)
+
+      const request = input instanceof Request ? new Request(rewrittenUrl, input) : rewrittenUrl
+      return originalFetch(request, init).then(async (response) => {
+        try {
+          const data = await response.clone().json()
+          if (data?.code === -403 || data?.code === -352)
+            return originalFetch(input, init)
+        }
+        catch {}
+        return response
+      })
+    }
+  }
+
+  if (typeof XMLHttpRequest !== 'undefined') {
+    const originalOpen = XMLHttpRequest.prototype.open
+    XMLHttpRequest.prototype.open = function (method, url, ...rest) {
+      const rewrittenUrl = rewriteBiliRequestUrl(String(url ?? ''))
+      return originalOpen.call(this, method, rewrittenUrl || url, ...rest)
+    }
+  }
+}
+
+setupBiliTranslationInterceptor()
+
 // 评论区 IP 属地：接口会返回 reply_control.location，但B站网页端不渲染，这里补到发布时间后面
 // 显隐由 content script 设置的 CSS 变量控制，自定义属性能穿透 shadow DOM
 const COMMENT_ACTION_BUTTONS_TAG = 'bili-comment-action-buttons-renderer'

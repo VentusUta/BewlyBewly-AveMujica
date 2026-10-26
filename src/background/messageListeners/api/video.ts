@@ -14,6 +14,7 @@ const API_VIDEO = {
       homepage_ver: 1, // 首页版本
       ps: 12, // 单页记录数，默认12，最大30（调用时可覆盖）
       fresh_idx: 1, // 翻页号，从1开始（调用时会动态传入）
+      'x-bili-locale-json': '', // 请求官方译文时传入
     },
     afterHandle: AHS.J_D,
   },
@@ -86,6 +87,19 @@ const API_VIDEO = {
     },
     afterHandle: AHS.J_D,
   },
+  getVideoInfoWbi: {
+    url: 'https://api.bilibili.com/x/web-interface/wbi/view',
+    _fetch: {
+      method: 'get',
+    },
+    params: {
+      'bvid': '',
+      'x-bili-locale-json': '',
+      'wts': '',
+      'w_rid': '',
+    },
+    afterHandle: AHS.J_D,
+  },
   // https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/docs/comment/list.md#%E8%8E%B7%E5%8F%96%E8%AF%84%E8%AE%BA%E5%8C%BA%E6%98%8E%E7%BB%86_%E7%BF%BB%E9%A1%B5%E5%8A%A0%E8%BD%BD
   getVideoComments: {
     url: 'https://api.bilibili.com/x/v2/reply',
@@ -112,6 +126,7 @@ const API_VIDEO = {
     params: {
       pn: 1,
       ps: 20,
+      'x-bili-locale-json': '',
     },
     afterHandle: AHS.J_D,
   },

@@ -15,6 +15,7 @@ import { compareVersions, injectCSS, isHomePage, isInIframe, isNotificationPage,
 import { SVG_ICONS } from '~/utils/svgIcons'
 
 import { version } from '../../package.json'
+import { setupBiliTranslation } from './biliTranslation'
 import App from './views/App.vue'
 
 const isFirefox: boolean = /Firefox/i.test(navigator.userAgent)
@@ -33,6 +34,8 @@ if (isFirefox) {
 // 让B站固定使用中国大陆站点，必要时跳回中国大陆站点的页面
 if (!isInIframe())
   syncBiliSite()
+
+settings.ready.then(setupBiliTranslation)
 
 const currentUrl = stripBiliLangPrefix(document.URL)
 

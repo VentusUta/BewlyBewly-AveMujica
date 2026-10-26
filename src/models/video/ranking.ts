@@ -20,6 +20,8 @@ export interface List {
   copyright: number
   pic: string
   title: string
+  translate_status?: string
+  translated_title?: string
   pubdate: number
   ctime: number
   desc: string
