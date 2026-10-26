@@ -230,7 +230,7 @@ async function getData(signal: AbortSignal): Promise<InfiniteLoadResult> {
     }
     // 推荐模式的 watch 会清空列表并从头加载
     settings.value.recommendationMode = 'web'
-    toast.warning('App 推荐数据加载失败，已自动切换至 Web 模式')
+    toast.warning('App推荐数据加载失败，已自动切换至Web模式')
     return 'more'
   }
 }

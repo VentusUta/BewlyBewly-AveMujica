@@ -11,18 +11,18 @@ export function numFormatter(num: number | string): string {
 
   if (settings.value.language === LanguageType.Mandarin_CN) {
     lookup = [
-      { value: 1, symbol: ' ' },
-      { value: 1e4, symbol: ' 万' },
-      { value: 1e7, symbol: ' 千万' },
-      { value: 1e8, symbol: ' 亿' },
+      { value: 1, symbol: '' },
+      { value: 1e4, symbol: '万' },
+      { value: 1e7, symbol: '千万' },
+      { value: 1e8, symbol: '亿' },
     ]
   }
   else if (settings.value.language === LanguageType.Cantonese || settings.value.language === LanguageType.Mandarin_TW) {
     lookup = [
-      { value: 1, symbol: ' ' },
-      { value: 1e4, symbol: ' 萬' },
-      { value: 1e7, symbol: ' 千萬' },
-      { value: 1e8, symbol: ' 億' },
+      { value: 1, symbol: '' },
+      { value: 1e4, symbol: '萬' },
+      { value: 1e7, symbol: '千萬' },
+      { value: 1e8, symbol: '億' },
     ]
   }
   else {

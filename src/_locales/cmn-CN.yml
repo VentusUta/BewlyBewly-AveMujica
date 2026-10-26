@@ -5,7 +5,7 @@ common:
   undo: 还原
   view: '{count}次'
   viewWithoutNum: 次
-  danmaku: '{count} 弹幕'
+  danmaku: '{count}弹幕'
   danmakuWithoutNum: 弹幕
   anime_follow_count: '{count}人关注'
   year: 年前
@@ -51,21 +51,21 @@ common:
 iframe_drawer:
   open_in_new_tab: 在新标签页打开
   close: 关闭
-  press_esc_again_to_close: 再次按下 Esc 关闭
+  press_esc_again_to_close: 再次按下Esc关闭
 
 settings:
   title: 设置
 
   # Settings menu
   menu_general: 常规
-  menu_desktop_and_dock: 桌面和 Dock 栏
+  menu_desktop_and_dock: 桌面和Dock栏
   menu_appearance: 外观
-  menu_bewly_pages: BewlyBewly 页面
+  menu_bewly_pages: BewlyBewly页面
   menu_video_page: 视频页
   menu_search_page: 搜索页
   menu_home: 首页
   menu_compatibility: 兼容性
-  menu_bilibili_settings: bilibili 设置
+  menu_bilibili_settings: bilibili设置
   menu_about: 关于
 
   # Settings group
@@ -75,7 +75,7 @@ settings:
   group_video_card: 视频卡片
   group_performance: 毛玻璃和性能
   group_topbar: 顶栏
-  group_dock: Dock 栏
+  group_dock: Dock栏
   group_sidebar: 侧边栏
   group_sidebar_desc: 位于主页以外的页面右侧或左侧，通常有亮 / 暗模式切换按钮和设置按钮。
   group_color: 颜色
@@ -129,7 +129,7 @@ settings:
     recommend-new: 推荐B（使用常见字形，更习惯）
     custom: 自定义
   customize_font_desc: |-
-    对于喜欢旧字形的用户，我们推荐 <a class="link" href="https://github.com/GuiWonder/Shanggu" target="_blank">Shanggu Fonts（尚古字体）</a> 和 <a class="link" href="https://github.com/ayaka14732/FanWunHak" target="_blank">Fan Wun Hak（繁媛黑體）</a>。
+    对于喜欢旧字形的用户，我们推荐<a class="link" href="https://github.com/GuiWonder/Shanggu" target="_blank">Shanggu Fonts（尚古字体）</a>和<a class="link" href="https://github.com/ayaka14732/FanWunHak" target="_blank">Fan Wun Hak（繁媛黑體）</a>。
     这些字形还具有将简体中文转换为繁体中文的能力。
   danmaku_font: 弹幕字体
   danmaku_font_opt:
@@ -137,7 +137,7 @@ settings:
     override: 覆盖
     custom: 自定义
   remove_the_indent_from_chinese_punctuation: 移除中文标点符号的缩进
-  remove_the_indent_from_chinese_punctuation_desc: bilibili 默认会专门处理中文标点符号以实现左对齐。如果你正在使用自定义字体，建议移除缩进。
+  remove_the_indent_from_chinese_punctuation_desc: bilibili默认会专门处理中文标点符号以实现左对齐。如果你正在使用自定义字体，建议移除缩进。
 
   disable_frosted_glass: 禁用毛玻璃效果
   reduce_frosted_glass_blur: 降低毛玻璃模糊强度
@@ -151,7 +151,7 @@ settings:
   top_bar_link_opening_behavior: 顶栏链接打开行为
   video_card_link_opening_behavior: 视频卡片和番剧卡片链接打开行为
   search_bar_link_opening_behavior: 搜索栏链接打开行为
-  close_drawer_without_pressing_esc_again: 关闭抽屉时不用再次按 <kbd>Esc</kbd> 关闭
+  close_drawer_without_pressing_esc_again: 关闭抽屉时不用再次按<kbd>Esc</kbd>关闭
 
   enable_video_preview: 启用视频预览功能（如果可以的话）
   enable_video_ctrl_bar_on_video_card: 在视频卡片上显示视频控制栏
@@ -160,8 +160,8 @@ settings:
   # Desktop & Dock
   auto_hide_top_bar: 自动隐藏顶栏
   show_top_bar_theme_color_gradient: 在顶栏显示主题色渐变（仅在暗色模式下有效）
-  show_bewly_or_bili_top_bar_switcher: 显示 BewlyBewly / bilibili 顶栏切换器
-  show_bewly_or_bili_page_switcher: 显示 BewlyBewly / bilibili 页面切换器
+  show_bewly_or_bili_top_bar_switcher: 显示BewlyBewly / bilibili顶栏切换器
+  show_bewly_or_bili_page_switcher: 显示BewlyBewly / bilibili页面切换器
   top_bar_icon_badges: 图标角标
   top_bar_icon_badges_opt:
     number: 数字
@@ -170,17 +170,17 @@ settings:
   open_notifications_page_as_drawer: 将通知页面作为抽屉打开
   turn_on_search_history: 展示搜索历史记录
 
-  always_use_dock: 总是使用 Dock 栏
-  always_use_dock_desc: 启用后，Dock 栏将始终显示，侧边栏将隐藏。我们推荐你同时启用自动隐藏 Dock 栏。
-  auto_hide_dock: 自动隐藏 Dock 栏
-  half_hide_dock: 半隐藏 Dock 栏
-  dock_position: Dock 栏位置
+  always_use_dock: 总是使用Dock栏
+  always_use_dock_desc: 启用后，Dock栏将始终显示，侧边栏将隐藏。我们推荐你同时启用自动隐藏Dock栏。
+  auto_hide_dock: 自动隐藏Dock栏
+  half_hide_dock: 半隐藏Dock栏
+  dock_position: Dock栏位置
   dock_position_desc: 在屏幕中摆放位置。
-  dock_content_adjustment: Dock 内容调整
-  dock_content_adjustment_desc: 第一个激活的 Dock 项的页面将会是启动页面。
+  dock_content_adjustment: Dock内容调整
+  dock_content_adjustment_desc: 第一个激活的Dock项的页面将会是启动页面。
   dock_item_open_in_new_tab: 在新标签页打开
-  dock_item_use_original_bili_web_page: 使用原版 bilibili 网页
-  disable_dock_glowing_effect: 关闭 Dock 栏发光效果
+  dock_item_use_original_bili_web_page: 使用原版bilibili网页
+  disable_dock_glowing_effect: 关闭Dock栏发光效果
   disable_light_dark_mode_switcher: 禁用亮 / 暗色模式切换按钮
   back_to_top_and_refresh_buttons_are_separated: 分离回到顶部和刷新按钮
   sidebar_position: 侧边栏位置
@@ -207,8 +207,8 @@ settings:
   enable_wallpaper_masking: 启用背景遮罩效果
   wallpaper_mask_opacity: 背景遮罩透明度调整
   wallpaper_blur_intensity: 背景模糊强度调整
-  customize_css: 自定义 CSS
-  customize_css_desc: 如果你不熟悉 CSS，请不要修改 CSS。否则可能会导致意外的显示问题。如果在你修改 CSS 后遇到任何问题，请重新安装 BewlyBewly。
+  customize_css: 自定义CSS
+  customize_css_desc: 如果你不熟悉CSS，请不要修改CSS。否则可能会导致意外的显示问题。如果在你修改CSS后遇到任何问题，请重新安装BewlyBewly。
 
   # Video page
   show_video_page_background: 在视频播放页显示背景图片
@@ -221,16 +221,16 @@ settings:
   style_force_enable: 开启
   style_force_disable: 关闭
   rounded_video_player: 视频播放器圆角
-  rounded_video_player_desc: 为视频播放器添加类似 YouTube 的圆角。
+  rounded_video_player_desc: 为视频播放器添加类似YouTube的圆角。
   legacy_player_loading_screen: 使用旧版播放器加载画面（抖动小电视）
 
   # Search page
-  logo_color: Logo 颜色
+  logo_color: Logo颜色
   logo_color_opt:
     white: 白
     theme_color: 主题色
-  logo_visibility: Logo 可见性
-  enable_logo_glowing_effect: 启用 Logo 发光效果
+  logo_visibility: Logo可见性
+  enable_logo_glowing_effect: 启用Logo发光效果
   bg_darkens_when_the_search_bar_is_focused: 当搜索栏聚焦时背景暗化
   bg_blurs_when_the_search_bar_is_focused: 当搜索栏聚焦时背景模糊
   choose_search_bar_focused_character: 选择搜索栏聚焦时出现的人物
@@ -239,19 +239,19 @@ settings:
   # Home
   recommendation_mode: 推荐模式
   recommendation_mode_desc: |
-    如果您想使用 app 端的推荐算法，请先授权 BewlyBewly 使用 access key。
-  authorize_app: 授权 BewlyBewly 使用 access key
+    如果您想使用app端的推荐算法，请先授权BewlyBewly使用access key。
+  authorize_app: 授权BewlyBewly使用access key
   authorize_app_desc: |
-    授权使用后能在首页推送 bilibili App 端算法的推荐视频，授权 key 有效期约为一个月，过后记得重新授权获取 access key。
-  authorize_app_more_info_access_key: 关于 access key
-  scan_qrcode_desc: 使用 bilibili 移动应用程序扫描此二维码，以授权获取 access key。
+    授权使用后能在首页推送bilibili App端算法的推荐视频，授权key有效期约为一个月，过后记得重新授权获取access key。
+  authorize_app_more_info_access_key: 关于access key
+  scan_qrcode_desc: 使用bilibili移动应用程序扫描此二维码，以授权获取access key。
   recommendation_no_auto_switch: 禁用在App推荐数据加载失败时自动切换到Web模式
   recommendation_no_auto_switch_desc: 若选中此选项，将不会在App推荐数据加载失败时自动切换到Web推荐模式。
 
   disable_filters_for_followed_users: 关注的用户不受过滤条件限制
   disable_filters_for_followed_users_desc: >
     如果启用此选项，您关注的用户不受过滤条件限制。
-  filter_out_vertical_videos: 过滤竖屏视频（仅在 app 推荐模式下有效）
+  filter_out_vertical_videos: 过滤竖屏视频（仅在app推荐模式下有效）
   filter_by_view_count: 按播放数筛选
   filter_by_view_count_desc: 筛选掉播放数小于您设置的视频。
   filter_by_view_count_unit: 次
@@ -261,17 +261,17 @@ settings:
   filter_item_already_exist: 这个筛选项目已经存在！
   filter_by_title: 按标题筛选
   filter_by_title_desc: >
-    按标题筛选掉包含您设置关键字的视频（不区分大小写），也可以使用正则表达式，如 <code>/abc&#124;\d+/</code>，用 <code>/</code> 包裹。
+    按标题筛选掉包含您设置关键字的视频（不区分大小写），也可以使用正则表达式，如<code>/abc&#124;\d+/</code>，用<code>/</code>包裹。
     <br/>
-    在下表中，您可以按 <kbd>Enter</kbd> 键添加新的筛选条件或确认修改。
-    按 <kbd>Esc</kbd> 键取消修改。
+    在下表中，您可以按<kbd>Enter</kbd>键添加新的筛选条件或确认修改。
+    按<kbd>Esc</kbd>键取消修改。
     双击列以编辑当前列。
   filter_by_user: 按用户筛选
   filter_by_user_desc: >
-    筛选掉包含您设置的用户名（全名，不区分大小写）或 MID 上传的视频，也可以使用正则表达式，如 <code>/abc&#124;\d+/</code>，用 <code>/</code> 包裹。
+    筛选掉包含您设置的用户名（全名，不区分大小写）或MID上传的视频，也可以使用正则表达式，如<code>/abc&#124;\d+/</code>，用<code>/</code>包裹。
     <br/>
-    在下表中，您可以按 <kbd>Enter</kbd> 键添加新的筛选条件或确认修改。
-    按 <kbd>Esc</kbd> 键取消修改。
+    在下表中，您可以按<kbd>Enter</kbd>键添加新的筛选条件或确认修改。
+    按<kbd>Esc</kbd>键取消修改。
     双击列以编辑当前列。
   filter_by_user_table:
     username_or_mid: 用户名 / MID
@@ -292,34 +292,34 @@ settings:
   # Compatibility
   # Common
   topbar_visibility: 顶栏可见性
-  topbar_visibility_desc: 如果您正在使用 Bilibili Evolved 的顶栏，您可以在这里关闭 BewlyBewly 的顶栏。
-  use_original_bilibili_homepage: 使用原版 bilibili 首页
+  topbar_visibility_desc: 如果您正在使用Bilibili Evolved的顶栏，您可以在这里关闭BewlyBewly的顶栏。
+  use_original_bilibili_homepage: 使用原版bilibili首页
   use_original_bilibili_homepage_desc: 在您更改此设置后，如果在首页上，页面将自动刷新！
-  use_original_bilibili_topbar: 使用原版 bilibili 顶栏
+  use_original_bilibili_topbar: 使用原版bilibili顶栏
   adapt_to_other_page_styles: 适应其他页面样式
-  adapt_to_other_page_styles_desc: 适应一些常见页面，以与 BewlyBewly 主题相匹配。
+  adapt_to_other_page_styles_desc: 适应一些常见页面，以与BewlyBewly主题相匹配。
   # Bilibili Evolved
-  follow_bilibili_evolved_color: 使用 Bilibili Evolved 主题色
-  follow_bilibili_evolved_color_desc: 每次选完 Bilibili Evolved 主题色时，记得重新选中这一选项以更新配置。
+  follow_bilibili_evolved_color: 使用Bilibili Evolved主题色
+  follow_bilibili_evolved_color_desc: 每次选完Bilibili Evolved主题色时，记得重新选中这一选项以更新配置。
 
   # bilibili Settings
   content_block_settings: 内容屏蔽
   block_ads: 屏蔽广告
-  block_top_search_page_ads: 屏蔽 bilibili 搜索页上方的广告
+  block_top_search_page_ads: 屏蔽bilibili搜索页上方的广告
   block_top_search_page_ads_desc: 有时候，搜索结果上方的广告实际上是年末总结或年度报告。如果你不想这些内容被误删除，请禁用此选项。
   block_vip_danmuku_style: 屏蔽大会员弹幕的彩色样式（使其和正常弹幕使用相同样式）
-  url_trim_settings: 页面 URL 优化
-  clean_url_argument: 清理 URL 无用参数（也会自动清理“分享”按钮的无用参数）
-  bv_to_av: 将 BV 号转为 AV 号
+  url_trim_settings: 页面URL优化
+  clean_url_argument: 清理URL无用参数（也会自动清理“分享”按钮的无用参数）
+  bv_to_av: 将BV号转为AV号
   comment_settings: 评论区
-  show_comment_ip_location: 显示评论的 IP 属地
-  show_comment_ip_location_desc: 只有 bilibili 返回了 IP 属地的评论才会显示，未登录时可能不会返回。
+  show_comment_ip_location: 显示评论的IP属地
+  show_comment_ip_location_desc: 只有bilibili返回了IP属地的评论才会显示，未登录时可能不会返回。
 
   # About
   links: 链接
   import_settings: 导入设置
   export_settings: 导出设置
-  export_settings_desc: 一些敏感的数据，例如 access key，可能需要重新获取。
+  export_settings_desc: 一些敏感的数据，例如access key，可能需要重新获取。
   reset_settings: 重置设置
   reset_settings_confirm: |-
     重置设置？
@@ -330,11 +330,11 @@ settings:
   enable_undo_refresh_button: 启用撤销刷新按钮（仅在Web推荐模式下有效）
   enable_undo_refresh_button_desc: 刷新页面后显示撤销按钮，点击可恢复刷新前的内容
 auth:
-  auth_access_key_first: 在这之前请先授权 BewlyBewly 使用 access key
+  auth_access_key_first: 在这之前请先授权BewlyBewly使用access key
 
 topbar:
-  switch_to_bewly_top_bar: 切换到 BewlyBewly 顶栏
-  switch_to_bili_top_bar: 切换到 bilibili / Bilibili-Evolved 顶栏
+  switch_to_bewly_top_bar: 切换到BewlyBewly顶栏
+  switch_to_bili_top_bar: 切换到bilibili / Bilibili-Evolved顶栏
 
   sign_in: 登录
   notifications: 通知
@@ -396,11 +396,11 @@ topbar:
   user_dropdown:
     money: 硬币：
     b_coins: B币：
-    exp_desc: '当前成长 {current_exp}，升级到 LV {level} 还需要 {need_exp}'
+    exp_desc: '当前成长{current_exp}，升级到LV {level}还需要{need_exp}'
     following: 关注
     followers: 粉丝
     posts: 动态
-    bilibili_premium: bilibili 大会员
+    bilibili_premium: bilibili大会员
     account_settings: 账号设置
     uploads_manager: 投稿管理
     b_coins_wallet: B币钱包
@@ -451,17 +451,17 @@ video_card:
     open_in_drawer: 抽屉打开
 
     copy_video_link: 复制视频链接
-    copy_bv_number: 复制 BV 号
-    copy_av_number: 复制 AV 号
+    copy_bv_number: 复制BV号
+    copy_av_number: 复制AV号
 
     view_the_original_cover: 查看封面
 
-  group_contribution: '{firstAuthor} 等 {num} 人联合创作'
+  group_contribution: '{firstAuthor}等{num}人联合创作'
   video_removed: 视频已移除
 
 home:
   tell_us_why: 为什么这么做……
-  not_interested_desc: 你可以使用 <kbd>↑</kbd> 和 <kbd>↓</kbd> 来选择原因，或者直接使用数字键选择原因，按 <kbd>Enter</kbd> 就直接提交。
+  not_interested_desc: 你可以使用<kbd>↑</kbd>和<kbd>↓</kbd>来选择原因，或者直接使用数字键选择原因，按<kbd>Enter</kbd>就直接提交。
 
   for_you: 个性推荐
   following: 正在关注
@@ -477,8 +477,8 @@ ranking:
   debut_work: 新人作品
 
 anime:
-  total_episodes: 全 {ep} 话
-  update_to_n_episodes: 更新至 {ep} 话
+  total_episodes: 全{ep}话
+  update_to_n_episodes: 更新至{ep}话
   your_watch_list: 正在追
   recommended_for_you: 猜你喜欢
   havent_seen: 尚未观看
