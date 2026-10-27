@@ -296,7 +296,7 @@ function handleMouseEnter(item: HistoryItem) {
                 w="full"
                 aspect-video
                 :src="`${getHistoryItemCover(historyItem)}@480w_270h_1c`"
-                :alt="historyItem.title"
+                alt=""
                 object-cover
               >
 

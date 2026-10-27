@@ -294,7 +294,7 @@ function deleteHistoryItem(index: number, historyItem: HistoryItem) {
                     :src="`${removeHttpFromUrl(
                       historyItem.cover,
                     )}@256w_144h_1c`"
-                    :alt="historyItem.title"
+                    alt=""
                     object-cover
                   >
                   <div
@@ -332,7 +332,7 @@ function deleteHistoryItem(index: number, historyItem: HistoryItem) {
                     :src="`${removeHttpFromUrl(
                       historyItem.cover,
                     )}@256w_144h_1c`"
-                    :alt="historyItem.title"
+                    alt=""
                     bg="contain"
                   >
                   <div
@@ -373,7 +373,7 @@ function deleteHistoryItem(index: number, historyItem: HistoryItem) {
                       : ''
                   }@256w_144h_1c`"
                   object-cover
-                  :alt="historyItem.title"
+                  alt=""
                   bg="contain"
                 >
               </div>
