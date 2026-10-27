@@ -21,6 +21,7 @@ common:
   added: 已新增
   performance_impact_warn: 這個功能可能會降低效能！
   no_more_content: 沒有更多內容了
+  operation_failed: 操作失敗
 
   operation:
     add: 新增
@@ -441,6 +442,7 @@ dock:
 video_card:
   operation:
     not_interested: 不感興趣
+    not_interested_in_uploader: 不想看此UP主
     open_in_new_tab: 新標籤頁開啓
     open_in_new_window: 新視窗開啓
     open_in_current_tab: 目前索引標籤開啓

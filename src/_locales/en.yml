@@ -21,6 +21,7 @@ common:
   added: Added
   performance_impact_warn: This feature may cause performance *DECREASE*!
   no_more_content: No more content now, owari da
+  operation_failed: Operation failed
 
   operation:
     add: Add
@@ -448,6 +449,7 @@ dock:
 video_card:
   operation:
     not_interested: Not Interested
+    not_interested_in_uploader: Not Interested in This Uploader
     open_in_new_tab: Open in New Tab
     open_in_new_window: Open in New Window
     open_in_current_tab: Open in Current Tab

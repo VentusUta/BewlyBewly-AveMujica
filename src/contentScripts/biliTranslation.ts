@@ -3,7 +3,8 @@ import api from '~/utils/api'
 import type { BiliTranslationLang, DescSegment } from '~/utils/biliTranslation'
 import { applyTranslatedDesc, getBiliLocaleJson, getBiliLocaleParams, getTranslatedTitle, resolveBiliTranslation, rewriteBiliRequestUrl } from '~/utils/biliTranslation'
 import { queryDomUntilFound } from '~/utils/main'
-import { getWbiMixinKey, signWbiQuery } from '~/utils/wbi'
+import { signWbiQuery } from '~/utils/wbi'
+import { loadWbiMixinKey } from '~/utils/wbiKey'
 
 function getBiliTranslationLang(): BiliTranslationLang | null {
   return resolveBiliTranslation(settings.value.biliTranslation)
@@ -14,27 +15,6 @@ export function getBiliTranslationParams() {
 }
 
 let mixinKey: string | null = null
-let mixinKeyPromise: Promise<string | null> | null = null
-
-function loadWbiMixinKey(): Promise<string | null> {
-  if (mixinKeyPromise)
-    return mixinKeyPromise
-  const imgUrl = localStorage.getItem('wbi_img_url')
-  const subUrl = localStorage.getItem('wbi_sub_url')
-  if (imgUrl && subUrl) {
-    mixinKey = getWbiMixinKey(imgUrl, subUrl)
-    mixinKeyPromise = Promise.resolve(mixinKey)
-    return mixinKeyPromise
-  }
-  mixinKeyPromise = api.user.getUserInfo()
-    .then((res) => {
-      const wbiImg = res?.data?.wbi_img
-      mixinKey = wbiImg ? getWbiMixinKey(wbiImg.img_url, wbiImg.sub_url) : null
-      return mixinKey
-    })
-    .catch(() => null)
-  return mixinKeyPromise
-}
 
 function translateVideoInfo(lang: BiliTranslationLang) {
   let currentBvid = ''
@@ -96,7 +76,9 @@ export function setupBiliTranslation() {
   const lang = getBiliTranslationLang()
   if (!lang)
     return
-  loadWbiMixinKey()
+  loadWbiMixinKey().then((key) => {
+    mixinKey = key
+  })
 
   window.addEventListener('bewly:rewrite-bili-request', (event) => {
     const url = (event as CustomEvent).detail

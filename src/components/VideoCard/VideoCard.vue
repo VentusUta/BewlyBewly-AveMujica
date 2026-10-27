@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { Icon } from '@iconify/vue'
 import type { CSSProperties } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
 
 import Button from '~/components/Button.vue'
@@ -16,7 +17,7 @@ import { getCSRF, removeHttpFromUrl } from '~/utils/main'
 
 import Tooltip from '../Tooltip.vue'
 import type { Video } from './types'
-import { getCurrentTime, getCurrentVideoUrl, unblockUploader, VideoMoreCommand } from './utils'
+import { getCurrentTime, getCurrentVideoUrl, getWebDislikeReasonId, sendWebDislikeFeedback, unblockUploader, VideoMoreCommand } from './utils'
 import VideoCardAuthorAvatar from './VideoCardAuthor/components/VideoCardAuthorAvatar.vue'
 import VideoCardAuthorName from './VideoCardAuthor/components/VideoCardAuthorName.vue'
 import VideoCardContextMenu from './VideoCardContextMenu/VideoCardContextMenu.vue'
@@ -39,6 +40,7 @@ interface Props {
   moreBtn?: boolean
 }
 
+const { t } = useI18n()
 const toast = useToast()
 const { mainAppRef, openIframeDrawer } = useBewlyApp()
 const { setActivatedCover } = useMainStore()
@@ -200,6 +202,10 @@ function handleMoreBtnClick(event: MouseEvent) {
 }
 
 function handleUndo() {
+  const webDislikeReasonId = props.video && removedAction.value
+    ? getWebDislikeReasonId(props.video, removedAction.value)
+    : undefined
+
   if (removedAction.value === VideoMoreCommand.BlockUploader) {
     const authorMid = Array.isArray(props.video?.author)
       ? props.video?.author[0]?.mid
@@ -242,6 +248,21 @@ function handleUndo() {
       else {
         toast.error(res.message)
       }
+    })
+  }
+  else if (props.video && webDislikeReasonId) {
+    sendWebDislikeFeedback(props.video, webDislikeReasonId, true).then((res) => {
+      if (res.code === 0) {
+        removed.value = false
+        removedAction.value = undefined
+        selectedDislikeOpt.value = undefined
+      }
+      else {
+        toast.error(res.message)
+      }
+    }).catch((error) => {
+      console.error(error)
+      toast.error(t('common.operation_failed'))
     })
   }
   else {
