@@ -1,5 +1,6 @@
 import browser from 'webextension-polyfill'
 
+import type { APIMAP } from '../../utils'
 import { apiListenerFactory } from '../../utils'
 import API_ANIME from './anime'
 import API_AUTH from './auth'
@@ -34,7 +35,7 @@ export const API_COLLECTION = {
 }
 
 // Merge all API objects into one
-const FullAPI = Object.assign({}, ...API_COLLECTION)
+export const FullAPI: APIMAP = Object.assign({}, ...API_COLLECTION)
 // Create a message listener for each API
 const handleMessage = apiListenerFactory(FullAPI)
 

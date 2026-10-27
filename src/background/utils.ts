@@ -87,46 +87,52 @@ function apiListenerFactory(API_MAP: APIMAP) {
   }
 }
 
+function buildRequest(message: Message, api: API) {
+  let { contentScriptQuery, ...rest } = message
+  // rest above two part body or params
+  rest = rest || {}
+
+  let { _fetch, url, params = {} } = api
+  const { method, headers = {}, body } = _fetch as _FETCH
+  const isGET = method.toLocaleLowerCase() === 'get'
+  // merge params and body
+  const targetParams = Object.assign({}, params)
+  let targetBody = Object.assign({}, body)
+  Object.keys(rest).forEach((key) => {
+    if (body && body[key] !== undefined)
+      targetBody[key] = rest[key]
+    else
+      targetParams[key] = rest[key]
+  })
+
+  // generate params
+  if (Object.keys(targetParams).length) {
+    const urlParams = new URLSearchParams()
+    for (const key in targetParams)
+      targetParams[key] && urlParams.append(key, targetParams[key])
+    url += `?${urlParams.toString()}`
+  }
+  // generate body
+  if (!isGET) {
+    targetBody = (headers && headers['Content-Type'] && headers['Content-Type'].includes('application/x-www-form-urlencoded'))
+      ? new URLSearchParams(targetBody)
+      : JSON.stringify(targetBody)
+  }
+  // get cant take body
+  const fetchOpt = { method, headers }
+  !isGET && Object.assign(fetchOpt, { body: targetBody })
+  return { url, fetchOpt }
+}
+
 function doRequest(message: Message, api: API, sendResponse?: SendResponse, cookies?: Browser.Cookies.Cookie[]) {
   try {
-    let { contentScriptQuery, ...rest } = message
-    // rest above two part body or params
-    rest = rest || {}
-
-    let { _fetch, url, params = {}, afterHandle } = api
-    const { method, headers = {}, body } = _fetch as _FETCH
-    const isGET = method.toLocaleLowerCase() === 'get'
-    // merge params and body
-    const targetParams = Object.assign({}, params)
-    let targetBody = Object.assign({}, body)
-    Object.keys(rest).forEach((key) => {
-      if (body && body[key] !== undefined)
-        targetBody[key] = rest[key]
-      else
-        targetParams[key] = rest[key]
-    })
-
-    // generate params
-    if (Object.keys(targetParams).length) {
-      const urlParams = new URLSearchParams()
-      for (const key in targetParams)
-        targetParams[key] && urlParams.append(key, targetParams[key])
-      url += `?${urlParams.toString()}`
-    }
-    // generate body
-    if (!isGET) {
-      targetBody = (headers && headers['Content-Type'] && headers['Content-Type'].includes('application/x-www-form-urlencoded'))
-        ? new URLSearchParams(targetBody)
-        : JSON.stringify(targetBody)
-    }
+    const { afterHandle } = api
+    const { url, fetchOpt } = buildRequest(message, api)
     // generate cookies
     if (cookies) {
       const cookieStr = cookies.map(cookie => `${cookie.name}=${cookie.value}`).join('; ')
-      headers['firefox-multi-account-cookie'] = cookieStr
+      fetchOpt.headers['firefox-multi-account-cookie'] = cookieStr
     }
-    // get cant take body
-    const fetchOpt = { method, headers }
-    !isGET && Object.assign(fetchOpt, { body: targetBody })
     // fetch and after handle
     let baseFunc: Promise<any> = fetch(url, {
       ...fetchOpt,
@@ -152,6 +158,7 @@ export {
   type API,
   apiListenerFactory,
   type APIMAP,
+  buildRequest,
   type FetchAfterHandler,
   type Message,
   sendResponseHandler,
