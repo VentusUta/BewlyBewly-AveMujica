@@ -268,6 +268,7 @@ provide('getVideoType', () => props.type!)
 
 <template>
   <div
+    class="video-card-root"
     content-visibility="auto"
     intrinsic-size-300px
     duration-300 ease-in-out
@@ -284,6 +285,7 @@ provide('getVideoType', () => props.type!)
         rounded="$bew-radius"
       >
         <ALink
+          class="video-card-link"
           :style="{ display: horizontal ? 'flex' : 'block', gap: horizontal ? '1.5rem' : '0' }"
           :href="videoUrl"
           type="videoCard"
@@ -481,6 +483,7 @@ provide('getVideoType', () => props.type!)
                 <div
                   v-if="moreBtn"
                   ref="moreBtnRef"
+                  class="more-btn"
                   :class="{ 'more-active': showVideoOptions }"
                   bg="hover:$bew-fill-2 active:$bew-fill-3"
                   shrink-0 w-32px h-32px m="t--3px r--4px"
@@ -600,5 +603,20 @@ provide('getVideoType', () => props.type!)
 
 .more-active {
   --uno: "opacity-100";
+}
+
+.video-card-root {
+  overflow-clip-margin: 8px;
+}
+
+@supports not (overflow-clip-margin: 0px) {
+  .more-btn {
+    margin-right: 0;
+  }
+
+  .video-card-root:has(.video-card-link:focus-visible) {
+    outline-style: auto;
+    outline-offset: 1px;
+  }
 }
 </style>
