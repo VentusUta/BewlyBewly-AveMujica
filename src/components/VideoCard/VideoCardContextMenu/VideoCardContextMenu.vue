@@ -152,11 +152,17 @@ async function handleMoreCommand(command: VideoMoreCommand) {
     return
   }
 
-  const res = await sendWebDislikeFeedback(props.video, reasonId)
-  if (res.code === 0)
-    handleRemoved({ dislikeReasonId: command })
-  else
-    toast.error(res.message)
+  try {
+    const res = await sendWebDislikeFeedback(props.video, reasonId)
+    if (res.code === 0)
+      handleRemoved({ dislikeReasonId: command })
+    else
+      toast.error(res.message)
+  }
+  catch (error) {
+    console.error(error)
+    toast.error(t('common.operation_failed'))
+  }
 }
 
 function handleAppMoreCommand(command: ThreePointV2Type) {

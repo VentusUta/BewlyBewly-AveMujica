@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { Icon } from '@iconify/vue'
 import type { CSSProperties } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useToast } from 'vue-toastification'
 
 import Button from '~/components/Button.vue'
@@ -39,6 +40,7 @@ interface Props {
   moreBtn?: boolean
 }
 
+const { t } = useI18n()
 const toast = useToast()
 const { mainAppRef, openIframeDrawer } = useBewlyApp()
 const { setActivatedCover } = useMainStore()
@@ -258,6 +260,9 @@ function handleUndo() {
       else {
         toast.error(res.message)
       }
+    }).catch((error) => {
+      console.error(error)
+      toast.error(t('common.operation_failed'))
     })
   }
   else {
