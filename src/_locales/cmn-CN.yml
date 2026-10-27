@@ -441,6 +441,7 @@ dock:
 video_card:
   operation:
     not_interested: 不感兴趣
+    not_interested_in_uploader: 不想看此UP主
     open_in_new_tab: 新标签页打开
     open_in_new_window: 新窗口打开
     open_in_current_tab: 当前标签页打开

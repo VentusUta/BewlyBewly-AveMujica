@@ -8,7 +8,7 @@ import { Type as ThreePointV2Type } from '~/models/video/appForYou'
 import { getCSRF, openLinkToNewTab } from '~/utils/main'
 
 import type { Video } from '../types'
-import { blockUploader, VideoMoreCommand } from '../utils'
+import { blockUploader, getWebDislikeReasonId, sendWebDislikeFeedback, VideoMoreCommand } from '../utils'
 import DislikeDialog from './components/DislikeDialog.vue'
 
 const props = defineProps<{
@@ -57,13 +57,14 @@ function scrollToBottom() {
 
 const getVideoType = inject<() => string>('getVideoType')!
 
-const videoOptions = reactive<{ id: VideoMoreCommand, name: string }[]>([
-  { id: VideoMoreCommand.NotInterestedVideo, name: '不感兴趣（仅在app推荐模式下有效）' },
-  { id: VideoMoreCommand.NotInterestedUploader, name: '不想看此UP主（仅在app推荐模式下有效）' },
+const { t } = useI18n()
+
+const videoOptions = computed((): { id: VideoMoreCommand, name: string }[] => [
+  { id: VideoMoreCommand.NotInterestedVideo, name: t('video_card.operation.not_interested') },
+  { id: VideoMoreCommand.NotInterestedUploader, name: t('video_card.operation.not_interested_in_uploader') },
   { id: VideoMoreCommand.BlockUploader, name: '一键拉黑' },
 ])
 
-const { t } = useI18n()
 const showContextMenu = ref<boolean>(false)
 const showDislikeDialog = ref<boolean>(false)
 const showPipWindow = ref<boolean>(false)
@@ -130,8 +131,8 @@ onMounted(() => {
 })
 
 async function handleMoreCommand(command: VideoMoreCommand) {
+  const toast = useToast()
   if (command === VideoMoreCommand.BlockUploader) {
-    const toast = useToast()
     const authorMid = Array.isArray(props.video.author)
       ? props.video.author[0]?.mid
       : props.video.author?.mid
@@ -142,10 +143,20 @@ async function handleMoreCommand(command: VideoMoreCommand) {
     else {
       toast.error('拉黑失败')
     }
+    return
   }
-  else {
+
+  const reasonId = getWebDislikeReasonId(props.video, command)
+  if (!reasonId) {
     handleRemoved({ dislikeReasonId: command })
+    return
   }
+
+  const res = await sendWebDislikeFeedback(props.video, reasonId)
+  if (res.code === 0)
+    handleRemoved({ dislikeReasonId: command })
+  else
+    toast.error(res.message)
 }
 
 function handleAppMoreCommand(command: ThreePointV2Type) {

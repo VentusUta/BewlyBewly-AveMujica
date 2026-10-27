@@ -448,6 +448,7 @@ dock:
 video_card:
   operation:
     not_interested: Not Interested
+    not_interested_in_uploader: Not Interested in This Uploader
     open_in_new_tab: Open in New Tab
     open_in_new_window: Open in New Window
     open_in_current_tab: Open in Current Tab

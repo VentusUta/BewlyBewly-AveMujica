@@ -553,6 +553,9 @@ defineExpose({
             publishedTimestamp: video.item.pubdate,
             bvid: video.item.bvid,
             cid: video.item.cid,
+            goto: video.item.goto,
+            trackId: video.item.track_id,
+            dislikeSwitch: !!video.item.dislike_switch,
           } : undefined"
           show-preview
           :horizontal="gridLayout !== 'adaptive'"

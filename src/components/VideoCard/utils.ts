@@ -1,9 +1,39 @@
+import api from '~/utils/api'
+import { getCSRF } from '~/utils/main'
+import { signWbiQuery } from '~/utils/wbi'
+import { loadWbiMixinKey } from '~/utils/wbiKey'
+
 import type { Author, Video } from './types'
 
 export enum VideoMoreCommand {
   NotInterestedVideo = 1,
   NotInterestedUploader = 2,
   BlockUploader = 3,
+}
+
+const WEB_DISLIKE_REASON_IDS = new Map([
+  [VideoMoreCommand.NotInterestedVideo, 1],
+  [VideoMoreCommand.NotInterestedUploader, 4],
+])
+
+export function getWebDislikeReasonId(video: Video, command: VideoMoreCommand) {
+  if (video.dislikeSwitch && video.trackId)
+    return WEB_DISLIKE_REASON_IDS.get(command)
+}
+
+export async function sendWebDislikeFeedback(video: Video, reasonId: number, cancel = false) {
+  const mixinKey = await loadWbiMixinKey()
+  const wbiParams = mixinKey ? Object.fromEntries(new URLSearchParams(signWbiQuery({}, mixinKey))) : {}
+  const params = {
+    goto: video.goto,
+    id: video.id,
+    mid: Array.isArray(video.author) ? video.author[0]?.mid : video.author?.mid,
+    track_id: video.trackId,
+    reason_id: reasonId,
+    csrf: getCSRF(),
+    ...wbiParams,
+  }
+  return cancel ? api.video.undoDislikeWebVideo(params) : api.video.dislikeWebVideo(params)
 }
 
 export function getAuthorJumpUrl(author?: Author) {

@@ -16,7 +16,7 @@ import { getCSRF, removeHttpFromUrl } from '~/utils/main'
 
 import Tooltip from '../Tooltip.vue'
 import type { Video } from './types'
-import { getCurrentTime, getCurrentVideoUrl, unblockUploader, VideoMoreCommand } from './utils'
+import { getCurrentTime, getCurrentVideoUrl, getWebDislikeReasonId, sendWebDislikeFeedback, unblockUploader, VideoMoreCommand } from './utils'
 import VideoCardAuthorAvatar from './VideoCardAuthor/components/VideoCardAuthorAvatar.vue'
 import VideoCardAuthorName from './VideoCardAuthor/components/VideoCardAuthorName.vue'
 import VideoCardContextMenu from './VideoCardContextMenu/VideoCardContextMenu.vue'
@@ -200,6 +200,10 @@ function handleMoreBtnClick(event: MouseEvent) {
 }
 
 function handleUndo() {
+  const webDislikeReasonId = props.video && removedAction.value
+    ? getWebDislikeReasonId(props.video, removedAction.value)
+    : undefined
+
   if (removedAction.value === VideoMoreCommand.BlockUploader) {
     const authorMid = Array.isArray(props.video?.author)
       ? props.video?.author[0]?.mid
@@ -234,6 +238,18 @@ function handleUndo() {
       ...params,
       sign: getTvSign(params),
     }).then((res) => {
+      if (res.code === 0) {
+        removed.value = false
+        removedAction.value = undefined
+        selectedDislikeOpt.value = undefined
+      }
+      else {
+        toast.error(res.message)
+      }
+    })
+  }
+  else if (props.video && webDislikeReasonId) {
+    sendWebDislikeFeedback(props.video, webDislikeReasonId, true).then((res) => {
       if (res.code === 0) {
         removed.value = false
         removedAction.value = undefined

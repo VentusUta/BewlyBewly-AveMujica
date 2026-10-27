@@ -37,6 +37,10 @@ export interface Video {
   rank?: number
   type?: 'horizontal' | 'vertical' | 'bangumi'
   threePointV2: ThreePointV2[]
+  /** Web recommendations only: required to send "not interested" feedback */
+  trackId?: string
+  /** Web recommendations only: whether bilibili accepts "not interested" feedback for this video */
+  dislikeSwitch?: boolean
 
   badge?: {
     bgColor: string

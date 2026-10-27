@@ -427,6 +427,7 @@ dock:
 video_card:
   operation:
     not_interested: 唔鍾意
+    not_interested_in_uploader: 唔想睇呢個UP主
     open_in_new_tab: 新分頁開啓
     open_in_new_window: 新視窗開啓
     open_in_current_tab: 目前分頁開啓

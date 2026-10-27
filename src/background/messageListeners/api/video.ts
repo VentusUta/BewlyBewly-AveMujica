@@ -75,6 +75,60 @@ const API_VIDEO = {
     },
     afterHandle: AHS.J_D,
   },
+  dislikeWebVideo: {
+    url: 'https://api.bilibili.com/x/web-interface/feedback/dislike',
+    _fetch: {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      },
+      body: {
+        app_id: 100,
+        platform: 5,
+        from_spmid: '',
+        spmid: '333.1007.0.0',
+        goto: '',
+        id: 0,
+        mid: 0,
+        track_id: '',
+        feedback_page: 1,
+        reason_id: 1,
+        csrf: '',
+      },
+    },
+    params: {
+      wts: '',
+      w_rid: '',
+    },
+    afterHandle: AHS.J_D,
+  },
+  undoDislikeWebVideo: {
+    url: 'https://api.bilibili.com/x/web-interface/feedback/dislike/cancel',
+    _fetch: {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      },
+      body: {
+        app_id: 100,
+        platform: 5,
+        from_spmid: '',
+        spmid: '333.1007.0.0',
+        goto: '',
+        id: 0,
+        mid: 0,
+        track_id: '',
+        feedback_page: 1,
+        reason_id: 1,
+        csrf: '',
+      },
+    },
+    params: {
+      wts: '',
+      w_rid: '',
+    },
+    afterHandle: AHS.J_D,
+  },
   // https://socialsisteryi.github.io/bilibili-API-collect/docs/video/info.html#%E8%8E%B7%E5%8F%96%E8%A7%86%E9%A2%91%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF-web%E7%AB%AF
   getVideoInfo: {
     url: 'https://api.bilibili.com/x/web-interface/view',
