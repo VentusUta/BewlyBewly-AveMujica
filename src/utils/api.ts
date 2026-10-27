@@ -70,7 +70,10 @@ async function request(message: Message) {
   if (pageApi)
     return fetchFromPage(message, pageApi)
 
-  return sendToBackground(message)
+  const res = await sendToBackground(message)
+  if (res === undefined)
+    throw new Error(`No response from background: ${message.contentScriptQuery}`)
+  return res
 }
 
 // eslint-disable-next-line ts/no-unsafe-declaration-merging

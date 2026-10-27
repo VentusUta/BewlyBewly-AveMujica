@@ -17,7 +17,10 @@ function toData(data: Promise<any>): Promise<any> {
 // if need sendResponse, use this
 // return a FetchAfterHandler function
 function sendResponseHandler(sendResponse: SendResponse) {
-  return (data: any) => sendResponse(data)
+  return (data: any) => {
+    sendResponse(data)
+    return data
+  }
 }
 
 // 定义后处理流

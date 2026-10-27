@@ -124,6 +124,7 @@ function toggleWatchLater() {
         else
           toast.error(res.message)
       })
+      .catch(handleWatchLaterError)
   }
   else {
     api.watchlater.removeFromWatchLater({
@@ -136,7 +137,13 @@ function toggleWatchLater() {
         else
           toast.error(res.message)
       })
+      .catch(handleWatchLaterError)
   }
+}
+
+function handleWatchLaterError(error: unknown) {
+  console.error(error)
+  toast.error(t('common.operation_failed'))
 }
 
 function handleMouseEnter() {
