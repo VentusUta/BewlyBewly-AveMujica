@@ -278,14 +278,15 @@ provide('getVideoType', () => props.type!)
     transform="~ translate-z-0"
     mb-4
   >
-    <div v-if="!skeleton && video">
+    <div v-if="!skeleton && video" h="full">
       <div
         class="video-card group"
-        w="full"
+        w="full" h="full"
         rounded="$bew-radius"
       >
         <ALink
           class="video-card-link"
+          h="full"
           :style="{ display: horizontal ? 'flex' : 'block', gap: horizontal ? '1.5rem' : '0' }"
           :href="videoUrl"
           type="videoCard"
