@@ -1,6 +1,6 @@
 .bewly-design.momentsPage {
   .bili-dyn-home--member {
-    // margin-top: 10px;
+    /* margin-top: 10px; */
   }
 
   #app .bg {
@@ -9,7 +9,7 @@
     height: 100%;
   }
 
-  // #region new moments page
+  /* #region new moments page */
   #app .bgc {
     background-color: var(--bew-homepage-bg) !important;
   }
@@ -134,20 +134,20 @@
       box-shadow: 0 0 0 5px white;
     }
   }
-  // #endregion
+  /* #endregion */
 
-  // #region Old moments page
+  /* #region Old moments page */
   .international-header {
     visibility: hidden;
     margin-bottom: 10px;
   }
 
-  // .bili-dyn-home--member {
-  //   .bili-dyn-live-users,
-  //   aside section.sticky {
-  //     top: 70px !important;
-  //   }
-  // }
+  /* .bili-dyn-home--member { */
+  /*   .bili-dyn-live-users, */
+  /*   aside section.sticky { */
+  /*     top: 70px !important; */
+  /*   } */
+  /* } */
 
   .bili-dyn-my-info__stat__item:hover > div:first-child,
   .bili-dyn-up-list__item.active .bili-dyn-up-list__item__name,
@@ -381,5 +381,5 @@
     }
   }
 
-  // #endregion
+  /* #endregion */
 }

@@ -1,6 +1,6 @@
 .bewly-design.topicPage {
-  // #region theme color adaption part
-  // Increase the priority of the style inside by writing a non-existent selector in `:not()`
+  /* #region theme color adaption part */
+  /* Increase the priority of the style inside by writing a non-existent selector in `:not()` */
   :not(foobar) {
     .topic-nav button {
       background-color: var(--bew-theme-color);
@@ -31,9 +31,9 @@
       fill: var(--bew-theme-color);
     }
   }
-  // #endregion
+  /* #endregion */
 
-  // #region dark mode adaption part
+  /* #region dark mode adaption part */
   &.dark {
     .topic-detail {
       --bg3: var(--bew-bg);
@@ -56,5 +56,5 @@
       filter: invert(1) hue-rotate(180deg);
     }
   }
-  // #endregion
+  /* #endregion */
 }

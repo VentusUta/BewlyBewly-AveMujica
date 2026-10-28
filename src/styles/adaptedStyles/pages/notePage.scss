@@ -1,6 +1,6 @@
 .bewly-design.notePage {
-  // #region theme color adaption part
-  // Increase the priority of the style inside by writing a non-existent selector in `:not()`
+  /* #region theme color adaption part */
+  /* Increase the priority of the style inside by writing a non-existent selector in `:not()` */
   :not(foobar) {
     #page-series-index .no-channel-container em,
     .manage-note--header .tools-btns .edit-btn--ghost,
@@ -120,9 +120,9 @@
       color: white !important;
     }
   }
-  // #endregion
+  /* #endregion */
 
-  // #region dark mode adaption part
+  /* #region dark mode adaption part */
   &.dark {
     body,
     #app {
@@ -167,8 +167,8 @@
     .el-pagination.is-background .btn-prev,
     .el-pagination.is-background .el-pager li,
     .ql-container,
-    // #web-toolbar,
-    // #web-toolbar .ql-picker-options,
+    /* #web-toolbar, */
+    /* #web-toolbar .ql-picker-options, */
     .view-manage-note,
     .note-tooltip.info,
     .note-list-del-popup {
@@ -255,5 +255,5 @@
       box-shadow: 0 2px 8px rgb(255 255 255 / 20%);
     }
   }
-  // #endregion
+  /* #endregion */
 }

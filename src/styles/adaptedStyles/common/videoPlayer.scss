@@ -4,7 +4,7 @@
     --bpx-toast-fn-hover-color: var(--bew-theme-color-80);
   }
 
-  // https://github.com/BewlyBewly/BewlyBewly/issues/899
+  /* https://github.com/BewlyBewly/BewlyBewly/issues/899 */
   #musicApp {
     .container {
       width: 336px;
@@ -21,8 +21,8 @@
     }
   }
 
-  // #region theme color adaption part
-  // Increase the priority of the style inside by writing a non-existent selector in `:not()`
+  /* #region theme color adaption part */
+  /* Increase the priority of the style inside by writing a non-existent selector in `:not()` */
   :not(foobar) {
     #musicApp {
       .BgmInfo .right .bottom .btn {
@@ -48,9 +48,9 @@
       }
     }
   }
-  // #endregion
+  /* #endregion */
 
-  // #region dark mode adaption part
+  /* #region dark mode adaption part */
   &.dark {
     #musicApp {
       background-color: var(--bew-elevated-solid) !important;
@@ -102,5 +102,5 @@
       }
     }
   }
-  // #endregion
+  /* #endregion */
 }

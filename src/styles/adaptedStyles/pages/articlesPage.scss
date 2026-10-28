@@ -16,8 +16,8 @@
     backdrop-filter: var(--bew-filter-glass-1);
   }
 
-  // #region theme color adaption part
-  // Increase the priority of the style inside by writing a non-existent selector in :not()
+  /* #region theme color adaption part */
+  /* Increase the priority of the style inside by writing a non-existent selector in :not() */
   :not(foobar) {
     .page-content .right-side .rank-module .rank-list .item a:hover,
     .page-content .left-side .article-list .article-list-holder .article-item:hover .item-holder .article-title,
@@ -111,7 +111,7 @@
     }
 
     .nav-tab-bar .tab-item.on {
-      // width: 28px;
+      /* width: 28px; */
       height: 28px;
       overflow: hidden;
 
@@ -132,9 +132,9 @@
     }
   }
 
-  // #endregion
+  /* #endregion */
 
-  // #region dark mode adaption part
+  /* #region dark mode adaption part */
   &.dark {
     .nav-tab-bar .tab-item,
     .page-content .left-side .partitio-name,
@@ -436,5 +436,5 @@
     }
   }
 
-  // #endregion
+  /* #endregion */
 }

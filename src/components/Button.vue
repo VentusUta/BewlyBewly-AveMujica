@@ -79,8 +79,8 @@ function handleClick(evt: MouseEvent) {
   }
 }
 
-// .b-button--type-default {
-// }
+/* .b-button--type-default {
+} */
 
 .b-button--type-primary {
   --b-button-color: var(--bew-theme-color);

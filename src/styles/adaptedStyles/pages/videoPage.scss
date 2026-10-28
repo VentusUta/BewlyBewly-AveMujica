@@ -5,7 +5,7 @@
     display: none;
   }
 
-  // ai 小助手
+  /* ai 小助手 */
   [class^="_VideoAssistant"] {
     --app_bg: #f1f6fc;
     --app_graph_bg: #e6ecf4;
@@ -20,9 +20,9 @@
     --app_graph_bg: var(--bew-fill-1);
   }
 
-  // 使视频页和番剧页的底层元素背景透明，以显示 Bewly 背景
+  /* 使视频页和番剧页的底层元素背景透明，以显示 Bewly 背景 */
   &.has-custom-background {
-    // html 保留 var(--bew-bg) 作为底色，避免暗色模式下图片加载前闪白
+    /* html 保留 var(--bew-bg) 作为底色，避免暗色模式下图片加载前闪白 */
     & {
       background: var(--bew-bg) !important;
       background-color: var(--bew-bg) !important;
@@ -38,7 +38,7 @@
     }
   }
 
-  // 弹幕列表相关元素强制背景透明
+  /* 弹幕列表相关元素强制背景透明 */
   &.has-transparent-danmaku-list {
     #danmukuBox.danmaku-box {
       .danmaku-wrap,
@@ -64,11 +64,11 @@
       }
     }
 
-    // 毛玻璃弹幕列表背景
+    /* 毛玻璃弹幕列表背景 */
     .danmaku-wrap .bpx-player-collapse {
       position: relative;
       background: transparent !important;
-      overflow: hidden; // 让毛玻璃背景和圆角生效
+      overflow: hidden; /* 让毛玻璃背景和圆角生效 */
       border-radius: 12px;
     }
 
@@ -79,24 +79,24 @@
       pointer-events: none;
       z-index: 0;
 
-      // 浅色毛玻璃：别太白，否则还是“白块”
+      /* 浅色毛玻璃：别太白，否则还是“白块” */
       background-color: rgba(241, 242, 243, 0.22);
-      // 带前缀的须写在前面，否则 Lightning CSS 压缩时会丢掉标准属性（parcel-bundler/lightningcss#695）
+      /* 带前缀的须写在前面，否则 Lightning CSS 压缩时会丢掉标准属性（parcel-bundler/lightningcss#695） */
       -webkit-backdrop-filter: blur(12px) saturate(120%);
       backdrop-filter: blur(12px) saturate(120%);
 
-      // 轻边框增加层次，缓解“矩形角明显”
-      // 图片底实际效果好看，但纯色底实际效果不太好看，先预留着
-      // border: 1px solid rgba(255, 255, 255, 0.22);
+      /* 轻边框增加层次，缓解“矩形角明显” */
+      /* 图片底实际效果好看，但纯色底实际效果不太好看，先预留着 */
+      /* border: 1px solid rgba(255, 255, 255, 0.22); */
     }
 
     .danmaku-wrap .bpx-player-collapse > * {
       position: relative;
-      z-index: 1; // 内容在毛玻璃背景上
+      z-index: 1; /* 内容在毛玻璃背景上 */
     }
   }
 
-  // 毛玻璃视频合集列表背景
+  /* 毛玻璃视频合集列表背景 */
   &.has-transparent-video-pod {
     .video-pod {
       position: relative;
@@ -116,8 +116,8 @@
       -webkit-backdrop-filter: blur(12px) saturate(120%);
       backdrop-filter: blur(12px) saturate(120%);
 
-      // 图片底实际效果好看，但纯色底实际效果不太好看，先预留着
-      // border: 1px solid rgba(255, 255, 255, 0.22);
+      /* 图片底实际效果好看，但纯色底实际效果不太好看，先预留着 */
+      /* border: 1px solid rgba(255, 255, 255, 0.22); */
     }
 
     .video-pod > * {
@@ -126,8 +126,8 @@
     }
   }
 
-  // #region theme color adaption part
-  // Increase the priority of the style inside by writing a non-existent selector in `:not()`
+  /* #region theme color adaption part */
+  /* Increase the priority of the style inside by writing a non-existent selector in `:not()` */
   :not(foobar) {
     .content .group-list li input[type="checkbox"] + i {
       border-radius: 5px;
@@ -285,7 +285,7 @@
       border-color: var(--bew-theme-color-80);
     }
 
-    // Tick icon for  danmaku enable
+    /* Tick icon for  danmaku enable */
     .bui-danmaku-switch
       .bui-danmaku-switch-input:checked
       + .bui-danmaku-switch-label
@@ -353,7 +353,7 @@
       stroke: var(--bew-theme-color);
     }
 
-    // AI视频总结
+    /* AI视频总结 */
     .video-ai-assistant .video-ai-assistant-info {
       -webkit-text-fill-color: var(--bew-theme-color);
     }
@@ -379,9 +379,9 @@
     }
   }
 
-  // #endregion
+  /* #endregion */
 
-  // #region dark mode adaption part
+  /* #region dark mode adaption part */
   &.dark {
     .video-ai-assistant .video-ai-assistant-bg::before,
     .note-pc .note-container .note-header .back-note-list:hover,
@@ -443,7 +443,7 @@
     }
 
     .app .navbar {
-      background-color: var(--bew-bg) !important; // 稿件举报窗
+      background-color: var(--bew-bg) !important; /* 稿件举报窗 */
     }
 
     .resizable-component .editor-innter {
@@ -507,19 +507,19 @@
       box-shadow: 0 0 0 5px white;
     }
 
-    // 黑暗模式毛玻璃弹幕列表背景
+    /* 黑暗模式毛玻璃弹幕列表背景 */
     &.has-transparent-danmaku-list {
       .danmaku-wrap .bpx-player-collapse::before {
         background-color: rgba(22, 23, 29, 0.22);
       }
     }
 
-    // 黑暗模式毛玻璃视频合集列表背景
+    /* 黑暗模式毛玻璃视频合集列表背景 */
     &.has-transparent-video-pod {
       .video-pod::before {
         background-color: rgba(22, 23, 29, 0.22);
       }
     }
   }
-  //  #endregion
+  /*  #endregion */
 }

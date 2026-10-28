@@ -1,5 +1,5 @@
-// B站|bilibili 分P视频详情页优化
-// https://greasyfork.org/zh-CN/scripts/490676-b站-bilibili-分p视频详情页优化
+/* B站|bilibili 分P视频详情页优化 */
+/* https://greasyfork.org/zh-CN/scripts/490676-b站-bilibili-分p视频详情页优化 */
 
 .bewly-design.videoPage {
   .video-pod__list {
@@ -25,7 +25,7 @@
     }
   }
 
-  // #region dark mode adaption part
+  /* #region dark mode adaption part */
   &.dark {
     .video-pod__list {
       .simple-base-item.normal .title-txt {
@@ -43,5 +43,5 @@
       }
     }
   }
-  // #endregion
+  /* #endregion */
 }

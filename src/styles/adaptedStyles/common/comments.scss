@@ -1,8 +1,8 @@
 .bewly-design {
-  // #region new comments components
+  /* #region new comments components */
 
-  // #region theme color adaption part
-  // Increase the priority of the style inside by writing a non-existent selector in `:not()`
+  /* #region theme color adaption part */
+  /* Increase the priority of the style inside by writing a non-existent selector in `:not()` */
   :not(foobar) {
     .like-icon:hover,
     .like-icon.liked,
@@ -35,12 +35,12 @@
       color: var(--bew-theme-color-80);
     }
 
-    // 登录后发表评论
+    /* 登录后发表评论 */
     .reply-box.disabled .box-normal .reply-box-warp .disable-mask .no-login-mask .login-btn:hover {
       background-color: var(--bew-theme-color-80);
     }
 
-    // 登录后查看评论
+    /* 登录后查看评论 */
     .reply-list .login-prompt:hover {
       background-color: var(--bew-theme-color-40);
     }
@@ -53,18 +53,18 @@
       filter: var(--bew-filter-icon-glow);
     }
   }
-  // #endregion
+  /* #endregion */
 
-  // #region dark mode adaption part
+  /* #region dark mode adaption part */
   &.dark {
-    // 評論人用戶名
+    /* 評論人用戶名 */
     .reply-item .root-reply-container .content-warp .user-info .user-name,
     .sub-reply-item .sub-user-info .sub-user-name {
-      // --520c991b: var(--bew-theme-color);
+      /* --520c991b: var(--bew-theme-color); */
       color: var(--bew-text-1) !important;
     }
 
-    // UP主觉得很赞
+    /* UP主觉得很赞 */
     .reply-item .root-reply-container .content-warp .root-reply .reply-tag-list .reply-tag-item {
       color: var(--bew-text-2) !important;
       background-color: var(--bew-fill-1) !important;
@@ -80,7 +80,7 @@
       background-color: var(--bew-content-solid);
     }
 
-    // Like & dislike icon
+    /* Like & dislike icon */
     .like-icon,
     .dislike-icon,
     .sub-like-icon,
@@ -103,11 +103,11 @@
       filter: invert(1) hue-rotate(180deg);
     }
   }
-  // #endregion
+  /* #endregion */
 
-  // #endregion
+  /* #endregion */
 
-  // #region Old comments components
+  /* #region Old comments components */
   .bb-comment .comment-send .comment-submit,
   .comment-bilibili-fold .comment-send .comment-submit,
   .bb-comment .comment-send-lite .comment-submit,
@@ -219,7 +219,7 @@
     .bb-comment .comment-send-lite.comment-send-lite,
     .comment-bilibili-fold .comment-send-lite.comment-send-lite,
     .comment-wrapper .comment-m {
-      // background-color: var(--bew-content-solid);
+      /* background-color: var(--bew-content-solid); */
       background-color: var(--bew-bg);
     }
 
@@ -256,7 +256,7 @@
       background-color: var(--bew-fill-2);
     }
 
-    // .bb-comment .comment-list .list-item .user .name,
+    /* .bb-comment .comment-list .list-item .user .name, */
     .comment-bilibili-fold .comment-list .list-item .user .name,
     .bb-comment .comment-header .tabs-order li,
     .comment-bilibili-fold .comment-header .tabs-order li,
@@ -312,7 +312,7 @@
       color: var(--bew-text-1);
     }
 
-    // UP主觉得很赞
+    /* UP主觉得很赞 */
     .bb-comment .comment-list .list-item .info .reply-tags span,
     .comment-bilibili-fold .comment-list .list-item .info .reply-tags span {
       background-color: var(--bew-fill-1) !important;
@@ -330,7 +330,7 @@
       background-color: rgba(120, 120, 140, 0.44);
     }
   }
-  // #endregion
+  /* #endregion */
 }
 
 @keyframes jumpReply {

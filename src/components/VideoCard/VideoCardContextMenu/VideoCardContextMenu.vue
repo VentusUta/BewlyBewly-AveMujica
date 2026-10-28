@@ -364,7 +364,7 @@ function handleRemoved(selectedOpt?: { dislikeReasonId: number }) {
 }
 
 .context-menu-list {
-  max-height: calc(80vh - 40px); // 为指示器留出空间
+  max-height: calc(80vh - 40px); /* 为指示器留出空间 */
   overflow-y: auto;
   padding: 4px 0;
 

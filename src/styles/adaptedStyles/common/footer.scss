@@ -1,6 +1,6 @@
 .bewly-design {
-  // #region theme color adaption part
-  // Increase the priority of the style inside by writing a non-existent selector in :not()
+  /* #region theme color adaption part */
+  /* Increase the priority of the style inside by writing a non-existent selector in :not() */
   :not(foobar) {
     .bili-footer a:hover,
     .international-footer a:hover,
@@ -9,9 +9,9 @@
       color: var(--bew-theme-color);
     }
   }
-  // #endregion
+  /* #endregion */
 
-  // #region dark mode adaption part
+  /* #region dark mode adaption part */
   &.dark {
     .bili-footer a,
     .international-footer a,
@@ -39,5 +39,5 @@
       border-color: var(--bew-border-color);
     }
   }
-  // #endregion
+  /* #endregion */
 }

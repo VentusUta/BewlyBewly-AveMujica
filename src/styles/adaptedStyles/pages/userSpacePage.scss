@@ -1,7 +1,7 @@
 .bewly-design.userSpacePage {
-  // #region new user space page
+  /* #region new user space page */
 
-  // #region resolve https://github.com/BewlyBewly/BewlyBewly/issues/1157
+  /* #region resolve https://github.com/BewlyBewly/BewlyBewly/issues/1157 */
   .header .header-toutu {
     z-index: 0;
   }
@@ -10,7 +10,7 @@
   .header .header-upinfo {
     z-index: 1;
   }
-  // #endregion
+  /* #endregion */
 
   .header .header-upinfo-bg-shadow .top {
     opacity: 0.6;
@@ -20,9 +20,9 @@
     background-color: var(--bew-elevated);
     backdrop-filter: var(--bew-filter-glass-1);
   }
-  // #endregion
+  /* #endregion */
 
-  // #region old user space page
+  /* #region old user space page */
   .wrapper .edit-video-modal .target-favlist {
     padding: 12px 36px;
   }
@@ -51,11 +51,11 @@
     position: fixed;
   }
 
-  // #region theme color adaption part
-  // Increase the priority of the style inside by writing a non-existent selector in :not()
-  // 淺色模式下主要對 theme color 調整配合 bewlybewly 配色
-  // 深色模式下才對主要邊框和背景色調整
-  // 淺色模式下顏色避免太大調整
+  /* #region theme color adaption part */
+  /* Increase the priority of the style inside by writing a non-existent selector in :not() */
+  /* 淺色模式下主要對 theme color 調整配合 bewlybewly 配色 */
+  /* 深色模式下才對主要邊框和背景色調整 */
+  /* 淺色模式下顏色避免太大調整 */
   :not(foobar) {
     .n .n-btn.active,
     .be-tab-item.is-active,
@@ -322,7 +322,7 @@
         50% / 9px;
     }
 
-    // 處理性別圖標背景顔色
+    /* 處理性別圖標背景顔色 */
 
     .upinfo .gender:has(.sic-BDC-male_line) {
       background-color: var(--bew-bili-blue) !important;
@@ -333,10 +333,10 @@
     }
   }
 
-  // #endregion
+  /* #endregion */
 
-  // #region dark mode adaption part
-  // 深色模式下對主題顏色調整
+  /* #region dark mode adaption part */
+  /* 深色模式下對主題顏色調整 */
   &.dark {
     .bili-dyn-item,
     .bili-dyn-item * {
@@ -584,7 +584,7 @@
     #page-fav .fav-sidenav .nav-title .text,
     .be-dropdown-item,
     a,
-    // span,
+    /* span, */
     .create-wrapper .dialog-title,
     .create-wrapper .create-input .command,
     .create-wrapper .choose-action .back-btn,
@@ -801,6 +801,6 @@
       opacity: 0.6;
     }
   }
-  // #endregion
-  // #endregion
+  /* #endregion */
+  /* #endregion */
 }

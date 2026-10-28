@@ -15,8 +15,8 @@
     }
   }
 
-  // #region theme color adaption part
-  // Increase the priority of the style inside by writing a non-existent selector in :not()
+  /* #region theme color adaption part */
+  /* Increase the priority of the style inside by writing a non-existent selector in :not() */
   :not(foobar) {
     .clickable,
     .area-code-select .checked {
@@ -39,9 +39,9 @@
       fill: var(--bew-theme-color) !important;
     }
   }
-  // #endregion
+  /* #endregion */
 
-  // #region dark mode adaption part
+  /* #region dark mode adaption part */
   &.dark {
     #app {
       background-color: var(--bew-bg);
@@ -95,5 +95,5 @@
       filter: invert(1) hue-rotate(180deg);
     }
   }
-  // #endregion
+  /* #endregion */
 }

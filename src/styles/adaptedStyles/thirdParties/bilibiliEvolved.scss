@@ -1,8 +1,8 @@
-// Bilibili Evolved
-// https://github.com/the1812/Bilibili-Evolved
+/* Bilibili Evolved */
+/* https://github.com/the1812/Bilibili-Evolved */
 
 .bewly-design {
-  // Adapt the colors of the two Bilibili Evolved's buttons on the left side to BewlyBewly theme
+  /* Adapt the colors of the two Bilibili Evolved's buttons on the left side to BewlyBewly theme */
   .be-settings > .sidebar > * {
     background-color: var(--bew-elevated-solid) !important;
     opacity: 0.4;
@@ -18,7 +18,7 @@
   }
 
   &.dark {
-    // Bilibili Evolved's top bar
+    /* Bilibili Evolved's top bar */
     .custom-navbar.blur:not(.transparent, .fill) {
       --navbar-background: var(--bew-elevated);
       --navbar-foreground: var(--bew-text-1);
@@ -29,12 +29,12 @@
       --navbar-foreground: var(--bew-text-1);
     }
 
-    // 動態過濾
+    /* 動態過濾 */
     .feeds-filter {
       background-color: var(--bew-content-solid);
     }
 
-    // 評論區 -> 收起評論
+    /* 評論區 -> 收起評論 */
     .bb-comment .fold-comment,
     .bili-comment-container .fold-comment {
       background-color: var(--bew-content-solid);
@@ -45,7 +45,7 @@
       }
     }
 
-    // 直播信息擴充
+    /* 直播信息擴充 */
     .be-live-list {
       background-color: var(--bew-content-solid);
       color: var(--bew-text-1);

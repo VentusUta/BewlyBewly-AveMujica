@@ -14,9 +14,9 @@
     pointer-events: none;
   }
 
-  // 使视频页和番剧页的底层元素背景透明，以显示 Bewly 背景
+  /* 使视频页和番剧页的底层元素背景透明，以显示 Bewly 背景 */
   &.has-custom-background {
-    // html 保留 var(--bew-bg) 作为底色，避免暗色模式下图片加载前闪白
+    /* html 保留 var(--bew-bg) 作为底色，避免暗色模式下图片加载前闪白 */
     & {
       background: var(--bew-bg) !important;
       background-color: var(--bew-bg) !important;
@@ -32,7 +32,7 @@
     }
   }
 
-  // #region new anime playback & movie page
+  /* #region new anime playback & movie page */
   [class*="numberListItem_number_list_item"][class*="numberListItem_select"],
   [class*="follow_btnFollow"],
   .squirtle-controller.squirtle-pgc .squirtle-progress-timeline,
@@ -121,9 +121,9 @@
     fill: var(--bew-theme-color);
   }
 
-  // #bilibili_pbp svg rect[clip-path='url(#pbp-played-path)'] {
-  //   fill: var(--bew-theme-color) !important;
-  // }
+  /* #bilibili_pbp svg rect[clip-path='url(#pbp-played-path)'] { */
+  /*   fill: var(--bew-theme-color) !important; */
+  /* } */
 
   [class*="PlayingIcon_playIcon"] svg path {
     stroke: var(--bew-theme-color);
@@ -231,9 +231,9 @@
     }
   }
 
-  // #endregion
+  /* #endregion */
 
-  // #region Old anime playback & movie page
+  /* #region Old anime playback & movie page */
   .main-container .tool-bar .coin-info.active i,
   .main-container .tool-bar .coin-info:hover i,
   .main-container .tool-bar .like-info.active i,
@@ -405,5 +405,5 @@
     }
   }
 
-  // #endregion
+  /* #endregion */
 }

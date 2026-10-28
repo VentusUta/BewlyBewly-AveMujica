@@ -1,5 +1,5 @@
 .bewly-design.fansMedalWallPage {
-  // #region theme color adaption part
+  /* #region theme color adaption part */
   :not(foobar) {
     .content .info .num .progress .blue,
     .content .btn {
@@ -19,9 +19,9 @@
       background: var(--bew-theme-color);
     }
   }
-  // #endregion
+  /* #endregion */
 
-  // #region dark mode adaption part
+  /* #region dark mode adaption part */
   &.dark {
     & {
       background: var(--bew-bg) !important;
@@ -123,5 +123,5 @@
       color: var(--bew-theme-color);
     }
   }
-  // #endregion
+  /* #endregion */
 }

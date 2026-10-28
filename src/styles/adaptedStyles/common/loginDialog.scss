@@ -1,14 +1,14 @@
 .bewly-design {
-  // #region theme color adaption part
-  // Increase the priority of the style inside by writing a non-existent selector in `:not()`
+  /* #region theme color adaption part */
+  /* Increase the priority of the style inside by writing a non-existent selector in `:not()` */
   :not(foobar) {
-    // 视频页 | 番剧播放页
+    /* 视频页 | 番剧播放页 */
     .bili-mini,
     .el-select-dropdown,
-    // 空间页 | 搜索页 | 电影播放页 | 专栏页 | 番剧页 | 国创动漫页 | 首页(未登录情况下等待一段时间后会弹)
+    /* 空间页 | 搜索页 | 电影播放页 | 专栏页 | 番剧页 | 国创动漫页 | 首页(未登录情况下等待一段时间后会弹) */
     .bili-mini-mask {
-      // 密码输入框的眼睛组件
-      // 使用 !important 可能不是一个好的解决方法, 但这是我找到的唯一一个可行的方法
+      /* 密码输入框的眼睛组件 */
+      /* 使用 !important 可能不是一个好的解决方法, 但这是我找到的唯一一个可行的方法 */
       .eye-btn {
         --thememini-color: var(--bew-theme-color) !important;
       }
@@ -49,9 +49,9 @@
       }
     }
   }
-  // #endregion
+  /* #endregion */
 
-  // #region dark mode adaption part
+  /* #region dark mode adaption part */
   &.dark {
     .bili-mini,
     .el-select-dropdown,
@@ -98,7 +98,7 @@
         background-color: var(--bew-content-solid);
       }
 
-      &.el-popper,  // & -> .el-select-dropdown
+      &.el-popper,  /* & -> .el-select-dropdown */
       .area-code-select {
         background-color: var(--bew-elevated-solid);
       }
@@ -129,7 +129,7 @@
         background-color: white;
       }
 
-      &.el-popper,  // & -> .el-select-dropdown
+      &.el-popper,  /* & -> .el-select-dropdown */
       .btn_other,
       .tab__form,
       .tab__form .form__separator-line,
@@ -143,12 +143,12 @@
         border-color: var(--bew-border-color);
       }
 
-      // & -> .el-select-dropdown
+      /* & -> .el-select-dropdown */
       &.el-popper[x-placement^="bottom"] .popper__arrow {
         border-bottom-color: var(--bew-border-color);
       }
 
-      // & -> .el-select-dropdown
+      /* & -> .el-select-dropdown */
       &.el-popper[x-placement^="bottom"] .popper__arrow:after {
         border-bottom-color: var(--bew-content-alt-solid);
       }
@@ -168,7 +168,7 @@
         border-radius: 10px;
       }
 
-      // 弹窗窗口关闭按钮
+      /* 弹窗窗口关闭按钮 */
       .bili-mini-close-icon {
         filter: invert(1);
       }
@@ -177,11 +177,11 @@
         display: none;
       }
 
-      // 因为隐藏了 .forget-tip .arrow , 所以这里调整一下位置
+      /* 因为隐藏了 .forget-tip .arrow , 所以这里调整一下位置 */
       .forget-tip {
         top: 40px;
       }
     }
   }
-  // #endregion
+  /* #endregion */
 }

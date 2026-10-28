@@ -32,8 +32,8 @@
     border-color: var(--bew-border-color);
   }
 
-  // #region theme color adaption part
-  // Increase the priority of the style inside by writing a non-existent selector in :not()
+  /* #region theme color adaption part */
+  /* Increase the priority of the style inside by writing a non-existent selector in :not() */
   :not(fjdslfds) {
     .channel-swiper .channel-carousel-tool .channel-nav-click li.active,
     .hot-module .left .goto,
@@ -58,9 +58,9 @@
       color: var(--bew-theme-color);
     }
   }
-  // #endregion
+  /* #endregion */
 
-  // #region dark mode adaption part
+  /* #region dark mode adaption part */
   &.dark {
     .channel-swiper .channel-carousel-tool .channel-nav-click li {
       background-color: var(--bew-fill-1);
@@ -74,5 +74,5 @@
       background-color: transparent;
     }
   }
-  // #endregion
+  /* #endregion */
 }

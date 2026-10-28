@@ -53,7 +53,7 @@ html.bewly-design > ::-webkit-scrollbar-track {
 
 html.bewly-design,
 .bewly-design body {
-  // font-size: 14px !important;
+  /* font-size: 14px !important; */
   min-width: unset !important;
   filter: none !important;
   color: var(--bew-text-1);
@@ -77,7 +77,7 @@ html.dark.bewly-design {
   }
 }
 
-// Adjust broken image icon
+/* Adjust broken image icon */
 img {
   position: relative;
 
@@ -150,12 +150,12 @@ img {
   }
 }
 
-// Prevent the scrollbar from being covered by the other elements
+/* Prevent the scrollbar from being covered by the other elements */
 .os-scrollbar {
   --uno: "z-100000";
 }
 
-// Change OverlayScrollbar color
+/* Change OverlayScrollbar color */
 .os-scrollbar .os-scrollbar-handle {
   --os-handle-bg: rgba(120, 120, 140, 0.44);
   --os-handle-bg-hover: rgba(120, 120, 140, 0.55);

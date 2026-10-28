@@ -1,5 +1,5 @@
 .bewly-design.watchLaterPage {
-  // #region new watch later page
+  /* #region new watch later page */
 
   .watchlater-list-nav.fixed {
     background-color: var(--bew-elevated);
@@ -10,12 +10,12 @@
     background-color: transparent;
   }
 
-  // #endregion
+  /* #endregion */
 
-  // #region old watch later page
+  /* #region old watch later page */
 
-  // #region theme color adaption part
-  // Increase the priority of the style inside by writing a non-existent selector in :not()
+  /* #region theme color adaption part */
+  /* Increase the priority of the style inside by writing a non-existent selector in :not() */
   :not(foobar) {
     .watch-later-list header .s-btn,
     .bili-dialog .con .btn-box .btn-submit,
@@ -51,9 +51,9 @@
       background-color: transparent;
     }
   }
-  // #endregion
+  /* #endregion */
 
-  // #region dark mode adaption part
+  /* #region dark mode adaption part */
   &.dark {
     .watch-later-list .list-box .av-item .key,
     .watch-later-list .list-box .av-item .av-about .t,
@@ -87,7 +87,7 @@
       background-color: var(--bew-elevated-solid);
     }
   }
-  // #endregion
+  /* #endregion */
 
-  // #endregion
+  /* #endregion */
 }

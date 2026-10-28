@@ -1,11 +1,11 @@
 .bewly-design.creativeCenterPage {
-  // #region theme color adaption part
-  // Increase the priority of the style inside by writing a non-existent selector in `:not()`
-  // :not(foobar) {
-  // }
-  // #endregion
+  /* #region theme color adaption part */
+  /* Increase the priority of the style inside by writing a non-existent selector in `:not()` */
+  /* :not(foobar) { */
+  /* } */
+  /* #endregion */
 
-  // #region dark mode adaption part
+  /* #region dark mode adaption part */
   &.dark {
     #appeal-main .err-wrapper.err-no-list,
     .loading_wrap .loading .animate,
@@ -17,13 +17,13 @@
     .bmc-video-card .video-preview__duration,
     .setting .watermark-setting .watermark-wrp .watermark-position-wrp,
     .chief-recommend-module .carousel-box .carousel-module .panel .title,
-    // Cover editor (封面制作): only un-invert media so dark chrome stays.
-    // Previews are canvas-based; forceDark.scss only corrects img/video/iframe.
-    // https://github.com/VentusUta/BewlyBewly-AveMujica/issues/90
+    /* Cover editor (封面制作): only un-invert media so dark chrome stays. */
+    /* Previews are canvas-based; forceDark.scss only corrects img/video/iframe. */
+    /* https://github.com/VentusUta/BewlyBewly-AveMujica/issues/90 */
     .cover-editor canvas,
     micro-app[name="video-up"] .color-picker-color .list,
     micro-app[name="video-up"] .tool-bar-text .btn-color,
-    // Bilibili sidebar
+    /* Bilibili sidebar */
     .be-settings > .sidebar {
       filter: var(--bew-filter-force-dark);
     }
@@ -54,5 +54,5 @@
       background: unset;
     }
   }
-  // #endregion
+  /* #endregion */
 }

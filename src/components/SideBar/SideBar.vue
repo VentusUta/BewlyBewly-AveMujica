@@ -137,7 +137,7 @@ function toggleHideSidebar(hide: boolean) {
   }
 
   &::after {
-    // safety area
+    /* safety area */
     --uno: "content-empty absolute w-[calc(100%+12px)] h-[calc(100%+12px)] left--6px right--6px z--1";
   }
 }

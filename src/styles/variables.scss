@@ -1,8 +1,8 @@
-// `:host` here must stay scoped to #bewly (our own shadow host, see contentScripts/index.ts).
-// Safari applies extension content styles as user stylesheets, and WebKit injects
-// user stylesheets into every shadow tree on the page — a bare `:host` would then
-// match third-party shadow hosts too (e.g. bilibili's <bili-comments>) and leak
-// light theme variables into them, making comment text unreadable in dark mode.
+/* `:host` here must stay scoped to #bewly (our own shadow host, see contentScripts/index.ts). */
+/* Safari applies extension content styles as user stylesheets, and WebKit injects */
+/* user stylesheets into every shadow tree on the page — a bare `:host` would then */
+/* match third-party shadow hosts too (e.g. bilibili's <bili-comments>) and leak */
+/* light theme variables into them, making comment text unreadable in dark mode. */
 :host(#bewly),
 :root {
   --bew-page-max-width: 2280px;
@@ -14,55 +14,55 @@
 
   --bew-top-bar-height: 64px;
 
-  // #region Filters
-  // Use this in all components (except dialogs) if you want to add a frosted glass effect
+  /* #region Filters */
+  /* Use this in all components (except dialogs) if you want to add a frosted glass effect */
   --bew-filter-glass-1: blur(20px) saturate(180%);
 
-  // Use this in dialogs if you want to add a frosted glass effect
+  /* Use this in dialogs if you want to add a frosted glass effect */
   --bew-filter-glass-2: blur(30px) saturate(180%);
 
-  // Apply this to the Bilibili icon if it is an image with the brand's original blue or pink color
-  // Change it to glow effect to matches the user's theme color
+  /* Apply this to the Bilibili icon if it is an image with the brand's original blue or pink color */
+  /* Change it to glow effect to matches the user's theme color */
   --bew-filter-icon-glow: saturate(0) brightness(2) drop-shadow(0 0 0.2px white)
     drop-shadow(0 0 0.5px var(--bew-theme-color)) drop-shadow(0 0 0.5px var(--bew-theme-color))
     drop-shadow(0 0 0.5px var(--bew-theme-color)) drop-shadow(0 0 2px var(--bew-theme-color-80));
-  // #endregion
+  /* #endregion */
 
-  // #region Shadows
-  // The shadows of the card, button, and other slightly elevated components1
+  /* #region Shadows */
+  /* The shadows of the card, button, and other slightly elevated components1 */
   --bew-shadow-1: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.04);
 
-  // The shadows of the top bar, header, elevated fixed buttons/cards and other components that are in the a fixed or sticky position
+  /* The shadows of the top bar, header, elevated fixed buttons/cards and other components that are in the a fixed or sticky position */
   --bew-shadow-2: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.06);
 
-  // The shadows of the popover, dropdown
+  /* The shadows of the popover, dropdown */
   --bew-shadow-3: 0 20px 25px -5px rgb(0 0 0 / 0.12), 0 8px 10px -6px rgb(0 0 0 / 0.08);
 
-  // Only used in the dialog
+  /* Only used in the dialog */
   --bew-shadow-4:
     0 34px 50px -20px rgb(0 0 0 / 0.14), 0 32px 45px -12px rgb(0 0 0 / 0.1), 0 30px 40px -8px rgb(0 0 0 / 0.12);
 
-  // Use this to imitate the frosted glass edge effect in components with a frosted glass design (except dialogs)
+  /* Use this to imitate the frosted glass edge effect in components with a frosted glass design (except dialogs) */
   --bew-shadow-edge-glow-1:
     inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.34), inset -1px -1px 1px -0.5px rgba(255, 255, 255, 0.14),
     inset 0 0 10px rgba(255, 255, 255, 0.6);
 
-  // Use this for dialogs with the frosted glass effect
+  /* Use this for dialogs with the frosted glass effect */
   --bew-shadow-edge-glow-2:
     inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.34), inset -1px -1px 1px -0.5px rgba(255, 255, 255, 0.14),
     inset 0 0 14px rgba(255, 255, 255, 0.62);
 
-  // #endregion
+  /* #endregion */
 
-  // #region Theme Color & Status Colors
-  // To add a hover effect to theme or status colors, use the `--bew-*-color` for the base color and `--bew-*-color-80` for the hover state
+  /* #region Theme Color & Status Colors */
+  /* To add a hover effect to theme or status colors, use the `--bew-*-color` for the base color and `--bew-*-color-80` for the hover state */
 
   --bew-logo-color: var(--bew-theme-color);
 
   --bew-bili-blue: hsl(195 100% 42%);
   --bew-bili-pink: hsl(343 94% 72%);
 
-  // In light mode use the black; in dark mode use white
+  /* In light mode use the black; in dark mode use white */
   --bew-theme-color-auto: var(--bew-text-1);
 
   --bew-theme-color: hsl(195 100% 42%);
@@ -119,40 +119,40 @@
   --bew-error-color-70: color-mix(in oklab, var(--bew-error-color), transparent 30%);
   --bew-error-color-80: color-mix(in oklab, var(--bew-error-color), transparent 20%);
   --bew-error-color-90: color-mix(in oklab, var(--bew-error-color), transparent 10%);
-  // #endregion
+  /* #endregion */
 
-  // #region Text colors
-  // In light mode, use black; in dark mode, use white
+  /* #region Text colors */
+  /* In light mode, use black; in dark mode, use white */
   --bew-text-auto: white;
 
   --bew-text-1: hsl(217 19% 10%);
 
-  // It can also be used for the text that is followed or subscribed to
+  /* It can also be used for the text that is followed or subscribed to */
   --bew-text-2: hsl(215 19% 24% / 80%);
 
   --bew-text-3: hsl(215 19% 28% / 60%);
 
-  // It can also be used for the text that is disabled
+  /* It can also be used for the text that is disabled */
   --bew-text-4: hsl(215 19% 36% / 40%);
-  // #endregion
+  /* #endregion */
 
-  // #region Webpage background colors
-  // Used as a webpage background color, but not on the Bilibili homepage (www.bilibili.com)
+  /* #region Webpage background colors */
+  /* Used as a webpage background color, but not on the Bilibili homepage (www.bilibili.com) */
   --bew-bg: hsl(0 0% 100%);
 
-  // Used as the background color of the Bilibili homepage (www.bilibili.com)
+  /* Used as the background color of the Bilibili homepage (www.bilibili.com) */
   --bew-homepage-bg: hsl(240 31% 96%);
   --bew-homepage-bg-mask-opacity: 0;
   --bew-homepage-bg-mask: hsl(240 31% 96% / var(--bew-homepage-bg-mask-opacity));
-  // #endregion
+  /* #endregion */
 
   --bew-content-opacity: 0.68;
 
-  // #region Content colors, used to buttons, cards, popover and so on
-  // Variable names that don't contain `solid` are used to frosted glass effect elements
+  /* #region Content colors, used to buttons, cards, popover and so on */
+  /* Variable names that don't contain `solid` are used to frosted glass effect elements */
 
-  // `--bew-content-*` for the flat background elements
-  // #region `--bew-content-*` background colors
+  /* `--bew-content-*` for the flat background elements */
+  /* #region `--bew-content-*` background colors */
   --bew-content: hsl(0 0% 100% / var(--bew-content-opacity));
   --bew-content-hover: hsl(0 0% 85% / var(--bew-content-opacity));
   --bew-content-alt: hsl(240 31% 95% / var(--bew-content-opacity));
@@ -162,10 +162,10 @@
   --bew-content-solid-hover: hsl(0 0% 85%);
   --bew-content-alt-solid: hsl(240 31% 95%);
   --bew-content-alt-solid-hover: hsl(240 31% 80%);
-  // #endregion
+  /* #endregion */
 
-  // `--bew-elevated-*` for popup, dialog and difference layers with difference elevation levels
-  // #region `--bew-elevated-*` background colors
+  /* `--bew-elevated-*` for popup, dialog and difference layers with difference elevation levels */
+  /* #region `--bew-elevated-*` background colors */
   --bew-elevated: hsl(0 0% 100% / var(--bew-content-opacity));
   --bew-elevated-hover: hsl(0 0% 85% / var(--bew-content-opacity));
   --bew-elevated-alt: var(--bew-content-alt);
@@ -175,37 +175,37 @@
   --bew-elevated-solid-hover: hsl(0 0% 85%);
   --bew-elevated-alt-solid: var(--bew-content-alt-solid);
   --bew-elevated-alt-solid-hover: var(--bew-content-alt-alt-solid-hover);
-  // #endregion
-  // #endregion
+  /* #endregion */
+  /* #endregion */
 
-  // #region Gray semi-transparent colors
-  // You can used for buttons, input fields and the other components on the top of elements
+  /* #region Gray semi-transparent colors */
+  /* You can used for buttons, input fields and the other components on the top of elements */
   --bew-fill-1: rgb(131 131 145 / 15%);
 
-  // Used this for hovering color if it within the top layer of elements,
-  // not just when hovering over the element itself; otherwise, use `--bew-content-*-hover` or `--bew-elevated--hover`
+  /* Used this for hovering color if it within the top layer of elements, */
+  /* not just when hovering over the element itself; otherwise, use `--bew-content-*-hover` or `--bew-elevated--hover` */
   --bew-fill-2: rgb(131 131 145 / 30%);
 
-  // You can used for the disabled state of elements on the top layer
+  /* You can used for the disabled state of elements on the top layer */
   --bew-fill-3: rgb(131 131 145 / 45%);
 
-  // You can use this as the frosted glass mask, such as on the right side of the "Watch Later" page panel and the "Favorites" page panel
+  /* You can use this as the frosted glass mask, such as on the right side of the "Watch Later" page panel and the "Favorites" page panel */
   --bew-fill-4: rgb(131 131 145 / 60%);
 
   --bew-fill-alt: rgb(255 255 255 / 45%);
 
-  // This color is used in skeleton screens
+  /* This color is used in skeleton screens */
   --bew-skeleton: var(--bew-fill-2);
-  // #endregion
+  /* #endregion */
 
   --bew-border-color: rgb(131 131 145 / 18%);
 }
 
 :host(#bewly.dark),
 :root.dark {
-  // dark mode
+  /* dark mode */
 
-  // #region shadow
+  /* #region shadow */
   --bew-shadow-1: 0 4px 6px -1px rgb(0 0 0 / 0.18), 0 2px 4px -2px rgb(0 0 0 / 0.14);
   --bew-shadow-2: 0 10px 15px -3px rgb(0 0 0 / 0.2), 0 4px 6px -4px rgb(0 0 0 / 0.16);
   --bew-shadow-3: 0 20px 25px -5px rgb(0 0 0 / 0.22), 0 8px 10px -6px rgb(0 0 0 / 0.18);
@@ -218,7 +218,7 @@
   --bew-shadow-edge-glow-2:
     inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.12), inset -1px -1px 1px -0.5px rgba(255, 255, 255, 0.04),
     inset 0 0 14px rgba(255, 255, 255, 0.06);
-  // #endregion
+  /* #endregion */
 
   --bew-logo-color: var(--bew-text-1);
 
@@ -349,7 +349,7 @@
   --bg3: var(--bew-content-alt-solid);
   --bg1_float: var(--bew-elevated-solid);
   --bg2_float: var(--bew-elevated-solid);
-  // --graph_white: var(--bew-bg);
+  /* --graph_white: var(--bew-bg); */
   --graph_bg_thin: color-mix(in oklab, var(--bew-content-solid), black 15%);
   --graph_bg_regular: var(--bew-content-solid);
   --graph_bg_thick: color-mix(in oklab, var(--bew-content-solid), white 15%);
@@ -363,7 +363,7 @@
   --text2: var(--bew-text-2);
   --text3: var(--bew-text-3);
   --text4: var(--bew-text-4);
-  // --text_link: var(--bew-theme-color);
+  /* --text_link: var(--bew-theme-color); */
   --text_notice: var(--Ye6);
   --line_light: var(--bew-fill-1);
   --line_regular: var(--bew-fill-2);
@@ -401,7 +401,7 @@
   --Lb10: color-mix(in oklab, var(--bew-theme-color), white 75%);
 }
 
-// #region Bilibili original css variables
+/* #region Bilibili original css variables */
 :root.bewly-design {
   --Ga0: #f6f7f8;
   --Ga0_s: #f6f7f8;
@@ -627,7 +627,7 @@
   --Lb7_rgb: 0, 105, 157;
 }
 
-// https://s1.hdslb.com/bfs/static/jinkela/long/laputa-css/dark.css
+/* https://s1.hdslb.com/bfs/static/jinkela/long/laputa-css/dark.css */
 :root.dark.bewly-design {
   --Ga0: #101011;
   --Ga0_s: #1e2022;
@@ -852,4 +852,4 @@
   --Lb5_rgb: 0, 135, 189;
   --Lb7_rgb: 88, 177, 212;
 }
-// #endregion
+/* #endregion */
