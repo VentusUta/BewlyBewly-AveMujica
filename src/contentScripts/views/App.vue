@@ -672,7 +672,7 @@ document.head.appendChild(removeLeftQuoteIndent)
 <style lang="scss" scoped>
 .bewly-wrapper {
   /* To fix the filter used in `.bewly-wrapper` that cause the positions of elements become discorded. */
-  > * > * {
+  & > * > * {
     filter: var(--bew-filter-force-dark);
   }
 }
