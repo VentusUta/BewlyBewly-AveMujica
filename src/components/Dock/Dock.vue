@@ -523,7 +523,7 @@ const dockTransformStyle = computed((): { transform: string, transformOrigin: st
     --uno: "w-3px h-auto my-3 mx-1";
   }
 
-  .dock-content-inner {
+  & .dock-content-inner {
     --uno: "duration-300 ease-in-out transform-gpu";
     --uno: "p-2 m-2 bg-$bew-content-alt dark:bg-$bew-elevated";
     --uno: "flex flex-col gap-2 shrink-0";

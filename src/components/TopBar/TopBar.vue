@@ -944,7 +944,7 @@ defineExpose({
 }
 
 :deep(.search-bar) {
-  input:not(:focus, :focus-within) {
+  & input:not(:focus, :focus-within) {
     --uno: "!border-$bew-border-color !shadow-$bew-shadow-1";
   }
 }

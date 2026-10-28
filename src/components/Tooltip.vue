@@ -58,7 +58,7 @@ const tooltipPos = ref({ left: 0, top: 0 })
     --uno: "bottom--2.5em right--2";
   }
 
-  .b-tooltip--type-default {
+  & .b-tooltip--type-default {
     --uno: "text-white dark:text-black bg-black dark:bg-white";
   }
 
