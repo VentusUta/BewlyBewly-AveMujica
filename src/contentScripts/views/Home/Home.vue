@@ -304,10 +304,10 @@ function toggleTabContentLoading(loading: boolean) {
 }
 
 .home-tabs-inside {
-  :deep([data-overlayscrollbars-contents]) {
+  & :deep([data-overlayscrollbars-contents]) {
     --uno: "flex items-center gap-1 h-inherit rounded-$bew-radius-half";
   }
-  :deep(.os-scrollbar) {
+  & :deep(.os-scrollbar) {
     --uno: "mb--4px";
   }
 }
