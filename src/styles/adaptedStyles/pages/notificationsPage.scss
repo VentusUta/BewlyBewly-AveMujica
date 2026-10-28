@@ -237,7 +237,7 @@ html.bewly-design.notificationsPage {
 
   /* #region dark mode adaption part */
   &.dark,
-  &.bili_dark .container {
+  &.bili_dark :where(.container) {
     .space-left {
       .title,
       .item a {
