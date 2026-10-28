@@ -86,13 +86,11 @@
       opacity: 0;
     }
 
-    .bili-dyn-home--member,
-    #app,
-    .opus-detail {
-      * {
-        --bg1: var(--bew-content-solid);
-        --bg2: var(--bew-fill-1);
-      }
+    .bili-dyn-home--member *,
+    #app *,
+    .opus-detail * {
+      --bg1: var(--bew-content-solid);
+      --bg2: var(--bew-fill-1);
     }
 
     .fixed-author-header__author__name,

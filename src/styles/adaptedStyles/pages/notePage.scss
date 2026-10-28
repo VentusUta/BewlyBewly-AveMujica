@@ -146,11 +146,9 @@
       background-color: transparent;
     }
 
-    .note-list-item,
-    .editor-innter .ql-editor {
-      &::-webkit-scrollbar-thumb {
-        background-color: rgba(120, 120, 140, 0.44);
-      }
+    .note-list-item::-webkit-scrollbar-thumb,
+    .editor-innter .ql-editor::-webkit-scrollbar-thumb {
+      background-color: rgba(120, 120, 140, 0.44);
     }
 
     .note-list-item::-webkit-scrollbar-track {
