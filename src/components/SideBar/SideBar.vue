@@ -152,14 +152,14 @@ function toggleHideSidebar(hide: boolean) {
 
 .sidebar-edge {
   --uno: "absolute top-0 w-14px h-full hover:w-60px duration-300";
+}
 
-  &-left {
-    --uno: "left-0";
-  }
+.sidebar-edge-left {
+  --uno: "left-0";
+}
 
-  &-right {
-    --uno: "right-0";
-  }
+.sidebar-edge-right {
+  --uno: "right-0";
 }
 
 .left-side .sidebar-content {

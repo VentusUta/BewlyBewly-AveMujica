@@ -464,24 +464,22 @@ const dockTransformStyle = computed((): { transform: string, transformOrigin: st
   }
 }
 
-.dock-edge {
-  &-left,
-  &-right,
-  &-bottom {
-    --uno: "absolute z--1";
-  }
+.dock-edge-left,
+.dock-edge-right,
+.dock-edge-bottom {
+  --uno: "absolute z--1";
+}
 
-  &-left {
-    --uno: "left-0 top-0 w-14px h-full hover:w-60px";
-  }
+.dock-edge-left {
+  --uno: "left-0 top-0 w-14px h-full hover:w-60px";
+}
 
-  &-right {
-    --uno: "right-0 top-0 w-14px h-full hover:w-60px";
-  }
+.dock-edge-right {
+  --uno: "right-0 top-0 w-14px h-full hover:w-60px";
+}
 
-  &-bottom {
-    --uno: "left-0 bottom-0 w-full h-14px hover-h-60px";
-  }
+.dock-edge-bottom {
+  --uno: "left-0 bottom-0 w-full h-14px hover-h-60px";
 }
 
 .dock-content {

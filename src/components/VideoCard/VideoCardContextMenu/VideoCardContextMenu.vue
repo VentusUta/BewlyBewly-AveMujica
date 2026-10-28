@@ -395,19 +395,19 @@ function handleRemoved(selectedOpt?: { dislikeReasonId: number }) {
     color: var(--bew-text-color-1);
     background: var(--bew-fill-2);
   }
+}
 
-  &-top {
-    top: 0;
-    border-top-left-radius: var(--bew-radius);
-    border-top-right-radius: var(--bew-radius);
-    box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  }
+.scroll-indicator-top {
+  top: 0;
+  border-top-left-radius: var(--bew-radius);
+  border-top-right-radius: var(--bew-radius);
+  box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
 
-  &-bottom {
-    bottom: 0;
-    border-bottom-left-radius: var(--bew-radius);
-    border-bottom-right-radius: var(--bew-radius);
-    box-shadow: 0 -4px 6px -2px rgba(0, 0, 0, 0.05);
-  }
+.scroll-indicator-bottom {
+  bottom: 0;
+  border-bottom-left-radius: var(--bew-radius);
+  border-bottom-right-radius: var(--bew-radius);
+  box-shadow: 0 -4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 </style>
