@@ -326,7 +326,7 @@ async function handleClearSearchHistory() {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 ::v-deep(.suggest_high_light) {
   --uno: "text-$bew-theme-color not-italic";
 }

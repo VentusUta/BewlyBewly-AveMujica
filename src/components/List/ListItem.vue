@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .b-list-item {
   & > * {
     --uno: "flex items-center flex-1 shrink-0";

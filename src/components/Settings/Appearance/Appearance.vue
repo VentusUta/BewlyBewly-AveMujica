@@ -125,5 +125,5 @@ const changeThemeColorThrottle = useThrottleFn((color: string) => changeThemeCol
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 </style>

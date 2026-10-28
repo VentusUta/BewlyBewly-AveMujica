@@ -6,17 +6,17 @@
 
 ## 樣式檔書寫風格
 
-``` scss
+``` css
 .bewly-design.pageName {
-  // 喺當前嘅頁面進行特別嘅修改，就好似你係噉以執吓個佈局，將嗰啲嘢擺晒落呢度
+  /* 喺當前嘅頁面進行特別嘅修改，就好似你係噉以執吓個佈局，將嗰啲嘢擺晒落呢度 */
   .right-side-bar .catalog {
     line-height: 3em;
   }
 
-  // ...
+  /* ... */
 
-  // #region theme color adaption part
-  // 用 `:not()` 選取選取唔存在嘅元素愛嚟提高喺呢度入邊嘅優先權
+  /* #region theme color adaption part */
+  /* 用 `:not()` 選取選取唔存在嘅元素愛嚟提高喺呢度入邊嘅優先權 */
   :not(foobar) {
     a,
     b,
@@ -27,7 +27,7 @@
     d,
     e,
     f {
-      // 請注意用 `!important` 係你最後嘅選擇
+      /* 請注意用 `!important` 係你最後嘅選擇 */
       color: var(--bew-theme-color) !important;
     }
 
@@ -43,11 +43,11 @@
       background-color: var(--bew-theme-color) !important;
     }
 
-    // ...
+    /* ... */
   }
-  // #endregion
+  /* #endregion */
 
-  // #region dark mode adaption part
+  /* #region dark mode adaption part */
   &.dark {
     aa,
     bb,
@@ -61,9 +61,9 @@
       color: var(--bew-text-1) !important;
     }
 
-    // ...
+    /* ... */
   }
-  // #endregion
+  /* #endregion */
 }
 ```
 

@@ -479,7 +479,7 @@ function handleToggleHomeTab(tab: any) {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .unrestricted-width-settings-item {
   & :deep(.left-content) {
     --uno: w-full;

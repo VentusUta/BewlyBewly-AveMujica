@@ -318,7 +318,7 @@ function handleClickChannel() {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .level :deep(svg) {
   --uno: "w-25px h-16px";
 }

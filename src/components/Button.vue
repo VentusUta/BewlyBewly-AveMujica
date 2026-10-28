@@ -50,7 +50,7 @@ function handleClick(evt: MouseEvent) {
   </button>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .b-button {
   --b-button-color: var(--bew-content-solid);
   --b-button-color-hover: var(--bew-content-solid-hover);

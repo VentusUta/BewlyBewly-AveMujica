@@ -286,7 +286,7 @@ function getPopularAnimeList() {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .anime-section {
   --uno: "mb-8 mt-14 first:mt-0";
 }

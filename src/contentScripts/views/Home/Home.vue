@@ -274,7 +274,7 @@ function toggleTabContentLoading(loading: boolean) {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .bg-enter-active,
 .bg-leave-active {
   --uno: "duration-1000 ease-in-out";

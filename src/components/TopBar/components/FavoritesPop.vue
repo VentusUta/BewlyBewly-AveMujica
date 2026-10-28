@@ -299,7 +299,7 @@ defineExpose({
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .activated-category {
   --uno: "bg-$bew-theme-color text-white";
 }

@@ -26,7 +26,7 @@ const tooltipPos = ref({ left: 0, top: 0 })
   </span>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .b-tooltip-wrapper {
   --uno: "flex items-center relative";
 

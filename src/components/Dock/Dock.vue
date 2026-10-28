@@ -457,7 +457,7 @@ const dockTransformStyle = computed((): { transform: string, transformOrigin: st
   </aside>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .dock-wrap {
   & > * {
     --uno: "pointer-events-auto";

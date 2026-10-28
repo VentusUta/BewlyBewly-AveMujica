@@ -79,7 +79,7 @@ defineProps<{
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .horizontal-card-cover {
   --uno: "xl:w-280px lg:w-250px md:w-200px w-200px";
 }

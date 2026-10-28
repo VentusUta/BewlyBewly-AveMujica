@@ -342,7 +342,7 @@ function handleRemoved(selectedOpt?: { dislikeReasonId: number }) {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .context-menu-item {
   --uno: "hover:bg-$bew-fill-2 text-sm px-2.5 py-1.75 rounded-$bew-radius-half cursor-pointer";
   --uno: "flex items-center";

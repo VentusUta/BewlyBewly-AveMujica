@@ -48,7 +48,7 @@ onMounted(() => {
   </label>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 label {
   --b-border-width: 2px;
   --b-slider-height: 10px;

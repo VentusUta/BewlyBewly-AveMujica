@@ -121,7 +121,7 @@ function toggleHideSidebar(hide: boolean) {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .ctrl-btn {
   --b-button-width: 40px;
   --b-button-height: 40px;

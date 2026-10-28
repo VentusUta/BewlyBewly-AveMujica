@@ -104,7 +104,7 @@ function changeSearchBarFocusCharacter(url: string) {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .selected-wallpaper {
   --uno: "border-$bew-theme-color-60";
 }

@@ -218,6 +218,6 @@ function handleToggleDockItem(dockItem: any) {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>

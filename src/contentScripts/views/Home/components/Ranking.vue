@@ -255,7 +255,7 @@ defineExpose({ initData })
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .active {
   --uno: "scale-110 bg-$bew-theme-color-auto text-$bew-text-auto shadow-$bew-shadow-2";
 }

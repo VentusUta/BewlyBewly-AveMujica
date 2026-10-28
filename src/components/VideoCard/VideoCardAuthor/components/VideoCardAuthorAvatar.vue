@@ -92,7 +92,7 @@ const displayedAvatars = computed(() => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .live {
   --uno: "p-2px box-border border-2 border-$bew-theme-color-60";
 }

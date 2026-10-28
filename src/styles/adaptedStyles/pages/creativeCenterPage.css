@@ -18,7 +18,7 @@
     .setting .watermark-setting .watermark-wrp .watermark-position-wrp,
     .chief-recommend-module .carousel-box .carousel-module .panel .title,
     /* Cover editor (封面制作): only un-invert media so dark chrome stays. */
-    /* Previews are canvas-based; forceDark.scss only corrects img/video/iframe. */
+    /* Previews are canvas-based; forceDark.css only corrects img/video/iframe. */
     /* https://github.com/VentusUta/BewlyBewly-AveMujica/issues/90 */
     .cover-editor canvas,
     micro-app[name="video-up"] .color-picker-color .list,

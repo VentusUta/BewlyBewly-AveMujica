@@ -530,5 +530,5 @@ function handleMouseEnter(item: HistoryItem) {
   </Empty>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 </style>

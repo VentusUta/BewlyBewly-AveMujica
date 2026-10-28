@@ -898,7 +898,7 @@ defineExpose({
   </Transition>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .top-bar-enter-active,
 .top-bar-leave-active {
   transition: all 0.5s ease;

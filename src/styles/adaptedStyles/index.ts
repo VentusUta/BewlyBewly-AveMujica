@@ -10,13 +10,13 @@ async function setupStyles() {
 
   // homepage 首页
   if (isHomePage()) {
-    await import('./pages/homePage.scss')
+    await import('./pages/homePage.css')
     document.documentElement.classList.add('homePage')
   }
 
   // notifications page 消息页
   else if (/https?:\/\/message\.bilibili\.com\.*/.test(currentUrl)) {
-    await import('./pages/notificationsPage.scss')
+    await import('./pages/notificationsPage.css')
     document.documentElement.classList.add('notificationsPage')
 
     if (isInIframe() && settings.value.openNotificationsPageAsDrawer) {
@@ -31,7 +31,7 @@ async function setupStyles() {
     // moment detail, new articles page
     || /https?:\/\/www\.bilibili\.com\/opus\/.*/.test(currentUrl)
   ) {
-    await import('./pages/momentsPage.scss')
+    await import('./pages/momentsPage.css')
     document.documentElement.classList.add('momentsPage')
   }
 
@@ -40,7 +40,7 @@ async function setupStyles() {
     /https?:\/\/(?:www\.)?bilibili\.com\/account\/history.*/.test(currentUrl)
     || /https?:\/\/(?:www\.)?bilibili\.com\/history.*/.test(currentUrl)
   ) {
-    await import('./pages/historyPage.scss')
+    await import('./pages/historyPage.css')
     document.documentElement.classList.add('historyPage')
   }
 
@@ -49,25 +49,25 @@ async function setupStyles() {
     /https?:\/\/(?:www\.)?bilibili\.com\/watchlater\/list.*/.test(currentUrl)
     || /https?:\/\/(?:www\.)?bilibili\.com\/watchlater\/#\/list.*/.test(currentUrl)
   ) {
-    await import('./pages/watchLaterPage.scss')
+    await import('./pages/watchLaterPage.css')
     document.documentElement.classList.add('watchLaterPage')
   }
 
   // user note page 笔记页
   else if (/https?:\/\/space.bilibili\.com\.*\/v\/note-list/.test(currentUrl)) {
-    await import('./pages/notePage.scss')
+    await import('./pages/notePage.css')
     document.documentElement.classList.add('notePage')
   }
 
   // user space page 空间页
   else if (/https?:\/\/space.bilibili\.com\.*/.test(currentUrl)) {
-    await import('./pages/userSpacePage.scss')
+    await import('./pages/userSpacePage.css')
     document.documentElement.classList.add('userSpacePage')
   }
 
   // search page 搜索结果页
   else if (/https?:\/\/search.bilibili\.com\.*/.test(currentUrl)) {
-    await import('./pages/searchPage.scss')
+    await import('./pages/searchPage.css')
     document.documentElement.classList.add('searchPage')
   }
 
@@ -81,7 +81,7 @@ async function setupStyles() {
     // 视频合集
     || /https?:\/\/(?:www\.)?bilibili\.com\/list\/.*/.test(currentUrl)
   ) {
-    await import('./pages/videoPage.scss')
+    await import('./pages/videoPage.css')
     document.documentElement.classList.add('videoPage')
   }
 
@@ -89,7 +89,7 @@ async function setupStyles() {
     // anime playback & movie page 番剧播放页与电影播放页
     /https?:\/\/(?:www\.)?bilibili\.com\/bangumi\/play\/.*/.test(currentUrl)
   ) {
-    await import('./pages/animePlayback&MoviePage.scss')
+    await import('./pages/animePlayback&MoviePage.css')
     document.documentElement.classList.add('animePlaybackAndMoviePage')
   }
 
@@ -97,7 +97,7 @@ async function setupStyles() {
   else if (
     /https?:\/\/(?:www\.)?bilibili\.com\/(?:anime|guochuang).*/.test(currentUrl)
   ) {
-    await import('./pages/animePage.scss')
+    await import('./pages/animePage.css')
     document.documentElement.classList.add('animePage')
   }
 
@@ -105,56 +105,56 @@ async function setupStyles() {
   else if (
     /https?:\/\/(?:www\.)?bilibili\.com\/(?:tv|movie|variety|mooc|documentary).*/.test(currentUrl)
   ) {
-    await import('./pages/channelPage.scss')
+    await import('./pages/channelPage.css')
     document.documentElement.classList.add('channelPage')
   }
 
   // articles, articles list & articles ranking pages 专栏页, 专栏列表页, 专栏排行榜页
   else if (/https?:\/\/(?:www\.)?bilibili\.com\/read.*/.test(currentUrl)) {
-    await import('./pages/articlesPage.scss')
+    await import('./pages/articlesPage.css')
     document.documentElement.classList.add('articlesPage')
   }
 
   // topic page 话题页
   else if (/https?:\/\/(?:www\.)?bilibili\.com\/v\/topic\/detail\/.*/.test(currentUrl)) {
-    await import('./pages/topicPage.scss')
+    await import('./pages/topicPage.css')
     document.documentElement.classList.add('topicPage')
   }
 
   // 404 page 404页
   else if (/^https?:\/\/(?:www\.)?bilibili\.com\/404.*$/.test(currentUrl)) {
-    await import('./pages/error404Page.scss')
+    await import('./pages/error404Page.css')
     document.documentElement.classList.add('error404Page')
   }
 
   // creative center page 创作中心页
   else if (/^https?:\/\/member\.bilibili\.com\/platform.*$/.test(currentUrl)) {
-    await import('./forceDark.scss')
+    await import('./forceDark.css')
     document.documentElement.classList.add('forceDark')
-    await import('./pages/creativeCenterPage.scss')
+    await import('./pages/creativeCenterPage.css')
     document.documentElement.classList.add('creativeCenterPage')
   }
 
   // account settings page 帳戶設定頁，除了大會員頁
   else if (/^https?:\/\/account\.bilibili\.com\/(?!big).*$/.test(currentUrl)) {
-    await import('./pages/accountSettingsPage.scss')
+    await import('./pages/accountSettingsPage.css')
     document.documentElement.classList.add('accountSettingsPage')
   }
 
   // premium page bilibili 大會員頁
   else if (/^https?:\/\/account\.bilibili\.com\/big.*$/.test(currentUrl)) {
-    await import('./pages/premiumPage.scss')
+    await import('./pages/premiumPage.css')
     document.documentElement.classList.add('premiumPage')
   }
 
   // login page 登入頁
   else if (/^https?:\/\/passport\.bilibili\.com\/login.*$/.test(currentUrl)) {
-    await import('./pages/loginPage.scss')
+    await import('./pages/loginPage.css')
     document.documentElement.classList.add('loginPage')
   }
 
   else if (/https?:\/\/live\.bilibili\.com\/p\/html\/live-fansmedal-wall.*/.test(currentUrl)) {
-    await import('./pages/fansMedalWallPage.scss')
+    await import('./pages/fansMedalWallPage.css')
     document.documentElement.classList.add('fansMedalWallPage')
   }
 }
