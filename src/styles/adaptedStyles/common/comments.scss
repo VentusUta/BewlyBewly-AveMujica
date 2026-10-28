@@ -76,15 +76,6 @@
       animation: jumpReply 5s forwards;
     }
 
-    @keyframes jumpReply {
-      0% {
-        background-color: var(--bew-theme-color-10);
-      }
-      100% {
-        background-color: var(--bew-fill-1);
-      }
-    }
-
     .bili-dyn-forward-publishing__editor {
       background-color: var(--bew-content-solid);
     }
@@ -340,4 +331,13 @@
     }
   }
   // #endregion
+}
+
+@keyframes jumpReply {
+  0% {
+    background-color: var(--bew-theme-color-10);
+  }
+  100% {
+    background-color: var(--bew-fill-1);
+  }
 }
