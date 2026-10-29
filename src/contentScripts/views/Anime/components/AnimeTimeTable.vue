@@ -128,14 +128,14 @@ defineExpose({ refreshAnimeTimeTable })
               <div flex gap-4>
                 <a
                   :href="`//www.bilibili.com/bangumi/play/ss${episode.season_id}`"
-                  target="_blank" tabindex="-1"
+                  target="_blank" tabindex="-1" aria-hidden="true"
                   shrink-0
                 >
                   <img
                     :src="`${removeHttpFromUrl(
                       episode.square_cover,
                     )}@80w_80h.webp`"
-                    :alt="episode.title"
+                    alt=""
                     w-18
                     aspect="square"
                     rounded="$bew-radius-half"

@@ -203,7 +203,7 @@ function handleMouseEnter(item: VideoItem) {
                   w="full"
                   aspect-video
                   :src="removeHttpFromUrl(`${item.pic}@480w_270h_1c`)"
-                  :alt="item.title"
+                  alt=""
                   object-cover
                 >
 

@@ -1,9 +1,11 @@
 <script setup lang="ts">
-defineProps<{
+withDefaults(defineProps<{
   src: string
   loading: 'lazy' | 'eager'
   alt?: string
-}>()
+}>(), {
+  alt: '',
+})
 </script>
 
 <template>

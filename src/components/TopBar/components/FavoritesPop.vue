@@ -254,7 +254,7 @@ defineExpose({
                     w="120px"
                     class="aspect-video"
                     :src="`${removeHttpFromUrl(item.cover)}@256w_144h_1c`"
-                    :alt="item.title"
+                    alt=""
                     bg="contain"
                   >
                   <div

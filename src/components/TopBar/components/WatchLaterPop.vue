@@ -174,7 +174,7 @@ function deleteWatchLaterItem(index: number, aid: number) {
                   :src="`${removeHttpFromUrl(
                     item.pic,
                   )}@256w_144h_1c`"
-                  :alt="item.title"
+                  alt=""
                   object-cover
                 >
                 <div

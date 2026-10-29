@@ -136,7 +136,7 @@ function handleMouseEnter(bangumi: Bangumi) {
 
             <img
               :src="`${removeHttpFromUrl(bangumi.cover)}@466w_622h.webp`"
-              :alt="bangumi.title"
+              alt=""
               rounded="$bew-radius" aspect="12/16" max-w-full w-full
             >
 
