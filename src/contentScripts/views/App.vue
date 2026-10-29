@@ -387,7 +387,7 @@ fontStyles.textContent = `
     font-family: "MiddleDotFont"; /* U+00B7 */
     unicode-range: U+00B7;
     font-feature-settings: "hwid" on;
-    src: url(${browser.runtime.getURL('/assets/fonts/FrexSansGBVF.woff2')}) format(woff2) tech(variations);
+    src: url(${browser.runtime.getURL('/assets/fonts/EliksiroSans-VF.woff2')}) format(woff2) tech(variations);
 }
 
 @font-face {
@@ -461,9 +461,10 @@ fontStyles.textContent = `
 }
 
 @font-face {
-    font-family: "FrexSansGBVF-BewlyInternalResource"; /* Chinese characters modern form */
+    font-family: "EliksiroSans-BewlyInternalResource"; /* Chinese characters modern form */
     font-weight: 100 700;
-    src: url(${browser.runtime.getURL('/assets/fonts/FrexSansGBVF.woff2')}) format(woff2) tech(variations);
+    font-feature-settings: "ss11" on;
+    src: url(${browser.runtime.getURL('/assets/fonts/EliksiroSans-VF.woff2')}) format(woff2) tech(variations);
 }
 `
 
