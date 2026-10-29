@@ -1,6 +1,9 @@
 import type { Runtime } from 'webextension-polyfill'
 
 import type { API_COLLECTION } from '~/background/messageListeners/api'
+import { FullAPI } from '~/background/messageListeners/api'
+import type { API, Message } from '~/background/utils'
+import { buildRequest, sendResponseHandler } from '~/background/utils'
 
 type CamelCase<S extends string> = S extends `${infer P1}_${infer P2}${infer P3}`
   ? `${Lowercase<P1>}${Uppercase<P2>}${CamelCase<P3>}`
@@ -40,6 +43,39 @@ async function sendToBackground(message: object) {
   }
 }
 
+// POST 由内容脚本以页面身份发送：带扩展 Origin 的 POST 会被B站风控拦下，而 Safari 不改写扩展自己发出的请求头
+function getPagePostApi(query: string) {
+  if (!/^https?:$/.test(location.protocol))
+    return
+  const api = FullAPI[query]
+  if (typeof api === 'object' && api._fetch.method.toLowerCase() === 'post')
+    return api
+}
+
+async function fetchFromPage(message: Message, api: API) {
+  const { url, fetchOpt } = buildRequest(message, api)
+  const res = await fetch(url, { ...fetchOpt, credentials: 'include' })
+  if (!res.ok)
+    throw new Error(`HTTP ${res.status}: ${url}`)
+  let data: any = res
+  for (const handler of api.afterHandle) {
+    if (handler as unknown !== sendResponseHandler)
+      data = await handler(data)
+  }
+  return data
+}
+
+async function request(message: Message) {
+  const pageApi = getPagePostApi(message.contentScriptQuery)
+  if (pageApi)
+    return fetchFromPage(message, pageApi)
+
+  const res = await sendToBackground(message)
+  if (res === undefined)
+    throw new Error(`No response from background: ${message.contentScriptQuery}`)
+  return res
+}
+
 // eslint-disable-next-line ts/no-unsafe-declaration-merging
 export interface APIClient extends APIFunction<typeof API_COLLECTION> {
 
@@ -60,8 +96,8 @@ export class APIClient {
           const api = new Proxy({}, {
             get(_, p) {
               return (options?: object) => {
-                return sendToBackground({
-                  contentScriptQuery: p,
+                return request({
+                  contentScriptQuery: p as string,
                   ...options,
                 })
               }
