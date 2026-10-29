@@ -43,3 +43,13 @@ BewlyBewly! Ave Mujica 是一个用于 bilibili 的浏览器扩展，旨在通�
 - [UserScripts/bilibiliHome](https://github.com/indefined/UserScripts/tree/master/bilibiliHome)、[bilibili-app-recommend](https://github.com/magicdawn/bilibili-app-recommend)——获取访问密钥的参考来源
 - [Bilibili-Evolved](https://github.com/the1812/Bilibili-Evolved)——部分功能实现
 - [bilibili-API-collect](https://github.com/SocialSisterYi/bilibili-API-collect)
+
+## 许可证
+
+BewlyBewly! Ave Mujica采[AGPLv3](./LICENSE)许可证授权，并有以下三项附加条款（根据第7条b、c、d款）：
+
+1. 本作品的所有副本或修改版本，均须保留显著的版权声明及对原始来源的作者署名。
+
+2. 若分发本软件的修改版本，必须对软件名称进行可区分的修改（例如添加“-Modified”后缀），以明确标示其已被修改的状态。
+
+3. 未经版权持有者事先书面同意，不得使用原作者的项目名称或相关材料，来为基于本软件衍生的产品进行背书或推广。

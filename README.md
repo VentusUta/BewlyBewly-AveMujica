@@ -44,3 +44,13 @@ See [docs/CONTRIBUTING.md](https://github.com/VentusUta/BewlyBewly-AveMujica/blo
 - [UserScripts/bilibiliHome](https://github.com/indefined/UserScripts/tree/master/bilibiliHome), [bilibili-app-recommend](https://github.com/magicdawn/bilibili-app-recommend) - Reference source for obtaining the access key
 - [Bilibili-Evolved](https://github.com/the1812/Bilibili-Evolved) - Partial implementation of functionalities
 - [bilibili-API-collect](https://github.com/SocialSisterYi/bilibili-API-collect)
+
+## License
+
+BewlyBewly! Ave Mujica licensed under [AGPLv3](./LICENSE), with three additional terms:
+
+1. All copies or modified versions of this work shall retain prominent copyright notices and authorship attributions to the original source.
+
+2. Redistributions of modified versions must adopt distinguishable modifications to the software's name (e.g. by adding a "-Modified" suffix) to explicitly indicate altered status.
+
+3. Except with prior written consent from the copyright holder(s), the name(s) of the original author(s), associated material shall not be used to endorse or promote products derived from this software.
