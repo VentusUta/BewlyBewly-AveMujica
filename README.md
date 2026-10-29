@@ -47,7 +47,7 @@ See [docs/CONTRIBUTING.md](https://github.com/VentusUta/BewlyBewly-AveMujica/blo
 
 ## License
 
-BewlyBewly! Ave Mujica licensed under [AGPLv3](./LICENSE), with three additional terms:
+BewlyBewly! Ave Mujica licensed under [AGPLv3](./LICENSE), with three additional terms (according to Section 7 b, c, d):
 
 1. All copies or modified versions of this work shall retain prominent copyright notices and authorship attributions to the original source.
 
