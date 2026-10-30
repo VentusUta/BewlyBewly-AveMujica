@@ -88,13 +88,6 @@ const fontFaces = `
     font-weight: 250 900;
     src: url(${browser.runtime.getURL('/assets/fonts/ShangguSansSC-VF.woff2')}) format(woff2) tech(variations);
 }
-
-@font-face {
-    font-family: "EliksiroSans-BewlyInternalResource"; /* Chinese characters modern form */
-    font-weight: 100 700;
-    font-feature-settings: "ss11" on;
-    src: url(${browser.runtime.getURL('/assets/fonts/EliksiroSans-VF.woff2')}) format(woff2) tech(variations);
-}
 `
 
 const htmlLangs: Partial<Record<string, string>> = {
@@ -121,8 +114,14 @@ const preloadedFonts: Partial<Record<Settings['customizeFont'], [font: string, t
 export function setupFonts() {
   injectCSS(fontFaces)
 
-  for (const [font, text] of preloadedFonts[settings.value.customizeFont] ?? [])
-    document.fonts.load(font, text).catch(() => {})
+  const eliksiroSans = document.createElement('link')
+  eliksiroSans.rel = 'stylesheet'
+  eliksiroSans.href = browser.runtime.getURL('/assets/fonts/eliksiro-sans/eliksiro-sans.css')
+  eliksiroSans.addEventListener('load', () => {
+    for (const [font, text] of preloadedFonts[settings.value.customizeFont] ?? [])
+      document.fonts.load(font, text).catch(() => {})
+  }, { once: true })
+  document.documentElement.append(eliksiroSans)
 
   watch(
     () => settings.value.language,
