@@ -123,14 +123,15 @@ export function setupFonts() {
   }, { once: true })
   document.documentElement.append(eliksiroSans)
 
-  watch(
-    () => settings.value.language,
-    (language) => {
-      if (language)
-        document.documentElement.lang = htmlLangs[language] ?? 'en'
-    },
-    { immediate: true },
-  )
+  const applyLang = () => {
+    const language = settings.value.language
+    const lang = htmlLangs[language] ?? 'en'
+    if (language && document.documentElement.lang !== lang)
+      document.documentElement.lang = lang
+  }
+  watch(() => settings.value.language, applyLang, { immediate: true })
+  // bilibili's own scripts (e.g. on the search page) reset `<html lang>` after Bewly has set it
+  new MutationObserver(applyLang).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] })
 
   watch(
     [() => settings.value.customizeFont, () => settings.value.fontFamily],
