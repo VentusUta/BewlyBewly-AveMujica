@@ -1,5 +1,6 @@
 import { LanguageType } from '~/enums/appEnums'
 import { settings } from '~/logic'
+import type { Settings } from '~/logic/storage'
 import { injectCSS } from '~/utils/main'
 
 /* Add 'BewlyInternalResource' suffix to prevent conflict with local fonts. */
@@ -101,8 +102,16 @@ const htmlLangs: Partial<Record<string, string>> = {
   [LanguageType.Cantonese]: 'zh-HK',
 }
 
+const preloadedFonts: Partial<Record<Settings['customizeFont'], string[]>> = {
+  'recommend': ['1em "OldRoboto-BewlyInternalResource"', '500 1em "OldRoboto-BewlyInternalResource"', '1em "ShangguSansSCVF-BewlyInternalResource"'],
+  'recommend-new': ['1em "OldRoboto-BewlyInternalResource"', '500 1em "OldRoboto-BewlyInternalResource"', '1em "EliksiroSans-BewlyInternalResource"'],
+}
+
 export function setupFonts() {
   injectCSS(fontFaces)
+
+  for (const font of preloadedFonts[settings.value.customizeFont] ?? [])
+    document.fonts.load(font).catch(() => {})
 
   watch(
     () => settings.value.language,
