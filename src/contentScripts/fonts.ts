@@ -6,16 +6,17 @@ import { injectCSS } from '~/utils/main'
 /* Add 'BewlyInternalResource' suffix to prevent conflict with local fonts. */
 const fontFaces = `
 @font-face {
-    font-family: "EmDashFont"; /* U+2014 */
+    font-family: "EmDashFont-BewlyInternalResource"; /* U+2014 */
     unicode-range: U+2014;
     src: local(Tahoma), local(Arial);
 }
 
 @font-face {
-    font-family: "MiddleDotFont"; /* U+00B7 */
+    font-family: "MiddleDotFont-BewlyInternalResource"; /* Half-width middle dot (U+00B7) from Eliksiro Sans */
     unicode-range: U+00B7;
-    font-feature-settings: "hwid" on;
-    src: url(${browser.runtime.getURL('/assets/fonts/EliksiroSans-VF.woff2')}) format(woff2) tech(variations);
+    font-weight: 100 700;
+    line-gap-override: 0%;
+    src: url(${browser.runtime.getURL('/assets/fonts/eliksiro-sans/woff2/EliksiroSans-VF-000.woff2')}) format(woff2) tech(variations);
 }
 
 @font-face {
@@ -102,16 +103,26 @@ const htmlLangs: Partial<Record<string, string>> = {
   [LanguageType.Cantonese]: 'zh-HK',
 }
 
-const preloadedFonts: Partial<Record<Settings['customizeFont'], string[]>> = {
-  'recommend': ['1em "OldRoboto-BewlyInternalResource"', '500 1em "OldRoboto-BewlyInternalResource"', '1em "ShangguSansSCVF-BewlyInternalResource"'],
-  'recommend-new': ['1em "OldRoboto-BewlyInternalResource"', '500 1em "OldRoboto-BewlyInternalResource"', '1em "EliksiroSans-BewlyInternalResource"'],
+const preloadedFonts: Partial<Record<Settings['customizeFont'], [font: string, text?: string][]>> = {
+  'recommend': [
+    ['1em "MiddleDotFont-BewlyInternalResource"', '·'],
+    ['1em "OldRoboto-BewlyInternalResource"'],
+    ['500 1em "OldRoboto-BewlyInternalResource"'],
+    ['1em "ShangguSansSCVF-BewlyInternalResource"'],
+  ],
+  'recommend-new': [
+    ['1em "MiddleDotFont-BewlyInternalResource"', '·'],
+    ['1em "OldRoboto-BewlyInternalResource"'],
+    ['500 1em "OldRoboto-BewlyInternalResource"'],
+    ['1em "EliksiroSans-BewlyInternalResource"'],
+  ],
 }
 
 export function setupFonts() {
   injectCSS(fontFaces)
 
-  for (const font of preloadedFonts[settings.value.customizeFont] ?? [])
-    document.fonts.load(font).catch(() => {})
+  for (const [font, text] of preloadedFonts[settings.value.customizeFont] ?? [])
+    document.fonts.load(font, text).catch(() => {})
 
   watch(
     () => settings.value.language,
