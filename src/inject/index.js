@@ -160,45 +160,41 @@ function notifyReplyActionError(data) {
 }
 
 function setupReplyActionInterceptor() {
-  if (typeof window.fetch === 'function') {
-    const originalFetch = window.fetch.bind(window)
-    window.fetch = function (...args) {
-      const input = args[0]
-      let url = ''
-      if (typeof input === 'string')
-        url = input
-      else if (input && typeof input.url === 'string')
-        url = input.url
+  const originalFetch = window.fetch.bind(window)
+  window.fetch = function (...args) {
+    const input = args[0]
+    let url = ''
+    if (typeof input === 'string')
+      url = input
+    else if (input && typeof input.url === 'string')
+      url = input.url
 
-      return originalFetch(...args).then((response) => {
-        if (isReplyActionUrl(url)) {
-          response.clone().json().then(notifyReplyActionError).catch(() => {})
-        }
-        return response
-      })
-    }
+    return originalFetch(...args).then((response) => {
+      if (isReplyActionUrl(url)) {
+        response.clone().json().then(notifyReplyActionError).catch(() => {})
+      }
+      return response
+    })
   }
 
-  if (typeof XMLHttpRequest !== 'undefined') {
-    const originalOpen = XMLHttpRequest.prototype.open
-    const originalSend = XMLHttpRequest.prototype.send
+  const originalOpen = XMLHttpRequest.prototype.open
+  const originalSend = XMLHttpRequest.prototype.send
 
-    XMLHttpRequest.prototype.open = function (method, url, ...rest) {
-      this.__bewlyReplyActionUrl = typeof url === 'string' ? url : String(url ?? '')
-      return originalOpen.call(this, method, url, ...rest)
-    }
+  XMLHttpRequest.prototype.open = function (method, url, ...rest) {
+    this.__bewlyReplyActionUrl = typeof url === 'string' ? url : String(url ?? '')
+    return originalOpen.call(this, method, url, ...rest)
+  }
 
-    XMLHttpRequest.prototype.send = function (...args) {
-      this.addEventListener('load', function onLoad() {
-        if (!isReplyActionUrl(this.__bewlyReplyActionUrl))
-          return
-        try {
-          notifyReplyActionError(JSON.parse(this.responseText))
-        }
-        catch {}
-      })
-      return originalSend.apply(this, args)
-    }
+  XMLHttpRequest.prototype.send = function (...args) {
+    this.addEventListener('load', function onLoad() {
+      if (!isReplyActionUrl(this.__bewlyReplyActionUrl))
+        return
+      try {
+        notifyReplyActionError(JSON.parse(this.responseText))
+      }
+      catch {}
+    })
+    return originalSend.apply(this, args)
   }
 }
 
@@ -223,40 +219,36 @@ function rewriteBiliRequestUrl(url) {
 }
 
 function setupBiliTranslationInterceptor() {
-  if (typeof window.fetch === 'function') {
-    const originalFetch = window.fetch.bind(window)
-    window.fetch = function (input, init) {
-      let url = ''
-      if (typeof input === 'string')
-        url = input
-      else if (input && typeof input.url === 'string')
-        url = input.url
-      else if (input instanceof URL)
-        url = input.href
+  const originalFetch = window.fetch.bind(window)
+  window.fetch = function (input, init) {
+    let url = ''
+    if (typeof input === 'string')
+      url = input
+    else if (input && typeof input.url === 'string')
+      url = input.url
+    else if (input instanceof URL)
+      url = input.href
 
-      const rewrittenUrl = rewriteBiliRequestUrl(url)
-      if (!rewrittenUrl)
-        return originalFetch(input, init)
+    const rewrittenUrl = rewriteBiliRequestUrl(url)
+    if (!rewrittenUrl)
+      return originalFetch(input, init)
 
-      const request = input instanceof Request ? new Request(rewrittenUrl, input) : rewrittenUrl
-      return originalFetch(request, init).then(async (response) => {
-        try {
-          const data = await response.clone().json()
-          if (data?.code === -403 || data?.code === -352)
-            return originalFetch(input, init)
-        }
-        catch {}
-        return response
-      })
-    }
+    const request = input instanceof Request ? new Request(rewrittenUrl, input) : rewrittenUrl
+    return originalFetch(request, init).then(async (response) => {
+      try {
+        const data = await response.clone().json()
+        if (data?.code === -403 || data?.code === -352)
+          return originalFetch(input, init)
+      }
+      catch {}
+      return response
+    })
   }
 
-  if (typeof XMLHttpRequest !== 'undefined') {
-    const originalOpen = XMLHttpRequest.prototype.open
-    XMLHttpRequest.prototype.open = function (method, url, ...rest) {
-      const rewrittenUrl = rewriteBiliRequestUrl(String(url ?? ''))
-      return originalOpen.call(this, method, rewrittenUrl || url, ...rest)
-    }
+  const originalOpen = XMLHttpRequest.prototype.open
+  XMLHttpRequest.prototype.open = function (method, url, ...rest) {
+    const rewrittenUrl = rewriteBiliRequestUrl(String(url ?? ''))
+    return originalOpen.call(this, method, rewrittenUrl || url, ...rest)
   }
 }
 

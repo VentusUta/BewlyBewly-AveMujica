@@ -34,7 +34,6 @@ html,
 :host {
   line-height: 1.5; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
-  -moz-tab-size: 4; /* 3 */
   tab-size: 4; /* 3 */
   font-family:
     ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* 4 */
@@ -203,7 +202,7 @@ button,
 [type="button"],
 [type="reset"],
 [type="submit"] {
-  -webkit-appearance: button; /* 1 */
+  appearance: button; /* 1 */
   background-color: transparent; /* 2 */
   background-image: none; /* 2 */
 }
@@ -247,7 +246,7 @@ Correct the cursor style of increment and decrement buttons in Safari.
 */
 
 [type="search"] {
-  -webkit-appearance: textfield; /* 1 */
+  appearance: textfield; /* 1 */
   outline-offset: -2px; /* 2 */
 }
 
@@ -264,8 +263,8 @@ Remove the inner padding in Chrome and Safari on macOS.
 2. Change font properties to `inherit` in Safari.
 */
 
-::-webkit-file-upload-button {
-  -webkit-appearance: button; /* 1 */
+::file-selector-button {
+  appearance: button; /* 1 */
   font: inherit; /* 2 */
 }
 
