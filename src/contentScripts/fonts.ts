@@ -107,7 +107,6 @@ const preloadedFonts: Partial<Record<Settings['customizeFont'], [font: string, t
     ['1em "MiddleDotFont-BewlyInternalResource"', '·'],
     ['1em "OldRoboto-BewlyInternalResource"'],
     ['500 1em "OldRoboto-BewlyInternalResource"'],
-    ['1em "EliksiroSans-BewlyInternalResource"'],
   ],
 }
 
@@ -120,6 +119,11 @@ export function setupFonts() {
   eliksiroSans.addEventListener('load', () => {
     for (const [font, text] of preloadedFonts[settings.value.customizeFont] ?? [])
       document.fonts.load(font, text).catch(() => {})
+    // The slices are ordered by character frequency, so the first ones cover most of a page
+    if (settings.value.customizeFont === 'recommend-new') {
+      for (const face of [...document.fonts].filter(f => f.family === 'EliksiroSans-BewlyInternalResource').slice(0, 21))
+        face.load().catch(() => {})
+    }
   }, { once: true })
   document.documentElement.append(eliksiroSans)
 
