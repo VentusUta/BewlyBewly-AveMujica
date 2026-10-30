@@ -270,7 +270,7 @@ function setCurrentTitle() {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .menu-item-activated {
   --uno: "text-$bew-text-auto bg-$bew-theme-color-auto";
 }

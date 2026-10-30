@@ -669,10 +669,10 @@ document.head.appendChild(removeLeftQuoteIndent)
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .bewly-wrapper {
-  // To fix the filter used in `.bewly-wrapper` that cause the positions of elements become discorded.
-  > * > * {
+  /* To fix the filter used in `.bewly-wrapper` that cause the positions of elements become discorded. */
+  & > * > * {
     filter: var(--bew-filter-force-dark);
   }
 }

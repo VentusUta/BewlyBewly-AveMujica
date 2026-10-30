@@ -6,17 +6,17 @@ In `index.ts`, we will write some regex rules to match the style used on a speci
 
 ## Style File Writing Style
 
-``` scss
+``` css
 .bewly-design.pageName {
-  // Implement specific modifications to the page, like tweaking the layout, and place those styles here
+  /* Implement specific modifications to the page, like tweaking the layout, and place those styles here */
   .right-side-bar .catalog {
     line-height: 3em;
   }
 
-  // ...
+  /* ... */
 
-  // #region theme color adaption part
-  // Increase the priority of the style inside by writing a non-existent selector in `:not()`
+  /* #region theme color adaption part */
+  /* Increase the priority of the style inside by writing a non-existent selector in `:not()` */
   :not(foobar) {
     a,
     b,
@@ -27,7 +27,7 @@ In `index.ts`, we will write some regex rules to match the style used on a speci
     d,
     e,
     f {
-      // PLEASE NOTE THAT USING `!important` SHOULD BE A LAST RESORT
+      /* PLEASE NOTE THAT USING `!important` SHOULD BE A LAST RESORT */
       color: var(--bew-theme-color) !important;
     }
 
@@ -43,11 +43,11 @@ In `index.ts`, we will write some regex rules to match the style used on a speci
       background-color: var(--bew-theme-color) !important;
     }
 
-    // ...
+    /* ... */
   }
-  // #endregion
+  /* #endregion */
 
-  // #region dark mode adaption part
+  /* #region dark mode adaption part */
   &.dark {
     aa,
     bb,
@@ -61,9 +61,9 @@ In `index.ts`, we will write some regex rules to match the style used on a speci
       color: var(--bew-text-1) !important;
     }
 
-    // ...
+    /* ... */
   }
-  // #endregion
+  /* #endregion */
 }
 ```
 

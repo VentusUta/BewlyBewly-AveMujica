@@ -457,31 +457,29 @@ const dockTransformStyle = computed((): { transform: string, transformOrigin: st
   </aside>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .dock-wrap {
-  > * {
+  & > * {
     --uno: "pointer-events-auto";
   }
 }
 
-.dock-edge {
-  &-left,
-  &-right,
-  &-bottom {
-    --uno: "absolute z--1";
-  }
+.dock-edge-left,
+.dock-edge-right,
+.dock-edge-bottom {
+  --uno: "absolute z--1";
+}
 
-  &-left {
-    --uno: "left-0 top-0 w-14px h-full hover:w-60px";
-  }
+.dock-edge-left {
+  --uno: "left-0 top-0 w-14px h-full hover:w-60px";
+}
 
-  &-right {
-    --uno: "right-0 top-0 w-14px h-full hover:w-60px";
-  }
+.dock-edge-right {
+  --uno: "right-0 top-0 w-14px h-full hover:w-60px";
+}
 
-  &-bottom {
-    --uno: "left-0 bottom-0 w-full h-14px hover-h-60px";
-  }
+.dock-edge-bottom {
+  --uno: "left-0 bottom-0 w-full h-14px hover-h-60px";
 }
 
 .dock-content {
@@ -525,7 +523,7 @@ const dockTransformStyle = computed((): { transform: string, transformOrigin: st
     --uno: "w-3px h-auto my-3 mx-1";
   }
 
-  .dock-content-inner {
+  & .dock-content-inner {
     --uno: "duration-300 ease-in-out transform-gpu";
     --uno: "p-2 m-2 bg-$bew-content-alt dark:bg-$bew-elevated";
     --uno: "flex flex-col gap-2 shrink-0";

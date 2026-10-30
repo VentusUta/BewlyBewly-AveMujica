@@ -30,5 +30,5 @@ const props = withDefaults(defineProps<Props>(), {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 </style>

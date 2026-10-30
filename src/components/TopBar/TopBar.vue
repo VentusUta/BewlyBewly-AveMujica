@@ -898,7 +898,7 @@ defineExpose({
   </Transition>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .top-bar-enter-active,
 .top-bar-leave-active {
   transition: all 0.5s ease;
@@ -944,7 +944,7 @@ defineExpose({
 }
 
 :deep(.search-bar) {
-  input:not(:focus, :focus-within) {
+  & input:not(:focus, :focus-within) {
     --uno: "!border-$bew-border-color !shadow-$bew-shadow-1";
   }
 }
@@ -957,7 +957,7 @@ defineExpose({
   --uno: "after:absolute after:top--30px after:left-1/2 after:-z-1";
   --uno: "after:transform after:-translate-x-1/2";
 
-  // 只设在弹窗根上：设在后代上会拦住缩略图等 overflow: hidden 元素上的滚轮，列表本身就滚不动了
+  /* 只设在弹窗根上：设在后代上会拦住缩略图等 overflow: hidden 元素上的滚轮，列表本身就滚不动了 */
   overscroll-behavior: contain;
 }
 
@@ -972,16 +972,16 @@ defineExpose({
 .right-side {
   .avatar {
     --uno: "flex justify-center items-center relative z-1 rounded-1/2 w-46px h-46px";
-    // --uno: "bg-$bew-elevated border-1 border-$bew-border-color";
-    // --uno: "shadow-[var(--bew-shadow-edge-glow-1),var(--bew-shadow-2)]";
-    // backdrop-filter: var(--bew-filter-glass-1);
+    /* --uno: "bg-$bew-elevated border-1 border-$bew-border-color"; */
+    /* --uno: "shadow-[var(--bew-shadow-edge-glow-1),var(--bew-shadow-2)]"; */
+    /* backdrop-filter: var(--bew-filter-glass-1); */
 
     &.hover,
     &:hover {
-      // --uno: "backdrop-filter-none bg-$bew-elevated-solid";
+      /* --uno: "backdrop-filter-none bg-$bew-elevated-solid"; */
     }
 
-    // Add a safety zone to prevent the avatar from collapsing quickly after leaving
+    /* Add a safety zone to prevent the avatar from collapsing quickly after leaving */
     &:hover::after,
     &.hover::after {
       --uno: "content-empty absolute right-0 top-20px w-110px h-120px";

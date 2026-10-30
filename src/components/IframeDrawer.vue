@@ -289,7 +289,7 @@ watchEffect(() => {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .drawer-enter-active,
 .drawer-leave-active {
   transition: transform 0.3s;

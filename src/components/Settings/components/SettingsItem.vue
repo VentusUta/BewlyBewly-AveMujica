@@ -36,7 +36,7 @@ defineProps<{
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 :deep(.right-content > *) {
   --uno: "float-right clear-both";
 }

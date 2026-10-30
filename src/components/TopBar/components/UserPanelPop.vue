@@ -318,7 +318,7 @@ function handleClickChannel() {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .level :deep(svg) {
   --uno: "w-25px h-16px";
 }
@@ -332,7 +332,7 @@ function handleClickChannel() {
   --uno: "bg-$bew-fill-alt hover:bg-$bew-fill-2";
   --uno: "shadow-[var(--bew-shadow-edge-glow-1),var(--bew-shadow-1)]";
 
-  > * {
+  & > * {
     --uno: "transition-all duration-300";
   }
 

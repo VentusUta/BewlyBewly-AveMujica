@@ -1,2 +1,2 @@
-import './bilibiliEvolved.scss'
-import './bilibiliEnhanceVideoList.scss'
+import './bilibiliEvolved.css'
+import './bilibiliEnhanceVideoList.css'

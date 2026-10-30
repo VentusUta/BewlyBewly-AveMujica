@@ -25,7 +25,7 @@ defineProps<{
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .b-settings-item-group + .b-settings-item-group {
   --uno: "mt-6";
 }

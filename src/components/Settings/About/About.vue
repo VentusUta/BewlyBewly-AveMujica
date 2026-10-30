@@ -268,7 +268,7 @@ async function checkGitHubRelease() {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .btn {
   --b-button-color: var(--bew-fill-1);
   --b-button-color-hover: var(--bew-fill-2);

@@ -16,7 +16,7 @@ withDefaults(defineProps<{
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .b-list {
   &.highlight-first :deep(.b-list-item:first-child) {
     --uno: "!bg-$bew-fill-2 !font-bold";

@@ -79,7 +79,7 @@ function switchPage(useOriginalBiliPage: boolean) {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .force-white-icon .bewly-bili-switcher:not(.disable-frosted-glass) {
   background-color: color-mix(in oklab, var(--bew-elevated-solid), transparent 80%);
 }
