@@ -1,6 +1,6 @@
 name: 问题报告
 description: 遇到错误请在此报告。
-labels: [bug]
+labels: [Bug]
 
 body:
   - type: markdown
@@ -66,6 +66,8 @@ body:
         - label: 我确认此问题未在其他 issue 中出现过。
           required: false
         - label: 我确认我已阅读“[常見問題](https://github.com/VentusUta/BewlyBewly-AveMujica/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)”页面，其中没有对应我问题的解决方案。
+          required: false
+        - label: 我确认我已阅读“[浏览器支持级别](https://github.com/VentusUta/BewlyBewly-AveMujica/wiki/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%94%AF%E6%8C%81%E7%BA%A7%E5%88%AB)”页面，我的浏览器不为“不支持”。
           required: false
         - label: 我确认我正在使用最新的 BewlyBewly! Ave Mujica 版本。
           required: false
