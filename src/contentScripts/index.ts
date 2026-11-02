@@ -302,7 +302,7 @@ function injectApp() {
   const styleEl = document.createElement('link')
   // Fix #69 https://github.com/hakadao/BewlyBewly/issues/69
   // https://medium.com/@emilio_martinez/shadow-dom-open-vs-closed-1a8cf286088a - open shadow dom
-  const shadowDOM = container.attachShadow?.({ mode: 'open' }) || container
+  const shadowDOM = container.attachShadow({ mode: 'open' })
   const resetStyleEl = document.createElement('style')
   resetStyleEl.textContent = `${RESET_BEWLY_CSS}`
   const bewlyStyleEl = document.createElement('style')
@@ -472,7 +472,6 @@ export function injectBottomCommentStyle() {
       div.bili-comments-bottom-fixed-wrapper > div {
         background-color: rgba(255, 255, 255, 0) !important;
         backdrop-filter: blur(12px) saturate(120%);
-        -webkit-backdrop-filter: blur(12px) saturate(120%);
         border-top-color: rgba(255, 255, 255, 0.22) !important;
       }
     `

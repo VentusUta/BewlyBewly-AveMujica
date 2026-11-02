@@ -369,13 +369,7 @@ function handleRemoved(selectedOpt?: { dislikeReasonId: number }) {
   padding: 4px 0;
 
   /* 完全隐藏滚动条 */
-  -ms-overflow-style: none; /* IE 和 Edge */
-  scrollbar-width: none; /* Firefox */
-
-  /* 隐藏 Webkit 浏览器的滚动条 */
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  scrollbar-width: none;
 }
 
 .scroll-indicator {

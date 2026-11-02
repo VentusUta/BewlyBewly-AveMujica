@@ -20,6 +20,7 @@ export default defineConfig(mergeConfig(sharedConfig, {
     cssCodeSplit: false,
     emptyOutDir: false,
     sourcemap: false, // https://github.com/vitejs/vite-plugin-vue/issues/35
+    target: ['chrome140', 'firefox145', 'safari18.4'],
     lib: {
       entry: r('src/contentScripts/index.ts'),
       name: packageJson.name,
