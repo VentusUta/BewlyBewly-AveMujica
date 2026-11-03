@@ -16,7 +16,7 @@ const fontFaces = `
     unicode-range: U+00B7;
     font-weight: 100 700;
     line-gap-override: 0%;
-    src: url(${browser.runtime.getURL('/assets/fonts/eliksiro-sans/woff2/EliksiroSans-VF-000.woff2')}) format(woff2) tech(variations);
+    src: url(${browser.runtime.getURL('/assets/fonts/EliksiroSans-VF.woff2')}) format(woff2) tech(variations);
 }
 
 @font-face {
@@ -88,6 +88,13 @@ const fontFaces = `
     font-weight: 250 900;
     src: url(${browser.runtime.getURL('/assets/fonts/ShangguSansSC-VF.woff2')}) format(woff2) tech(variations);
 }
+
+@font-face {
+    font-family: "EliksiroSans-BewlyInternalResource"; /* Chinese characters modern form */
+    font-weight: 100 700;
+    font-feature-settings: "ss11" on;
+    src: url(${browser.runtime.getURL('/assets/fonts/EliksiroSans-VF.woff2')}) format(woff2) tech(variations);
+}
 `
 
 const htmlLangs: Partial<Record<string, string>> = {
@@ -107,25 +114,15 @@ const preloadedFonts: Partial<Record<Settings['customizeFont'], [font: string, t
     ['1em "MiddleDotFont-BewlyInternalResource"', '·'],
     ['1em "OldRoboto-BewlyInternalResource"'],
     ['500 1em "OldRoboto-BewlyInternalResource"'],
+    ['1em "EliksiroSans-BewlyInternalResource"'],
   ],
 }
 
 export function setupFonts() {
   injectCSS(fontFaces)
 
-  const eliksiroSans = document.createElement('link')
-  eliksiroSans.rel = 'stylesheet'
-  eliksiroSans.href = browser.runtime.getURL('/assets/fonts/eliksiro-sans/eliksiro-sans.css')
-  eliksiroSans.addEventListener('load', () => {
-    for (const [font, text] of preloadedFonts[settings.value.customizeFont] ?? [])
-      document.fonts.load(font, text).catch(() => {})
-    // The slices are ordered by character frequency, so the first ones cover most of a page
-    if (settings.value.customizeFont === 'recommend-new') {
-      for (const face of [...document.fonts].filter(f => f.family === 'EliksiroSans-BewlyInternalResource').slice(0, 21))
-        face.load().catch(() => {})
-    }
-  }, { once: true })
-  document.documentElement.append(eliksiroSans)
+  for (const [font, text] of preloadedFonts[settings.value.customizeFont] ?? [])
+    document.fonts.load(font, text).catch(() => {})
 
   const applyLang = () => {
     const language = settings.value.language

@@ -31,7 +31,6 @@ export default antfu(
       'public',
       'extension',
       'extension-firefox',
-      'assets/fonts/eliksiro-sans',
     ],
   },
   {
