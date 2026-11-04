@@ -4,7 +4,7 @@
   /* 原版首頁最右則推介內容 */
   .floor-single-card,
   /* 首頁不能使用不感興趣的影片都當廣告殺了 */
-  .feed-card:has(.bili-video-card.is-rcmd:not(.enable-no-interest)),
+  :is(.feed-card, .bili-feed-card):has(.bili-video-card.is-rcmd:not(.enable-no-interest)),
   .bili-video-card.is-rcmd:not(.enable-no-interest),
   .ad-report,
   .brand-ad-list,
