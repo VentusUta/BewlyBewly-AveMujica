@@ -9,6 +9,7 @@ import { settings } from '~/logic'
 import type { List as VideoItem, WatchLaterResult } from '~/models/video/watchLater'
 import { useMainStore } from '~/stores/mainStore'
 import api from '~/utils/api'
+import { skippableContentStyle } from '~/utils/contentVisibility'
 import { calcCurrentTime } from '~/utils/dataFormatter'
 import { getCSRF, openLinkToNewTab, removeHttpFromUrl } from '~/utils/main'
 
@@ -187,7 +188,7 @@ function handleMouseEnter(item: VideoItem) {
               group-hover:bg="$bew-fill-2"
               duration-300 w-full
               p-2 m-1
-              content-visibility-auto
+              :style="skippableContentStyle"
             >
               <!-- Cover -->
               <div

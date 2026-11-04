@@ -10,6 +10,7 @@ import { Business } from '~/models/history/history'
 import type { HistorySearchResult, List as HistorySearchItem } from '~/models/video/historySearch'
 import { useMainStore } from '~/stores/mainStore'
 import api from '~/utils/api'
+import { skippableContentStyle } from '~/utils/contentVisibility'
 import { calcCurrentTime } from '~/utils/dataFormatter'
 import { getCSRF, removeHttpFromUrl } from '~/utils/main'
 
@@ -280,7 +281,7 @@ function handleMouseEnter(item: HistoryItem) {
             group-hover:bg="$bew-fill-2"
             duration-300 w-full
             p-2 m-1
-            content-visibility-auto
+            :style="skippableContentStyle"
           >
             <!-- Cover -->
             <div

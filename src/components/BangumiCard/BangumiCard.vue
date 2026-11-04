@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useDark } from '~/composables/useDark'
 import { useMainStore } from '~/stores/mainStore'
+import { skippableContentStyle } from '~/utils/contentVisibility'
 import { numFormatter } from '~/utils/dataFormatter'
 import { removeHttpFromUrl } from '~/utils/main'
 
@@ -44,13 +45,13 @@ function handleMouseEnter(bangumi: Bangumi) {
     <ALink
       v-if="!skeleton && bangumi"
       class="group"
-      :style="{
+      :style="[{
         display: horizontal ? 'flex' : 'block',
-      }"
+      }, skippableContentStyle]"
       :href="bangumi.url"
       type="videoCard"
       gap-4 hover:bg="$bew-fill-2" hover:ring="8 $bew-fill-2"
-      content-visibility-auto intrinsic-size-400px
+      intrinsic-size-400px
       transition="all ease-in-out 300"
       rounded="$bew-radius" h-fit
       @mouseenter="handleMouseEnter(bangumi)"
