@@ -2,7 +2,7 @@
 /* detect and remove it when the class name contains "ads" */
 .block-useless-contents {
   /* 原版首頁最右則推介內容 */
-  .floor-single-card,
+  .floor-single-card:not(.load-more-anchor > *),
   /* 首頁不能使用不感興趣的影片都當廣告殺了 */
   :is(.feed-card, .bili-feed-card):has(.bili-video-card.is-rcmd:not(.enable-no-interest)),
   .bili-video-card.is-rcmd:not(.enable-no-interest),
@@ -23,6 +23,11 @@
   .adcard,
   /* 主頁下載桌面版提示 */
   .desktop-download-tip {
+    display: none !important;
+  }
+
+  /* 隐藏加载锚点前的占位卡片，让锚点紧跟最后一张卡片：B站滚动到锚点附近才加载更多 */
+  .recommended-container_floor-aside .container > .bili-video-card:has(~ .load-more-anchor) {
     display: none !important;
   }
 
