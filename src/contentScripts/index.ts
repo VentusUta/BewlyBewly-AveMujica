@@ -205,6 +205,10 @@ async function onDOMLoaded() {
         .bili-header {
           position: fixed !important;
           inset: 0 0 auto;
+          z-index: 1001 !important;
+        }
+        .remove-top-bar .bili-header {
+          visibility: hidden !important;
         }
         .bili-header .bili-header__bar {
           position: fixed !important;

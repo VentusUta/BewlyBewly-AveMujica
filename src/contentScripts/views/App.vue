@@ -223,7 +223,7 @@ watch([() => showTopBar.value, () => activatedPage.value], () => {
       biliHeader.style.visibility = 'hidden'
     }
     else {
-      biliHeader.style.visibility = 'visible'
+      biliHeader.style.removeProperty('visibility')
     }
   }
 }, { immediate: true })
