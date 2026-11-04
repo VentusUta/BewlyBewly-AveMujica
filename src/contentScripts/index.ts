@@ -16,6 +16,7 @@ import { SVG_ICONS } from '~/utils/svgIcons'
 
 import { version } from '../../package.json'
 import { setupBiliTranslation } from './biliTranslation'
+import { setupFonts } from './fonts'
 import App from './views/App.vue'
 
 const isFirefox: boolean = /Firefox/i.test(navigator.userAgent)
@@ -133,6 +134,9 @@ export function isSupportedIframePages(): boolean {
 let beforeLoadedStyleEl: HTMLStyleElement | undefined
 
 const isStylesOnlyPage = isFansMedalWallPage()
+
+if (isSupportedPages() || isSupportedIframePages())
+  settings.ready.then(setupFonts)
 
 if (isSupportedPages() || isSupportedIframePages() || isStylesOnlyPage) {
   if (settings.value.adaptToOtherPageStyles)
