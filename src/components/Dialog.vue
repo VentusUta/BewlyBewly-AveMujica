@@ -3,6 +3,7 @@ import { onKeyStroke } from '@vueuse/core'
 
 import Button from '~/components/Button.vue'
 import { useBewlyApp } from '~/composables/useAppProvider'
+import { useDocumentScrollLock } from '~/composables/useDocumentScrollLock'
 
 const props = withDefaults(defineProps<{
   title?: string
@@ -41,6 +42,7 @@ onKeyStroke('Escape', (e: KeyboardEvent) => {
 const showShortcut = ref<boolean>(false)
 const { mainAppRef } = useBewlyApp()
 const showDialog = ref<boolean>(false)
+useDocumentScrollLock(showDialog)
 
 const dialogWidth = computed(() => {
   return typeof props.width === 'number' ? `${props.width}px` : props.width || '400px'

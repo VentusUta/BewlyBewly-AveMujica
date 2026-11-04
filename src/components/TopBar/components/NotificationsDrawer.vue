@@ -2,6 +2,7 @@
 import { onKeyStroke } from '@vueuse/core'
 
 import { useBewlyApp } from '~/composables/useAppProvider'
+import { useDocumentScrollLock } from '~/composables/useDocumentScrollLock'
 import { settings } from '~/logic'
 
 // TODO: support shortcuts like `Ctrl+Alt+T` to open in new tab, `Esc` to close
@@ -17,6 +18,7 @@ const emit = defineEmits<{
 const { mainAppRef } = useBewlyApp()
 
 const show = ref(false)
+useDocumentScrollLock(show)
 const iframeRef = ref<HTMLIFrameElement | null>(null)
 const currentUrl = ref<string>(props.url || 'https://message.bilibili.com/')
 const showIframe = ref(false)
