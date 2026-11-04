@@ -205,5 +205,5 @@ watch(() => settings.value.language, (newValue) => {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 </style>

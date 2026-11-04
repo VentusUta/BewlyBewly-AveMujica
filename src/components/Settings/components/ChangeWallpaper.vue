@@ -260,7 +260,7 @@ function handleRemoveCustomWallpaper() {
   </SettingsItemGroup>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .selected-wallpaper {
   --uno: "border-$bew-theme-color-60";
 }

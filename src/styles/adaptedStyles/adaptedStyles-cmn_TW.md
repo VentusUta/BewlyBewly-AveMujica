@@ -6,17 +6,17 @@
 
 ## 樣式表檔案撰寫風格
 
-``` scss
+``` css
 .bewly-design.pageName {
-  // 在此處實施對頁面的特定修改，例如調整佈局，並將那些樣式放在這裡。
+  /* 在此處實施對頁面的特定修改，例如調整佈局，並將那些樣式放在這裡。 */
   .right-side-bar .catalog {
     line-height: 3em;
   }
 
-  // ...
+  /* ... */
 
-  // #region theme color adaption part
-  // 透過在 `:not()` 中寫入一個不存在的選取器來提高內部樣式的優先級。
+  /* #region theme color adaption part */
+  /* 透過在 `:not()` 中寫入一個不存在的選取器來提高內部樣式的優先級。 */
   :not(foobar) {
     a,
     b,
@@ -27,7 +27,7 @@
     d,
     e,
     f {
-      // 請注意，使用 `!important` 應該是最後萬不得已的手段
+      /* 請注意，使用 `!important` 應該是最後萬不得已的手段 */
       color: var(--bew-theme-color) !important;
     }
 
@@ -43,11 +43,11 @@
       background-color: var(--bew-theme-color) !important;
     }
 
-    // ...
+    /* ... */
   }
-  // #endregion
+  /* #endregion */
 
-  // #region dark mode adaption part
+  /* #region dark mode adaption part */
   &.dark {
     aa,
     bb,
@@ -61,9 +61,9 @@
       color: var(--bew-text-1) !important;
     }
 
-    // ...
+    /* ... */
   }
-  // #endregion
+  /* #endregion */
 }
 ```
 

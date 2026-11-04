@@ -329,7 +329,7 @@ defineExpose({ initData })
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .grid-adaptive {
   --uno: "grid 2xl:cols-5 xl:cols-4 lg:cols-3 md:cols-2 sm:cols-1 cols-1 gap-5";
 }

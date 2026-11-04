@@ -1,0 +1,58 @@
+.bewly-design.creativeCenterPage {
+  /* #region theme color adaption part */
+  /* Increase the priority of the style inside by writing a non-existent selector in `:not()` */
+  /* :not(foobar) { */
+  /* } */
+  /* #endregion */
+
+  /* #region dark mode adaption part */
+  &.dark {
+    #appeal-main .err-wrapper.err-no-list,
+    .loading_wrap .loading .animate,
+    micro-app[name="allowance-excitation"] .loading > .loading-img,
+    micro-app[name="template-incentive"] .header-bg,
+    micro-app[name="upower-manage"] .rights .level-right:after,
+    micro-app[name="video-up"] .video-complete .bg,
+    .article-card.v2 .cover-wrp .duration,
+    .bmc-video-card .video-preview__duration,
+    .setting .watermark-setting .watermark-wrp .watermark-position-wrp,
+    .chief-recommend-module .carousel-box .carousel-module .panel .title,
+    /* Cover editor (封面制作): only un-invert media so dark chrome stays. */
+    /* Previews are canvas-based; forceDark.css only corrects img/video/iframe. */
+    /* https://github.com/VentusUta/BewlyBewly-AveMujica/issues/90 */
+    .cover-editor canvas,
+    micro-app[name="video-up"] .color-picker-color .list,
+    micro-app[name="video-up"] .tool-bar-text .btn-color,
+    /* Bilibili sidebar */
+    .be-settings > .sidebar {
+      filter: var(--bew-filter-force-dark);
+    }
+
+    .nav-item.message iframe,
+    .setting .watermark-setting .watermark-wrp .watermark-position-wrp .preview-img,
+    micro-app[name="video-up"] .cover-editor-sidebar-item-icon {
+      filter: none !important;
+    }
+
+    .setting-card-switch,
+    .note-setting-wrp,
+    .bcc-select-input-inner,
+    .ep-table .ep-table-head-tr .ep-table-tr-item,
+    .ep-table .ep-table-tr-item,
+    .ep-section-edit-video-list-item-tip,
+    .video-title-edit > input {
+      color: black;
+    }
+
+    .bcc-search-input,
+    .ep-text-input label input,
+    .ep-text-area label textarea {
+      background-color: unset;
+    }
+
+    .ep-text-input {
+      background: unset;
+    }
+  }
+  /* #endregion */
+}

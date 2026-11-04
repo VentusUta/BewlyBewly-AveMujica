@@ -326,7 +326,7 @@ async function handleClearSearchHistory() {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 ::v-deep(.suggest_high_light) {
   --uno: "text-$bew-theme-color not-italic";
 }
@@ -379,7 +379,9 @@ async function handleClearSearchHistory() {
   --b-search-bar-hover-text-color: var(--bew-text-1);
   --b-search-bar-focus-text-color: var(--bew-text-1);
 
-  @mixin card-content {
+  .search-bar input,
+  #search-history,
+  #search-suggestion {
     --uno: "text-base outline-none w-full bg-$b-search-bar-normal-color transform-gpu border-1 border-$bew-border-color";
     --uno: "shadow-[var(--bew-shadow-2),var(--bew-shadow-edge-glow-1)]";
     backdrop-filter: var(--bew-filter-glass-1);
@@ -387,8 +389,6 @@ async function handleClearSearchHistory() {
 
   .search-bar {
     input {
-      @include card-content;
-
       &:hover {
         --uno: "bg-$b-search-bar-hover-color";
       }
@@ -407,19 +407,13 @@ async function handleClearSearchHistory() {
     }
   }
 
-  @mixin search-content {
-    @include card-content;
+  #search-history,
+  #search-suggestion {
     --uno: "p-2 mt-2 absolute rounded-$bew-radius hover:block";
-  }
-
-  @mixin search-content-item {
-    --uno: "px-4 py-2 w-full rounded-$bew-radius duration-300 cursor-pointer not-first:mt-1 tracking-wider hover:bg-$bew-fill-2";
+    --uno: "bg-$bew-elevated";
   }
 
   #search-history {
-    @include search-content;
-    --uno: "bg-$bew-elevated";
-
     .history-list {
       --uno: "max-h-420px important-overflow-y-auto";
 
@@ -437,12 +431,10 @@ async function handleClearSearchHistory() {
   }
 
   #search-suggestion {
-    @include search-content;
-    --uno: "bg-$bew-elevated";
     --uno: "max-h-420px important-overflow-y-auto";
 
     .suggestion-item {
-      @include search-content-item;
+      --uno: "px-4 py-2 w-full rounded-$bew-radius duration-300 cursor-pointer not-first:mt-1 tracking-wider hover:bg-$bew-fill-2";
 
       &.active {
         --uno: "bg-$bew-fill-2 shadow-[var(--bew-shadow-1),var(--bew-shadow-edge-glow-1)]";

@@ -73,7 +73,7 @@ defineExpose({ focus })
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .prefix,
 .suffix {
   --uno: "flex items-center";

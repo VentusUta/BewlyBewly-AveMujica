@@ -50,7 +50,7 @@ function handleClick(evt: MouseEvent) {
   </button>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .b-button {
   --b-button-color: var(--bew-content-solid);
   --b-button-color-hover: var(--bew-content-solid-hover);
@@ -77,54 +77,54 @@ function handleClick(evt: MouseEvent) {
   & svg {
     --uno: "text-size-$b-button-icon-size";
   }
+}
 
-  // &--type-default {
-  // }
+/* .b-button--type-default {
+} */
 
-  &--type-primary {
-    --b-button-color: var(--bew-theme-color);
-    --b-button-color-hover: var(--bew-theme-color);
-    --b-button-text-color: white;
-  }
+.b-button--type-primary {
+  --b-button-color: var(--bew-theme-color);
+  --b-button-color-hover: var(--bew-theme-color);
+  --b-button-text-color: white;
+}
 
-  &--type-secondary {
-    --b-button-color: var(--bew-fill-1);
-    --b-button-color-hover: var(--bew-fill-2);
-    --b-button-text-color: var(--bew-text-1);
-  }
+.b-button--type-secondary {
+  --b-button-color: var(--bew-fill-1);
+  --b-button-color-hover: var(--bew-fill-2);
+  --b-button-text-color: var(--bew-text-1);
+}
 
-  &--type-tertiary {
-    --b-button-color: transparent;
-    --b-button-color-hover: var(--bew-fill-2);
-    --b-button-text-color: var(--bew-text-1);
-  }
+.b-button--type-tertiary {
+  --b-button-color: transparent;
+  --b-button-color-hover: var(--bew-fill-2);
+  --b-button-text-color: var(--bew-text-1);
+}
 
-  &--type-error {
-    --b-button-color: var(--bew-error-color);
-    --b-button-color-hover: var(--bew-error-color);
-    --b-button-text-color: white;
-  }
+.b-button--type-error {
+  --b-button-color: var(--bew-error-color);
+  --b-button-color-hover: var(--bew-error-color);
+  --b-button-text-color: white;
+}
 
-  &--size-small {
-    --b-button-padding: 12px;
-    --b-button-font-size: 12px;
-    --b-button-icon-size: 13px;
-    --b-button-height: 30px;
-  }
+.b-button--size-small {
+  --b-button-padding: 12px;
+  --b-button-font-size: 12px;
+  --b-button-icon-size: 13px;
+  --b-button-height: 30px;
+}
 
-  &--size-large {
-    --b-button-padding: 12px;
-    --b-button-font-size: 15px;
-    --b-button-icon-size: 16px;
-    --b-button-height: 40px;
-  }
+.b-button--size-large {
+  --b-button-padding: 12px;
+  --b-button-font-size: 15px;
+  --b-button-icon-size: 16px;
+  --b-button-height: 40px;
+}
 
-  &--custom-color {
-    --uno: "hover:opacity-70";
-  }
+.b-button--custom-color {
+  --uno: "hover:opacity-70";
+}
 
-  &--strong {
-    --uno: "fw-800";
-  }
+.b-button--strong {
+  --uno: "fw-800";
 }
 </style>

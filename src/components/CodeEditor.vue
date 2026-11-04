@@ -14,7 +14,7 @@ const model = defineModel<string | number>()
   />
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 textarea {
   font-family: Consolas, monospace, sans-serif; /* 1 */
 }

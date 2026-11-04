@@ -135,7 +135,7 @@ onKeyStroke((e: KeyboardEvent) => {
   </Dialog>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .activated-dislike-reason {
   --uno: "bg-$bew-theme-color-20 color-$bew-theme-color";
 }

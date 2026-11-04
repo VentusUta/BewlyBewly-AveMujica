@@ -6,17 +6,17 @@
 
 ## 样式文件编写风格
 
-``` scss
+``` css
 .bewly-design.pageName {
-  // 实现对页面的特定修改，例如微调布局，将这些样式放在这里
+  /* 实现对页面的特定修改，例如微调布局，将这些样式放在这里 */
   .right-side-bar .catalog {
     line-height: 3em;
   }
 
-  // ...
+  /* ... */
 
-  // #region theme color adaption part
-  // 通过在 `:not()` 中编写一个不存在的选择器来增加内部样式的优先级。
+  /* #region theme color adaption part */
+  /* 通过在 `:not()` 中编写一个不存在的选择器来增加内部样式的优先级。 */
   :not(foobar) {
     a,
     b,
@@ -27,7 +27,7 @@
     d,
     e,
     f {
-      // 请注意，使用 `!important` 应该是最后万不得已的手段
+      /* 请注意，使用 `!important` 应该是最后万不得已的手段 */
       color: var(--bew-theme-color) !important;
     }
 
@@ -43,11 +43,11 @@
       background-color: var(--bew-theme-color) !important;
     }
 
-    // ...
+    /* ... */
   }
-  // #endregion
+  /* #endregion */
 
-  // #region dark mode adaption part
+  /* #region dark mode adaption part */
   &.dark {
     aa,
     bb,
@@ -61,9 +61,9 @@
       color: var(--bew-text-1) !important;
     }
 
-    // ...
+    /* ... */
   }
-  // #endregion
+  /* #endregion */
 }
 ```
 

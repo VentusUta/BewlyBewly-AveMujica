@@ -340,7 +340,7 @@ function isMusic(item: FavoriteResource) {
   </Empty>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .hide {
   transform: translateY(-70px);
 }

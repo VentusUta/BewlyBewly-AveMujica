@@ -22,7 +22,7 @@ const model = defineModel()
   </label>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 label {
   --b-button-width: 50px;
   --b-button-height: 25px;

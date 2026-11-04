@@ -121,7 +121,7 @@ function toggleHideSidebar(hide: boolean) {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .ctrl-btn {
   --b-button-width: 40px;
   --b-button-height: 40px;
@@ -137,7 +137,7 @@ function toggleHideSidebar(hide: boolean) {
   }
 
   &::after {
-    // safety area
+    /* safety area */
     --uno: "content-empty absolute w-[calc(100%+12px)] h-[calc(100%+12px)] left--6px right--6px z--1";
   }
 }
@@ -152,14 +152,14 @@ function toggleHideSidebar(hide: boolean) {
 
 .sidebar-edge {
   --uno: "absolute top-0 w-14px h-full hover:w-60px duration-300";
+}
 
-  &-left {
-    --uno: "left-0";
-  }
+.sidebar-edge-left {
+  --uno: "left-0";
+}
 
-  &-right {
-    --uno: "right-0";
-  }
+.sidebar-edge-right {
+  --uno: "right-0";
 }
 
 .left-side .sidebar-content {

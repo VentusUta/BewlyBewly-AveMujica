@@ -431,7 +431,7 @@ function deleteHistoryItem(index: number, historyItem: HistoryItem) {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .tab {
   --uno: "relative text-$bew-text-2";
 
