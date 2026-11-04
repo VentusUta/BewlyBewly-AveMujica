@@ -142,6 +142,10 @@ const otherLinks = computed(() => [
 </template>
 
 <style scoped>
+:deep([data-overlayscrollbars-viewport]) {
+  overscroll-behavior: contain;
+}
+
 .link-list {
   /* --uno: "last-of-type:p-4 last-of-type:bg-$bew-fill-1 last-of-type:h-fit last-of-type:m--4"; */
   /* --uno: "last-of-type:ml-2"; */
