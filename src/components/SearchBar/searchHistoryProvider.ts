@@ -1,5 +1,3 @@
-import { LazyValue } from '~/utils/lazyLoad'
-
 const SEARCH_HISTORY_LIMIT = 20
 
 export interface HistoryItem {
@@ -24,111 +22,106 @@ export interface SuggestionResponse {
   stoken: string
 }
 
-function historySort(historyItems: HistoryItem[]) {
-  historyItems.sort((a, b) => b.timestamp - a.timestamp)
-  return historyItems
+interface HistoryStorage {
+  getItem: (key: string) => Promise<string | null>
+  setItem: (key: string, value: string) => Promise<void>
 }
 
-export interface BilibiliStorageEvent {
-  type: 'COLS_RES'
-  id?: string
-  key: string
-  value: string
+const NAMESPACE = 'search_history'
+const HISTORY_KEY = 'search_history'
+
+const COLS_ORIGIN = 'https://s1.hdslb.com'
+const COLS_SRC = `${COLS_ORIGIN}/bfs/seed/jinkela/short/cols/iframe.html`
+const COLS_TIMEOUT = 3000
+
+async function getColsFrame(): Promise<HTMLIFrameElement> {
+  let iframe = document.querySelector<HTMLIFrameElement>(`iframe[src="${COLS_SRC}"]`)
+  if (!iframe) {
+    iframe = document.createElement('iframe')
+    iframe.src = COLS_SRC
+    iframe.style.display = 'none'
+    iframe.dataset.count = '1'
+    document.body.appendChild(iframe)
+  }
+  if (!iframe.dataset.loaded) {
+    await new Promise(resolve => iframe.addEventListener('load', resolve, { once: true }))
+    iframe.dataset.loaded = 'true'
+  }
+  return iframe
 }
 
-class BilibiliStorageProvider {
-  static BILIBILI_HISTORY_KEY = 'search_history:search_history'
-
-  private readonly iframe = new LazyValue<HTMLIFrameElement>(() => Array.from(document.getElementsByTagName('iframe')).find(i => i.src.includes('https://s1.hdslb.com/bfs/seed/jinkela/short/cols/iframe.html'))!)
-
-  private async operate(type: 'COLS_GET'): Promise<BilibiliStorageEvent>
-  private async operate(type: 'COLS_SET', value: string): Promise<void>
-  private async operate(type: 'COLS_CLR'): Promise<void>
-  private async operate(type: 'COLS_GET' | 'COLS_CLR' | 'COLS_SET', value?: string) {
-    const iframe = this.iframe.value
-
-    switch (type) {
-      case 'COLS_GET':
-        return new Promise<BilibiliStorageEvent>((resolve) => {
-          iframe.contentWindow!.postMessage({ type: 'COLS_GET', key: BilibiliStorageProvider.BILIBILI_HISTORY_KEY }, iframe!.src)
-          window.addEventListener('message', (e: MessageEvent<BilibiliStorageEvent>) => {
-            if (e.origin === 'https://s1.hdslb.com' && e.data && e.data?.type === 'COLS_RES' && e.data?.key === BilibiliStorageProvider.BILIBILI_HISTORY_KEY)
-              resolve(e.data)
-          }, { once: true })
-        })
-      case 'COLS_CLR':
-        return iframe.contentWindow!.postMessage({ type: 'COLS_CLR', key: 'search_history' }, iframe.src)
-      case 'COLS_SET':
-        return iframe.contentWindow!.postMessage({ type: 'COLS_SET', key: BilibiliStorageProvider.BILIBILI_HISTORY_KEY, value }, iframe.src)
-    }
-  }
-
-  getSearchHistory() {
-    return this.operate('COLS_GET')
-  }
-
-  clearSearchHistory() {
-    return this.operate('COLS_CLR')
-  }
-
-  addSearchHistory(value: string) {
-    return this.operate('COLS_SET', value)
-  }
-
-  removeSearchHistory(value: string) {
-    return this.operate('COLS_SET', value)
-  }
-}
-
-const provider = new BilibiliStorageProvider()
-
-export async function getSearchHistory(): Promise<HistoryItem[]> {
-  const e = await provider.getSearchHistory()
-
-  if (!e)
-    return []
+async function colsRequest(type: 'COLS_GET' | 'COLS_SET', key: string, value?: string): Promise<string | null> {
+  const id = crypto.randomUUID()
+  const controller = new AbortController()
+  const { promise: timeout, reject } = Promise.withResolvers<never>()
+  const timer = setTimeout(() => reject(new Error(`COLS: ${type} ${key} timed out`)), COLS_TIMEOUT)
 
   try {
-    const history = JSON.parse(e.value)
-    return historySort(history)
+    const response = new Promise<string | null>((resolve) => {
+      window.addEventListener('message', (e: MessageEvent) => {
+        if (e.origin === COLS_ORIGIN && e.data?.type === 'COLS_RES' && e.data.id === id)
+          resolve(e.data.value ?? null)
+      }, { signal: controller.signal })
+    })
+    const iframe = await Promise.race([getColsFrame(), timeout])
+    iframe.contentWindow!.postMessage({ type, key, value, id }, COLS_ORIGIN)
+    return await Promise.race([response, timeout])
+  }
+  finally {
+    clearTimeout(timer)
+    controller.abort()
+  }
+}
+
+// 与B站一致：Safari 下不用跨域 iframe，直接存在当前域名的 localStorage
+const storage: HistoryStorage = /apple/i.test(navigator.vendor)
+  ? {
+      getItem: async key => localStorage.getItem(`${NAMESPACE}:${key}`),
+      setItem: async (key, value) => localStorage.setItem(`${NAMESPACE}:${key}`, value),
+    }
+  : {
+      getItem: key => colsRequest('COLS_GET', `${NAMESPACE}:${key}`),
+      setItem: async (key, value) => {
+        await colsRequest('COLS_SET', `${NAMESPACE}:${key}`, value)
+      },
+    }
+
+async function readHistory(): Promise<HistoryItem[]> {
+  const raw = await storage.getItem(HISTORY_KEY)
+  try {
+    const history = JSON.parse(raw ?? '[]')
+    return Array.isArray(history) ? history : []
   }
   catch {
     return []
   }
 }
 
-export async function addSearchHistory(historyItem: HistoryItem) {
-  let history = await getSearchHistory()
-
-  let hasSameValue = false
-  history.forEach((item) => {
-    if (item.value === historyItem.value) {
-      item.timestamp = historyItem.timestamp
-      hasSameValue = true
-    }
-  })
-  if (!hasSameValue)
-    history.unshift(historyItem)
-
-  // if out of limit, remove overflow items
-  history = history.filter((item, index) => {
-    if (index < SEARCH_HISTORY_LIMIT)
-      return item
-    else
-      return false
-  })
-
-  provider.addSearchHistory(JSON.stringify(history))
+async function writeHistory(history: HistoryItem[]) {
+  await storage.setItem(HISTORY_KEY, JSON.stringify(history))
   return history
+}
+
+export async function getSearchHistory(): Promise<HistoryItem[]> {
+  try {
+    return (await readHistory()).sort((a, b) => b.timestamp - a.timestamp)
+  }
+  catch (error) {
+    console.error(error)
+    return []
+  }
+}
+
+export async function addSearchHistory(historyItem: HistoryItem) {
+  const history = (await readHistory()).filter(item => item.value !== historyItem.value)
+  history.unshift(historyItem)
+  return writeHistory(history.slice(0, SEARCH_HISTORY_LIMIT))
 }
 
 export async function removeSearchHistory(value: string) {
-  let history = await getSearchHistory()
-  history = history.filter(item => item.value !== value)
-  provider.removeSearchHistory(JSON.stringify(history))
-  return history
+  return writeHistory((await readHistory()).filter(item => item.value !== value))
 }
 
 export async function clearAllSearchHistory() {
-  return provider.clearSearchHistory()
+  return writeHistory([])
 }
