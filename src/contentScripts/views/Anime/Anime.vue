@@ -5,9 +5,10 @@ import { useInfiniteList } from '~/composables/useInfiniteList'
 import type { List as PopularAnimeItem, PopularAnimeResult } from '~/models/anime/popular'
 import type { ItemSubItem as RecommendationItem, RecommendationResult } from '~/models/anime/recommendation'
 import type { List as WatchListItem, WatchListResult } from '~/models/anime/watchList'
+import { useSessionStore } from '~/stores/sessionStore'
 import api from '~/utils/api'
 import { numFormatter } from '~/utils/dataFormatter'
-import { getUserID, openLinkToNewTab } from '~/utils/main'
+import { openLinkToNewTab } from '~/utils/main'
 
 import AnimeTimeTable from './components/AnimeTimeTable.vue'
 
@@ -21,6 +22,7 @@ const activatedSeasonId = ref<number>()
 const noMoreContent = ref<boolean>()
 const animeTimeTableRef = ref()
 const { handlePageRefresh } = useBewlyApp()
+const session = useSessionStore()
 
 const sentinel = useTemplateRef<HTMLElement>('sentinel')
 const { loading: isLoadingRecommendAnime, restart } = useInfiniteList({
@@ -60,7 +62,7 @@ function initPageAction() {
 function getAnimeWatchList() {
   isLoadingAnimeWatchList.value = true
   api.anime.getAnimeWatchList({
-    vmid: getUserID() ?? 0,
+    vmid: session.userID?.toString() ?? '',
     pn: 1,
     follow_status: 2,
     ps: 30,
@@ -120,7 +122,7 @@ function getPopularAnimeList() {
   <div>
     <div>
       <!-- Your Watchlist -->
-      <section v-if="getUserID()" class="anime-section">
+      <section v-if="session.userID" class="anime-section">
         <div flex justify-between items-center mb-6>
           <h3 text="3xl $bew-text-1" font="bold">
             {{ $t('anime.your_watch_list') }}
@@ -130,7 +132,7 @@ function getPopularAnimeList() {
             style="
               --b-button-shadow: var(--bew-shadow-1);
             "
-            @click="openLinkToNewTab(`https://space.bilibili.com/${getUserID() ?? 0}/bangumi`)"
+            @click="openLinkToNewTab(`https://space.bilibili.com/${session.userID ?? 0}/bangumi`)"
           >
             {{ $t('common.view_all') }}
           </Button>

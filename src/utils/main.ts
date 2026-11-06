@@ -24,12 +24,6 @@ export function setCookie(name: string, value: any, expDays: number) {
 }
 
 /**
- * Get current login user id
- * @returns userId
- */
-export const getUserID = (): string => getCookie('DedeUserID')
-
-/**
  * Get csrf token
  */
 export const getCSRF = (): string => getCookie('bili_jct')

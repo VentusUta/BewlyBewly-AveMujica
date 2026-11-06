@@ -3,23 +3,23 @@ import DOMPurify from 'dompurify'
 import { useI18n } from 'vue-i18n'
 
 import { settings } from '~/logic'
+import type { UserInfo } from '~/models/user/userInfo'
+import { useSessionStore } from '~/stores/sessionStore'
 import api from '~/utils/api'
-import { revokeAccessKey } from '~/utils/authProvider'
 import { numFormatter } from '~/utils/dataFormatter'
 import { LV0_ICON, LV1_ICON, LV2_ICON, LV3_ICON, LV4_ICON, LV5_ICON, LV6_ICON, LV6_LIGHTNING_ICON } from '~/utils/lvIcons'
-import { getCSRF, getUserID, isHomePage } from '~/utils/main'
+import { isHomePage } from '~/utils/main'
 
-import type { UserInfo, UserStat } from '../types'
+import type { UserStat } from '../types'
 
 const props = defineProps<{
   userInfo: UserInfo
 }>()
 
 const { t } = useI18n()
+const session = useSessionStore()
 
-const mid = computed(() => {
-  return getUserID()
-})
+const mid = computed(() => props.userInfo.mid)
 
 const otherLinks = computed((): { name: string, url: string, icon: string }[] => {
   return [
@@ -85,12 +85,8 @@ onMounted(() => {
 })
 
 async function logout() {
-  revokeAccessKey()
-  api.auth.logout({
-    biliCSRF: getCSRF(),
-  }).then(() => {
-    location.reload()
-  })
+  await session.logout()
+  location.reload()
 }
 
 const levelIcons: string[] = [

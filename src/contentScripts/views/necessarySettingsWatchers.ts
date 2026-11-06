@@ -2,10 +2,12 @@ import { useI18n } from 'vue-i18n'
 
 import { LanguageType } from '~/enums/appEnums'
 import { accessKey, settings } from '~/logic'
-import { getUserID, injectCSS } from '~/utils/main'
+import { useSessionStore } from '~/stores/sessionStore'
+import { injectCSS } from '~/utils/main'
 
 export function setupNecessarySettingsWatchers() {
   const { locale } = useI18n()
+  const session = useSessionStore()
 
   watch(
     () => settings.value.language,
@@ -234,7 +236,7 @@ export function setupNecessarySettingsWatchers() {
     () => accessKey.value,
     () => {
       // Clear accessKey if not logged in
-      if (!getUserID())
+      if (!session.userID)
         accessKey.value = ''
     },
     { immediate: true },

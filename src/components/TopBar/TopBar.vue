@@ -11,8 +11,9 @@ import { useWheelContain } from '~/composables/useWheelContain'
 import { TOP_BAR_VISIBILITY_CHANGE } from '~/constants/globalEvents'
 import { AppPage } from '~/enums/appEnums'
 import { settings } from '~/logic'
+import { useSessionStore } from '~/stores/sessionStore'
 import api from '~/utils/api'
-import { getUserID, isHomePage, isInIframe, removeHttpFromUrl, stripBiliLangPrefix } from '~/utils/main'
+import { isHomePage, isInIframe, removeHttpFromUrl, stripBiliLangPrefix } from '~/utils/main'
 import emitter from '~/utils/mitt'
 import { createTransformer } from '~/utils/transformer'
 
@@ -28,23 +29,19 @@ import UploadPop from './components/UploadPop.vue'
 import UserPanelPop from './components/UserPanelPop.vue'
 import WatchLaterPop from './components/WatchLaterPop.vue'
 import { updateInterval } from './notify'
-import type { UnReadDm, UnReadMessage, UserInfo } from './types'
+import type { UnReadDm, UnReadMessage } from './types'
 
 const { activatedPage, reachTop } = useBewlyApp()
 const { isDark } = useDark()
+const session = useSessionStore()
 
-const mid = getUserID() || ''
-const userInfo = reactive<UserInfo | NonNullable<unknown>>({}) as UnwrapNestedRefs<UserInfo>
+const mid = computed(() => session.userID ?? '')
 
 const hideTopBar = ref<boolean>(false)
 const headerTarget = ref(null)
 const { isOutside: isOutsideTopBar } = useMouseInElement(headerTarget)
 if (__TARGET_BROWSER__ === 'safari')
   useWheelContain(headerTarget, '.bew-popover')
-
-// initially, assume the user is logged in cuz data retrieval is slow, which may show the login
-// button even after login. if the user is not logged in, the login button will show up later
-const isLogin = ref<boolean>(true)
 
 const scrollTop = ref<number>(0)
 const oldScrollTop = ref<number>(0)
@@ -331,7 +328,7 @@ const { isWebFullscreen } = useWebFullscreen()
 watch(isWebFullscreen, webFullscreen => toggleTopBarVisible(!webFullscreen))
 
 async function initData() {
-  await getUserInfo()
+  await session.getUserInfo()
 
   // automatically update notifications and moments count
   setInterval(() => {
@@ -357,25 +354,6 @@ function handleScroll() {
   oldScrollTop.value = scrollTop.value
 }
 
-async function getUserInfo() {
-  try {
-    const res = await api.user.getUserInfo()
-
-    if (res.code === 0) {
-      isLogin.value = true
-      Object.assign(userInfo, res.data)
-    }
-    // Account not logged in
-    else if (res.code === -101) {
-      isLogin.value = false
-    }
-  }
-  catch (error) {
-    isLogin.value = false
-    console.error(error)
-  }
-}
-
 // #region Notifications
 const unReadMessage = reactive<UnReadMessage | NonNullable<unknown>>(
   {},
@@ -384,7 +362,7 @@ const unReadDm = reactive<UnReadDm>({} as UnwrapNestedRefs<UnReadDm>)
 const unReadMessageCount = ref<number>(0)
 
 async function getUnreadMessageCount() {
-  if (!isLogin.value)
+  if (session.status === 'loggedOut')
     return
 
   let result = 0
@@ -434,7 +412,7 @@ function refreshMomentsPopIfNeeded() {
 }
 
 async function getTopBarNewMomentsCount() {
-  if (!isLogin.value)
+  if (session.status === 'loggedOut')
     return
 
   let result = 0
@@ -591,7 +569,7 @@ defineExpose({
             transform-gpu
           >
             <div
-              v-if="!isLogin"
+              v-if="session.status === 'loggedOut'"
               class="right-side-item"
               important-w-auto
             >
@@ -601,7 +579,7 @@ defineExpose({
                 }}
               </a>
             </div>
-            <template v-if="isLogin">
+            <template v-if="session.status !== 'loggedOut'">
               <div class="hidden lg:flex" gap-1>
                 <!-- Moments -->
                 <div
@@ -842,7 +820,7 @@ defineExpose({
 
             <!-- Avatar -->
             <div
-              v-if="isLogin"
+              v-if="session.status !== 'loggedOut'"
               ref="avatar"
               :class="{ hover: popupVisible.userPanel }"
               class="avatar right-side-item"
@@ -854,18 +832,18 @@ defineExpose({
                 class="avatar-img"
                 :class="{ hover: popupVisible.userPanel }"
                 :style="{
-                  backgroundImage: `url(${userInfo.face ? removeHttpFromUrl(userInfo.face) : ''})`,
+                  backgroundImage: `url(${session.userInfo?.face ? removeHttpFromUrl(session.userInfo.face) : ''})`,
                 }"
               />
               <div
                 class="avatar-shadow"
                 :class="{ hover: popupVisible.userPanel }"
                 :style="{
-                  backgroundImage: `url(${userInfo.face ? removeHttpFromUrl(userInfo.face) : ''})`,
+                  backgroundImage: `url(${session.userInfo?.face ? removeHttpFromUrl(session.userInfo.face) : ''})`,
                 }"
               />
               <svg
-                v-if="userInfo.vip?.status === 1"
+                v-if="session.userInfo?.vip?.status === 1"
                 class="vip-img"
                 :class="{ hover: popupVisible.userPanel }"
                 :style="{ opacity: popupVisible.userPanel ? 1 : 0 }"
@@ -876,9 +854,9 @@ defineExpose({
 
               <Transition name="slide-in">
                 <UserPanelPop
-                  v-if="popupVisible.userPanel"
+                  v-if="popupVisible.userPanel && session.userInfo"
                   ref="avatarTransformer"
-                  :user-info="userInfo"
+                  :user-info="session.userInfo"
                   after:h="!0"
                   class="bew-popover"
                   pos="!left-auto !right-0" transform="!translate-x-0"

@@ -3,12 +3,14 @@ import type { Ref } from 'vue'
 
 import Empty from '~/components/Empty.vue'
 import Loading from '~/components/Loading.vue'
+import { useSessionStore } from '~/stores/sessionStore'
 import api from '~/utils/api'
 import { calcCurrentTime } from '~/utils/dataFormatter'
-import { getUserID, removeHttpFromUrl, scrollToTop } from '~/utils/main'
+import { removeHttpFromUrl, scrollToTop } from '~/utils/main'
 
 import type { FavoriteCategory, FavoriteResource } from '../types'
 
+const session = useSessionStore()
 const favoriteCategories = reactive<Array<FavoriteCategory>>([])
 const favoriteResources = reactive<Array<FavoriteResource>>([])
 
@@ -22,7 +24,7 @@ const noMoreContent = ref<boolean>(false)
 const favoriteVideosWrap = ref<HTMLElement>() as Ref<HTMLElement>
 
 const viewAllUrl = computed((): string => {
-  return `//space.bilibili.com/${getUserID()}/favlist?fid=${
+  return `//space.bilibili.com/${session.userID ?? ''}/favlist?fid=${
     activatedMediaId.value
   }&ftype=create`
 })
@@ -74,7 +76,7 @@ async function initData() {
 
 async function getFavoriteCategories() {
   await api.favorite.getFavoriteCategories({
-    up_mid: getUserID(),
+    up_mid: session.userID?.toString() ?? '',
   })
     .then((res) => {
       if (res.code === 0) {
