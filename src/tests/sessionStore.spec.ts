@@ -3,7 +3,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { useSessionStore } from '../stores/sessionStore'
 
-const { getUserInfo, logout, revokeAccessKey } = vi.hoisted(() => ({
+const { getCookie, getUserInfo, logout, revokeAccessKey } = vi.hoisted(() => ({
+  getCookie: vi.fn(),
   getUserInfo: vi.fn(),
   logout: vi.fn(),
   revokeAccessKey: vi.fn(),
@@ -17,20 +18,23 @@ vi.mock('~/utils/api', () => ({
 }))
 
 vi.mock('~/utils/authProvider', () => ({ revokeAccessKey }))
-vi.mock('~/utils/main', () => ({ getCSRF: () => 'csrf-token' }))
+vi.mock('~/utils/main', () => ({ getCookie, getCSRF: () => 'csrf-token' }))
 
 describe('sessionStore', () => {
   beforeEach(() => {
     setActivePinia(createPinia())
+    getCookie.mockReset().mockReturnValue('')
     getUserInfo.mockReset()
     logout.mockReset()
     revokeAccessKey.mockReset()
   })
 
   it('loads user info once and shares concurrent requests', async () => {
+    getCookie.mockReturnValue('10086')
     let resolveRequest!: (value: { code: number, data: { mid: number } }) => void
     getUserInfo.mockReturnValue(new Promise(resolve => resolveRequest = resolve))
     const session = useSessionStore()
+    expect(session.userID).toBe(10086)
 
     const firstRequest = session.getUserInfo()
     const secondRequest = session.getUserInfo()
@@ -41,6 +45,7 @@ describe('sessionStore', () => {
 
     expect(session.status).toBe('loggedIn')
     expect(session.userInfo?.mid).toBe(42)
+    expect(session.userID).toBe(42)
 
     await session.getUserInfo()
     expect(getUserInfo).toHaveBeenCalledTimes(1)
@@ -54,6 +59,7 @@ describe('sessionStore', () => {
 
     expect(session.status).toBe('loggedOut')
     expect(session.userInfo).toBeUndefined()
+    expect(session.userID).toBeUndefined()
   })
 
   it('marks the session as logged out when loading user info fails', async () => {
@@ -65,6 +71,7 @@ describe('sessionStore', () => {
 
     expect(session.status).toBe('loggedOut')
     expect(session.userInfo).toBeUndefined()
+    expect(session.userID).toBeUndefined()
     expect(consoleError).toHaveBeenCalled()
     consoleError.mockRestore()
   })
@@ -81,5 +88,6 @@ describe('sessionStore', () => {
     expect(logout).toHaveBeenCalledWith({ biliCSRF: 'csrf-token' })
     expect(session.status).toBe('loggedOut')
     expect(session.userInfo).toBeUndefined()
+    expect(session.userID).toBeUndefined()
   })
 })

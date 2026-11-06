@@ -13,7 +13,7 @@ import { AppPage } from '~/enums/appEnums'
 import { settings } from '~/logic'
 import { useSessionStore } from '~/stores/sessionStore'
 import api from '~/utils/api'
-import { getUserID, isHomePage, isInIframe, removeHttpFromUrl, stripBiliLangPrefix } from '~/utils/main'
+import { isHomePage, isInIframe, removeHttpFromUrl, stripBiliLangPrefix } from '~/utils/main'
 import emitter from '~/utils/mitt'
 import { createTransformer } from '~/utils/transformer'
 
@@ -35,7 +35,7 @@ const { activatedPage, reachTop } = useBewlyApp()
 const { isDark } = useDark()
 const session = useSessionStore()
 
-const mid = computed(() => session.userInfo?.mid || getUserID() || '')
+const mid = computed(() => session.userID ?? '')
 
 const hideTopBar = ref<boolean>(false)
 const headerTarget = ref(null)
