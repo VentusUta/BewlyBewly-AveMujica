@@ -2,6 +2,7 @@
 import { useEventListener } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 
+import { useDocumentScrollLock } from '~/composables/useDocumentScrollLock'
 import { settings } from '~/logic'
 import { createTransformer } from '~/utils/transformer'
 
@@ -11,6 +12,8 @@ import { MenuType } from './types'
 const emit = defineEmits(['close'])
 
 const { t } = useI18n()
+
+useDocumentScrollLock()
 
 const settingsMenu = {
   [MenuType.General]: defineAsyncComponent(() => import('./General/General.vue')),

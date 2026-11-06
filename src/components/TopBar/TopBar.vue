@@ -7,6 +7,7 @@ import { useBewlyApp } from '~/composables/useAppProvider'
 import { useDark } from '~/composables/useDark'
 import { useDelayedHover } from '~/composables/useDelayedHover'
 import { useWebFullscreen } from '~/composables/useWebFullscreen'
+import { useWheelContain } from '~/composables/useWheelContain'
 import { TOP_BAR_VISIBILITY_CHANGE } from '~/constants/globalEvents'
 import { AppPage } from '~/enums/appEnums'
 import { settings } from '~/logic'
@@ -38,6 +39,8 @@ const userInfo = reactive<UserInfo | NonNullable<unknown>>({}) as UnwrapNestedRe
 const hideTopBar = ref<boolean>(false)
 const headerTarget = ref(null)
 const { isOutside: isOutsideTopBar } = useMouseInElement(headerTarget)
+if (__TARGET_BROWSER__ === 'safari')
+  useWheelContain(headerTarget, '.bew-popover')
 
 // initially, assume the user is logged in cuz data retrieval is slow, which may show the login
 // button even after login. if the user is not logged in, the login button will show up later

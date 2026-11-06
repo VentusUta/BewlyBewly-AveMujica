@@ -12,6 +12,7 @@ import type { VideoPreviewResult } from '~/models/video/videoPreview'
 import { useMainStore } from '~/stores/mainStore'
 import api from '~/utils/api'
 import { getTvSign, TVAppKey } from '~/utils/authProvider'
+import { skippableContentStyle } from '~/utils/contentVisibility'
 import { calcCurrentTime, calcTimeSince, numFormatter } from '~/utils/dataFormatter'
 import { getCSRF, removeHttpFromUrl } from '~/utils/main'
 
@@ -297,7 +298,7 @@ provide('getVideoType', () => props.type!)
 <template>
   <div
     class="video-card-root"
-    content-visibility="auto"
+    :style="skippableContentStyle"
     intrinsic-size-300px
     duration-300 ease-in-out
     rounded="$bew-radius"

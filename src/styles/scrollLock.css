@@ -1,0 +1,7 @@
+:is(html, body)[data-bewly-scroll-lock] {
+  overflow: hidden !important;
+}
+
+:is(html, body)[data-bewly-scroll-gutter] {
+  scrollbar-gutter: stable !important;
+}

@@ -181,7 +181,7 @@ defineExpose({
     <main flex="~" h="[calc(100%-50px)]" rounded="$bew-radius">
       <aside
         pos="sticky top-50px left-0"
-        w="140px" h-full overflow="y-auto"
+        w="140px" h-full overflow="y-auto" overscroll="contain"
         flex="shrink-0" bg="$bew-fill-1"
       >
         <ul grid="~ cols-1">
@@ -203,7 +203,7 @@ defineExpose({
       <div
         ref="favoriteVideosWrap"
         flex="~ col gap-2 1"
-        overflow="y-auto"
+        overflow="y-auto" overscroll="contain"
         p="x-4"
         pos="relative"
         h-full

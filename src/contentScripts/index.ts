@@ -4,6 +4,7 @@ import 'uno.css'
 import { createApp } from 'vue'
 
 import { useDark } from '~/composables/useDark'
+import { SCROLL_LOCK_ATTRIBUTE } from '~/composables/useDocumentScrollLock'
 import { BEWLY_MOUNTED } from '~/constants/globalEvents'
 import { settings } from '~/logic'
 import { setupApp } from '~/logic/common-setup'
@@ -258,7 +259,13 @@ async function onDOMLoaded() {
 
 async function initBodyOverlayScrollbars() {
   const { OverlayScrollbars } = await import('overlayscrollbars')
-  OverlayScrollbars(document.body, {})
+  const instance = OverlayScrollbars(document.body, {})
+  const root = document.documentElement
+  const syncScrollbarVisibility = () => instance.options({
+    scrollbars: { visibility: root.hasAttribute(SCROLL_LOCK_ATTRIBUTE) ? 'hidden' : 'auto' },
+  })
+  new MutationObserver(syncScrollbarVisibility).observe(root, { attributeFilter: [SCROLL_LOCK_ATTRIBUTE] })
+  syncScrollbarVisibility()
 }
 
 if (document.readyState !== 'loading')
