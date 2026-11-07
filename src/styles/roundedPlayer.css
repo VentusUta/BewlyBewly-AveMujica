@@ -7,33 +7,56 @@ html.rounded-video-player {
     .bpx-player-container:not(:fullscreen):not([data-screen="full"]):not([data-screen="web"]):not(
       [data-screen="mini"]
     ) {
-    border-radius: 12px;
-    overflow: hidden;
-    /* Chromium 对合成视频图层做祖先圆角裁剪时，圆角处会残留黑色色块， */
-    /* 提升为独立渲染表面后裁剪才带抗锯齿 */
-    transform: translateZ(0);
+    /* 不能在整个容器上 overflow:hidden。联想弹幕 .bpx-player-postpanel-sug */
+    /* 从输入框向下展开（top:100%，白底），容器一裁就只剩输入框底下一条白线。 */
+    /* 视频区单独裁上圆角；发送栏只圆自己的底角，面板可以溢出去盖住下方工具栏。 */
+    overflow: visible;
+    border-radius: 0;
+    /* 容器不再被 wrap 裁剪，原生方角阴影会露出来，发光改由 wrap 承担 */
+    box-shadow: none;
+
+    .bpx-player-video-area {
+      border-radius: 12px 12px 0 0;
+      overflow: hidden;
+      /* Chromium 对合成视频图层做圆角裁剪时，圆角处会残留黑色色块， */
+      /* 提升为独立渲染表面后裁剪才带抗锯齿 */
+      transform: translateZ(0);
+    }
+
+    /* 没有发送栏时视频区铺满，四角都要圆。轻量播放器的 class 在容器外层 */
+    &:not(:has(.bpx-player-sending-bar)) .bpx-player-video-area,
+    .bpx-player-light-weight & .bpx-player-video-area {
+      border-radius: 12px;
+    }
+
+    .bpx-player-sending-bar {
+      border-radius: 0 0 12px 12px;
+    }
   }
 
   /* .player-wrap 还需排除网页全屏/宽屏/小窗：这些模式下播放器会脱离文档流铺满页面， */
-  /* wrap 若恒定带 transform 会成为 fixed 播放器的包含块，导致播放器无法铺满视口。 */
-  /* 注意 wrap 不能加 translateZ(0)：合成层会把自己的 box-shadow 连同圆角裁剪一起裁掉， */
-  /* 发光就没了；wrap 内需要裁剪的只有普通元素（占位层等），非合成裁剪自带抗锯齿 */
+  /* wrap 若带 transform 会成为 fixed 播放器的包含块，导致播放器无法铺满视口。 */
+  /* wrap 不能 overflow:hidden，否则向下展开的联想面板会被裁掉； */
+  /* 也不能加 translateZ(0)，合成层会把发光阴影裁掉。 */
+  /* z-index 让溢出去的面板盖住下方工具栏（工具栏是后序兄弟，默认会压住面板）。 */
   /* 限定为包含 #bilibili-player 的主播放器外层，避免误伤其他页面的同名元素 */
   .player-wrap:has(#bilibili-player):not(
       :has([data-screen="full"], [data-screen="web"], [data-screen="wide"], [data-screen="mini"])
     ) {
     border-radius: 12px;
-    overflow: hidden;
+    overflow: visible;
+    position: relative;
+    z-index: 2;
   }
 
-  /* 只在容器上做一次圆角裁剪（translateZ(0) 保证对合成视频图层的裁剪带抗锯齿）。 */
+  /* 只在视频区做一次圆角裁剪（translateZ(0) 保证对合成视频图层的裁剪带抗锯齿）。 */
   /* 不要再给 video 加自身圆角：两次抗锯齿裁剪的弧线会因亚像素偏移错开， */
   /* video 的半透明边缘混合到身后黑色背景上，圆角处会留下一圈脏边纹 */
   /* （YouTube 也只在容器上做一次裁剪） */
 
-  /* 原生发光：容器自带 0 0 8px var(--bpx-box-shadow) 的均匀阴影，但会被 wrap 的 */
-  /* overflow:hidden 连同子元素一起裁掉，故在 wrap 上原样补回；再叠加下坠式阴影， */
-  /* 因为圆角裁剪后原生均匀阴影衬托不出圆角轮廓 */
+  /* 原生发光：容器自带 0 0 8px var(--bpx-box-shadow) 的均匀阴影，容器不再裁剪后 */
+  /* 这层阴影是方角的，故上面已关掉，在 wrap 上按圆角补回；再叠加下坠式阴影， */
+  /* 因为圆角后原生均匀阴影衬托不出圆角轮廓 */
   .player-wrap:has(#bilibili-player):not(
       :has([data-screen="full"], [data-screen="web"], [data-screen="wide"], [data-screen="mini"])
     ) {
@@ -66,8 +89,10 @@ html.rounded-video-player {
   /* 其 top 区是黑色背景、bottom 区是白色背景，黑底会在圆角缝隙处露出黑色描边 */
   #bilibili-player-placeholder,
   #bilibili-player-placeholder-top,
+  #bilibili-player-placeholder-bottom,
   .bilibili-player-placeholder,
-  .bilibili-player-placeholder-top {
+  .bilibili-player-placeholder-top,
+  .bilibili-player-placeholder-bottom {
     background: transparent !important;
   }
 }
