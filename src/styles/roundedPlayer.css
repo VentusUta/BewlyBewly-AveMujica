@@ -5,7 +5,7 @@ html.rounded-video-player {
     .bpx-player-container:not(:fullscreen):not([data-screen="full"]):not([data-screen="web"]):not(
       [data-screen="mini"]
     ) {
-    /* 容器不裁剪，否则联想面板会被切成一条白线；发光改由 wrap 承担 */
+    /* 容器不裁剪，否则联想面板会被切成一条白线；发光改由 wrap 承担（含宽屏） */
     overflow: visible;
     border-radius: 0;
     box-shadow: none;
@@ -28,10 +28,8 @@ html.rounded-video-player {
     }
   }
 
-  /* wrap 不加 transform / overflow:hidden：全屏时会困住 fixed 播放器，也会裁掉联想面板 */
-  .player-wrap:has(#bilibili-player):not(
-      :has([data-screen="full"], [data-screen="web"], [data-screen="wide"], [data-screen="mini"])
-    ) {
+  /* 宽屏仍在 wrap 内，阴影照常由 wrap 承担；网页全屏 / 小窗已脱离。不加 transform / overflow:hidden，否则困住 fixed 播放器并裁掉联想面板 */
+  .player-wrap:has(#bilibili-player):not(:has([data-screen="full"], [data-screen="web"], [data-screen="mini"])) {
     border-radius: 12px;
     overflow: visible;
     position: relative;
@@ -42,14 +40,9 @@ html.rounded-video-player {
   }
 
   /* 深色下原生光晕几乎看不见，用多层白柔光勾边 */
-  &.dark
-    .player-wrap:has(#bilibili-player):not(
-      :has([data-screen="full"], [data-screen="web"], [data-screen="wide"], [data-screen="mini"])
-    ),
+  &.dark .player-wrap:has(#bilibili-player):not(:has([data-screen="full"], [data-screen="web"], [data-screen="mini"])),
   &.bili_dark
-    .player-wrap:has(#bilibili-player):not(
-      :has([data-screen="full"], [data-screen="web"], [data-screen="wide"], [data-screen="mini"])
-    ) {
+    .player-wrap:has(#bilibili-player):not(:has([data-screen="full"], [data-screen="web"], [data-screen="mini"])) {
     box-shadow:
       0 0 8px rgb(0 0 0 / 50%),
       0 4px 20px rgb(0 0 0 / 45%),
@@ -58,7 +51,8 @@ html.rounded-video-player {
       0 0 30px rgb(255 255 255 / 5%);
   }
 
-  /* 占位层是方角黑/白底，圆角缺口会露出来 */
+  /* 占位层是方角黑/白底，圆角缺口会露出来。
+     外层占位还带着和容器一样的 0 0 8px 方角阴影，圆角阴影补在 wrap 上之后，这层方角会从圆角底下探出来。 */
   #bilibili-player-placeholder,
   #bilibili-player-placeholder-top,
   #bilibili-player-placeholder-bottom,
@@ -66,5 +60,6 @@ html.rounded-video-player {
   .bilibili-player-placeholder-top,
   .bilibili-player-placeholder-bottom {
     background: transparent !important;
+    box-shadow: none !important;
   }
 }
