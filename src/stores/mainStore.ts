@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 import { HomeSubPage } from '~/contentScripts/views/Home/types'
 import { AppPage } from '~/enums/appEnums'
-import { getUserID } from '~/utils/main'
+import { useSessionStore } from '~/stores/sessionStore'
 
 export interface DockItem {
   i18nKey: string
@@ -21,6 +21,7 @@ export interface HomeTab {
 }
 
 export const useMainStore = defineStore('main', () => {
+  const session = useSessionStore()
   const dockItems = computed((): DockItem[] => {
     return [
       {
@@ -60,7 +61,7 @@ export const useMainStore = defineStore('main', () => {
         page: AppPage.Favorites,
         openInNewTab: false,
         useOriginalBiliPage: false,
-        url: `https://space.bilibili.com/${getUserID()}/favlist`,
+        url: `https://space.bilibili.com/${session.userID ?? ''}/favlist`,
         hasBewlyPage: true,
       },
       {

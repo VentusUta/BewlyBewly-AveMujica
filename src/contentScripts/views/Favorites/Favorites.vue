@@ -9,11 +9,13 @@ import { TOP_BAR_VISIBILITY_CHANGE } from '~/constants/globalEvents'
 import { settings } from '~/logic'
 import type { FavoritesResult, Media as FavoriteItem } from '~/models/video/favorite'
 import type { FavoritesCategoryResult, List as CategoryItem } from '~/models/video/favoriteCategory'
+import { useSessionStore } from '~/stores/sessionStore'
 import api from '~/utils/api'
-import { getCSRF, getUserID, openLinkToNewTab, removeHttpFromUrl } from '~/utils/main'
+import { getCSRF, openLinkToNewTab, removeHttpFromUrl } from '~/utils/main'
 import emitter from '~/utils/mitt'
 
 const { t } = useI18n()
+const session = useSessionStore()
 
 const favoriteCategories = reactive<CategoryItem[]>([])
 const favoriteResources = reactive<FavoriteItem[]>([])
@@ -74,7 +76,7 @@ function initPageAction() {
 
 async function getFavoriteCategories() {
   await api.favorite.getFavoriteCategories({
-    up_mid: getUserID(),
+    up_mid: session.userID?.toString() ?? '',
   })
     .then((res: FavoritesCategoryResult) => {
       if (res.code === 0) {
