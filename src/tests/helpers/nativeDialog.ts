@@ -25,6 +25,8 @@ export const requestClose = vi.fn(function (this: HTMLDialogElement) {
 })
 export const showPopover = vi.fn()
 export const hidePopover = vi.fn()
+/** `CSS.supports('overlay', 'auto')`的结果，默认按支持算；置假可以测“先退场再关闭”的退路 */
+export const supportsOverlay = vi.fn(() => true)
 
 export class FakeKeyframeEffect {
   constructor(readonly target: Element, private readonly endTime: number) {}
@@ -58,6 +60,8 @@ export function useNativeDialogStubs() {
       },
     })
     vi.stubGlobal('KeyframeEffect', FakeKeyframeEffect)
+    vi.stubGlobal('CSS', { supports: supportsOverlay })
+    supportsOverlay.mockReturnValue(true)
     for (const mock of [showModal, close, requestClose, showPopover, hidePopover])
       mock.mockClear()
   })
