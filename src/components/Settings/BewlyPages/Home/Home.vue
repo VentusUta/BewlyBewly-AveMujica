@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import QRCodeVue from 'qrcode.vue'
-import { useToast } from 'vue-toastification'
 import draggable from 'vuedraggable'
 
 import Radio from '~/components/Radio.vue'
+import { useToast } from '~/composables/useToast'
 import { accessKey, settings } from '~/logic'
 import { useMainStore } from '~/stores/mainStore'
 import { getTVLoginQRCode, pollTVLoginQRCode, revokeAccessKey } from '~/utils/authProvider'

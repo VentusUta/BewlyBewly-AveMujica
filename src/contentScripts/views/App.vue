@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useEventListener, useThrottleFn, useToggle } from '@vueuse/core'
 import type { Ref } from 'vue'
-import { useToast } from 'vue-toastification'
 
 import type { BewlyAppProvider } from '~/composables/useAppProvider'
 import { useDark } from '~/composables/useDark'
+import { useToast } from '~/composables/useToast'
 import { useWebFullscreen } from '~/composables/useWebFullscreen'
 import { BEWLY_API_TOAST, BEWLY_MOUNTED, DRAWER_VIDEO_ENTER_PAGE_FULL, DRAWER_VIDEO_EXIT_PAGE_FULL, IFRAME_PAGE_SWITCH_BEWLY, IFRAME_PAGE_SWITCH_BILI } from '~/constants/globalEvents'
 import { AppPage } from '~/enums/appEnums'
@@ -570,6 +570,8 @@ document.head.appendChild(removeLeftQuoteIndent)
       :url="iframeDrawerURL"
       @close="showIframeDrawer = false"
     />
+
+    <ToastRegion />
   </div>
 </template>
 
