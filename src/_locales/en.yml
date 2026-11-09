@@ -22,9 +22,11 @@ common:
   performance_impact_warn: This feature may cause performance *DECREASE*!
   no_more_content: No more content now, owari da
   operation_failed: Operation failed
+  notifications: Notifications
 
   operation:
     add: Add
+    close: Close
     edit: Edit
     delete: Delete
     confirm: Confirm

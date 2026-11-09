@@ -15,6 +15,7 @@ interface Props {
   round?: boolean
   block?: boolean
   center?: boolean
+  nativeType?: 'button' | 'submit' | 'reset'
 }
 
 defineProps<Props>()
@@ -29,6 +30,7 @@ function handleClick(evt: MouseEvent) {
 <template>
   <button
     class="b-button"
+    :type="nativeType ?? 'button'"
     :class="[
       `b-button--type-${type ?? 'default'}`,
       `b-button--size-${size ?? 'medium'}`,

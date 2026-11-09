@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { CSSProperties } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useToast } from 'vue-toastification'
 
 import { useBewlyApp } from '~/composables/useAppProvider'
+import { useToast } from '~/composables/useToast'
 import { Type as ThreePointV2Type } from '~/models/video/appForYou'
 import { getCSRF, openLinkToNewTab } from '~/utils/main'
 
@@ -327,11 +327,12 @@ function handleRemoved(selectedOpt?: { dislikeReasonId: number }) {
       @click.right.prevent.stop="handleReopen"
     />
 
+    <!-- `removed`时只上报、不收起菜单：对话框要到退场动画播完才发`close`，在那之前卸载会切断动画 -->
     <DislikeDialog
       v-model="showDislikeDialog"
       :video="video"
       @close="handleClose"
-      @removed="handleRemoved"
+      @removed="emit('removed', $event)"
     />
 
     <PipWindow

@@ -22,9 +22,11 @@ common:
   performance_impact_warn: 这个功能可能会影响性能！
   no_more_content: 没有更多内容了
   operation_failed: 操作失败
+  notifications: 通知
 
   operation:
     add: 新增
+    close: 关闭
     edit: 编辑
     delete: 删除
     confirm: 确定

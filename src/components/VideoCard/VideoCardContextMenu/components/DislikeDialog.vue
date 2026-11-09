@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import { Icon } from '@iconify/vue'
-import { onKeyStroke } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
-import { useToast } from 'vue-toastification'
 
 import type { Video } from '~/components/VideoCard/types'
+import { useToast } from '~/composables/useToast'
 import { accessKey } from '~/logic'
 import { Type as ThreePointV2Type } from '~/models/video/appForYou'
 import api from '~/utils/api'
@@ -25,21 +24,23 @@ const showDislikeDialog = defineModel<boolean>()
 const toast = useToast()
 const { t } = useI18n()
 
-const loadingDislikeDialog = ref<boolean>(false)
 const selectedDislikeReason = ref<number>(1)
+const reasons = computed(() => props.video?.threePointV2?.find(option => option.type === ThreePointV2Type.Dislike)?.reasons ?? [])
+const groupName = useId()
+const groupRef = useTemplateRef<HTMLFieldSetElement>('group')
 
 function closeDislikeDialog() {
   showDislikeDialog.value = false
   emit('close')
 }
 
-function handleAppDislike() {
+/** 作为`DialogBox`的`onConfirm`：返回`false`表示失败，对话框保持打开 */
+async function handleAppDislike(): Promise<false | undefined> {
   if (!accessKey.value) {
     toast.warning(t('auth.auth_access_key_first'))
-    return
+    return false
   }
 
-  loadingDislikeDialog.value = true
   const params = {
     access_key: accessKey.value,
     goto: props.video?.goto,
@@ -53,89 +54,118 @@ function handleAppDislike() {
     appkey: TVAppKey.appkey,
   }
 
-  api.video.dislikeVideo({
+  const res = await api.video.dislikeVideo({
     ...params,
     sign: getTvSign(params),
   })
-    .then((res) => {
-      if (res.code === 0) {
-        emit('removed', { dislikeReasonId: selectedDislikeReason.value })
-      }
-      else {
-        toast.error(res.message)
-      }
-    })
-    .finally(() => {
-      loadingDislikeDialog.value = false
-    })
+  if (res.code !== 0) {
+    toast.error(res.message)
+    return false
+  }
+  emit('removed', { dislikeReasonId: selectedDislikeReason.value })
 }
 
-onKeyStroke((e: KeyboardEvent) => {
-  if (showDislikeDialog.value) {
-    const dislikeReasons = props.video?.threePointV2?.find(option => option.type === ThreePointV2Type.Dislike)?.reasons || []
+/**
+ * 方向键切换由单选组自带，这里只补两样：
+ * - 数字键直选
+ * - 焦点落在dialog本身时的方向键。点留白处会这样；Safari点单选项也不会把焦点给它
+ */
+function handleKeydown(event: KeyboardEvent) {
+  const group = groupRef.value
+  // 提交期间表单是`inert`的，这时不再改选
+  if (!group || group.closest('[inert]') || event.ctrlKey || event.metaKey || event.altKey)
+    return
 
-    if (e.key >= '0' && e.key <= '9') {
-      e.preventDefault()
-      dislikeReasons.forEach((reason) => {
-        if (dislikeReasons[Number(e.key) - 1] && reason.id === dislikeReasons[Number(e.key) - 1].id)
-          selectedDislikeReason.value = reason.id
-      })
-    }
-    else if (e.key === 'ArrowUp') {
-      e.preventDefault()
-      const currentIndex = dislikeReasons.findIndex(reason => selectedDislikeReason.value === reason.id)
-      if (currentIndex > 0)
-        selectedDislikeReason.value = dislikeReasons[currentIndex - 1].id
-    }
-    else if (e.key === 'ArrowDown') {
-      e.preventDefault()
-      const currentIndex = dislikeReasons.findIndex(reason => selectedDislikeReason.value === reason.id)
-      if (currentIndex < dislikeReasons.length - 1)
-        selectedDislikeReason.value = dislikeReasons[currentIndex + 1].id
-    }
-  }
-})
+  const radios = [...group.querySelectorAll('input')]
+  const current = radios.findIndex(radio => radio.checked)
+  let index: number
+  if (/^[1-9]$/.test(event.key))
+    index = Number(event.key) - 1
+  else if (event.target !== event.currentTarget)
+    return
+  else if (event.key === 'ArrowDown')
+    index = (current + 1) % radios.length
+  else if (event.key === 'ArrowUp')
+    index = (current <= 0 ? radios.length : current) - 1
+  else
+    return
+
+  event.preventDefault()
+  radios[index]?.focus()
+  radios[index]?.click()
+}
 </script>
 
 <template>
-  <Dialog
+  <DialogBox
     v-if="showDislikeDialog"
+    open
     :title="$t('home.tell_us_why')"
     width="420px"
-    append-to-bewly-body
-    :loading="loadingDislikeDialog"
-    @close="closeDislikeDialog"
+    @closed="closeDislikeDialog"
     @confirm="handleAppDislike"
+    @keydown="handleKeydown"
   >
-    <ul flex="~ col gap-2">
-      <li
-        v-for="(reason, index) in video?.threePointV2?.find(option => option.type === ThreePointV2Type.Dislike)?.reasons"
+    <fieldset ref="group" class="reasons">
+      <legend class="reasons__legend">
+        {{ $t('home.tell_us_why') }}
+      </legend>
+      <label
+        v-for="(reason, index) in reasons"
         :key="reason.id"
+        class="reason"
         :class="{ 'activated-dislike-reason': selectedDislikeReason === reason.id }"
         p="x-6 y-4" rounded="$bew-radius" cursor-pointer bg="$bew-fill-1 hover:$bew-fill-2"
         flex="~ gap-2 items-center justify-between"
-        @click="selectedDislikeReason = reason.id"
       >
-        <div flex="~ gap-2">
-          <div
+        <!-- 初始焦点落在已选项上：它排在"确定"之前，打开后方向键和Enter立即可用 -->
+        <input
+          v-model="selectedDislikeReason"
+          class="reason__radio"
+          type="radio"
+          :name="groupName"
+          :value="reason.id"
+          :autofocus="selectedDislikeReason === reason.id"
+        >
+        <span flex="~ gap-2">
+          <span
             bg="$bew-theme-color" color-white w-20px h-20px rounded-10
             flex="~ justify-center items-center"
           >
             {{ index + 1 }}
-          </div>
+          </span>
           {{ reason.name }}
-        </div>
+        </span>
         <Icon
           v-if="selectedDislikeReason === reason.id" icon="line-md:confirm"
           w-18px h-18px
         />
-      </li>
-    </ul>
+      </label>
+    </fieldset>
     <p text="$bew-text-3 sm" mt-4 v-html="$t('home.not_interested_desc')" />
-  </Dialog>
+  </DialogBox>
 </template>
 
 <style scoped>
+.reasons {
+  --uno: "flex flex-col gap-2 m-0 p-0 border-0 min-w-0";
+}
+
+.reasons__legend,
+.reason__radio {
+  --uno: "sr-only";
+}
+
+.reason {
+  /* 让视觉隐藏的单选按钮留在本行内，聚焦时不会把正文滚到别处 */
+  position: relative;
+}
+
+.reason:has(:focus-visible) {
+  outline-style: auto;
+  outline-offset: 1px;
+}
+
 .activated-dislike-reason {
   --uno: "bg-$bew-theme-color-20 color-$bew-theme-color";
 }

@@ -226,19 +226,15 @@ async function checkGitHubRelease() {
           哔哩哔哩私有API使用声明
         </Button>
 
-        <Dialog
+        <DialogBox
           v-if="dialogVisible.bilibiliPrivateAPIUsage"
-          width="90%"
-          max-width="740px"
-          content-height="70vh"
-          content-max-height="700px"
-          append-to-bewly-body
-          @close="dialogVisible.bilibiliPrivateAPIUsage = false"
+          open
+          width="min(90%, 740px)"
+          body-height="min(70vh, 700px)"
+          @closed="dialogVisible.bilibiliPrivateAPIUsage = false"
         >
           <template #title>
-            <div text-xl font-bold>
-              哔哩哔哩私有API使用声明
-            </div>
+            哔哩哔哩私有API使用声明
           </template>
 
           <div>
@@ -262,7 +258,7 @@ async function checkGitHubRelease() {
               若阁下无法理解或不同意上述声明，请从浏览器中移除本扩展。
             </p>
           </div>
-        </Dialog>
+        </DialogBox>
       </section>
     </div>
   </div>
