@@ -26,6 +26,7 @@ common:
 
   operation:
     add: Add
+    close: Close
     edit: Edit
     delete: Delete
     confirm: Confirm
