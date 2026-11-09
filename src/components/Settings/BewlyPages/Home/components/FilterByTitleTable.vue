@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { onKeyStroke } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
-import { useToast } from 'vue-toastification'
 
+import { useToast } from '~/composables/useToast'
 import { settings } from '~/logic'
 
 const { t } = useI18n()

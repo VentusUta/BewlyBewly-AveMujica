@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { onKeyStroke } from '@vueuse/core'
-import { useToast } from 'vue-toastification'
 
 import { useBewlyApp } from '~/composables/useAppProvider'
 import { FilterType, useFilter } from '~/composables/useFilter'
 import type { InfiniteLoadResult } from '~/composables/useInfiniteList'
 import { useInfiniteList } from '~/composables/useInfiniteList'
+import { useToast } from '~/composables/useToast'
 import { getBiliTranslationParams } from '~/contentScripts/biliTranslation'
 import { LanguageType } from '~/enums/appEnums'
 import type { GridLayoutType } from '~/logic'
