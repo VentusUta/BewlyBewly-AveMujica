@@ -25,7 +25,6 @@ const showDislikeDialog = defineModel<boolean>()
 const toast = useToast()
 const { t } = useI18n()
 
-const loadingDislikeDialog = ref<boolean>(false)
 const selectedDislikeReason = ref<number>(1)
 
 function closeDislikeDialog() {
@@ -33,13 +32,13 @@ function closeDislikeDialog() {
   emit('close')
 }
 
-function handleAppDislike() {
+/** 作为`DialogBox`的`onConfirm`：返回`false`表示失败，对话框保持打开 */
+async function handleAppDislike(): Promise<false | undefined> {
   if (!accessKey.value) {
     toast.warning(t('auth.auth_access_key_first'))
-    return
+    return false
   }
 
-  loadingDislikeDialog.value = true
   const params = {
     access_key: accessKey.value,
     goto: props.video?.goto,
@@ -53,21 +52,15 @@ function handleAppDislike() {
     appkey: TVAppKey.appkey,
   }
 
-  api.video.dislikeVideo({
+  const res = await api.video.dislikeVideo({
     ...params,
     sign: getTvSign(params),
   })
-    .then((res) => {
-      if (res.code === 0) {
-        emit('removed', { dislikeReasonId: selectedDislikeReason.value })
-      }
-      else {
-        toast.error(res.message)
-      }
-    })
-    .finally(() => {
-      loadingDislikeDialog.value = false
-    })
+  if (res.code !== 0) {
+    toast.error(res.message)
+    return false
+  }
+  emit('removed', { dislikeReasonId: selectedDislikeReason.value })
 }
 
 onKeyStroke((e: KeyboardEvent) => {
@@ -98,13 +91,12 @@ onKeyStroke((e: KeyboardEvent) => {
 </script>
 
 <template>
-  <Dialog
+  <DialogBox
     v-if="showDislikeDialog"
+    open
     :title="$t('home.tell_us_why')"
     width="420px"
-    append-to-bewly-body
-    :loading="loadingDislikeDialog"
-    @close="closeDislikeDialog"
+    @closed="closeDislikeDialog"
     @confirm="handleAppDislike"
   >
     <ul flex="~ col gap-2">
@@ -132,7 +124,7 @@ onKeyStroke((e: KeyboardEvent) => {
       </li>
     </ul>
     <p text="$bew-text-3 sm" mt-4 v-html="$t('home.not_interested_desc')" />
-  </Dialog>
+  </DialogBox>
 </template>
 
 <style scoped>
