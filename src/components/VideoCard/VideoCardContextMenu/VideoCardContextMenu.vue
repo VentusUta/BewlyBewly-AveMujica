@@ -327,11 +327,12 @@ function handleRemoved(selectedOpt?: { dislikeReasonId: number }) {
       @click.right.prevent.stop="handleReopen"
     />
 
+    <!-- `removed`时只上报、不收起菜单：对话框要到退场动画播完才发`close`，在那之前卸载会切断动画 -->
     <DislikeDialog
       v-model="showDislikeDialog"
       :video="video"
       @close="handleClose"
-      @removed="handleRemoved"
+      @removed="emit('removed', $event)"
     />
 
     <PipWindow
