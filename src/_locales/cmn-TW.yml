@@ -22,6 +22,7 @@ common:
   performance_impact_warn: 這個功能可能會降低效能！
   no_more_content: 沒有更多內容了
   operation_failed: 操作失敗
+  notifications: 通知
 
   operation:
     add: 新增
