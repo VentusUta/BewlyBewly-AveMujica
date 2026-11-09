@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { onKeyStroke } from '@vueuse/core'
-
 import { useBewlyApp } from '~/composables/useAppProvider'
 import { FilterType, useFilter } from '~/composables/useFilter'
 import type { InfiniteLoadResult } from '~/composables/useInfiniteList'
@@ -11,7 +9,6 @@ import { LanguageType } from '~/enums/appEnums'
 import type { GridLayoutType } from '~/logic'
 import { accessKey, settings } from '~/logic'
 import type { AppForYouResult, Item as AppVideoItem } from '~/models/video/appForYou'
-import { Type as ThreePointV2Type } from '~/models/video/appForYou'
 import type { forYouResult, Item as VideoItem } from '~/models/video/forYou'
 import api from '~/utils/api'
 import { TVAppKey } from '~/utils/authProvider'
@@ -112,9 +109,6 @@ watch(isLoading, (loading) => {
   else
     emit('afterLoading')
 })
-const activatedAppVideo = ref<AppVideoItem | null>()
-const showDislikeDialog = ref<boolean>(false)
-const selectedDislikeReason = ref<number>(1)
 
 // 修改缓存数据变量，添加前进状态变量
 const cachedVideoList = ref<VideoElement[]>([])
@@ -134,32 +128,6 @@ const hasForwardState = ref<boolean>(false)
 const requestCount = ref<number>(0)
 const maxRequestsPerSession = 20 // 每个会话最多请求次数
 const PAGE_SIZE = 30
-
-onKeyStroke((e: KeyboardEvent) => {
-  if (showDislikeDialog.value) {
-    const dislikeReasons = activatedAppVideo.value?.three_point_v2?.find(option => option.type === ThreePointV2Type.Dislike)?.reasons || []
-
-    if (e.key >= '0' && e.key <= '9') {
-      e.preventDefault()
-      dislikeReasons.forEach((reason) => {
-        if (dislikeReasons[Number(e.key) - 1] && reason.id === dislikeReasons[Number(e.key) - 1].id)
-          selectedDislikeReason.value = reason.id
-      })
-    }
-    else if (e.key === 'ArrowUp') {
-      e.preventDefault()
-      const currentIndex = dislikeReasons.findIndex(reason => selectedDislikeReason.value === reason.id)
-      if (currentIndex > 0)
-        selectedDislikeReason.value = dislikeReasons[currentIndex - 1].id
-    }
-    else if (e.key === 'ArrowDown') {
-      e.preventDefault()
-      const currentIndex = dislikeReasons.findIndex(reason => selectedDislikeReason.value === reason.id)
-      if (currentIndex < dislikeReasons.length - 1)
-        selectedDislikeReason.value = dislikeReasons[currentIndex + 1].id
-    }
-  }
-})
 
 watch(() => settings.value.recommendationMode, () => {
   if (!hasStartedLoading)
