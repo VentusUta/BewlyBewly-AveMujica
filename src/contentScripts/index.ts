@@ -1,6 +1,7 @@
 import '~/styles'
 import 'uno.css'
 
+import { createPinia, setActivePinia } from 'pinia'
 import { createApp } from 'vue'
 
 import { useDark } from '~/composables/useDark'
@@ -19,6 +20,10 @@ import { version } from '../../package.json'
 import { setupBiliTranslation } from './biliTranslation'
 import { setupFonts } from './fonts'
 import App from './views/App.vue'
+
+// Pinia的创建与激活应具有最优先的时序，以提供所有的存储层能力。
+const pinia = createPinia()
+setActivePinia(pinia)
 
 const isFirefox: boolean = /Firefox/i.test(navigator.userAgent)
 
@@ -363,7 +368,7 @@ function injectApp() {
   document.body.appendChild(container)
 
   const app = createApp(App)
-  setupApp(app)
+  setupApp(app, pinia)
   app.mount(root)
 }
 
