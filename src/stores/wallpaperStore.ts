@@ -84,11 +84,24 @@ export const useWallpaperStore = defineStore('wallpaper', () => {
     return REF_PREFIX + id
   }
 
+  // 只算出引用和要写入的存储项，不写入，也不更新`images`。供迁移把图片和设置放进同一次`set`
+  async function stage(dataUrls: string[]) {
+    await load()
+    const next = { ...images.value }
+    const refs = new Map<string, string>()
+    for (const dataUrl of dataUrls) {
+      const id = hashWallpaper(dataUrl)
+      next[id] = dataUrl
+      refs.set(dataUrl, REF_PREFIX + id)
+    }
+    return { refs, items: { [STORAGE_KEY]: next } }
+  }
+
   // 不在`used`里的图片都会被删除，要把设置中所有壁纸字段的值传全
   async function prune(used: string[]) {
     const usedIds = new Set(used.map(getLocalWallpaperId))
     await update(wallpapers => Object.fromEntries(Object.entries(wallpapers).filter(([id]) => usedIds.has(id))))
   }
 
-  return { images, load, resolve, save, prune }
+  return { images, load, resolve, save, stage, prune }
 })
