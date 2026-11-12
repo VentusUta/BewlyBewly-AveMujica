@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { WALLPAPERS } from '~/constants/imgs'
-import { settings } from '~/logic'
+import { pruneLocalWallpapers, settings } from '~/logic'
+import { isLocalWallpaper, useWallpaperStore } from '~/stores/wallpaperStore'
 import { compressAndResizeImage } from '~/utils/main'
 
 import SettingsItem from './SettingsItem.vue'
@@ -11,6 +12,7 @@ const props = defineProps<Props>()
 interface Props {
   type: 'global' | 'searchPage'
 }
+const wallpaper = useWallpaperStore()
 const uploadWallpaperRef = ref(null)
 
 const isGlobal = computed(() => props.type === 'global')
@@ -21,6 +23,8 @@ const wallpaperUrl = computed({
   get: () => isGlobal.value ? settings.value.wallpaper : settings.value.searchPageWallpaper,
   set: changeWallpaper,
 })
+const wallpaperPreview = computed(() => wallpaper.resolve(wallpaperUrl.value))
+const uploadedWallpaperPreview = computed(() => wallpaper.resolve(settings.value.locallyUploadedWallpaper?.url ?? ''))
 
 function changeWallpaperType(type: 'buildIn' | 'byUrl') {
   if (isGlobal.value) {
@@ -30,8 +34,8 @@ function changeWallpaperType(type: 'buildIn' | 'byUrl') {
     settings.value.searchPageWallpaperMode = type
   }
 
-  // Set the wallpaper to empty if it's a locally uploaded wallpaper to prevent the `QUOTA_BYTES quota exceeded` error
-  if (type === 'byUrl' && wallpaperUrl.value.startsWith('data:image/'))
+  // Set the wallpaper to empty if it's a locally uploaded wallpaper, so the URL input never shows its data URL or reference
+  if (type === 'byUrl' && isLocalWallpaper(wallpaperUrl.value))
     changeWallpaper('')
 }
 
@@ -47,6 +51,7 @@ function changeWallpaper(url: string) {
   else {
     settings.value.searchPageWallpaper = url
   }
+  pruneLocalWallpapers(settings.value)
 }
 
 function fileToBase64(inputFile: File) {
@@ -67,22 +72,23 @@ function handleUploadWallpaper(e: Event) {
 
   compressAndResizeImage(file, 2560, 1440, 0.9, (compressedFile: File) => {
     // img to base64 on browser
-    fileToBase64(compressedFile).then((base64) => {
-      // 使用base64字符串
-      changeWallpaper(base64 as string)
+    fileToBase64(compressedFile).then(async (base64) => {
+      // 先存入图片，再在设置中写入引用
+      const uploaded = await wallpaper.save(base64 as string)
       settings.value.locallyUploadedWallpaper = {
         name: file.name,
-        url: base64 as string,
+        url: uploaded,
       }
-    }).catch(() => {
-      // 处理错误
+      changeWallpaper(uploaded)
+    }).catch((error) => {
+      console.error(error)
     })
   })
 }
 
 function handleRemoveCustomWallpaper() {
-  changeWallpaper('')
   settings.value.locallyUploadedWallpaper = null
+  changeWallpaper('')
 }
 </script>
 
@@ -203,7 +209,7 @@ function handleRemoveCustomWallpaper() {
                 </div>
                 <img
                   v-else
-                  :src="settings.locallyUploadedWallpaper.thumbnail || settings.locallyUploadedWallpaper.url"
+                  :src="settings.locallyUploadedWallpaper.thumbnail || uploadedWallpaperPreview"
                   :alt="settings.locallyUploadedWallpaper.name"
                   w-full h-full object-cover
                 >
@@ -221,8 +227,8 @@ function handleRemoveCustomWallpaper() {
               w="xl:1/5 lg:1/4 md:1/3"
             >
               <img
-                v-if="isGlobal ? settings.wallpaper : settings.searchPageWallpaper"
-                :src="isGlobal ? settings.wallpaper : settings.searchPageWallpaper" alt="" loading="lazy"
+                v-if="wallpaperPreview"
+                :src="wallpaperPreview" alt="" loading="lazy"
                 w-full h-full object-cover
                 onerror="this.style.display='none'; this.onerror=null;"
               >

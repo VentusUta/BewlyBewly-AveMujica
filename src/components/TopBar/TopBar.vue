@@ -12,6 +12,7 @@ import { TOP_BAR_VISIBILITY_CHANGE } from '~/constants/globalEvents'
 import { AppPage } from '~/enums/appEnums'
 import { settings } from '~/logic'
 import { useSessionStore } from '~/stores/sessionStore'
+import { useWallpaperStore } from '~/stores/wallpaperStore'
 import api from '~/utils/api'
 import { isHomePage, isInIframe, removeHttpFromUrl, stripBiliLangPrefix } from '~/utils/main'
 import emitter from '~/utils/mitt'
@@ -34,6 +35,9 @@ import type { UnReadDm, UnReadMessage } from './types'
 const { activatedPage, reachTop } = useBewlyApp()
 const { isDark } = useDark()
 const session = useSessionStore()
+const wallpaper = useWallpaperStore()
+const wallpaperUrl = computed(() => wallpaper.resolve(settings.value.wallpaper))
+const searchPageWallpaperUrl = computed(() => wallpaper.resolve(settings.value.searchPageWallpaper))
 
 const mid = computed(() => session.userID ?? '')
 
@@ -81,21 +85,21 @@ const forceWhiteIcon = computed((): boolean => {
   }
   if (activatedPage.value === AppPage.Search) {
     if (settings.value.individuallySetSearchPageWallpaper) {
-      if (settings.value.searchPageWallpaper)
+      if (searchPageWallpaperUrl.value)
         return true
       return false
     }
-    return !!settings.value.wallpaper
+    return !!wallpaperUrl.value
   }
   else {
-    if (settings.value.wallpaper) {
+    if (wallpaperUrl.value) {
       return true
     }
     else {
       if (settings.value.useSearchPageModeOnHomePage) {
-        if (settings.value.individuallySetSearchPageWallpaper && !!settings.value.searchPageWallpaper)
+        if (settings.value.individuallySetSearchPageWallpaper && !!searchPageWallpaperUrl.value)
           return true
-        else if (settings.value.wallpaper)
+        else if (wallpaperUrl.value)
           return true
       }
     }

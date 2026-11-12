@@ -7,13 +7,21 @@ import browser from 'webextension-polyfill'
 
 import { isExtensionContextValid } from '~/utils/extensionContext'
 
-interface UseStorageLocalOptions {
+export interface StorageMigration<T> {
+  value: T
+  /** Other storage items to write in the same call as the upgraded value. */
+  items?: Record<string, unknown>
+}
+
+interface UseStorageLocalOptions<T> {
   /** Merge the stored value with the default value (shallow) instead of replacing it. */
   mergeDefaults?: boolean
   /** Persist the default value when nothing is stored yet. Defaults to `true`. */
   writeDefaults?: boolean
   /** Deep watch the value for changes. Defaults to `true`. */
   deep?: boolean
+  /** Upgrade the stored value when it is read; return `undefined` to leave it as is. */
+  migrate?: (value: T) => StorageMigration<T> | undefined | Promise<StorageMigration<T> | undefined>
 }
 
 export type StorageLocalRef<T> = RemovableRef<T> & {
@@ -43,15 +51,19 @@ function guessSerializerType<T>(rawInit: T): SerializerType {
                     : 'any'
 }
 
+function isQuotaError(error: unknown): boolean {
+  return /quota/i.test(String((error as Error | undefined)?.message ?? error))
+}
+
 /**
  * A `storage.local`-backed ref.
  */
 export function useStorageLocal<T>(
   key: string,
   initialValue: MaybeRef<T>,
-  options: UseStorageLocalOptions = {},
+  options: UseStorageLocalOptions<T> = {},
 ): StorageLocalRef<T> {
-  const { mergeDefaults = false, writeDefaults = true, deep = true } = options
+  const { mergeDefaults = false, writeDefaults = true, deep = true, migrate } = options
 
   const rawInit = toValue(initialValue) as T
   const type = guessSerializerType(rawInit)
@@ -76,9 +88,37 @@ export function useStorageLocal<T>(
     })
   }
 
+  const paddingKey = `${key}QuotaPadding`
+
+  function removePadding() {
+    // If this fails the padding is removed on the next read
+    return browser.storage.local.remove(paddingKey).catch(() => {})
+  }
+
+  async function writeMigration(items: Record<string, unknown>, replacedRawValue: string) {
+    try {
+      await browser.storage.local.set(items)
+    }
+    catch (e) {
+      if (!isQuotaError(e))
+        throw e
+      // Safari reports the quota as exceeded when a large value becomes much smaller
+      // (https://bugs.webkit.org/show_bug.cgi?id=331322). It accepts the same write once
+      // padding as long as the replaced value goes along with it. In browsers that count
+      // correctly the padded write only adds to the total, so it fails like the first one.
+      const padding = 'A'.repeat(JSON.stringify(replacedRawValue).length)
+      await browser.storage.local.set({ ...items, [paddingKey]: padding })
+      await removePadding()
+    }
+  }
+
   async function read() {
     try {
-      const rawValue = (await browser.storage.local.get(key))[key] as string | undefined
+      const stored = await browser.storage.local.get(migrate ? [key, paddingKey] : key)
+      const rawValue = stored[key] as string | undefined
+      // Left behind when the page went away between a padded write and its cleanup
+      if (stored[paddingKey] != null)
+        removePadding()
 
       if (rawValue == null) {
         applyValue(rawInit, undefined)
@@ -89,8 +129,27 @@ export function useStorageLocal<T>(
         }
       }
       else {
-        const value = mergeIfNeeded(await serializer.read(rawValue) as T)
-        applyValue(value, rawValue)
+        let value = await serializer.read(rawValue) as T
+        let storedRawValue = rawValue
+        if (migrate) {
+          try {
+            const migration = await migrate(value)
+            if (migration) {
+              const written = serializer.write(migration.value)
+              lastRawValue = written
+              // One call for everything: nothing is written unless all of it fits
+              await writeMigration({ ...migration.items, [key]: written }, rawValue)
+              value = migration.value
+              storedRawValue = written
+            }
+          }
+          catch (e) {
+            // Keep using the stored value; the migration is retried on the next read
+            if (isExtensionContextValid())
+              console.error(e)
+          }
+        }
+        applyValue(mergeIfNeeded(value), storedRawValue)
       }
     }
     catch (e) {
