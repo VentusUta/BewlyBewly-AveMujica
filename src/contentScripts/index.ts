@@ -9,6 +9,7 @@ import { SCROLL_LOCK_ATTRIBUTE } from '~/composables/useDocumentScrollLock'
 import { BEWLY_MOUNTED } from '~/constants/globalEvents'
 import { settings } from '~/logic'
 import { setupApp } from '~/logic/common-setup'
+import { useWallpaperStore } from '~/stores/wallpaperStore'
 import BEWLY_CSS from '~/styles/bewly.css?raw'
 import RESET_BEWLY_CSS from '~/styles/reset.css?raw'
 import { syncBiliSite } from '~/utils/biliSite'
@@ -143,6 +144,18 @@ const isStylesOnlyPage = isFansMedalWallPage()
 
 if (isSupportedPages() || isSupportedIframePages())
   settings.ready.then(setupFonts)
+
+// 只在会显示壁纸的页面预读，赶在App挂载之前把上传的壁纸读回来
+function preloadWallpapers() {
+  if (!isHomePage() && !(isVideoOrBangumiPage() && settings.value.showVideoPageBackground))
+    return
+  const wallpaper = useWallpaperStore()
+  wallpaper.resolve(settings.value.wallpaper)
+  wallpaper.resolve(settings.value.searchPageWallpaper)
+}
+
+if (isSupportedPages())
+  settings.ready.then(preloadWallpapers)
 
 if (isSupportedPages() || isSupportedIframePages() || isStylesOnlyPage) {
   if (settings.value.adaptToOtherPageStyles)

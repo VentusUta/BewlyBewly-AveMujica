@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { WALLPAPERS } from '~/constants/imgs'
 import { settings } from '~/logic'
+import { useWallpaperStore } from '~/stores/wallpaperStore'
 import { compressAndResizeImage } from '~/utils/main'
 
 import SettingsItem from './SettingsItem.vue'
@@ -11,6 +12,7 @@ const props = defineProps<Props>()
 interface Props {
   type: 'global' | 'searchPage'
 }
+const wallpaper = useWallpaperStore()
 const uploadWallpaperRef = ref(null)
 
 const isGlobal = computed(() => props.type === 'global')
@@ -21,6 +23,8 @@ const wallpaperUrl = computed({
   get: () => isGlobal.value ? settings.value.wallpaper : settings.value.searchPageWallpaper,
   set: changeWallpaper,
 })
+const wallpaperPreview = computed(() => wallpaper.resolve(wallpaperUrl.value))
+const uploadedWallpaperPreview = computed(() => wallpaper.resolve(settings.value.locallyUploadedWallpaper?.url ?? ''))
 
 function changeWallpaperType(type: 'buildIn' | 'byUrl') {
   if (isGlobal.value) {
@@ -203,7 +207,7 @@ function handleRemoveCustomWallpaper() {
                 </div>
                 <img
                   v-else
-                  :src="settings.locallyUploadedWallpaper.thumbnail || settings.locallyUploadedWallpaper.url"
+                  :src="settings.locallyUploadedWallpaper.thumbnail || uploadedWallpaperPreview"
                   :alt="settings.locallyUploadedWallpaper.name"
                   w-full h-full object-cover
                 >
@@ -221,8 +225,8 @@ function handleRemoveCustomWallpaper() {
               w="xl:1/5 lg:1/4 md:1/3"
             >
               <img
-                v-if="isGlobal ? settings.wallpaper : settings.searchPageWallpaper"
-                :src="isGlobal ? settings.wallpaper : settings.searchPageWallpaper" alt="" loading="lazy"
+                v-if="wallpaperPreview"
+                :src="wallpaperPreview" alt="" loading="lazy"
                 w-full h-full object-cover
                 onerror="this.style.display='none'; this.onerror=null;"
               >
