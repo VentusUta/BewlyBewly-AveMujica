@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n'
 import browser from 'webextension-polyfill'
 
-import { originalSettings, settings } from '~/logic'
+import { inlineLocalWallpapers, originalSettings, pruneLocalWallpapers, settings, storeInlineWallpapers } from '~/logic'
 
 import { version } from '../../../../package.json'
 
@@ -34,16 +34,18 @@ function handleImportSettings() {
         input.value = ''
 
         const reader = new FileReader()
-        reader.onload = (event: Event) => {
+        reader.onload = async (event: Event) => {
           const fileReaderTarget = event.target as FileReader
           const fileContent = fileReaderTarget.result as string
-          const jsonObject = JSON.parse(fileContent) as any
+          // 导入文件中的上传壁纸是内联的data URL，先单独存入再换成引用
+          const jsonObject = await storeInlineWallpapers(JSON.parse(fileContent)) as any
 
           // Merge the new settings with the existing settings
           Object.keys(jsonObject).forEach((key) => {
             if (key in settings.value)
               (settings.value as any)[key] = jsonObject[key]
           })
+          pruneLocalWallpapers(settings.value)
 
           importSettingsRef.value?.removeEventListener('change', handleChange)
         }
@@ -55,8 +57,9 @@ function handleImportSettings() {
   }
 }
 
-function handleExportSettings() {
-  const jsonStr = JSON.stringify(settings.value)
+async function handleExportSettings() {
+  // 上传的壁纸换回data URL，导出的文件在其他设备和旧版本中也能导入
+  const jsonStr = JSON.stringify(await inlineLocalWallpapers(settings.value))
   const blob = new Blob([jsonStr], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
@@ -74,6 +77,7 @@ function handleResetSettings() {
     // Remember the last selected language when resetting settings
     originalSettings.language = settings.value.language
     settings.value = { ...originalSettings }
+    pruneLocalWallpapers(settings.value)
   }
 }
 
