@@ -298,6 +298,7 @@ provide('getVideoType', () => props.type!)
 <template>
   <article
     class="video-card group"
+    data-bewly-video-card
     :style="[skippableContentStyle, horizontal && !skeleton && video ? { display: 'flex', gap: '1.5rem' } : undefined]"
     intrinsic-size-300px
     duration-300 ease-in-out
@@ -321,6 +322,7 @@ provide('getVideoType', () => props.type!)
         <!-- Pointer-only cover link -->
         <ALink
           class="video-card-cover-link"
+          data-bewly-video-cover
           tabindex="-1" aria-hidden="true"
           block pos="relative" bg="$bew-skeleton" rounded="$bew-radius"
           transform="~ translate-z-0"
