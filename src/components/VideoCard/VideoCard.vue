@@ -296,9 +296,9 @@ provide('getVideoType', () => props.type!)
 </script>
 
 <template>
-  <div
-    class="video-card-root"
-    :style="skippableContentStyle"
+  <article
+    class="video-card group"
+    :style="[skippableContentStyle, horizontal && !skeleton && video ? { display: 'flex', gap: '1.5rem' } : undefined]"
     intrinsic-size-300px
     duration-300 ease-in-out
     rounded="$bew-radius"
@@ -306,284 +306,290 @@ provide('getVideoType', () => props.type!)
     bg="hover:$bew-fill-2 active:$bew-fill-3"
     transform="~ translate-z-0"
     mb-4
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handelMouseLeave"
   >
-    <div v-if="!skeleton && video" h="full">
+    <template v-if="!skeleton && video">
+      <!-- Cover -->
       <div
-        class="video-card group"
-        w="full" h="full"
-        rounded="$bew-radius"
+        class="group/cover"
+        :class="horizontal ? 'horizontal-card-cover' : 'vertical-card-cover'"
+        shrink-0
+        h-fit pos="relative" z-1
+        cursor-pointer
       >
+        <!-- Pointer-only cover link -->
         <ALink
-          class="video-card-link"
-          h="full"
-          :style="{ display: horizontal ? 'flex' : 'block', gap: horizontal ? '1.5rem' : '0' }"
+          class="video-card-cover-link"
+          tabindex="-1" aria-hidden="true"
+          block pos="relative" bg="$bew-skeleton" rounded="$bew-radius"
+          transform="~ translate-z-0"
           :href="videoUrl"
           type="videoCard"
           :custom-click-event="settings.videoCardLinkOpenMode === 'drawer'"
-          @mouseenter="handleMouseEnter"
-          @mouseleave="handelMouseLeave"
           @click="handleClick"
         >
-          <!-- Cover -->
-          <div
-            class="group/cover"
-            :class="horizontal ? 'horizontal-card-cover' : 'vertical-card-cover'"
-            shrink-0
-            h-fit relative bg="$bew-skeleton" rounded="$bew-radius"
-            cursor-pointer
-            group-hover:z-2
-            transform="~ translate-z-0"
-          >
-            <!-- Video cover -->
-            <Picture
-              :src="`${removeHttpFromUrl(video.cover)}@672w_378h_1c_!web-home-common-cover`"
-              loading="eager"
-              w="full" max-w-full align-middle aspect-video object-cover
-              rounded="$bew-radius"
-            />
+          <!-- Video cover -->
+          <Picture
+            :src="`${removeHttpFromUrl(video.cover)}@672w_378h_1c_!web-home-common-cover`"
+            loading="eager"
+            w="full" max-w-full align-middle aspect-video object-cover
+            rounded="$bew-radius"
+          />
 
+          <!-- Video preview -->
+          <!-- 容器刻意外扩1px以盖住封面的抗锯齿边；请勿直接换成看似更加合适的clip-path圆角，其在至少macOS上的WebKit和Chromium中都会微量透出封面 -->
+          <Transition v-if="!removed && showPreview && settings.enableVideoPreview" name="fade">
             <div
-              v-if="removed"
-              pos="absolute inset-0" flex="~ col gap-2 items-center justify-center"
-              bg="$bew-fill-4" backdrop-blur-20px mix-blend-luminosity rounded="$bew-radius" z-2
+              v-if="previewVideoUrl && isHover"
+              class="video-preview"
+              pos="absolute inset-[-1px]" overflow-hidden rounded="[calc(var(--bew-radius)+1px)]"
+              transform="~ translate-z-0" pointer-events-none
             >
-              <p mb-2 color-white text-lg>
-                {{ $t('video_card.video_removed') }}
-              </p>
-              <Button
-                color="rgba(255,255,255,.35)" text-color="white" size="small"
-                @click.prevent.stop="handleUndo"
+              <video
+                ref="videoElement"
+                autoplay muted
+                :controls="settings.enableVideoCtrlBarOnVideoCard"
+                pos="absolute inset-[-3px]" w="[calc(100%+6px)]" h="[calc(100%+6px)]" max-w-none bg-black
+                :style="{ pointerEvents: settings.enableVideoCtrlBarOnVideoCard ? 'auto' : 'none' }"
+                @mouseenter="handleMouseEnter"
               >
-                <template #left>
-                  <div i-mingcute-back-line text-lg />
-                </template>
-                {{ $t('common.undo') }}
-              </Button>
+                <source :src="previewVideoUrl" type="video/mp4">
+              </video>
             </div>
+          </Transition>
 
-            <!-- Video preview -->
-            <!-- 容器刻意外扩1px以盖住封面的抗锯齿边；请勿直接换成看似更加合适的clip-path圆角，其在至少macOS上的WebKit和Chromium中都会微量透出封面 -->
-            <Transition v-if="!removed && showPreview && settings.enableVideoPreview" name="fade">
-              <div
-                v-if="previewVideoUrl && isHover"
-                class="video-preview"
-                pos="absolute inset-[-1px]" overflow-hidden rounded="[calc(var(--bew-radius)+1px)]"
-                transform="~ translate-z-0" pointer-events-none
-              >
-                <video
-                  ref="videoElement"
-                  autoplay muted
-                  :controls="settings.enableVideoCtrlBarOnVideoCard"
-                  pos="absolute inset-[-3px]" w="[calc(100%+6px)]" h="[calc(100%+6px)]" max-w-none bg-black
-                  :style="{ pointerEvents: settings.enableVideoCtrlBarOnVideoCard ? 'auto' : 'none' }"
-                  @mouseenter="handleMouseEnter"
-                >
-                  <source :src="previewVideoUrl" type="video/mp4">
-                </video>
-              </div>
-            </Transition>
-
-            <!-- Ranking Number -->
+          <!-- Ranking Number -->
+          <div
+            v-if="video.rank"
+            pos="absolute top-0"
+            p-2 group-hover:opacity-0
+            duration-300
+          >
             <div
-              v-if="video.rank"
-              pos="absolute top-0"
-              p-2 group-hover:opacity-0
+              v-if="Number(video.rank) <= 3"
+              bg="$bew-theme-color" text-center lh-0 h-30px w-30px
+              text-white rounded="1/2" shadow="$bew-shadow-1"
+              border="1 $bew-theme-color"
+              grid="~ place-content-center"
+              text="xl" fw-bold
+            >
+              {{ video.rank }}
+            </div>
+            <div
+              v-else
+              bg="$bew-elevated-solid" text-center lh-30px h-30px w-30px
+              rounded="1/2" shadow="$bew-shadow-1"
+              border="1 $bew-border-color"
+            >
+              {{ video.rank }}
+            </div>
+          </div>
+
+          <template v-if="!removed">
+            <!-- Video Duration -->
+            <div
+              v-if="video.duration || video.durationStr"
+              pos="absolute bottom-0 right-0"
+              z="2"
+              p="x-2 y-1"
+              m="1"
+              rounded="$bew-radius"
+              text="!white xs"
+              bg="black opacity-60"
+              class="group-hover:opacity-0"
               duration-300
             >
-              <div
-                v-if="Number(video.rank) <= 3"
-                bg="$bew-theme-color" text-center lh-0 h-30px w-30px
-                text-white rounded="1/2" shadow="$bew-shadow-1"
-                border="1 $bew-theme-color"
-                grid="~ place-content-center"
-                text="xl" fw-bold
-              >
-                {{ video.rank }}
-              </div>
-              <div
-                v-else
-                bg="$bew-elevated-solid" text-center lh-30px h-30px w-30px
-                rounded="1/2" shadow="$bew-shadow-1"
-                border="1 $bew-border-color"
-              >
-                {{ video.rank }}
-              </div>
+              {{ video.duration ? calcCurrentTime(video.duration) : video.durationStr }}
             </div>
 
-            <template v-if="!removed">
-              <!-- Video Duration -->
-              <div
-                v-if="video.duration || video.durationStr"
-                pos="absolute bottom-0 right-0"
-                z="2"
-                p="x-2 y-1"
-                m="1"
-                rounded="$bew-radius"
-                text="!white xs"
-                bg="black opacity-60"
-                class="group-hover:opacity-0"
-                duration-300
-              >
-                {{ video.duration ? calcCurrentTime(video.duration) : video.durationStr }}
-              </div>
-
-              <div
-                class="opacity-0 group-hover/cover:opacity-100"
-                transform="scale-70 group-hover/cover:scale-100"
-                duration-300
-                pos="absolute top-0 left-0" z-2
-                @click.stop=""
-              >
-                <slot name="coverTopLeft" />
-              </div>
-
-              <div
-                v-if="video.liveStatus === 1"
-                class="group-hover:opacity-0"
-                pos="absolute left-0 top-0" bg="$bew-theme-color" text="xs white" fw-bold
-                p="x-2 y-1" m-1 inline-block rounded="$bew-radius" duration-300
-              >
-                LIVE
-                <i i-svg-spinners:pulse-3 align-middle mt--0.2em />
-              </div>
-
-              <div
-                v-if="video.badge && Object.keys(video.badge).length > 0"
-                class="group-hover:opacity-0"
-                :style="{
-                  backgroundColor: video.badge.bgColor,
-                  color: video.badge.color,
-                }"
-                pos="absolute right-0 top-0" bg="$bew-theme-color" text="xs white"
-                p="x-2 y-1" m-1 inline-block rounded="$bew-radius" duration-300
-              >
-                {{ video.badge.text }}
-              </div>
-
-              <!-- Watcher later button -->
-              <button
-                v-if="showWatcherLater"
-                pos="absolute top-0 right-0" z="2"
-                p="x-2 y-1" m="1"
-                rounded="$bew-radius"
-                text="!white xl"
-                bg="black opacity-60"
-                class="opacity-0 group-hover/cover:opacity-100"
-                transform="scale-70 group-hover/cover:scale-100"
-                duration-300
-                @click.prevent.stop="toggleWatchLater"
-              >
-                <Tooltip v-if="!isInWatchLater" :content="$t('common.save_to_watch_later')" placement="bottom-right" type="dark">
-                  <div i-mingcute:carplay-line />
-                </Tooltip>
-                <Tooltip v-else :content="$t('common.added')" placement="bottom-right" type="dark">
-                  <Icon icon="line-md:confirm" />
-                </Tooltip>
-              </button>
-            </template>
-          </div>
-
-          <!-- Other Information -->
-          <div
-            v-if="!removed"
-            :style="{
-              width: horizontal ? '100%' : 'unset',
-              marginTop: horizontal ? '0' : '1rem',
-            }"
-            flex="~"
-          >
-            <!-- Author Avatar -->
-            <VideoCardAuthorAvatar
-              v-if="!horizontal && video.author"
-              :author="video.author"
-              :is-live="video.liveStatus === 1"
-            />
-            <div class="group/desc" flex="~ col" w="full" align="items-start">
-              <div flex="~ gap-1 justify-between items-start" w="full" pos="relative">
-                <h3
-                  class="keep-two-lines"
-                  text="overflow-ellipsis $bew-text-1 lg"
-                  cursor="pointer"
-                >
-                  <a :href="videoUrl" target="_blank" :title="video.title">
-                    {{ video.title }}
-                  </a>
-                </h3>
-
-                <div
-                  v-if="moreBtn"
-                  ref="moreBtnRef"
-                  class="more-btn"
-                  :class="{ 'more-active': showVideoOptions }"
-                  bg="hover:$bew-fill-2 active:$bew-fill-3"
-                  shrink-0 w-32px h-32px m="t--3px r--4px"
-                  grid place-items-center cursor-pointer rounded="50%" duration-300
-                  @click.stop.prevent="handleMoreBtnClick"
-                >
-                  <div i-mingcute:more-2-line text="lg" />
-                </div>
-              </div>
-              <div text="sm $bew-text-2" w-fit m="t-2" flex="~ items-center wrap">
-                <!-- Author Avatar -->
-                <span
-                  :style="{
-                    marginBottom: horizontal ? '0.5rem' : '0',
-                  }"
-                  flex="inline items-center"
-                >
-                  <VideoCardAuthorAvatar
-                    v-if="horizontal && video.author"
-                    :author="video.author"
-                    :is-live="video.liveStatus === 1"
-                  />
-                  <VideoCardAuthorName
-                    :author="video.author"
-                  />
-                </span>
-              </div>
-
-              <div flex="~ items-center gap-1 wrap">
-                <!-- View & Danmaku Count -->
-                <div
-                  text="sm $bew-text-2" rounded="$bew-radius"
-                  inline-block
-                >
-                  <span v-if="video.view || video.viewStr">
-                    {{ video.view ? $t('common.view', { count: numFormatter(video.view) }, video.view) : `${numFormatter(video.viewStr || '0')}${$t('common.viewWithoutNum')}` }}
-                  </span>
-                  <template v-if="video.danmaku || video.danmakuStr">
-                    <span text-xs font-light mx-4px>•</span>
-                    <span>{{ video.danmaku ? $t('common.danmaku', { count: numFormatter(video.danmaku) }, video.danmaku) : `${numFormatter(video.danmakuStr || '0')}${$t('common.danmakuWithoutNum')}` }}</span>
-                  </template>
-                  <br>
-                </div>
-              </div>
-              <div mt-2 flex="~ gap-1 wrap" text="sm">
-                <!-- Tag -->
-                <span
-                  v-if="video.tag"
-                  text="$bew-theme-color" lh-6 p="x-2" rounded="$bew-radius" bg="$bew-theme-color-20"
-                >
-                  {{ video.tag }}
-                </span>
-                <span
-                  v-if="video.publishedTimestamp || video.capsuleText"
-                  bg="$bew-fill-1" p="x-2" rounded="$bew-radius" text="$bew-text-3" lh-6
-                  mr-1
-                >
-                  {{ video.publishedTimestamp ? calcTimeSince(video.publishedTimestamp * 1000) : video.capsuleText?.trim() }}
-                </span>
-                <!-- Video type -->
-                <span text="$bew-text-2" grid="~ place-items-center">
-                  <div v-if="video.type === 'vertical'" i-mingcute:cellphone-2-line />
-                  <div v-else-if="video.type === 'bangumi'" i-mingcute:movie-line />
-                </span>
-              </div>
+            <div
+              v-if="video.liveStatus === 1"
+              class="group-hover:opacity-0"
+              pos="absolute left-0 top-0" bg="$bew-theme-color" text="xs white" fw-bold
+              p="x-2 y-1" m-1 inline-block rounded="$bew-radius" duration-300
+            >
+              LIVE
+              <i i-svg-spinners:pulse-3 align-middle mt--0.2em />
             </div>
-          </div>
+
+            <div
+              v-if="video.badge && Object.keys(video.badge).length > 0"
+              class="group-hover:opacity-0"
+              :style="{
+                backgroundColor: video.badge.bgColor,
+                color: video.badge.color,
+              }"
+              pos="absolute right-0 top-0" bg="$bew-theme-color" text="xs white"
+              p="x-2 y-1" m-1 inline-block rounded="$bew-radius" duration-300
+            >
+              {{ video.badge.text }}
+            </div>
+          </template>
         </ALink>
+
+        <div
+          v-if="removed"
+          pos="absolute inset-0" flex="~ col gap-2 items-center justify-center"
+          bg="$bew-fill-4" backdrop-blur-20px mix-blend-luminosity rounded="$bew-radius" z-2
+        >
+          <p mb-2 color-white text-lg>
+            {{ $t('video_card.video_removed') }}
+          </p>
+          <Button
+            color="rgba(255,255,255,.35)" text-color="white" size="small"
+            @click.stop="handleUndo"
+          >
+            <template #left>
+              <div i-mingcute-back-line text-lg />
+            </template>
+            {{ $t('common.undo') }}
+          </Button>
+        </div>
+
+        <template v-else>
+          <div
+            class="opacity-0 group-hover/cover:opacity-100 focus-within:opacity-100"
+            transform="scale-70 group-hover/cover:scale-100 focus-within:scale-100"
+            duration-300
+            pos="absolute top-0 left-0" z-2
+            @click.stop=""
+          >
+            <slot name="coverTopLeft" />
+          </div>
+
+          <!-- Watcher later button -->
+          <button
+            v-if="showWatcherLater"
+            pos="absolute top-0 right-0" z="2"
+            p="x-2 y-1" m="1"
+            rounded="$bew-radius"
+            text="!white xl"
+            bg="black opacity-60"
+            class="opacity-0 group-hover/cover:opacity-100 focus-visible:opacity-100"
+            transform="scale-70 group-hover/cover:scale-100 focus-visible:scale-100"
+            duration-300
+            @click.stop="toggleWatchLater"
+          >
+            <Tooltip v-if="!isInWatchLater" :content="$t('common.save_to_watch_later')" placement="bottom-right" type="dark">
+              <div i-mingcute:carplay-line />
+            </Tooltip>
+            <Tooltip v-else :content="$t('common.added')" placement="bottom-right" type="dark">
+              <Icon icon="line-md:confirm" />
+            </Tooltip>
+          </button>
+        </template>
       </div>
-    </div>
+
+      <!-- Other Information -->
+      <div
+        v-if="!removed"
+        :style="{
+          width: horizontal ? '100%' : 'unset',
+          marginTop: horizontal ? '0' : '1rem',
+        }"
+        flex="~"
+      >
+        <!-- Author Avatar -->
+        <VideoCardAuthorAvatar
+          v-if="!horizontal && video.author"
+          :author="video.author"
+          :is-live="video.liveStatus === 1"
+          z-1
+        />
+        <div class="group/desc" flex="~ col" w="full" align="items-start">
+          <div flex="~ gap-1 justify-between items-start" w="full">
+            <h3
+              class="keep-two-lines"
+              text="overflow-ellipsis $bew-text-1 lg"
+              cursor="pointer"
+            >
+              <ALink
+                class="video-card-link"
+                :href="videoUrl"
+                type="videoCard"
+                :custom-click-event="settings.videoCardLinkOpenMode === 'drawer'"
+                @click="handleClick"
+              >
+                <span :title="video.title">{{ video.title }}</span>
+              </ALink>
+            </h3>
+
+            <div
+              v-if="moreBtn"
+              ref="moreBtnRef"
+              class="more-btn"
+              :class="{ 'more-active': showVideoOptions }"
+              bg="hover:$bew-fill-2 active:$bew-fill-3"
+              pos="relative" z-1
+              shrink-0 w-32px h-32px m="t--3px r--4px"
+              grid place-items-center cursor-pointer rounded="50%" duration-300
+              @click.stop="handleMoreBtnClick"
+            >
+              <div i-mingcute:more-2-line text="lg" />
+            </div>
+          </div>
+          <div text="sm $bew-text-2" w-fit m="t-2" flex="~ items-center wrap">
+            <!-- Author Avatar -->
+            <span
+              :style="{
+                marginBottom: horizontal ? '0.5rem' : '0',
+              }"
+              flex="inline items-center"
+            >
+              <VideoCardAuthorAvatar
+                v-if="horizontal && video.author"
+                :author="video.author"
+                :is-live="video.liveStatus === 1"
+                z-1
+              />
+              <VideoCardAuthorName
+                :author="video.author"
+                pos="relative" z-1
+              />
+            </span>
+          </div>
+
+          <div flex="~ items-center gap-1 wrap">
+            <!-- View & Danmaku Count -->
+            <div
+              text="sm $bew-text-2" rounded="$bew-radius"
+              inline-block
+            >
+              <span v-if="video.view || video.viewStr">
+                {{ video.view ? $t('common.view', { count: numFormatter(video.view) }, video.view) : `${numFormatter(video.viewStr || '0')}${$t('common.viewWithoutNum')}` }}
+              </span>
+              <template v-if="video.danmaku || video.danmakuStr">
+                <span text-xs font-light mx-4px>•</span>
+                <span>{{ video.danmaku ? $t('common.danmaku', { count: numFormatter(video.danmaku) }, video.danmaku) : `${numFormatter(video.danmakuStr || '0')}${$t('common.danmakuWithoutNum')}` }}</span>
+              </template>
+              <br>
+            </div>
+          </div>
+          <div mt-2 flex="~ gap-1 wrap" text="sm">
+            <!-- Tag -->
+            <span
+              v-if="video.tag"
+              text="$bew-theme-color" lh-6 p="x-2" rounded="$bew-radius" bg="$bew-theme-color-20"
+            >
+              {{ video.tag }}
+            </span>
+            <span
+              v-if="video.publishedTimestamp || video.capsuleText"
+              bg="$bew-fill-1" p="x-2" rounded="$bew-radius" text="$bew-text-3" lh-6
+              mr-1
+            >
+              {{ video.publishedTimestamp ? calcTimeSince(video.publishedTimestamp * 1000) : video.capsuleText?.trim() }}
+            </span>
+            <!-- Video type -->
+            <span text="$bew-text-2" grid="~ place-items-center">
+              <div v-if="video.type === 'vertical'" i-mingcute:cellphone-2-line />
+              <div v-else-if="video.type === 'bangumi'" i-mingcute:movie-line />
+            </span>
+          </div>
+        </div>
+      </div>
+    </template>
 
     <!-- skeleton -->
     <VideoCardSkeleton
@@ -608,7 +614,7 @@ provide('getVideoType', () => props.type!)
       />
       <!-- @reopen="handleMoreBtnClick" -->
     </Teleport>
-  </div>
+  </article>
 </template>
 
 <style scoped>
@@ -620,14 +626,11 @@ provide('getVideoType', () => props.type!)
   --uno: "w-full";
 }
 
-.horizontal-card-cover,
-.vertical-card-cover {
-  &:has(> .video-preview:not(.fade-enter-active, .fade-leave-active)) {
-    background-color: transparent;
+.video-card-cover-link:has(> .video-preview:not(.fade-enter-active, .fade-leave-active)) {
+  background-color: transparent;
 
-    > picture {
-      opacity: 0;
-    }
+  > picture {
+    opacity: 0;
   }
 }
 
@@ -635,18 +638,37 @@ provide('getVideoType', () => props.type!)
   --uno: "opacity-100";
 }
 
-.video-card-root {
+.video-card {
   overflow-clip-margin: 8px;
+  /* 只过渡悬停底板；焦点环要立即出现 */
+  transition-property: background-color, box-shadow;
+
+  /* 焦点在标题链接上，焦点环画在整张卡片上；不用简写，颜色沿用全局的`outline-color` */
+  &:has(.video-card-link:focus-visible) {
+    outline-style: auto;
+    outline-width: 1px;
+    outline-offset: 1px;
+  }
+}
+
+/* 标题链接铺满整张卡片；封面与其他可点的部件用`z-index`叠在它上面 */
+.video-card-link {
+  outline: none;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  > span {
+    position: relative;
+  }
 }
 
 @supports not (overflow-clip-margin: 0px) {
   .more-btn {
     margin-right: 0;
-  }
-
-  .video-card-root:has(.video-card-link:focus-visible) {
-    outline-style: auto;
-    outline-offset: 1px;
   }
 }
 </style>
