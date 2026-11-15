@@ -5,12 +5,16 @@ import { useDark } from '~/composables/useDark'
 import { AppPage } from '~/enums/appEnums'
 import { settings } from '~/logic'
 import { useMainStore } from '~/stores/mainStore'
+import { useWallpaperStore } from '~/stores/wallpaperStore'
 import { hexToHSL } from '~/utils/main'
 
 const props = defineProps<{ activatedPage: AppPage }>()
 
 const { isDark } = useDark()
 const { getActivatedCover } = useMainStore()
+const wallpaper = useWallpaperStore()
+const wallpaperUrl = computed(() => wallpaper.resolve(settings.value.wallpaper))
+const searchPageWallpaperUrl = computed(() => wallpaper.resolve(settings.value.searchPageWallpaper))
 
 const currentActivatedCover = ref<string>('')
 const isBlurredCoverLoaded = ref<boolean>(false)
@@ -105,7 +109,7 @@ function setAppWallpaperMaskingOpacity() {
         <div
           pos="fixed top-0 left-0" w-100vw h-100vh duration-300 bg="cover center $bew-homepage-bg"
           z--1 transform-gpu
-          :style="{ backgroundImage: `url('${settings.individuallySetSearchPageWallpaper ? settings.searchPageWallpaper : settings.wallpaper}')` }"
+          :style="{ backgroundImage: `url('${settings.individuallySetSearchPageWallpaper ? searchPageWallpaperUrl : wallpaperUrl}')` }"
         />
         <!-- background mask -->
         <Transition name="fade">
@@ -122,7 +126,7 @@ function setAppWallpaperMaskingOpacity() {
       <div v-else>
         <!-- background -->
         <div
-          :style="{ backgroundImage: `url('${settings.wallpaper}')` }"
+          :style="{ backgroundImage: `url('${wallpaperUrl}')` }"
           pos="fixed top-0 left-0" w-100vw h-100vh duration-300 bg="cover center $bew-homepage-bg"
           z--1 transform-gpu
         />
@@ -130,7 +134,7 @@ function setAppWallpaperMaskingOpacity() {
         <!-- blurred cover background -->
         <Transition name="fade">
           <Transition
-            v-if="!settings.wallpaper && !settings.disableFrostedGlass"
+            v-if="!wallpaperUrl && !settings.disableFrostedGlass"
             v-show="isBlurredCoverLoaded"
             name="slide-fade"
           >

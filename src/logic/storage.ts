@@ -4,6 +4,8 @@ import type { HomeSubPage } from '~/contentScripts/views/Home/types'
 import type { AppPage } from '~/enums/appEnums'
 import type { BiliTranslationSetting } from '~/utils/biliTranslation'
 
+import { migrateInlineWallpapers } from './wallpaper'
+
 export const storageDemo = useStorageLocal('webext-demo', 'Storage Demo')
 export const accessKey = useStorageLocal('accessKey', '')
 
@@ -251,7 +253,7 @@ export const originalSettings: Settings = {
   legacyPlayerLoadingScreen: false,
 }
 
-export const settings = useStorageLocal('settings', ref<Settings>(originalSettings), { mergeDefaults: true })
+export const settings = useStorageLocal('settings', ref<Settings>(originalSettings), { mergeDefaults: true, migrate: migrateInlineWallpapers })
 
 export type GridLayoutType = 'adaptive' | 'twoColumns' | 'oneColumn'
 

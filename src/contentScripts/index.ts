@@ -1,6 +1,7 @@
 import '~/styles'
 import 'uno.css'
 
+import { createPinia, setActivePinia } from 'pinia'
 import { createApp } from 'vue'
 
 import { useDark } from '~/composables/useDark'
@@ -8,6 +9,7 @@ import { SCROLL_LOCK_ATTRIBUTE } from '~/composables/useDocumentScrollLock'
 import { BEWLY_MOUNTED } from '~/constants/globalEvents'
 import { settings } from '~/logic'
 import { setupApp } from '~/logic/common-setup'
+import { useWallpaperStore } from '~/stores/wallpaperStore'
 import BEWLY_CSS from '~/styles/bewly.css?raw'
 import RESET_BEWLY_CSS from '~/styles/reset.css?raw'
 import { syncBiliSite } from '~/utils/biliSite'
@@ -19,6 +21,9 @@ import { version } from '../../package.json'
 import { setupBiliTranslation } from './biliTranslation'
 import { setupFonts } from './fonts'
 import App from './views/App.vue'
+
+const pinia = createPinia()
+setActivePinia(pinia)
 
 const isFirefox: boolean = /Firefox/i.test(navigator.userAgent)
 
@@ -138,6 +143,17 @@ const isStylesOnlyPage = isFansMedalWallPage()
 
 if (isSupportedPages() || isSupportedIframePages())
   settings.ready.then(setupFonts)
+
+function preloadWallpapers() {
+  if (!isHomePage() && !(isVideoOrBangumiPage() && settings.value.showVideoPageBackground))
+    return
+  const wallpaper = useWallpaperStore()
+  wallpaper.resolve(settings.value.wallpaper)
+  wallpaper.resolve(settings.value.searchPageWallpaper)
+}
+
+if (isSupportedPages())
+  settings.ready.then(preloadWallpapers)
 
 if (isSupportedPages() || isSupportedIframePages() || isStylesOnlyPage) {
   if (settings.value.adaptToOtherPageStyles)
@@ -363,7 +379,7 @@ function injectApp() {
   document.body.appendChild(container)
 
   const app = createApp(App)
-  setupApp(app)
+  setupApp(app, pinia)
   app.mount(root)
 }
 
