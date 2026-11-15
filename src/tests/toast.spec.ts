@@ -4,7 +4,6 @@ import { createApp, h, nextTick, ref } from 'vue'
 
 import ToastRegion from '../components/ToastRegion.vue'
 import { TOAST_TIMEOUT, toasts, useToast } from '../composables/useToast'
-import { testI18n } from './helpers/i18n'
 import { hidePopover, showPopover, useNativeDialogStubs } from './helpers/nativeDialog'
 
 const apps: App[] = []
@@ -24,7 +23,6 @@ function mountRegions() {
       h('div', { id: 'nested' }, h(ToastRegion, { active: nestedActive.value })),
     ],
   })
-  app.use(testI18n)
   app.mount(container)
   apps.push(app)
 

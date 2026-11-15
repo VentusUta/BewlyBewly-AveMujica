@@ -47,7 +47,6 @@ watch(visible, (show) => {
     ref="region"
     class="b-toasts"
     popover="manual"
-    :aria-label="$t('common.notifications')"
     @pointerenter="pauseToasts"
     @pointerleave="resumeToasts"
   >

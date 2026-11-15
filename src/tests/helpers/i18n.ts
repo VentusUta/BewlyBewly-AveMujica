@@ -6,7 +6,6 @@ export const testI18n = createI18n({
   messages: {
     en: {
       common: {
-        notifications: 'Notifications',
         operation: { close: 'Close', cancel: 'Cancel', confirm: 'Confirm' },
       },
     },
