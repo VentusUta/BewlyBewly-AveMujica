@@ -34,7 +34,6 @@ function changeWallpaperType(type: 'buildIn' | 'byUrl') {
     settings.value.searchPageWallpaperMode = type
   }
 
-  // Set the wallpaper to empty if it's a locally uploaded wallpaper, so the URL input never shows its data URL or reference
   if (type === 'byUrl' && isLocalWallpaper(wallpaperUrl.value))
     changeWallpaper('')
 }
@@ -73,7 +72,6 @@ function handleUploadWallpaper(e: Event) {
   compressAndResizeImage(file, 2560, 1440, 0.9, (compressedFile: File) => {
     // img to base64 on browser
     fileToBase64(compressedFile).then(async (base64) => {
-      // 先存入图片，再在设置中写入引用
       const uploaded = await wallpaper.save(base64 as string)
       settings.value.locallyUploadedWallpaper = {
         name: file.name,

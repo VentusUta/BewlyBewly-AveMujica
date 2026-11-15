@@ -22,7 +22,6 @@ import { setupBiliTranslation } from './biliTranslation'
 import { setupFonts } from './fonts'
 import App from './views/App.vue'
 
-// Pinia的创建与激活应具有最优先的时序，以提供所有的存储层能力。
 const pinia = createPinia()
 setActivePinia(pinia)
 
@@ -145,7 +144,6 @@ const isStylesOnlyPage = isFansMedalWallPage()
 if (isSupportedPages() || isSupportedIframePages())
   settings.ready.then(setupFonts)
 
-// 只在会显示壁纸的页面预读，赶在App挂载之前把上传的壁纸读回来
 function preloadWallpapers() {
   if (!isHomePage() && !(isVideoOrBangumiPage() && settings.value.showVideoPageBackground))
     return

@@ -7,15 +7,12 @@ const { store, listeners, readKeys, setCalls, quota, settingsRead } = vi.hoisted
   listeners: [] as Listener[],
   readKeys: [] as string[],
   setCalls: [] as string[][],
-  // `safari`为真时按Safari有缺陷的方式计算配额
   quota: { bytes: Infinity, safari: false },
-  // 设为一个promise时，读取`settings`要等它完成，用来让几个frame同时读到旧值
   settingsRead: { gate: undefined as Promise<void> | undefined },
 }))
 
 vi.mock('webextension-polyfill', () => {
   function notify(changes: Record<string, { oldValue?: unknown, newValue?: unknown }>) {
-    // 与浏览器一样，在写入完成后异步通知所有frame
     setTimeout(() => listeners.forEach(fn => fn(structuredClone(changes), 'local')))
   }
   const browser = {
@@ -33,8 +30,6 @@ vi.mock('webextension-polyfill', () => {
         set: async (items: Record<string, unknown>) => {
           setCalls.push(Object.keys(items))
           if (quota.safari) {
-            // Safari（https://bugs.webkit.org/show_bug.cgi?id=331322）：现有总量按字符数算，
-            // 新值和被替换的旧值按字节算（含Latin-1以外字符的值每字符2字节），相减为负即视为超限
             const bytes = (value: unknown) => {
               const json = JSON.stringify(value)
               return json.length * (/[\u0100-\uFFFF]/.test(json) ? 2 : 1)
@@ -47,7 +42,6 @@ vi.mock('webextension-polyfill', () => {
               throw new Error('Invalid call to browser.storage.local.set(). Exceeded storage quota.')
           }
           else {
-            // 与Chrome一样，按整次写入之后的总量计算配额，超出时一个键都不写
             const after = new Map([...store, ...Object.entries(items)])
             const total = [...after].reduce((sum, [key, value]) => sum + key.length + JSON.stringify(value).length, 0)
             if (total > quota.bytes)
@@ -79,7 +73,6 @@ vi.mock('webextension-polyfill', () => {
 
 const flush = () => new Promise(resolve => setTimeout(resolve, 0))
 
-// 每次都重新导入模块并换一个pinia，相当于一个新的frame
 async function openFrame() {
   vi.resetModules()
   const { createPinia, setActivePinia } = await import('pinia')
@@ -200,7 +193,6 @@ describe('wallpapers in settings', () => {
     settingsRead.gate = undefined
   })
 
-  // 与store共用同一个frame的模块实例和pinia
   async function openSettingsFrame() {
     const wallpaper = await openFrame()
     return { wallpaper, ...await import('~/logic/wallpaper') }
@@ -271,7 +263,6 @@ describe('migrating inline wallpapers', () => {
     settingsRead.gate = undefined
   })
 
-  // 入口先激活pinia，设置随后才读取
   async function openSettingsFrame() {
     const wallpaper = await openFrame()
     return { wallpaper, ...await import('~/logic') }
@@ -307,12 +298,10 @@ describe('migrating inline wallpapers', () => {
   })
 
   it('fits in the quota the old settings already used', async () => {
-    // 引用比这里的小图片还长，换成接近真实比例的大图片
     const first = `data:image/jpeg;base64,${'A'.repeat(4000)}`
     const second = `data:image/jpeg;base64,${'B'.repeat(4000)}`
     store.set('settings', JSON.stringify({ ...legacySettings, wallpaper: first, searchPageWallpaper: second, locallyUploadedWallpaper: { name: 'a.jpg', url: second } }))
     const before = storageBytes()
-    // 余量只够再放一张：先存两张图片、再改设置的做法在这里会失败
     quota.bytes = before + first.length
     const { settings } = await openSettingsFrame()
 
@@ -347,7 +336,6 @@ describe('migrating inline wallpapers', () => {
     const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {})
     store.set('settings', JSON.stringify(legacySettings))
     quota.bytes = storageBytes()
-    // 让迁移那次写入本身就放不下
     store.set('filler', 'x'.repeat(64))
     const { settings } = await openSettingsFrame()
 
@@ -363,7 +351,6 @@ describe('migrating inline wallpapers', () => {
   it('retries with padding when Safari rejects the smaller settings', async () => {
     const first = `data:image/jpeg;base64,${'A'.repeat(4000)}`
     const second = `data:image/jpeg;base64,${'B'.repeat(4000)}`
-    // 文件名里的汉字让整个设置按双倍计，迁移后设置大幅变小，Safari算出负数
     store.set('settings', JSON.stringify({ ...legacySettings, wallpaper: first, searchPageWallpaper: second, locallyUploadedWallpaper: { name: '壁纸.jpg', url: second } }))
     quota.safari = true
     quota.bytes = 10 * 1024 * 1024

@@ -27,11 +27,8 @@ function getInlineWallpapers(settings: WallpaperSettings): string[] {
   return [...new Set(getWallpaperFields(settings))].filter(wallpaper => wallpaper.startsWith('data:image/'))
 }
 
-// 读取设置时用：旧版本内联的上传壁纸要和换成引用的设置在同一次写入里落盘，
-// 分开写的话，中间存储里同时有旧设置和新图片，可能超出配额
 export async function migrateInlineWallpapers<T extends WallpaperSettings>(settings: T) {
   const inline = getInlineWallpapers(settings)
-  // 示例页等没有pinia的环境不迁移
   if (!inline.length || !getActivePinia())
     return undefined
   const { refs, items } = await useWallpaperStore().stage(inline)
@@ -53,7 +50,6 @@ export async function inlineLocalWallpapers<T extends WallpaperSettings>(setting
 }
 
 export async function pruneLocalWallpapers(settings: WallpaperSettings) {
-  // 让设置的写入先发出，其他frame就不会先收到删除、后收到新的引用
   await nextTick()
   try {
     await useWallpaperStore().prune(getWallpaperFields(settings))

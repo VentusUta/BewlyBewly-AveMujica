@@ -37,7 +37,6 @@ function handleImportSettings() {
         reader.onload = async (event: Event) => {
           const fileReaderTarget = event.target as FileReader
           const fileContent = fileReaderTarget.result as string
-          // 导入文件中的上传壁纸是内联的data URL，先单独存入再换成引用
           const jsonObject = await storeInlineWallpapers(JSON.parse(fileContent)) as any
 
           // Merge the new settings with the existing settings
@@ -58,7 +57,6 @@ function handleImportSettings() {
 }
 
 async function handleExportSettings() {
-  // 上传的壁纸换回data URL，导出的文件在其他设备和旧版本中也能导入
   const jsonStr = JSON.stringify(await inlineLocalWallpapers(settings.value))
   const blob = new Blob([jsonStr], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
