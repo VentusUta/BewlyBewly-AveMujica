@@ -34,7 +34,6 @@ function closeDislikeDialog() {
   emit('close')
 }
 
-/** 作为`DialogBox`的`onConfirm`：返回`false`表示失败，对话框保持打开 */
 async function handleAppDislike(): Promise<false | undefined> {
   if (!accessKey.value) {
     toast.warning(t('auth.auth_access_key_first'))
@@ -65,14 +64,8 @@ async function handleAppDislike(): Promise<false | undefined> {
   emit('removed', { dislikeReasonId: selectedDislikeReason.value })
 }
 
-/**
- * 方向键切换由单选组自带，这里只补两样：
- * - 数字键直选
- * - 焦点落在dialog本身时的方向键。点留白处会这样；Safari点单选项也不会把焦点给它
- */
 function handleKeydown(event: KeyboardEvent) {
   const group = groupRef.value
-  // 提交期间表单是`inert`的，这时不再改选
   if (!group || group.closest('[inert]') || event.ctrlKey || event.metaKey || event.altKey)
     return
 
@@ -118,7 +111,6 @@ function handleKeydown(event: KeyboardEvent) {
         p="x-6 y-4" rounded="$bew-radius" cursor-pointer bg="$bew-fill-1 hover:$bew-fill-2"
         flex="~ gap-2 items-center justify-between"
       >
-        <!-- 初始焦点落在已选项上：它排在"确定"之前，打开后方向键和Enter立即可用 -->
         <input
           v-model="selectedDislikeReason"
           class="reason__radio"
@@ -157,7 +149,6 @@ function handleKeydown(event: KeyboardEvent) {
 }
 
 .reason {
-  /* 让视觉隐藏的单选按钮留在本行内，聚焦时不会把正文滚到别处 */
   position: relative;
 }
 

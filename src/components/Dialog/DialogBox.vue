@@ -1,11 +1,3 @@
-<!--
-  DialogBox
-  - `@confirm`的处理函数会被`await`，返回值决定去留：`false`或抛错保持打开，其余关闭。
-    异步操作要把Promise返回出来，否则对话框不会等它
-  - 为此`onConfirm`必须是prop，改成emit就拿不到返回值
-  - 用`v-if`卸载时等`closed`而不是`close`，否则退场动画会被切断
-  - `title`插槽渲染在`<h2>`里，只放行内内容
--->
 <script setup lang="ts">
 import Button from '~/components/Button.vue'
 
@@ -15,9 +7,7 @@ import BaseDialog from './BaseDialog.vue'
 const props = defineProps<{
   title?: string
   desc?: string
-  /** CSS长度，须带单位 */
   width?: string
-  /** CSS长度，须带单位 */
   bodyHeight?: string
   closedby?: DialogClosedBy
   onConfirm?: () => unknown
@@ -47,7 +37,6 @@ async function handleSubmit() {
     return
   }
 
-  // 必须在置`busy`之前：表单`inert`后焦点会掉到body，先交给dialog接住
   base.dialog?.focus()
   busy.value = true
   let result: unknown
@@ -63,7 +52,6 @@ async function handleSubmit() {
   }
 
   if (result === false) {
-    // 等表单脱离`inert`，否则聚焦不上
     await nextTick()
     confirmRef.value?.$el.focus()
     return
@@ -71,7 +59,6 @@ async function handleSubmit() {
   base.close('confirm')
 }
 
-/** 只处理焦点在dialog本身时的Enter（比如点过卡片的留白处），这时没有隐式提交；控件上的Enter留给控件自己 */
 function handleKeydown(event: KeyboardEvent) {
   if (event.key !== 'Enter' || event.target !== event.currentTarget || event.isComposing)
     return
@@ -135,7 +122,6 @@ function handleKeydown(event: KeyboardEvent) {
             <Button type="tertiary" @click="requestClose()">
               {{ $t('common.operation.cancel') }}
             </Button>
-            <!-- 必须是表单里唯一的提交按钮，Enter的隐式提交认的是第一个；×和取消若不是`type=button`就会抢走它 -->
             <Button ref="confirm" type="primary" native-type="submit" value="confirm" autofocus>
               {{ $t('common.operation.confirm') }}
             </Button>
@@ -157,13 +143,11 @@ function handleKeydown(event: KeyboardEvent) {
   --uno: "rounded-$bew-radius border-1 border-$bew-border-color bg-$bew-elevated antialiased";
   border-style: solid;
   inline-size: var(--b-dialog-box-width, 400px);
-  /* dialog自己不能滚，否则`inset: 0`的忙碌遮罩盖不全；滚动交给正文 */
   overflow: hidden;
   backdrop-filter: var(--bew-filter-glass-2);
   box-shadow: var(--bew-shadow-4), var(--bew-shadow-edge-glow-2);
 }
 
-/* `display`只能在`[open]`下改：关闭态要留给UA的`display: none`，退场过渡也靠它 */
 .b-dialog-box[open] {
   display: flex;
   flex-direction: column;
@@ -201,7 +185,6 @@ function handleKeydown(event: KeyboardEvent) {
 
 .b-dialog-box__body {
   --uno: "px-12 py-2";
-  /* 给插槽内容当定位参照：里面绝对定位的元素才会随正文滚动、被正文裁剪 */
   position: relative;
   flex: 0 1 auto;
   min-block-size: 0;

@@ -1,6 +1,5 @@
 import { afterEach, beforeEach, vi } from 'vitest'
 
-// jsdom没有实现模态dialog、popover与Web Animations，这里只模拟组件依赖的那部分行为
 const dialogPrototype = HTMLDialogElement.prototype
 const elementPrototype = HTMLElement.prototype
 const stubbedDialogNames = ['showModal', 'close', 'requestClose', 'getAnimations'] as const
@@ -25,7 +24,6 @@ export const requestClose = vi.fn(function (this: HTMLDialogElement) {
 })
 export const showPopover = vi.fn()
 export const hidePopover = vi.fn()
-/** `CSS.supports('overlay', 'auto')`的结果，默认按支持算；置假可以测“先退场再关闭”的退路 */
 export const supportsOverlay = vi.fn(() => true)
 
 export class FakeKeyframeEffect {
@@ -36,7 +34,6 @@ export class FakeKeyframeEffect {
   }
 }
 
-/** 在当前`describe`里为每个用例安装并还原上述桩 */
 export function useNativeDialogStubs() {
   beforeEach(() => {
     Object.defineProperties(dialogPrototype, {
@@ -48,7 +45,6 @@ export function useNativeDialogStubs() {
     Object.defineProperties(elementPrototype, {
       showPopover: { configurable: true, writable: true, value: showPopover },
       hidePopover: { configurable: true, writable: true, value: hidePopover },
-      // jsdom没有`inert`属性，补一个反映attribute的，Vue才会像在浏览器里一样按属性赋值
       inert: {
         configurable: true,
         get(this: HTMLElement) {

@@ -21,7 +21,6 @@ let nextId = 0
 let paused = false
 const timers = new Map<number, ToastTimer>()
 
-/** 当前所有轻提示，最新的在前 */
 export const toasts = shallowReactive<ToastItem[]>([])
 
 function startTimer(id: number, timer: ToastTimer) {
@@ -40,7 +39,6 @@ function dismiss(id: number) {
     toasts.splice(index, 1)
 }
 
-/** 指针停在轻提示区上时，所有轻提示的倒计时一起暂停 */
 export function pauseToasts() {
   paused = true
   for (const timer of timers.values()) {
@@ -78,13 +76,8 @@ export function useToast() {
   return toast
 }
 
-/** 轻提示区栈，最后一个是栈顶；轻提示只渲染进栈顶的区 */
 const regions = shallowReactive<symbol[]>([])
 
-/**
- * 把当前组件登记为一个轻提示区。`active`为真时压栈，为假或卸载时出栈。
- * 模态对话框里的区必须随对话框开关：它被`display: none`的祖先包着时即使弹出也画不出来。
- */
 export function useToastRegion(active: MaybeRefOrGetter<boolean>) {
   const id = Symbol('toast region')
 
