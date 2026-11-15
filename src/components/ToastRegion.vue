@@ -1,9 +1,3 @@
-<!--
-  轻提示区 ToastRegion
-  栈式设计，由App持有根区，模态对话框各自持有子区，打开时接管轻提示，关闭后交还；
-  设计原因是需要`popover=manual`以保证画在当前最上层（包括模态对话框之上）。
-  轻提示仅有自动消失与悬停暂停的状态，且不承接焦点。
--->
 <script setup lang="ts">
 import type { ToastType } from '~/composables/useToast'
 import { pauseToasts, resumeToasts, toasts, useToastRegion } from '~/composables/useToast'
@@ -72,7 +66,6 @@ watch(visible, (show) => {
     </TransitionGroup>
   </section>
 
-  <!-- 读屏播报区常驻，不随popover隐藏 -->
   <div class="b-toasts__live" role="status">
     <span v-for="item in politeToasts" :key="item.id">{{ item.message }}</span>
   </div>
@@ -83,7 +76,6 @@ watch(visible, (show) => {
 
 <style scoped>
 .b-toasts {
-  /* 覆盖popover的UA样式 */
   position: fixed;
   inset: 1em 1em auto auto;
   inline-size: min(360px, 100% - 2em);

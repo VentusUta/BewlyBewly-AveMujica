@@ -9,13 +9,11 @@ import { hidePopover, showPopover, useNativeDialogStubs } from './helpers/native
 
 const apps: App[] = []
 
-/** 等渲染和`TransitionGroup`的离场（jsdom里没有过渡，Vue在下一帧移除元素） */
 async function settle() {
   await nextTick()
   await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))
 }
 
-/** 挂一个常驻的根区和一个可开关的区，模拟"页面＋模态对话框" */
 function mountRegions() {
   const nestedActive = ref(false)
   const container = document.createElement('div')

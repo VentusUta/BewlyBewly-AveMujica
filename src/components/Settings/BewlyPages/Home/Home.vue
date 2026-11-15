@@ -235,7 +235,6 @@ function handleToggleHomeTab(tab: any) {
         </div>
       </SettingsItem>
 
-      <!-- 授权成功时由脚本关闭，所以不用`v-if`卸载，关闭时也能播退场动画 -->
       <DialogBox
         v-model:open="showQRCodeDialog"
         width="min(50%, 800px)"

@@ -31,7 +31,6 @@ function mountDialog(closedby?: DialogClosedBy) {
   return { open, onClose, onClosed, dialog: container.querySelector('dialog')! }
 }
 
-/** 给dialog挂上一段有限的退场动画和一段永不结束的动画，返回结束前者的函数 */
 function stubExitAnimation(dialog: HTMLDialogElement) {
   let finish!: () => void
   const finished = new Promise<void>(resolve => finish = resolve)
@@ -149,7 +148,6 @@ describe('baseDialog', () => {
     const { open, dialog, onClose, onClosed } = mountDialog()
     await nextTick()
 
-    // 退场一开始就宣告关闭，原生的关闭留到退场播完
     const finish = stubExitAnimation(dialog)
     dialog.requestClose()
     await nextTick()
