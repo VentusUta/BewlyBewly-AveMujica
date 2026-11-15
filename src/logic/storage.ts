@@ -54,7 +54,7 @@ export interface Settings {
   disableDockGlowingEffect: boolean
   disableLightDarkModeSwitcherOnDock: boolean
   backToTopAndRefreshButtonsAreSeparated: boolean
-  enableUndoRefreshButton: boolean // 添加撤销刷新按钮配置项
+  enableUndoRefreshButton: boolean
 
   sidebarPosition: 'left' | 'right'
   autoHideSidebar: boolean
@@ -175,7 +175,7 @@ export const originalSettings: Settings = {
   disableDockGlowingEffect: false,
   disableLightDarkModeSwitcherOnDock: false,
   backToTopAndRefreshButtonsAreSeparated: true,
-  enableUndoRefreshButton: false,
+  enableUndoRefreshButton: true,
 
   sidebarPosition: 'right',
   autoHideSidebar: false,
