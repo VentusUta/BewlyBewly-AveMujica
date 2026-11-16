@@ -101,3 +101,7 @@
 :lang(zh-HK).bewly-design .bili-video-card .bili-video-card__info--tit {
   font-family: var(--bew-font-family, var(--bew-fonts-cantonese));
 }
+
+.bewly-design :is(.bili-subtitle-x-subtitle-panel-text, .bili-subtitle-x-subtitle-rawmeat-text) {
+  font-family: inherit !important;
+}
