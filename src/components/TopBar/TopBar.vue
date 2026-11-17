@@ -861,7 +861,6 @@ defineExpose({
                   v-if="popupVisible.userPanel && session.userInfo"
                   ref="avatarTransformer"
                   :user-info="session.userInfo"
-                  after:h="!0"
                   class="bew-popover"
                   pos="!left-auto !right-0" transform="!translate-x-0"
                   @click.stop="() => {}"
@@ -935,12 +934,8 @@ defineExpose({
 }
 
 .bew-popover {
-  --uno: "absolute";
-  --uno: "overflow-hidden";
-  --uno: "after:content-empty";
-  --uno: "after:opacity-100 after:w-full after:h-100px";
-  --uno: "after:absolute after:top--30px after:left-1/2 after:-z-1";
-  --uno: "after:transform after:-translate-x-1/2";
+  position: absolute;
+  overflow: hidden;
 
   /* 只设在弹窗根上：设在后代上会拦住缩略图等 overflow: hidden 元素上的滚轮，列表本身就滚不动了 */
   overscroll-behavior: contain;
@@ -948,6 +943,15 @@ defineExpose({
 
 .logo.activated {
   --uno: "bg-$bew-theme-color";
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 44px;
+    width: 46px;
+    height: 12px;
+  }
 
   svg {
     --uno: "!fill-white !filter-none";
@@ -1013,6 +1017,16 @@ defineExpose({
   }
   .right-side-item {
     --uno: "relative text-$bew-text-1 flex items-center";
+
+    &:not(.avatar).active::after {
+      content: "";
+      position: absolute;
+      top: 32px;
+      left: 50%;
+      translate: -50% 0;
+      width: 48px;
+      height: 22px;
+    }
 
     &:not(.avatar) a,
     & .notifications {
