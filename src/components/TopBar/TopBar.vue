@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { MaybeElement } from '@vueuse/core'
 import { onClickOutside, onKeyStroke, useMouseInElement } from '@vueuse/core'
 import type { Ref, UnwrapNestedRefs } from 'vue'
 
@@ -16,7 +15,6 @@ import { useWallpaperStore } from '~/stores/wallpaperStore'
 import api from '~/utils/api'
 import { isHomePage, isInIframe, removeHttpFromUrl, stripBiliLangPrefix } from '~/utils/main'
 import emitter from '~/utils/mitt'
-import { createTransformer } from '~/utils/transformer'
 
 import BewlyOrBiliPageSwitcher from './components/BewlyOrBiliPageSwitcher.vue'
 import ChannelsPop from './components/ChannelsPop.vue'
@@ -209,27 +207,8 @@ const topBarItemElements: Record<keyof typeof popupVisible, Ref<HTMLElement | nu
   more,
 }
 
-const momentsPop = useTemplateRef('momentsTransformer')
-const favoritesPop = useTemplateRef('favoritesTransformer')
-
-setupTopBarItemTransformer('userPanel', useTemplateRef('avatarTransformer'))
-setupTopBarItemTransformer('notifications', useTemplateRef('notificationsTransformer'))
-setupTopBarItemTransformer('moments', momentsPop)
-setupTopBarItemTransformer('favorites', favoritesPop)
-setupTopBarItemTransformer('history', useTemplateRef('historyTransformer'))
-setupTopBarItemTransformer('watchLater', useTemplateRef('watchLaterTransformer'))
-setupTopBarItemTransformer('upload', useTemplateRef('uploadTransformer'))
-setupTopBarItemTransformer('more', useTemplateRef('moreTransformer'))
-
-function setupTopBarItemTransformer(key: keyof typeof popupVisible, target: Ref<MaybeElement>) {
-  createTransformer(topBarItemElements[key], {
-    x: '0px',
-    y: '50px',
-    centerTarget: {
-      x: true,
-    },
-  }, target)
-}
+const momentsPop = useTemplateRef('momentsPop')
+const favoritesPop = useTemplateRef('favoritesPop')
 
 function setupTopBarItemHoverEvent(key: keyof typeof popupVisible) {
   return useDelayedHover({
@@ -537,6 +516,7 @@ defineExpose({
                 class="bew-popover"
                 pos="!left-0 !top-50px"
                 transform="!translate-x-0"
+                style="translate: none;"
               />
             </Transition>
           </div>
@@ -616,7 +596,7 @@ defineExpose({
                   <Transition name="slide-in">
                     <MomentsPop
                       v-show="popupVisible.moments"
-                      ref="momentsTransformer"
+                      ref="momentsPop"
                       class="bew-popover"
                       @click.stop="() => {}"
                     />
@@ -643,7 +623,7 @@ defineExpose({
                     <KeepAlive>
                       <FavoritesPop
                         v-if="popupVisible.favorites"
-                        ref="favoritesTransformer"
+                        ref="favoritesPop"
                         class="bew-popover"
                         @click.stop="() => {}"
                       />
@@ -670,7 +650,6 @@ defineExpose({
                   <Transition name="slide-in">
                     <HistoryPop
                       v-if="popupVisible.history"
-                      ref="historyTransformer"
                       class="bew-popover"
                       @click.stop="() => {}"
                     />
@@ -696,7 +675,6 @@ defineExpose({
                   <Transition name="slide-in">
                     <WatchLaterPop
                       v-if="popupVisible.watchLater"
-                      ref="watchLaterTransformer"
                       class="bew-popover"
                       @click.stop="() => {}"
                     />
@@ -733,7 +711,6 @@ defineExpose({
                 <Transition name="slide-in">
                   <MorePop
                     v-show="popupVisible.more"
-                    ref="moreTransformer"
                     class="bew-popover"
                     @click.stop="() => {}"
                   />
@@ -769,7 +746,6 @@ defineExpose({
                   <Transition name="slide-in">
                     <UploadPop
                       v-if="popupVisible.upload"
-                      ref="uploadTransformer"
                       class="bew-popover"
                       @click.stop="() => {}"
                     />
@@ -810,7 +786,6 @@ defineExpose({
                   <Transition name="slide-in">
                     <NotificationsPop
                       v-if="popupVisible.notifications"
-                      ref="notificationsTransformer"
                       class="bew-popover"
                       :un-read-message="unReadMessage"
                       :un-read-dm="unReadDm"
@@ -859,10 +834,11 @@ defineExpose({
               <Transition name="slide-in">
                 <UserPanelPop
                   v-if="popupVisible.userPanel && session.userInfo"
-                  ref="avatarTransformer"
                   :user-info="session.userInfo"
                   class="bew-popover"
-                  pos="!left-auto !right-0" transform="!translate-x-0"
+                  pos="!left-auto !right-0 !top-50px"
+                  transform="!translate-x-0"
+                  style="translate: none;"
                   @click.stop="() => {}"
                 />
               </Transition>
@@ -935,6 +911,9 @@ defineExpose({
 
 .bew-popover {
   position: absolute;
+  top: 50px;
+  left: 50%;
+  translate: round(nearest, -50%, 1px) 0;
   overflow: hidden;
 
   /* 只设在弹窗根上：设在后代上会拦住缩略图等 overflow: hidden 元素上的滚轮，列表本身就滚不动了 */
