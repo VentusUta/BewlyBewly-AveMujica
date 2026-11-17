@@ -15,10 +15,11 @@ import {
   removeSearchHistory,
 } from './searchHistoryProvider'
 
-defineProps<{
+const { searchType = 'all' } = defineProps<{
   darkenOnFocus?: boolean
   blurredOnFocus?: boolean
   focusedCharacter?: string
+  searchType?: 'all' | 'live'
 }>()
 
 const keywordRef = ref<HTMLInputElement>()
@@ -85,7 +86,7 @@ async function navigateToSearchResultPage(keyword: string) {
     else if (settings.value.searchBarLinkOpenMode === 'newTab')
       target = '_blank'
 
-    window.open(`//search.bilibili.com/all?keyword=${encodeURIComponent(keyword)}`, target)
+    window.open(`//search.bilibili.com/${searchType}?keyword=${encodeURIComponent(keyword)}`, target)
     const searchItem = {
       value: keyword,
       timestamp: Number(new Date()),
