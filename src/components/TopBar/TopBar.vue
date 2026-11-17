@@ -302,8 +302,12 @@ onMounted(() => {
   })
 })
 
+let pollTimer: ReturnType<typeof setInterval> | undefined
+
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
+  if (pollTimer)
+    clearInterval(pollTimer)
 })
 
 // Hide the top bar when entering web fullscreen (网页全屏). See useWebFullscreen for details.
@@ -314,7 +318,7 @@ async function initData() {
   await session.getUserInfo()
 
   // automatically update notifications and moments count
-  setInterval(() => {
+  pollTimer = setInterval(() => {
     getUnreadMessageCount()
     getTopBarNewMomentsCount()
   }, updateInterval)
@@ -326,7 +330,7 @@ function handleScroll() {
   if (scrollTop.value === 0)
     toggleTopBarVisible(true)
 
-  if (settings.value.autoHideTopBar && isOutsideTopBar && scrollTop.value !== 0) {
+  if (settings.value.autoHideTopBar && isOutsideTopBar.value && scrollTop.value !== 0) {
     if (scrollTop.value > oldScrollTop.value)
       toggleTopBarVisible(false)
 
