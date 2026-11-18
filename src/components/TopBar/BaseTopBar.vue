@@ -21,12 +21,14 @@ const {
   showTopBar = true,
   isFixed = true,
   forceWhiteIcon = false,
+  forceLightBar = false,
   showSearchBar = true,
   searchType = 'all',
 } = defineProps<{
   showTopBar?: boolean
   isFixed?: boolean
   forceWhiteIcon?: boolean
+  forceLightBar?: boolean
   showSearchBar?: boolean
   searchType?: 'all' | 'live'
   logoHref: string
@@ -48,11 +50,25 @@ const avatar = useTopBarPopup('userPanel', avatarRef, popups)
 const topMaskGradient = computed(() => {
   const stopColor = forceWhiteIcon
     ? 'rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4) calc(var(--bew-top-bar-height) / 2)'
-    : 'color-mix(in oklab, var(--bew-bg), transparent 20%), color-mix(in oklab, var(--bew-bg), transparent 40%) calc(var(--bew-top-bar-height) / 2)'
+    : forceLightBar
+      ? 'color-mix(in oklab, hsl(0 0% 100%), transparent 20%), color-mix(in oklab, hsl(0 0% 100%), transparent 40%) calc(var(--bew-top-bar-height) / 2)'
+      : 'color-mix(in oklab, var(--bew-bg), transparent 20%), color-mix(in oklab, var(--bew-bg), transparent 40%) calc(var(--bew-top-bar-height) / 2)'
   return `linear-gradient(to bottom, ${stopColor}, transparent)`
 })
 
 const searchBarStyle = computed((): Record<string, string> => {
+  if (forceLightBar && !forceWhiteIcon) {
+    return {
+      '--b-search-bar-normal-color': settings.value.disableFrostedGlass
+        ? 'hsl(0 0% 100% / 0.85)'
+        : 'color-mix(in oklab, hsl(0 0% 100%), transparent 60%)',
+      '--b-search-bar-hover-color': 'hsl(0 0% 85% / 0.68)',
+      '--b-search-bar-focus-color': 'var(--bew-elevated)',
+      '--b-search-bar-normal-icon-color': 'hsl(217 19% 10%)',
+      '--b-search-bar-normal-text-color': 'hsl(217 19% 10%)',
+      '--b-search-bar-hover-text-color': 'hsl(217 19% 10%)',
+    }
+  }
   return {
     '--b-search-bar-normal-color': settings.value.disableFrostedGlass
       ? 'var(--bew-elevated)'
@@ -147,7 +163,7 @@ defineExpose({
       v-if="showTopBar"
       ref="headerTarget"
       w="full" transition="all 300 ease-in-out"
-      :class="{ 'hide': hideTopBar, 'force-white-icon': forceWhiteIcon }"
+      :class="{ 'hide': hideTopBar, 'force-white-icon': forceWhiteIcon, 'force-light-bar': forceLightBar }"
       :style="{ position: isFixed ? 'fixed' : 'absolute' }"
     >
       <main
@@ -178,7 +194,7 @@ defineExpose({
 
         <Transition name="fade">
           <div
-            v-if="settings.showTopBarThemeColorGradient && !forceWhiteIcon && reachTop && isDark"
+            v-if="settings.showTopBarThemeColorGradient && !forceWhiteIcon && !forceLightBar && reachTop && isDark"
             pos="absolute top-0 left-0" w-full h="$bew-top-bar-height" pointer-events-none
             :style="{ background: 'linear-gradient(to bottom, var(--bew-theme-color-10), transparent)' }"
           />
@@ -406,6 +422,20 @@ defineExpose({
   & input:not(:focus, :focus-within) {
     --uno: "!border-$bew-border-color !shadow-$bew-shadow-1";
   }
+}
+
+header.force-light-bar :deep(.search-bar) {
+  & input:not(:focus, :focus-within) {
+    border-color: rgb(131 131 145 / 18%) !important;
+    box-shadow:
+      0 4px 6px -1px rgb(0 0 0 / 0.08),
+      0 2px 4px -2px rgb(0 0 0 / 0.04) !important;
+  }
+}
+
+header.force-light-bar .top-bar-nav :deep(.nav-item > a:not(.accent)) {
+  color: hsl(217 19% 10%);
+  filter: drop-shadow(0 0 4px hsl(0 0% 100%));
 }
 
 .logo-popover-wrap {

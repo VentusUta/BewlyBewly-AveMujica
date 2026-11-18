@@ -342,6 +342,8 @@ topbar:
   watch_later: 稍后再看
   creative_center: 创作中心
   upload: 投稿
+  live_following: 直播关注
+  start_streaming: 我要开播
   logo_dropdown:
     anime: 番剧
     movies: 电影
@@ -391,6 +393,22 @@ topbar:
     activities: 活动
     paid_courses: 课堂
     charitable_events: 公益
+  live_dropdown:
+    back_to_main: 返回主站
+    live_rank: 直播排行
+    online_games: 网游
+    mobile_games: 手游
+    standalone_games: 单机游戏
+    vtubers: 虚拟主播
+    entertainment: 娱乐
+    radio: 电台
+    esports: 赛事
+    chat_room: 聊天室
+    life: 生活
+    knowledge: 知识
+    help_play: 帮我玩
+    interactive: 互动玩法
+    shopping: 购物
   user_dropdown:
     money: 硬币：
     b_coins: B币：

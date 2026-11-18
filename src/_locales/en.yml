@@ -349,6 +349,8 @@ topbar:
   watch_later: Watch Later
   creative_center: Creative Center
   upload: Upload
+  live_following: Live Following
+  start_streaming: Go Live
   logo_dropdown:
     anime: Anime
     movies: Movies
@@ -398,6 +400,22 @@ topbar:
     comic_con_and_goods: Comic Con & Goods
     manga: Manga
     game_competitions: Game Competitions
+  live_dropdown:
+    back_to_main: Main Site
+    live_rank: Live Ranking
+    online_games: Online Games
+    mobile_games: Mobile Games
+    standalone_games: Standalone Games
+    vtubers: VTubers
+    entertainment: Entertainment
+    radio: Radio
+    esports: Esports
+    chat_room: Chat Room
+    life: Life
+    knowledge: Knowledge
+    help_play: Help Me Play
+    interactive: Interactive
+    shopping: Shopping
   user_dropdown:
     money: 'Money: '
     b_coins: 'B-coins: '
