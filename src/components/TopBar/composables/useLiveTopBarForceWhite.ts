@@ -439,12 +439,22 @@ export function useLiveTopBarForceWhite(): { forceWhiteIcon: Ref<boolean> } {
     evaluateBackdrop()
   }
 
+  function handleResourceLoad(event: Event) {
+    const target = event.target
+    if (
+      target instanceof HTMLLinkElement
+      && (target.id === '__css-map__' || target.href.includes('laputa-css'))
+    ) {
+      evaluateBackdrop()
+    }
+  }
+
   if (typeof document !== 'undefined' && document.body)
     evaluateBackdrop()
 
   onMounted(() => {
     attrObserver = new MutationObserver(evaluateBackdrop)
-    attrObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['style', 'class'] })
+    attrObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['style', 'class', 'lab-style'] })
     if (document.body)
       attrObserver.observe(document.body, { attributes: true, attributeFilter: ['style', 'class'] })
 
@@ -454,6 +464,7 @@ export function useLiveTopBarForceWhite(): { forceWhiteIcon: Ref<boolean> } {
 
     bindRoomBgObserver()
 
+    document.addEventListener('load', handleResourceLoad, true)
     window.addEventListener('resize', evaluateBackdrop)
     window.addEventListener('popstate', evaluateBackdrop)
     window.addEventListener('hashchange', evaluateBackdrop)
@@ -469,6 +480,7 @@ export function useLiveTopBarForceWhite(): { forceWhiteIcon: Ref<boolean> } {
     attrObserver?.disconnect()
     roomBgObserver?.disconnect()
     structureObserver?.disconnect()
+    document.removeEventListener('load', handleResourceLoad, true)
     window.removeEventListener('resize', evaluateBackdrop)
     window.removeEventListener('popstate', evaluateBackdrop)
     window.removeEventListener('hashchange', evaluateBackdrop)
