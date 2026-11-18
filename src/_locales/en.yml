@@ -94,6 +94,7 @@ settings:
   group_search_page_mode: Search Page Mode
   group_home_tabs: Home Tabs
   group_video_page: Video Page Settings
+  group_live: Live site (experimental)
 
   # Settings buttons
   btn:
@@ -294,6 +295,8 @@ settings:
   use_original_bilibili_topbar: Use the original bilibili top bar
   adapt_to_other_page_styles: Adapt to other page styles
   adapt_to_other_page_styles_desc: Adapt to some common pages to match with the BewlyBewly theme.
+  enable_live_topbar: Enable the top bar on the live site
+  enable_live_topbar_desc: Show BewlyBewly's top bar and sidebar on live.bilibili.com, and keep its pages in sync with BewlyBewly's light / dark mode. Live pages that are already open need a refresh for the change to take effect.
   # Bilibili Evolved
   follow_bilibili_evolved_color: Follow the Bilibili Evolved theme color
   follow_bilibili_evolved_color_desc: After changing the theme color in Bilibili Evolved, you will need to re-select this option in order to update the theme color.

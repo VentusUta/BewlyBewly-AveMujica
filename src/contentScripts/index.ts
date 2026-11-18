@@ -14,7 +14,7 @@ import BEWLY_CSS from '~/styles/bewly.css?raw'
 import RESET_BEWLY_CSS from '~/styles/reset.css?raw'
 import { syncBiliSite } from '~/utils/biliSite'
 import { runWhenIdle } from '~/utils/lazyLoad'
-import { compareVersions, injectCSS, isHomePage, isInIframe, isNotificationPage, isVideoOrBangumiPage, stripBiliLangPrefix } from '~/utils/main'
+import { compareVersions, injectCSS, isHomePage, isInIframe, isLivePage, isNotificationPage, isVideoOrBangumiPage, stripBiliLangPrefix } from '~/utils/main'
 import { SVG_ICONS } from '~/utils/svgIcons'
 
 import { version } from '../../package.json'
@@ -207,6 +207,42 @@ window.addEventListener(BEWLY_MOUNTED, () => {
 // see: https://github.com/BewlyBewly/BewlyBewly/issues/967
 const removeOriginalTopBar = injectCSS(`.bili-header, #biliMainHeader { visibility: hidden !important; }`)
 
+const isLive = !isInIframe() && isLivePage(currentUrl)
+
+if (isLive) {
+  document.documentElement.classList.add('livePage', 'remove-top-bar')
+  const stopPaintingCanvas = paintActivityPageCanvas()
+
+  settings.ready.then(() => {
+    if (settings.value.enableLiveTopBar) {
+      useDark()
+      setupFonts()
+      return
+    }
+    document.documentElement.classList.remove('livePage', 'remove-top-bar')
+    stopPaintingCanvas()
+    removeOriginalTopBar.remove()
+  })
+}
+
+function paintActivityPageCanvas() {
+  const root = document.documentElement
+  const observer = new MutationObserver(() => {
+    const page = document.querySelector<HTMLElement>('[data-cy="EvaPage"]')
+    if (!page)
+      return
+    root.style.backgroundColor = page.style.backgroundColor
+    observer.disconnect()
+  })
+  observer.observe(root, { childList: true, subtree: true })
+  document.addEventListener('DOMContentLoaded', () => observer.disconnect(), { once: true })
+
+  return () => {
+    observer.disconnect()
+    root.style.removeProperty('background-color')
+  }
+}
+
 async function onDOMLoaded() {
   let originalTopBar: HTMLElement | null = null
 
@@ -258,7 +294,10 @@ async function onDOMLoaded() {
     window.addEventListener(BEWLY_MOUNTED, initBodyOverlayScrollbars, { once: true })
   }
 
-  if (isSupportedPages() || isSupportedIframePages()) {
+  if (isLive)
+    await settings.ready
+
+  if (isSupportedPages() || isSupportedIframePages() || (isLive && settings.value.enableLiveTopBar)) {
     // Then inject the app
     if (isHomePage()) {
       injectApp()
@@ -269,8 +308,7 @@ async function onDOMLoaded() {
   }
 
   // Reset the original Bilibili top bar display style
-  if (removeOriginalTopBar)
-    document.documentElement.removeChild(removeOriginalTopBar)
+  removeOriginalTopBar.remove()
 }
 
 async function initBodyOverlayScrollbars() {

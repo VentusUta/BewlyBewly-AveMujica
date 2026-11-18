@@ -92,6 +92,7 @@ settings:
   group_search_page_mode: 搜索页模式
   group_home_tabs: 首页标签栏
   group_video_page: 视频页设置
+  group_live: 直播站（实验性）
 
   # Settings buttons
   btn:
@@ -292,6 +293,8 @@ settings:
   use_original_bilibili_topbar: 使用原版bilibili顶栏
   adapt_to_other_page_styles: 适应其他页面样式
   adapt_to_other_page_styles_desc: 适应一些常见页面，以与BewlyBewly主题相匹配。
+  enable_live_topbar: 启用直播站顶栏
+  enable_live_topbar_desc: 在直播站显示BewlyBewly的顶栏和侧边栏，并让页面跟随BewlyBewly的亮/暗色。更改后，已打开的直播站页面需要刷新才会生效。
   # Bilibili Evolved
   follow_bilibili_evolved_color: 使用Bilibili Evolved主题色
   follow_bilibili_evolved_color_desc: 每次选完Bilibili Evolved主题色时，记得重新选中这一选项以更新配置。
