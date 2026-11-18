@@ -8,7 +8,7 @@ export default defineConfig({
   entry: {
     'background/index': './src/background/index.ts',
   },
-  copy: { from: 'src/inject/index.js', to: `${outDir}/inject` },
+  copy: { from: ['src/inject/index.js', 'src/inject/liveTheme.js'], to: `${outDir}/inject` },
   outDir,
   clean: false,
   format: ['iife'],

@@ -666,4 +666,49 @@ describe('liveTopBar', () => {
     expect(header.classList.contains('force-white-icon')).toBe(true)
     expect(header.classList.contains('force-light-bar')).toBe(false)
   })
+
+  it('re-evaluates backdrop when laputa #__css-map__ dark stylesheet loads', async () => {
+    settings.value.theme = 'dark'
+
+    const link = document.createElement('link')
+    link.id = '__css-map__'
+    link.rel = 'stylesheet'
+    link.href = 'https://s1.hdslb.com/bfs/static/jinkela/long/laputa-css/light.css'
+    document.head.append(link)
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation((el: Element, pseudo?: string | null) => {
+      if (pseudo)
+        return { content: 'none' } as CSSStyleDeclaration
+      const cs = realGetComputedStyle(el)
+      if (el !== document.body)
+        return cs
+      return new Proxy(cs, {
+        get(target, prop) {
+          if (prop === 'backgroundColor')
+            return link.href.includes('dark.css') ? 'rgb(10, 11, 12)' : 'rgb(241, 242, 243)'
+          const value = Reflect.get(target, prop, target)
+          return typeof value === 'function' ? value.bind(target) : value
+        },
+      })
+    })
+
+    try {
+      const container = mountLiveTopBar()
+      await nextTick()
+
+      const header = container.querySelector('header')!
+      expect(header.classList.contains('force-light-bar')).toBe(true)
+      expect(header.classList.contains('force-white-icon')).toBe(false)
+
+      link.href = 'https://s1.hdslb.com/bfs/static/jinkela/long/laputa-css/dark.css'
+      link.dispatchEvent(new Event('load'))
+      await nextTick()
+
+      expect(header.classList.contains('force-white-icon')).toBe(true)
+      expect(header.classList.contains('force-light-bar')).toBe(false)
+    }
+    finally {
+      link.remove()
+    }
+  })
 })

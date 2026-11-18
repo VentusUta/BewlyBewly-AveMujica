@@ -100,6 +100,13 @@ export async function getManifest() {
         all_frames: true,
         world: 'MAIN',
       },
+      {
+        matches: ['*://live.bilibili.com/*'],
+        exclude_matches: ['*://live.bilibili.com/p/html/live-fansmedal-wall/*'],
+        js: ['./dist/inject/liveTheme.js'],
+        run_at: 'document_start',
+        world: 'MAIN',
+      },
     ],
 
     declarative_net_request: {
