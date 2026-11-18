@@ -536,7 +536,7 @@ document.head.appendChild(removeLeftQuoteIndent)
     >
       <BewlyOrBiliTopBarSwitcher v-if="settings.showBewlyOrBiliTopBarSwitcher" />
 
-      <TopBar
+      <MainTopBar
         pos="top-0 left-0" z="99 hover:1001" w-full
       />
     </div>
