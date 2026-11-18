@@ -178,10 +178,10 @@ export function stripBiliLangPrefix(url: string = location.href): string {
 export function isHomePage(url: string = location.href): boolean {
   url = stripBiliLangPrefix(url)
   if (
-    /https?:\/\/(?:www\.)?bilibili.com\/?(?:#\/?)?$/.test(url)
-    || /https?:\/\/(?:www\.)?bilibili.com\/index\.html$/.test(url)
-    || /https?:\/\/(?:www\.)?bilibili.com\/\?spm_id_from=.*/.test(url)
-    || /https?:\/\/www\.bilibili\.com\/\?.*$/.test(url)
+    /^https?:\/\/(?:www\.)?bilibili\.com\/?(?:#\/?)?$/.test(url)
+    || /^https?:\/\/(?:www\.)?bilibili\.com\/index\.html$/.test(url)
+    || /^https?:\/\/(?:www\.)?bilibili\.com\/\?spm_id_from=.*/.test(url)
+    || /^https?:\/\/www\.bilibili\.com\/\?.*$/.test(url)
   ) {
     return true
   }
@@ -197,14 +197,14 @@ export function isVideoOrBangumiPage(url: string = location.href): boolean {
   url = stripBiliLangPrefix(url)
   if (
     // video page
-    /https?:\/\/(?:www\.)?bilibili\.com\/(?:video|list)\/.*/.test(url)
+    /^https?:\/\/(?:www\.)?bilibili\.com\/(?:video|list)\/.*/.test(url)
     // anime playback & movie page
-    || /https?:\/\/(?:www\.)?bilibili\.com\/bangumi\/play\/.*/.test(url)
+    || /^https?:\/\/(?:www\.)?bilibili\.com\/bangumi\/play\/.*/.test(url)
     // watch later playlist
-    || /https?:\/\/(?:www\.)?bilibili\.com\/list\/watchlater\?bvid.*/.test(url)
-    || /https?:\/\/(?:www\.)?bilibili\.com\/watchlater\/list.*/.test(url)
+    || /^https?:\/\/(?:www\.)?bilibili\.com\/list\/watchlater\?bvid.*/.test(url)
+    || /^https?:\/\/(?:www\.)?bilibili\.com\/watchlater\/list.*/.test(url)
     // favorite playlist
-    || /https?:\/\/(?:www\.)?bilibili\.com\/list\/ml.*/.test(url)
+    || /^https?:\/\/(?:www\.)?bilibili\.com\/list\/ml.*/.test(url)
   ) {
     return true
   }
@@ -219,7 +219,7 @@ export function isVideoOrBangumiPage(url: string = location.href): boolean {
 export function isNotificationPage(url: string = location.href): boolean {
   url = stripBiliLangPrefix(url)
   if (
-    /https?:\/\/message\.bilibili\.com\.*/.test(url)
+    /^https?:\/\/message\.bilibili\.com\.*/.test(url)
   ) {
     return true
   }
