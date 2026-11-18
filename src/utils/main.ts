@@ -227,6 +227,28 @@ export function isNotificationPage(url: string = location.href): boolean {
 }
 
 /**
+ * Check if the current page is a live page
+ * @param url the url to check
+ * @returns true if the current page is a live page
+ */
+export function isLivePage(url: string = location.href): boolean {
+  let parsed: URL
+  try {
+    parsed = new URL(stripBiliLangPrefix(url))
+  }
+  catch {
+    return false
+  }
+  if (parsed.hostname !== 'live.bilibili.com')
+    return false
+  if (parsed.pathname.startsWith('/p/html/') || parsed.pathname.startsWith('/blackboard/'))
+    return false
+  if (parsed.searchParams.get('liteVersion') === 'true')
+    return false
+  return true
+}
+
+/**
  * Compresses and resizes an image file.
  *
  * @param file - The image file to compress and resize.

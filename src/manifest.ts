@@ -75,6 +75,13 @@ export async function getManifest() {
         all_frames: true,
       },
       {
+        matches: ['*://live.bilibili.com/*'],
+        exclude_matches: ['*://live.bilibili.com/p/html/live-fansmedal-wall/*'],
+        js: ['./dist/contentScripts/index.global.js'],
+        css: ['./dist/contentScripts/style.css'],
+        run_at: 'document_start',
+      },
+      {
         matches: [
           '*://www.bilibili.com/*',
           '*://search.bilibili.com/*',

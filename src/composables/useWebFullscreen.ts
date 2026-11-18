@@ -1,15 +1,16 @@
-import { isInIframe, isVideoOrBangumiPage, queryDomUntilFound } from '~/utils/main'
+import { isInIframe, isLivePage, isVideoOrBangumiPage, queryDomUntilFound } from '~/utils/main'
 
 /**
- * Detect Bilibili web fullscreen (网页全屏) on video/bangumi pages.
+ * Detect Bilibili web fullscreen (网页全屏) on video/bangumi and live pages.
  *
  * On normal video pages Bilibili's web-fullscreen player layer happens to cover our overlay
  * (top bar, dock, side buttons), but on bangumi pages (`/bangumi/play/`) it doesn't, leaving
  * them floating over the video. So we explicitly detect web fullscreen by observing the player's
- * web-fullscreen control button toggling `bpx-state-entered`, and let callers hide their overlay.
+ * web-fullscreen control button toggling `bpx-state-entered`, or `player-full-win` on
+ * `document.body` on live pages, and let callers hide their overlay.
  *
- * Only active on video/bangumi pages outside of an iframe. (The drawer/iframe case is handled
- * separately in App.vue, which needs to message the parent frame instead.)
+ * Only active outside of an iframe. (The drawer/iframe case is handled separately in App.vue,
+ * which needs to message the parent frame instead.)
  *
  * @returns `isWebFullscreen` — a reactive ref that is `true` while in web fullscreen.
  */
@@ -19,20 +20,32 @@ export function useWebFullscreen() {
   let observer: MutationObserver | null = null
   const abort = new AbortController()
 
+  function observeClass(target: Element, isActive: () => boolean) {
+    const sync = () => {
+      isWebFullscreen.value = isActive()
+    }
+    sync()
+    observer = new MutationObserver(sync)
+    observer.observe(target, { attributes: true, attributeFilter: ['class'] })
+  }
+
   onMounted(() => {
-    if (isInIframe() || !isVideoOrBangumiPage())
+    if (isInIframe())
+      return
+
+    if (isLivePage()) {
+      observeClass(document.body, () => document.body.classList.contains('player-full-win'))
+      return
+    }
+
+    if (!isVideoOrBangumiPage())
       return
 
     queryDomUntilFound('.bpx-player-ctrl-btn.bpx-player-ctrl-web', 500, abort).then((webFullscreenBtn) => {
       if (!webFullscreenBtn)
         return
 
-      const sync = () => {
-        isWebFullscreen.value = webFullscreenBtn.classList.contains('bpx-state-entered')
-      }
-      sync()
-      observer = new MutationObserver(sync)
-      observer.observe(webFullscreenBtn, { attributes: true, attributeFilter: ['class'] })
+      observeClass(webFullscreenBtn, () => webFullscreenBtn.classList.contains('bpx-state-entered'))
     })
   })
 
