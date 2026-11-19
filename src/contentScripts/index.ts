@@ -14,7 +14,7 @@ import BEWLY_CSS from '~/styles/bewly.css?raw'
 import RESET_BEWLY_CSS from '~/styles/reset.css?raw'
 import { syncBiliSite } from '~/utils/biliSite'
 import { runWhenIdle } from '~/utils/lazyLoad'
-import { compareVersions, injectCSS, isHomePage, isInIframe, isNotificationPage, isVideoOrBangumiPage, stripBiliLangPrefix } from '~/utils/main'
+import { compareVersions, injectCSS, isHomePage, isInIframe, isLivePage, isNotificationPage, isVideoOrBangumiPage, stripBiliLangPrefix } from '~/utils/main'
 import { SVG_ICONS } from '~/utils/svgIcons'
 
 import { version } from '../../package.json'
@@ -99,6 +99,8 @@ function isSupportedPages(): boolean {
     || /https?:\/\/music\.bilibili\.com\/pc\/music-center.*$/.test(currentUrl)
     // bilibili audio
     || /https?:\/\/(?:www\.)?bilibili\.com\/audio\/.*/.test(currentUrl)
+    // live page
+    || isLivePage(currentUrl)
   ) {
     return true
   }
@@ -155,22 +157,45 @@ function preloadWallpapers() {
 if (isSupportedPages())
   settings.ready.then(preloadWallpapers)
 
+const isLive = isSupportedPages() && isLivePage(currentUrl)
+
+if (isLive) {
+  // 直播间的原版顶栏有一段比Bewly挂载还晚出现，所以一开始就加上`remove-top-bar`，挂载后再由设置修正
+  document.documentElement.classList.add('livePage', 'remove-top-bar')
+  paintActivityPageCanvas()
+}
+
+// 活动直播间的底色要等加载完才由页面脚本写到`body`上，在那之前原版顶栏的占位后面是白色的画布
+function paintActivityPageCanvas() {
+  const observer = new MutationObserver(() => {
+    const page = document.querySelector<HTMLElement>('[data-cy="EvaPage"]')
+    if (!page)
+      return
+    document.documentElement.style.backgroundColor = page.style.backgroundColor
+    observer.disconnect()
+  })
+  observer.observe(document.documentElement, { childList: true, subtree: true })
+  document.addEventListener('DOMContentLoaded', () => observer.disconnect(), { once: true })
+}
+
 if (isSupportedPages() || isSupportedIframePages() || isStylesOnlyPage) {
-  if (settings.value.adaptToOtherPageStyles)
+  if (settings.value.adaptToOtherPageStyles) {
     useDark()
 
-  if (settings.value.adaptToOtherPageStyles) {
-    document.documentElement.classList.add('bewly-design')
+    if (!isLive)
+      document.documentElement.classList.add('bewly-design')
 
     if (isStylesOnlyPage && settings.value.themeColor)
       document.documentElement.style.setProperty('--bew-theme-color', settings.value.themeColor)
 
     // Remove the Bilibili Evolved's dark mode style
-    runWhenIdle(async () => {
-      const darkModeStyle = document.head.querySelector('#dark-mode')
-      if (darkModeStyle)
-        document.head.removeChild(darkModeStyle)
-    })
+    if (!isLive) {
+      runWhenIdle(async () => {
+        const darkModeStyle = document.head.querySelector('#dark-mode')
+        if (darkModeStyle)
+          document.head.removeChild(darkModeStyle)
+      })
+    }
   }
 
   else {

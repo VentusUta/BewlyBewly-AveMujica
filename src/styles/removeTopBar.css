@@ -11,6 +11,15 @@
     height: var(--bew-top-bar-height) !important;
   }
 
+  /* 直播站的`nav`、直播间的预占位条和固定外层都不占文档流，直接移除 */
+  &.livePage {
+    .link-navbar,
+    #prehold-nav-vm,
+    .link-navbar-ctnr.p-fixed {
+      display: none !important;
+    }
+  }
+
   /* Remove the Bilibili Evolved's top bar */
   .custom-navbar {
     display: none;

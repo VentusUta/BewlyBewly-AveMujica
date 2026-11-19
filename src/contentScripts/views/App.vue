@@ -12,7 +12,7 @@ import { settings } from '~/logic'
 import type { DockItem } from '~/stores/mainStore'
 import { useMainStore } from '~/stores/mainStore'
 import { useSettingsStore } from '~/stores/settingsStore'
-import { isHomePage, isInIframe, isNotificationPage, isVideoOrBangumiPage, openLinkToNewTab, queryDomUntilFound, scrollToTop } from '~/utils/main'
+import { isHomePage, isInIframe, isLivePage, isNotificationPage, isVideoOrBangumiPage, openLinkToNewTab, queryDomUntilFound, scrollToTop } from '~/utils/main'
 import { initUrlCleaner } from '~/utils/urlCleaner'
 
 import { setupNecessarySettingsWatchers } from './necessarySettingsWatchers'
@@ -509,6 +509,7 @@ document.head.appendChild(removeLeftQuoteIndent)
       v-if="!isInIframe() && !isWebFullscreen"
       pos="absolute top-0 left-0" w-full h-full overflow-hidden
       pointer-events-none
+      :class="{ 'z-1000': isLivePage() }"
     >
       <Dock
         v-if="!settings.useOriginalBilibiliHomepage && (settings.alwaysUseDock || (showBewlyPage || iframePageURL))"
@@ -534,9 +535,19 @@ document.head.appendChild(removeLeftQuoteIndent)
       m-auto max-w="$bew-page-max-width"
       pointer-events-auto
     >
-      <BewlyOrBiliTopBarSwitcher v-if="settings.showBewlyOrBiliTopBarSwitcher" />
+      <BewlyOrBiliTopBarSwitcher
+        v-if="settings.showBewlyOrBiliTopBarSwitcher"
+        :class="isLivePage() ? (settings.showTopBar ? '!z-1000' : '!z-1003') : undefined"
+      />
 
-      <TopBar
+      <LiveTopBar
+        v-if="isLivePage()"
+        ref="topBarRef"
+        pos="top-0 left-0" z="1000 hover:1002" w-full
+      />
+      <MainTopBar
+        v-else
+        ref="topBarRef"
         pos="top-0 left-0" z="99 hover:1001" w-full
       />
     </div>

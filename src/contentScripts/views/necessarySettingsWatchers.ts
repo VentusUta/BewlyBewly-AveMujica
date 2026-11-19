@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n'
 import { LanguageType } from '~/enums/appEnums'
 import { accessKey, settings } from '~/logic'
 import { useSessionStore } from '~/stores/sessionStore'
-import { injectCSS } from '~/utils/main'
+import { injectCSS, isLivePage } from '~/utils/main'
 
 export function setupNecessarySettingsWatchers() {
   const { locale } = useI18n()
@@ -266,7 +266,7 @@ export function setupNecessarySettingsWatchers() {
   watch(
     () => settings.value.adaptToOtherPageStyles,
     () => {
-      if (settings.value.adaptToOtherPageStyles)
+      if (settings.value.adaptToOtherPageStyles && !isLivePage())
         document.documentElement.classList.add('bewly-design')
       else
         document.documentElement.classList.remove('bewly-design')

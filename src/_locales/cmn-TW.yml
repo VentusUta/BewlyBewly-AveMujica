@@ -342,6 +342,8 @@ topbar:
   watch_later: 稍後觀看
   creative_center: 創作中心
   upload: 上傳
+  live_following: 直播追蹤
+  start_streaming: 我要開播
   logo_dropdown:
     anime: 番劇
     movies: 電影
@@ -391,6 +393,22 @@ topbar:
     comic_con_and_goods: 漫展和周邊
     manga: 漫畫
     game_competitions: 遊戲賽事
+  live_dropdown:
+    back_to_main: 返回主站
+    live_rank: 直播排行
+    online_games: 網遊
+    mobile_games: 手遊
+    standalone_games: 單機遊戲
+    vtubers: 虛擬主播
+    entertainment: 娛樂
+    radio: 電台
+    esports: 賽事
+    chat_room: 聊天室
+    life: 生活
+    knowledge: 知識
+    help_play: 幫我玩
+    interactive: 互動玩法
+    shopping: 購物
   user_dropdown:
     money: 硬幣：
     b_coins: B幣：
