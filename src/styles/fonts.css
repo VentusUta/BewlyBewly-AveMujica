@@ -22,12 +22,12 @@
     "Microsoft JhengHei", var(--bew-fonts-fallback);
 
   --bew-fonts-recommend:
-    MiddleDotFont-BewlyInternalResource, EmDashFont-BewlyInternalResource, OldRoboto-BewlyInternalResource,
-    ShangguSansSCVF-BewlyInternalResource, var(--bew-fonts-fallback);
+    CJKPunctuation-BewlyInternalResource, OldRoboto-BewlyInternalResource, ShangguSansSCVF-BewlyInternalResource,
+    var(--bew-fonts-fallback);
 
   --bew-fonts-recommend-new:
-    MiddleDotFont-BewlyInternalResource, EmDashFont-BewlyInternalResource, OldRoboto-BewlyInternalResource,
-    EliksiroSans-BewlyInternalResource, var(--bew-fonts-fallback);
+    CJKPunctuation-BewlyInternalResource, OldRoboto-BewlyInternalResource, EliksiroSans-BewlyInternalResource,
+    var(--bew-fonts-fallback);
 }
 
 .bewly-wrapper,

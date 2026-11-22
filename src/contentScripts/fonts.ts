@@ -5,15 +5,14 @@ import { injectCSS } from '~/utils/main'
 
 /* Add 'BewlyInternalResource' suffix to prevent conflict with local fonts. */
 const fontFaces = `
+/*
+ * CJK Punctuation
+ * - Middle dot (U+00B7)
+ * - Em dash (U+2014)
+*/
 @font-face {
-    font-family: "EmDashFont-BewlyInternalResource"; /* U+2014 */
-    unicode-range: U+2014;
-    src: local(Tahoma), local(Arial);
-}
-
-@font-face {
-    font-family: "MiddleDotFont-BewlyInternalResource"; /* Half-width middle dot (U+00B7) from Eliksiro Sans */
-    unicode-range: U+00B7;
+    font-family: "CJKPunctuation-BewlyInternalResource";
+    unicode-range: U+00B7, U+2014;
     font-weight: 100 700;
     line-gap-override: 0%;
     src: url(${browser.runtime.getURL('/assets/fonts/EliksiroSans-VF.woff2')}) format(woff2) tech(variations);
