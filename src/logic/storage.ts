@@ -121,6 +121,7 @@ export interface Settings {
   showTopBar: boolean
   useOriginalBilibiliTopBar: boolean
   useOriginalBilibiliHomepage: boolean
+  enableLiveTopBar: boolean
 
   blockAds: boolean
   blockTopSearchPageAds: boolean
@@ -242,6 +243,7 @@ export const originalSettings: Settings = {
   showTopBar: true,
   useOriginalBilibiliTopBar: false,
   useOriginalBilibiliHomepage: false,
+  enableLiveTopBar: true,
 
   // bilibili settings
   blockAds: true,

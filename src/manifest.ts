@@ -75,6 +75,13 @@ export async function getManifest() {
         all_frames: true,
       },
       {
+        matches: ['*://live.bilibili.com/*'],
+        exclude_matches: ['*://live.bilibili.com/p/html/live-fansmedal-wall/*'],
+        js: ['./dist/contentScripts/index.global.js'],
+        css: ['./dist/contentScripts/style.css'],
+        run_at: 'document_start',
+      },
+      {
         matches: [
           '*://www.bilibili.com/*',
           '*://search.bilibili.com/*',
@@ -91,6 +98,13 @@ export async function getManifest() {
         js: ['./dist/inject/index.js'],
         run_at: 'document_start',
         all_frames: true,
+        world: 'MAIN',
+      },
+      {
+        matches: ['*://live.bilibili.com/*'],
+        exclude_matches: ['*://live.bilibili.com/p/html/live-fansmedal-wall/*'],
+        js: ['./dist/inject/liveTheme.js'],
+        run_at: 'document_start',
         world: 'MAIN',
       },
     ],

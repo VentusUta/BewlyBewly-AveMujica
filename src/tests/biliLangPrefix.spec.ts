@@ -48,3 +48,11 @@ describe('page matchers with a language prefix', () => {
     expect(isNotificationPage('https://message.bilibili.com/en/')).toBe(true)
   })
 })
+
+describe('page matchers on URLs that carry another URL', () => {
+  it('only looks at the page URL itself', () => {
+    expect(isHomePage('https://live.bilibili.com/6?from=https://www.bilibili.com/')).toBe(false)
+    expect(isVideoOrBangumiPage('https://space.bilibili.com/1?from=https://www.bilibili.com/video/BV1GJ411x7h7/')).toBe(false)
+    expect(isNotificationPage('https://www.bilibili.com/?from=https://message.bilibili.com/')).toBe(false)
+  })
+})

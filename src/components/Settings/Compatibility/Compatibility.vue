@@ -1,12 +1,17 @@
 <script lang="ts" setup>
 import { settings } from '~/logic'
-import { isHomePage } from '~/utils/main'
+import { isHomePage, isLivePage } from '~/utils/main'
 
 import SettingsItem from '../components/SettingsItem.vue'
 import SettingsItemGroup from '../components/SettingsItemGroup.vue'
 
 watch(() => settings.value.useOriginalBilibiliHomepage, () => {
   if (isHomePage())
+    location.reload()
+})
+
+watch(() => settings.value.enableLiveTopBar, () => {
+  if (isLivePage())
     location.reload()
 })
 
@@ -36,6 +41,12 @@ function changeThemeColor(color: string) {
       </SettingsItem>
       <SettingsItem :title="$t('settings.adapt_to_other_page_styles')" :desc="$t('settings.adapt_to_other_page_styles_desc')">
         <Radio v-model="settings.adaptToOtherPageStyles" />
+      </SettingsItem>
+    </SettingsItemGroup>
+
+    <SettingsItemGroup :title="$t('settings.group_live')">
+      <SettingsItem :title="$t('settings.enable_live_topbar')" :desc="$t('settings.enable_live_topbar_desc')">
+        <Radio v-model="settings.enableLiveTopBar" />
       </SettingsItem>
     </SettingsItemGroup>
 

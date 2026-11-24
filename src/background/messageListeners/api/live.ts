@@ -16,6 +16,16 @@ const API_LIVE = {
     },
     afterHandle: AHS.J_D,
   },
+  getWebAreaList: {
+    url: 'https://api.live.bilibili.com/xlive/web-interface/v1/index/getWebAreaList',
+    _fetch: {
+      method: 'get',
+    },
+    params: {
+      source_id: 2,
+    },
+    afterHandle: AHS.J_D,
+  },
 
 } satisfies APIMAP
 

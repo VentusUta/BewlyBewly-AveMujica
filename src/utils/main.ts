@@ -6,8 +6,8 @@
 export function getCookie(name: string): string {
   const value = `; ${document.cookie}`
   const parts: Array<string> = value.split(`; ${name}=`)
-  if (parts.length === 2)
-    return parts?.pop()?.split(';').shift() || ''
+  if (parts.length >= 2)
+    return parts.pop()?.split(';').shift() || ''
   return ''
 }
 
@@ -20,7 +20,14 @@ export function setCookie(name: string, value: any, expDays: number) {
   const date = new Date()
   date.setTime(date.getTime() + expDays * 24 * 60 * 60 * 1000)
   const expires = `expires=${date.toUTCString()}`
-  document.cookie = `${name}=${value}; ${expires}; domain=.bilibili.com; path=/`
+  const hostname = typeof location !== 'undefined' ? location.hostname : ''
+  if (hostname === 'bilibili.com' || hostname.endsWith('.bilibili.com')) {
+    if (hostname !== 'bilibili.com')
+      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`
+    document.cookie = `${name}=${value}; ${expires}; domain=.bilibili.com; path=/`
+    return
+  }
+  document.cookie = `${name}=${value}; ${expires}; path=/`
 }
 
 /**
@@ -178,10 +185,10 @@ export function stripBiliLangPrefix(url: string = location.href): string {
 export function isHomePage(url: string = location.href): boolean {
   url = stripBiliLangPrefix(url)
   if (
-    /https?:\/\/(?:www\.)?bilibili.com\/?(?:#\/?)?$/.test(url)
-    || /https?:\/\/(?:www\.)?bilibili.com\/index\.html$/.test(url)
-    || /https?:\/\/(?:www\.)?bilibili.com\/\?spm_id_from=.*/.test(url)
-    || /https?:\/\/www\.bilibili\.com\/\?.*$/.test(url)
+    /^https?:\/\/(?:www\.)?bilibili\.com\/?(?:#\/?)?$/.test(url)
+    || /^https?:\/\/(?:www\.)?bilibili\.com\/index\.html$/.test(url)
+    || /^https?:\/\/(?:www\.)?bilibili\.com\/\?spm_id_from=.*/.test(url)
+    || /^https?:\/\/www\.bilibili\.com\/\?.*$/.test(url)
   ) {
     return true
   }
@@ -197,14 +204,14 @@ export function isVideoOrBangumiPage(url: string = location.href): boolean {
   url = stripBiliLangPrefix(url)
   if (
     // video page
-    /https?:\/\/(?:www\.)?bilibili\.com\/(?:video|list)\/.*/.test(url)
+    /^https?:\/\/(?:www\.)?bilibili\.com\/(?:video|list)\/.*/.test(url)
     // anime playback & movie page
-    || /https?:\/\/(?:www\.)?bilibili\.com\/bangumi\/play\/.*/.test(url)
+    || /^https?:\/\/(?:www\.)?bilibili\.com\/bangumi\/play\/.*/.test(url)
     // watch later playlist
-    || /https?:\/\/(?:www\.)?bilibili\.com\/list\/watchlater\?bvid.*/.test(url)
-    || /https?:\/\/(?:www\.)?bilibili\.com\/watchlater\/list.*/.test(url)
+    || /^https?:\/\/(?:www\.)?bilibili\.com\/list\/watchlater\?bvid.*/.test(url)
+    || /^https?:\/\/(?:www\.)?bilibili\.com\/watchlater\/list.*/.test(url)
     // favorite playlist
-    || /https?:\/\/(?:www\.)?bilibili\.com\/list\/ml.*/.test(url)
+    || /^https?:\/\/(?:www\.)?bilibili\.com\/list\/ml.*/.test(url)
   ) {
     return true
   }
@@ -219,11 +226,33 @@ export function isVideoOrBangumiPage(url: string = location.href): boolean {
 export function isNotificationPage(url: string = location.href): boolean {
   url = stripBiliLangPrefix(url)
   if (
-    /https?:\/\/message\.bilibili\.com\.*/.test(url)
+    /^https?:\/\/message\.bilibili\.com\.*/.test(url)
   ) {
     return true
   }
   return false
+}
+
+/**
+ * Check if the current page is a live page
+ * @param url the url to check
+ * @returns true if the current page is a live page
+ */
+export function isLivePage(url: string = location.href): boolean {
+  let parsed: URL
+  try {
+    parsed = new URL(stripBiliLangPrefix(url))
+  }
+  catch {
+    return false
+  }
+  if (parsed.hostname !== 'live.bilibili.com')
+    return false
+  if (parsed.pathname.startsWith('/p/html/') || parsed.pathname.startsWith('/blackboard/'))
+    return false
+  if (parsed.searchParams.get('liteVersion') === 'true')
+    return false
+  return true
 }
 
 /**
