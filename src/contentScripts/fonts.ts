@@ -91,7 +91,7 @@ const fontFaces = `
 @font-face {
     font-family: "EliksiroSans-BewlyInternalResource"; /* Chinese characters modern form */
     font-weight: 100 700;
-    font-feature-settings: "ss11" on;
+    font-feature-settings: "ss11" on, "ss13" on;
     src: url(${browser.runtime.getURL('/assets/fonts/EliksiroSans-VF.woff2')}) format(woff2) tech(variations);
 }
 `
