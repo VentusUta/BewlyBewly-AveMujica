@@ -491,6 +491,7 @@ document.head.appendChild(removeLeftQuoteIndent)
     id="bewly-wrapper"
     ref="mainAppRef"
     class="bewly-wrapper"
+    data-bewly-root
     :class="{ dark: isDark }"
     text="$bew-text-1 size-$bew-base-font-size"
   >
